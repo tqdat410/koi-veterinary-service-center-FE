@@ -9,7 +9,6 @@ import RoleBasedGuard from '../src/guards/RoleBasedGuard';
 import UnauthorizedPage from "./pages/UnauthorizedPage";
 import ServiceSelectionPage from "./pages/Appointment/ServiceSelectionPage";
 import VeterinarianSelectionPage from "./pages/Appointment/VeterinarianSelectionPage";
-import SlotDateSelectionPage from "./pages/Appointment/SlotDateSelectionPage";
 import InformationPage from "./pages/Appointment/InformationPage";
 import OrderConfirmPage from "./pages/Appointment/OrderConfirmPage";
 import AvailableSlots from "./pages/Appointment/AvailableSlotsPage";
