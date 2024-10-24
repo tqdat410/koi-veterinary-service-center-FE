@@ -82,9 +82,14 @@ const VetSchedule: React.FC = () => {
             if (vetId) {
             try {
                 const slots = await fetchVetSlots(vetId);
-                setAppointments(slots);
+                if (Array.isArray(slots)) {
+                    setAppointments(slots);
+                } else {
+                    setAppointments([]);
+                }
             } catch (error) {
                 console.error('Error fetching slots:', error);
+                setAppointments([]);
             }
         } else {
             alert('User ID is not available');
