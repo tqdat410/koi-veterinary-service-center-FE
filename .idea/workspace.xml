@@ -4,8 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="69fffb7f-33a6-409a-8f0f-685a0fcd3e71" name="Changes" comment="">
+    <list default="true" id="b96b8ddc-e81e-40a9-b223-5d9d121be06e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/authService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/authService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/context/index.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Common/LoginPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Common/LoginPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Common/ProfilePage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Common/ProfilePage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Customer/Koi/AddKoiFishPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Customer/Koi/AddKoiFishPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Customer/Koi/KoiFishDetails.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Customer/Koi/KoiFishDetails.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/AddKoiFish.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/AddKoiFish.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -13,19 +20,24 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="dev" />
-      </map>
-    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;hoangthao26&quot;
+  }
+}</component>
   <component name="GithubPullRequestsUISettings"><![CDATA[{
   "selectedUrlAndAccountId": {
     "url": "https://github.com/dattqse180062/koi-veterinary-service-center-FE.git",
     "accountId": "6ae1e59b-d1dc-479d-ace6-7067e08a20ec"
   }
 }]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="2nt9fDgz0KqnEYCPEc8VGUW0tL2" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -33,7 +45,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "dev",
+    "git-widget-placeholder": "feature/kvfs-100-dashboard-manager",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -55,12 +67,12 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="69fffb7f-33a6-409a-8f0f-685a0fcd3e71" name="Changes" comment="" />
-      <created>1729760904362</created>
+      <changelist id="b96b8ddc-e81e-40a9-b223-5d9d121be06e" name="Changes" comment="" />
+      <created>1729782687755</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1729760904362</updated>
-      <workItem from="1729760905486" duration="8735000" />
+      <updated>1729782687755</updated>
+      <workItem from="1729782688876" duration="10424000" />
     </task>
     <servers />
   </component>

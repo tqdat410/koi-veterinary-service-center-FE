@@ -16,23 +16,16 @@ const DangNhapNguoiDung: React.FC = () => {
     const [password, setPassword] = useState<string>('');
     const [errorMessage, setErrorMessage] = useState("");
     const navigate = useNavigate();
-
-    // useEffect(() => {
-    //     // Check if user is already logged in
-    //     const token = localStorage.getItem('token');
-    //     if (token) {
-    //         login(token); // Set the token in context
-    //         navigate('/'); // Redirect to home if already logged in
-    //     }
-    // }, [login, navigate]);
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
             const response = await axios.post('http://localhost:8080/api/v1/users/token', { username, password });
             const token = response.data.result.token;
+            login(token);  // Lưu JWT sau khi đăng nhập
+
             const decodedToken: any = jwtDecode(token);
             const roleId = decodedToken.scope;
-            login(token);  // Lưu JWT sau khi đăng nhập
+
 
             switch (roleId) {
                 case 'CUS':

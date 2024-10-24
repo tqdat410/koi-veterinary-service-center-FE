@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import '../../../styles/AddKoiFish.css';
 import {useAuth} from "../../../hooks/context/AuthContext";
-import {addKoi, addKoiImage} from "../../../api/koiApi";
+import {addKoi, addKoiImage, getKoiById} from "../../../api/koiApi";
 import {useLocation, useNavigate} from "react-router-dom";
 
 
@@ -24,14 +24,11 @@ const AddKoiFish: React.FC = () => {
     const [images, setImages] = useState<File[]>([]);
     const [imagePaths, setImagePaths] = useState<string[]>([]);
     const [showAllImages, setShowAllImages] = useState(false); // State to control visibility of all uploaded images
-    
-    // Handle image uploads
+
     const handleImageUpload = async (files: FileList | null) => {
         if (!files) return;
-
         const selectedImages = Array.from(files);
         setImages(selectedImages);
-
         const uploadedImagePaths: string[] = [];
         for (const file of selectedImages) {
             const reader = new FileReader();
@@ -39,7 +36,7 @@ const AddKoiFish: React.FC = () => {
                 uploadedImagePaths.push(reader.result as string);
                 setImagePaths(uploadedImagePaths);
             };
-            reader.readAsDataURL(file); // Create a preview of the image
+            reader.readAsDataURL(file);
         }
     };
 
@@ -76,11 +73,13 @@ const AddKoiFish: React.FC = () => {
             }
 
             alert('Koi data and images successfully submitted!');
-            navigate(location.state?.from ||'/koi');
+            navigate(location.state?.from ||'/koi/my-koi');
         } catch (error) {
             console.error('Error submitting form:', error);
         }
     };
+
+
 
     const handleBack = () => {
         window.history.back();
@@ -98,15 +97,16 @@ const AddKoiFish: React.FC = () => {
             </button>
             <div className="row w-100 h-100">
                 {/* Image Upload Section */}
-                <div className="col-md-6 col-sm-12 d-flex flex-column justify-content-center align-items-center mb-4" style={{ marginTop: "6rem" }}>
+                <div className="col-md-6 col-sm-12 d-flex flex-column justify-content-center align-items-center mb-4"
+                     style={{marginTop: "6rem"}}>
                     <div className="image-upload-container">
                         <div className="image-upload-card">
                             {imagePaths.length > 0 && (
-                                <img src={imagePaths[0]} className="image-upload" alt="Koi" />
+                                <img src={imagePaths[0]} className="image-upload" alt="Koi"/>
                             )}
                         </div>
                         <div className="upload-button-container text-center mt-3">
-                            <input type="file" multiple onChange={(e) => handleImageUpload(e.target.files)} />
+                            <input type="file" multiple onChange={(e) => handleImageUpload(e.target.files)}/>
                             <button className="upload-button btn btn-warning text-white" onClick={toggleImages}>
                                 {showAllImages ? 'Hide All Images' : 'Show All Images'}
                             </button>
@@ -114,11 +114,14 @@ const AddKoiFish: React.FC = () => {
                         {showAllImages && imagePaths.length > 1 && (
                             <div className="uploaded-images mt-3">
                                 {imagePaths.slice(1).map((path, index) => (
-                                    <img key={index} src={path} className="image-upload" alt={`Uploaded ${index + 1}`} />
+                                    <img key={index} src={path} className="image-upload" alt={`Uploaded ${index + 1}`}/>
                                 ))}
                             </div>
                         )}
                     </div>
+                    {/*<button className="btn btn-success mt-3" onClick={handleImageSubmit}>*/}
+                    {/*    Upload Images*/}
+                    {/*</button>*/}
                 </div>
 
                 {/* Form Section */}
