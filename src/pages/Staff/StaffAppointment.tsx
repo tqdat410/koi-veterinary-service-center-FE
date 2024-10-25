@@ -146,7 +146,7 @@ const StaffAppointment: React.FC = () => {
     // console.log(appointment);
     
     return (
-        <div className="d-flex flex-grow-1">
+        <div className="d-flex flex-grow-1" style={{ marginLeft: '272px' }}>
             <Sidebar />
             <div className="container" style={{ marginTop: "6rem" }}>
                 <div className="card" style={{ width: '100%' }}>

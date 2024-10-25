@@ -141,7 +141,7 @@ const VetSchedule: React.FC = () => {
     };
 
     return (
-        <div className="d-flex flex-grow-1 gap-3">
+        <div className="d-flex flex-grow-1 gap-3" style={{ marginLeft: '272px' }}>
             <Sidebar />
             <div className="container" style={{ marginTop: "6rem" }}>
                 <div className="d-flex justify-content-between align-items-center mb-3">

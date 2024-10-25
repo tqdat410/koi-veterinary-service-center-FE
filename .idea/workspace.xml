@@ -5,31 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b96b8ddc-e81e-40a9-b223-5d9d121be06e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/pages/Manager/DashBoard/AppointmentChart.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/Manager/DashBoard/PaymentChart.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/Manager/DashBoard/UserFishChart.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/Manager/DashBoard/VetFeedbackChart.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/Manager/DashBoard/VetSlotsChart.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/styles/DashBoard.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/layout/Sidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/layout/Sidebar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/schedule/DoctorSchedule.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/schedule/DoctorSchedule.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/context/AuthContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/context/AuthContext.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Common/PasswordChangePage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Common/PasswordChangePage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Common/ProfilePage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Common/ProfilePage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Manager/BookedSchedulePage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Manager/BookedSchedulePage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Manager/CustomerManagementPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Manager/CustomerManagementPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Manager/DashBoardPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Manager/DashBoard/DashBoardPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Manager/FeedbackManagementPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Manager/FeedbackManagementPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Manager/ManagerAppointment.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Manager/ManagerAppointment.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Manager/ManagerStaffPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Manager/ManagerStaffPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Manager/ServicePricingPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Manager/ServicePricingPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Manager/TransportationPricingPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Manager/TransportationPricingPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Manager/VetShiftSchePage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Manager/VetShiftSchePage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Veterinarian/VetAppointmentDetails.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Veterinarian/VetAppointmentDetails.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/App.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/Sidebar.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/Sidebar.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,7 +73,7 @@
       <workItem from="1729782688876" duration="17453000" />
       <workItem from="1729819542013" duration="5747000" />
       <workItem from="1729834455589" duration="4297000" />
-      <workItem from="1729869934480" duration="6113000" />
+      <workItem from="1729869934480" duration="6565000" />
     </task>
     <servers />
   </component>
