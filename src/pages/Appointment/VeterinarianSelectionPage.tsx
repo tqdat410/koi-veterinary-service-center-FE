@@ -117,7 +117,7 @@ const ChooseVeterinarianPage: React.FC = () => {
 
                 {/* Doctors Grid */}
                 <div
-                    className="d-flex justify-content-center"
+                    className={`d-flex ${doctors.length > 5 ? 'justify-content-start' : 'justify-content-center'}`}
                     ref={cardContainerRef} // Attach ref to the container
                     style={{
                         padding: '40px',
