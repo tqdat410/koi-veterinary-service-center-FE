@@ -1,8 +1,8 @@
-import React, { lazy, Suspense } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import React, {lazy, Suspense, useContext} from 'react';
+import {BrowserRouter as Router, Route, Routes, useLocation} from 'react-router-dom';
 import './styles/App.css';
 import Navbar from "./components/layout/Navbar";
-import { AuthProvider } from "./hooks/context/AuthContext";
+import AuthContext, {AuthProvider, useAuth} from "./hooks/context/AuthContext";
 import AuthGuard from '../src/guards/AuthGuard';
 import GuestGuard from '../src/guards/GuestGuard';
 import RoleBasedGuard from '../src/guards/RoleBasedGuard';
@@ -13,7 +13,7 @@ import InformationPage from "./pages/Appointment/InformationPage";
 import OrderConfirmPage from "./pages/Appointment/OrderConfirmPage";
 import AvailableSlots from "./pages/Appointment/AvailableSlotsPage";
 import BookedSchedulePage from "./pages/Manager/BookedSchedulePage";
-
+import ConditionalNavbar from './components/layout/ConditionalNavbar';
 // Lazy load pages
 const RegisterPage = lazy(() => import("./pages/Common/RegisterPage"));
 const DangNhapNguoiDung = lazy(() => import("./pages/Common/LoginPage"));
@@ -84,11 +84,14 @@ const withRole = (Component: React.ComponentType, allowedRoles: string[]) => (
 
 
 function App() {
+
+
+
     return (
         <div className="App">
             <AuthProvider>
                 <Router>
-                    <Navbar />
+                    <ConditionalNavbar />
                     <Suspense fallback={<div>Loading...</div>}>
                         <Routes>
 

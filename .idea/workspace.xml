@@ -5,7 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="69fffb7f-33a6-409a-8f0f-685a0fcd3e71" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/components/layout/ConditionalNavbar.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/layout/Sidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/layout/Sidebar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Appointment/InformationPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Appointment/InformationPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Veterinarian/VetSchedulePage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Veterinarian/VetSchedulePage.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,12 +25,12 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/dattqse180062/koi-veterinary-service-center-FE.git",
-    "accountId": "6ae1e59b-d1dc-479d-ace6-7067e08a20ec"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/dattqse180062/koi-veterinary-service-center-FE.git&quot;,
+    &quot;accountId&quot;: &quot;6ae1e59b-d1dc-479d-ace6-7067e08a20ec&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -33,7 +38,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "dev",
+    "git-widget-placeholder": "modify-feature/fix-address-hide-nav",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",

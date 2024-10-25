@@ -82,9 +82,14 @@ const VetSchedule: React.FC = () => {
             if (vetId) {
             try {
                 const slots = await fetchVetSlots(vetId);
-                setAppointments(slots);
+                if (Array.isArray(slots)) {
+                    setAppointments(slots);
+                } else {
+                    setAppointments([]);
+                }
             } catch (error) {
                 console.error('Error fetching slots:', error);
+                setAppointments([]);
             }
         } else {
             alert('User ID is not available');
@@ -178,7 +183,7 @@ const VetSchedule: React.FC = () => {
                         <tr key={slotId}>
                             <td style={{height:"80px"}}>{`Slot ${slotId}`}</td>
                             {weekDates.map((date, dateIndex) => {
-                                const appointment = appointments.find(appointment => (
+                                const appointment = appointments?.find(appointment => (
                                     appointment.year === new Date(date).getUTCFullYear() &&
                                     appointment.month === new Date(date).getUTCMonth() + 1 &&
                                     appointment.day === new Date(date).getUTCDate() &&
