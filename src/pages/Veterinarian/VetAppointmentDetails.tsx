@@ -216,7 +216,8 @@ const VetAppointmentDetails: React.FC = () => {
     };
 
     const handleUpdateStatus  = async (status: any) => {
-        const confirmFinish = window.confirm('Are you sure you want to mark this appointment as done?');
+
+        const confirmFinish = window.confirm(`Are you sure you want to mark this appointment as ${status}?`);
         if (!confirmFinish) {
             return; // Exit the function if the user cancels
         }

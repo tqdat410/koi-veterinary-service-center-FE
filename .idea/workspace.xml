@@ -5,20 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b96b8ddc-e81e-40a9-b223-5d9d121be06e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/api/statisticsApi.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/Manager/DashBoardPage.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/appointmentApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/appointmentApi.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/schedule/SlotDateSelection.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/schedule/SlotDateSelection.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/table/TableComponentForStaff.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/table/TableComponentForStaff.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/vetAppointmentDetails/CreateMedicalReport.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/vetAppointmentDetails/CreateMedicalReport.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/vetAppointmentDetails/Report.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/vetAppointmentDetails/Report.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/Veterinarian/VetAppointmentDetails.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Veterinarian/VetAppointmentDetails.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Veterinarian/VetSchedulePage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Veterinarian/VetSchedulePage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
