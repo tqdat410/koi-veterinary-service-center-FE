@@ -1,0 +1,58 @@
+/* FOR STATUS: INCLUDE PAYMENT STATUS AND APPOINTMENT STATUS */
+/* 'CANNCELED','CHECKED_IN','CONFIRMED','DONE','ON_GOING','PENDING */
+/* PAID, NOT_PAID */
+
+.status-cancelled, .status-not-paid {
+    background-color: red !important;
+    color: white !important;
+    font-weight: 600;
+    font-family: sans-serif;
+}
+
+.status-checked-in {
+    color: #D9F2D0;
+    font-weight: 600;
+    font-family: sans-serif;
+    
+}
+
+.status-confirmed, .status-paid{
+    color: blue;
+    font-weight: 600;
+    font-family: sans-serif;
+    
+}
+
+.status-done {
+    background-color: green !important;
+    color: white !important;
+    font-weight: 600;
+    font-family: sans-serif;
+    
+}
+
+.status-paid {
+    background-color: #04BD04 !important;
+    color: white !important;
+    font-weight: 600;
+    font-family: sans-serif;
+    
+}
+
+.status-on-going {
+    color: orange;
+    font-weight: 600;
+    font-family: sans-serif;
+
+}
+
+.status-pending {
+    background-color: purple  !important;
+    color: white !important;
+    font-weight: 600;
+    font-family: sans-serif;
+    
+}
+
+
+

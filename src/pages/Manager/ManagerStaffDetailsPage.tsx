@@ -1,80 +1,78 @@
-
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Sidebar from "../../components/layout/Sidebar";
-import { useAuth } from "../../hooks/context/AuthContext";
-import {getUserInfo, updateUserAddressAPI, updateUserInfoAPI} from "../../api/authService"; // Import authService functions
-import { Link,useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import '../../styles/Profile.css'
+import { getStaffDetailsById, modifyStaffStatus, updateStaffProfile } from "../../api/staffApi";
+
 
 // Define interfaces for user data
 
-interface UserAddress {
-    address_id:number;
-    district: string;
-    city: string;
-    ward: string;
-    home_number: string;
-}
-
-
-interface UserData {
+interface StaffData {
     username: string;
     email: string;
     first_name: string;
     last_name: string;
     phone_number: string;
-    // address: UserAddress;
+    enable: boolean; // Thêm thuộc tính enabled
 }
 
-const Profile: React.FC = () => {
-    const { user  } = useAuth(); // Use Auth context to get userId
-    const userId = user?.userId; // Access userId safely
-    const [userData, setUserData] = useState<UserData | null>(null);
+const StaffProfile: React.FC = () => {
+    const location = useLocation();
+    const userId = location.state?.userId;
+    const [StaffData, setStaffData] = useState<StaffData | null>(null);
     const [firstname, setFirstname] = useState("");
     const [lastname, setLastname] = useState("");
+    const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
-    // const [state, setState] = useState("");
-    // const [city, setCity] = useState("");
-    // const [ward, setWard] = useState("");
-    // const [homeNumber, setHomeNumber] = useState("");
     const [errorPhone, setErrorPhone] = useState("");
-    const [errorAddress, setErrorAddress] = useState("");
+    const [errorEmail, setErrorEmail] = useState("");
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
+    const [enabled, setEnabled] = useState<boolean>(); // Khởi tạo đúng kiểu dữ liệu boolean
+
     const navigate = useNavigate();
 
     // Fetch user data from API on component mount
     useEffect(() => {
-        const fetchUserData = async () => {
+        const fetchStaffData = async () => {
             try {
-
-                if (userId) {
-                    const user = await getUserInfo(userId); // Call authService function
-                    setUserData(user);
-                    setFirstname(user.first_name || '');
-                    setLastname(user.last_name || '');
-                    setPhone(user.phone_number || '');
-                    // setState(user.address?.district || '');
-                    // setCity(user.address?.city || '');
-                    // setWard(user.address?.ward || '');
-                    // setHomeNumber(user.address?.home_number || '');
-                }
+                const staff = await getStaffDetailsById(userId); // Call authService function
+                setStaffData(staff);
+                setEnabled(staff.enable); // Lấy trạng thái enabled từ dữ liệu
+                setFirstname(staff.first_name || '');
+                setLastname(staff.last_name || '');
+                setPhone(staff.phone_number || '');
+                setEmail(staff.email || '');
+                console.log(staff)
             } catch (error) {
                 console.error('Failed to fetch user data:', error);
             }
         };
 
-        fetchUserData();
-    }, []);
+        fetchStaffData();
+    }, [userId]);
 
     // Handle image upload
-    const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setSelectedImage(reader.result as string);
-            };
-            reader.readAsDataURL(file);
+            const formData = new FormData();
+            formData.append('image', file);  // Append file image
+            formData.append('user_id', userId);  // Append user ID
+            
+            try {
+                const response = await axios.put('http://localhost:8080/api/v1/users/avatar', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+                const updatedUser = response.data;  // Response will contain updated user data
+                setSelectedImage(URL.createObjectURL(file));  // Update the UI with the new image
+                console.log('Avatar updated successfully:', updatedUser);
+            } catch (error) {
+                console.error('Failed to update avatar:', error);
+                alert('Failed to update avatar. Please try again.');
+            }
         }
     };
 
@@ -88,66 +86,72 @@ const Profile: React.FC = () => {
         }
     };
 
-    // Validate address fields
-    // const validateAddress = () => {
-    //     const addressFieldsFilled = [state, city, ward, homeNumber].some(field => field.trim() !== "");
-    //     const allAddressFieldsFilled = [state, city, ward, homeNumber].every(field => field.trim() !== "");
-    //
-    //     if (addressFieldsFilled && !allAddressFieldsFilled) {
-    //         setErrorAddress("Please fill all address fields if you enter one.");
-    //         return false;
-    //     } else {
-    //         setErrorAddress("");
-    //         return true;
-    //     }
-    // };
+    //Validate email
+    const validateEmail = () => {
+        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (email.trim() !== "" && !emailPattern.test(email)) {
+            setErrorPhone("Email is not valid, must have @ and '.' .");
+        } else {
+            setErrorPhone("");
+        }
+    };
 
-    // Handle saving updated user info
+    // Handle save action to update user data
     const handleSave = async () => {
-        // const isAddressValid = validateAddress();
-        // if (!isAddressValid || errorPhone) return;
-        if (errorPhone) return;
+        if (errorPhone || errorEmail) return;
+
+        // Hiển thị cảnh báo khi người dùng nhấn nút "Save"
+        const isConfirmed = window.confirm("Are you sure you want to save changes? This action will update the user data.");
+
+        if (!isConfirmed) {
+            // Nếu người dùng chọn "Cancel" trong cảnh báo, dừng quá trình lưu
+            return;
+        }
+
         try {
             const updatedData = {
-                firstname,
-                lastname,
-                phone,
-                // address: {
-                //     state,
-                //     city,
-                //     ward,
-                //     homeNumber,
-                // },
+                first_name: firstname,
+                last_name: lastname,
+                phone_number: phone,
+                email: email
             };
-
-
             if (userId) {
-                await updateUserInfoAPI(userId, updatedData); // Use authService function
-                console.log("User profile updated successfully!");
-                // const addressData = { state, city, ward, homeNumber };
-                // console.log("Updating user address with data:", addressData);
-                // await updateUserAddressAPI(userId, { state, city, ward, homeNumber });
+                await updateStaffProfile(userId, updatedData); // Gọi hàm updateStaffProfile từ staffApi
+                setEmail(email); // Cập nhật email              
+                console.log("User StaffProfile updated successfully!");
                 alert('User data updated successfully!');
             }
         } catch (error) {
+            alert('Failed to update user data. Please try again later.');
             console.error('Failed to update user data:', error);
         }
     };
 
-    // Handle cancel action to reset form values to original state
-    const handleCancel = () => {
-        if (userData) {
-            setFirstname(userData.first_name || '');
-            setLastname(userData.last_name || '');
-            setPhone(userData.phone_number || '');
-            // setState(userData.address?.district || '');
-            // setCity(userData.address?.city || '');
-            // setWard(userData.address?.ward || '');
-            // setHomeNumber(userData.address?.home_number || '');
+    // Function to change user status
+    const handleChangeStatus = async () => {
+        const isConfirmed = window.confirm("Are you sure you want to change this user's status?");
+        if (!isConfirmed) return;
+    
+        try {
+            await modifyStaffStatus(userId, !enabled); // Truyền giá trị enable mới (đảo ngược)
+            setEnabled(prev => !prev); // Cập nhật trạng thái trên frontend
+            alert('User status updated successfully!');
+        } catch (error) {
+            alert('Failed to update user status. Please try again later.');
+            console.error('Failed to update user status:', error);
         }
     };
+    
 
-
+    // Handle cancel action to reset form values to original state
+    const handleCancel = () => {
+        if (StaffData) {
+            setFirstname(StaffData.first_name || '');
+            setLastname(StaffData.last_name || '');
+            setPhone(StaffData.phone_number || '');
+            return;
+        }
+    };
 
 
     return (
@@ -183,13 +187,12 @@ const Profile: React.FC = () => {
                         <form className="profile-form">
                             <div className="form-group">
                                 <label className="fw-bold">Username</label>
-
-                                <input type="text" className="form-control input-field" value={userData?.username || 'Loading...'} readOnly />
+                                <input type="text" className="form-control input-field" value={StaffData?.username || 'Loading...'} readOnly />
                             </div>
                             <div className="form-group">
                                 <label className="fw-bold">Email</label>
-                                <input type="email" className="form-control input-field" value={userData?.email || 'Loading...'} readOnly />
-
+                                <input type="email" className="form-control input-field" value={email} onChange={e => setEmail(e.target.value)} onBlur={validateEmail}/>
+                                {errorEmail && <div className="error-register">{errorEmail}</div>}
                             </div>
                             <div className="name-row">
                                 <div className="form-group">
@@ -207,54 +210,30 @@ const Profile: React.FC = () => {
                                 <input type="text" className="form-control input-field" value={phone} onChange={e => setPhone(e.target.value)} onBlur={validatePhone} />
                                 {errorPhone && <div className="error-register">{errorPhone}</div>}
                             </div>
-                            <div>
 
-                                <button
-                                    className="btn btn-primary"
-                                    onClick={() => navigate(`/addresses`)}
-                                >
-                                    Address Management
-                                </button>
+                            <div className="form-group">
+                                <label className="fw-bold">Status: {StaffData?.enable}</label>
+                                <p>{enabled ? "Enabled" : "Disabled"}</p> {/* Hiển thị trạng thái */}
                             </div>
 
-                            {/*<div className="address-row">*/}
-                            {/*    <div className="form-group">*/}
-                            {/*        <label className="fw-bold">State</label>*/}
-                            {/*        <input type="text" className="form-control input-field" value={state} onChange={e => setState(e.target.value)} />*/}
-                            {/*    </div>*/}
-                            {/*    <div className="form-group">*/}
-                            {/*        <label className="fw-bold">City</label>*/}
-                            {/*        <input type="text" className="form-control input-field" value={city} onChange={e => setCity(e.target.value)} />*/}
-                            {/*    </div>*/}
-                            {/*</div>*/}
-                            {/*<div className="address-row">*/}
-                            {/*    <div className="form-group">*/}
-                            {/*        <label className="fw-bold">Ward</label>*/}
-                            {/*        <input type="text" className="form-control input-field" value={ward} onChange={e => setWard(e.target.value)} />*/}
-                            {/*    </div>*/}
-                            {/*    <div className="form-group">*/}
-                            {/*        <label className="fw-bold">Home Number</label>*/}
-                            {/*        <input type="text" className="form-control input-field" value={homeNumber} onChange={e => setHomeNumber(e.target.value)} />*/}
-                            {/*    </div>*/}
-                            {/*</div>*/}
-                            {/*{errorAddress && <div className="error-register">{errorAddress}</div>}*/}
-
-                            
                             <div className="button-group">
                                 <div className="left-buttons">
-
                                     <button
+                                        type="button"
                                         className="btn btn-secondary"
-                                        onClick={() => navigate(`/password-change`)}
+                                        onClick={handleChangeStatus}
+                                        style={{ backgroundColor: enabled ? 'green' : 'red', marginTop: '10px' }}
                                     >
-                                        Change Password
+                                        {enabled ? "Disable" : "Enable"} {/* Thay đổi text nút */}
                                     </button>
 
                                 </div>
                                 <div className="right-buttons">
+                                    <button type="button" className="btn btn-dark" onClick={() => navigate(-1)}>Back</button>
                                     <button type="button" className="cancel-btn" onClick={handleCancel}>Cancel</button>
                                     <button type="button" className="save-btn" onClick={handleSave}>Save</button>
                                 </div>
+
 
                             </div>
                         </form>
@@ -266,4 +245,4 @@ const Profile: React.FC = () => {
     );
 };
 
-export default Profile;
+export default StaffProfile;

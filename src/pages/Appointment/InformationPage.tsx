@@ -351,7 +351,7 @@ const FillInformationPage: React.FC = () => {
                         </div>
 
                         <div className="col-md-6">
-                            {service_id !== 1 && (
+                            {service_id !== 1 && service_id !== 2 && (
                                 <div className="form-group mb-3">
 
                                 <label className="fw-bold form-label-koi">Service Location</label>
@@ -382,7 +382,7 @@ const FillInformationPage: React.FC = () => {
 
                                 </div>
                             )}
-                                {serviceLocation === 'at_home' && ( // Chỉ hiển thị địa chỉ khi chọn 'At Home' và service_id không phải 1
+                                {service_id !== 1 && serviceLocation === 'at_home' && ( // Chỉ hiển thị địa chỉ khi chọn 'At Home' và service_id không phải 1
                                     <div className="form-group mb-3 position-relative">
                                         <div className="d-flex justify-content-between mb-1">
                                             <label className="fw-bold form-label-koi">Address</label>
