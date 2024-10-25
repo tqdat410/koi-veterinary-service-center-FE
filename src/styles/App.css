@@ -5,6 +5,11 @@
   height: 100vh; /* Chiều cao 100% của viewport */
 }
 
+.main-content {
+  margin-left: 272px; /* Same width as the sidebar */
+  padding: 20px; /* Optional padding */
+}
+
 @import 'Font.css';
 
 .App-logo {

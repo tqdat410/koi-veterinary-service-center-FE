@@ -143,7 +143,7 @@ const Profile: React.FC = () => {
     const canEditProfile = roleId === 'CUS' || roleId === 'MAN';
 
     return (
-        <div className="d-flex profile-page">
+        <div className="d-flex profile-page" style={{ marginLeft: '272px' }}>
             <Sidebar />
 
             <div className="flex-grow-1 bg-light" style={{ height: '100vh' }}>
@@ -157,6 +157,7 @@ const Profile: React.FC = () => {
                                 className="uploaded-image"
                             />
                         </div>
+                        {canEditProfile &&(
                         <label className="upload-btn btn-shadow">
                             {selectedImage ? "Change Image" : "Choose Image"}
                             <input
@@ -166,7 +167,7 @@ const Profile: React.FC = () => {
                                 style={{ display: 'none' }}
                             />
                         </label>
-
+                            )}
                     </div>
                     <div className="form-section">
                         <form className="profile-form">

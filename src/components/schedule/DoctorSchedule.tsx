@@ -108,7 +108,7 @@ const DoctorSchedule: React.FC = () => {
     };
 
     return (
-        <div className="d-flex flex-grow-1">
+        <div className="d-flex flex-grow-1" >
             <Sidebar />
             <div className="container" style={{ marginTop: "6rem" }}>
                 <div className="d-flex justify-content-between align-items-center mb-3">

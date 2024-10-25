@@ -205,7 +205,7 @@ const VetAppointmentDetails: React.FC = () => {
                 setIsQuantityValid(updatedValidity);
             }else if (field === 'instruction') {
                 const updatedValidity = [...isInstructionValid];
-                updatedValidity[index] = value.trim() !== null; // Update validity based on quantity
+                updatedValidity[index] = value.trim() !== null; // Update validity based on instruction
                 setIsInstructionValid(updatedValidity);
             }
         }
