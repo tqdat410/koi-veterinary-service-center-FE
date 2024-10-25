@@ -55,8 +55,8 @@ interface AvailableSlotProps {
 const AvailableSlot: React.FC<AvailableSlotProps> = ({ vetId, appointmentId, description }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const doctor = useSelector((state: any) => state.doctor);
-    const currentUserId = doctor?.user_id; // Get the doctor's user ID
+    // const doctor = useSelector((state: any) => state.doctor);
+    // const currentUserId = doctor?.user_id; // Get the doctor's user ID
   // Initialize useNavigate
     const currentYear = new Date().getUTCFullYear();
     const [selectedYear, setSelectedYear] = useState(currentYear);
@@ -70,20 +70,18 @@ const AvailableSlot: React.FC<AvailableSlotProps> = ({ vetId, appointmentId, des
 
     useEffect(() => {
         // Use vetId if provided, otherwise fallback to doctor's user ID
-        const idToUse = vetId || currentUserId;
-        const apiUrl = vetId
-            ? `http://localhost:8080/api/v1/slots/${idToUse}/follow-up-appointment?appointmentId=${appointmentId}`
-            : `http://localhost:8080/api/v1/slots/${idToUse}/available`;
-        // Fetch available slots using the selected ID
-        axios.get(apiUrl)
+
+
+        axios.get(`http://localhost:8080/api/v1/slots/${vetId}/follow-up-appointment?appointmentId=${appointmentId}`)
             .then((response) => {
                 console.log(response);
                 setAvailableSlots(response.data);
+                console.log("available", availableSlots)
             })
             .catch((error) => {
                 console.error('Error fetching available slots:', error);
             });
-    }, [vetId, currentUserId]);
+    }, [vetId]);
 
 
     const handleWeekChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -134,36 +132,7 @@ const AvailableSlot: React.FC<AvailableSlotProps> = ({ vetId, appointmentId, des
     return (
         <div className="d-flex flex-grow-1 align-items-center">
             <div className="container-fluid">
-                {currentUserId && (
-                <button
-                    className="btn btn-secondary mb-3"
-                    style={{position: 'absolute', top: '12%', left: '3%'}}
-                    onClick={handleBackClick}>
-                    Back
-                </button>
-                    )}
-                <div className="row gap-4">
-                    {currentUserId && (
 
-                    <div className="ms-5 col-md-3 mb-4 d-flex justify-content-center align-items-center">
-                        <div className="card shadow mt-5"
-                             style={{borderRadius: '40px', width: '300px', height: '360px'}}>
-                            <img
-                                src={doctor.avatar || defaultImage}
-                                className="card-img-top rounded-circle mx-auto mt-5"
-                                alt={`${doctor?.first_name} ${doctor?.last_name}`}
-                                style={{width: '200px', height: '200px'}}
-                            />
-                            <div className="card-body text-center">
-                                <h5 className="card-title text-center font-weight-bold"
-                                    style={{
-                                        textAlign: "center",
-                                        width: "100%"
-                                    }}>{`${doctor?.first_name} ${doctor?.last_name}`}</h5>
-                            </div>
-                        </div>
-                    </div>
-                    )}
                     <div className="col-md-7">
                         <h3 className="text-start" style={{fontWeight: "bold", color: "#02033B", fontSize: "2.5rem"}}>
                             Doctor Schedule
@@ -261,7 +230,7 @@ const AvailableSlot: React.FC<AvailableSlotProps> = ({ vetId, appointmentId, des
                                 </button>
 
                         </div>
-                    </div>
+
                 </div>
             </div>
     );

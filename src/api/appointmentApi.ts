@@ -66,6 +66,7 @@ export interface MedicalReport {
 export interface Medicine {
     medicine_id: number;
     medicine_name: string;
+    instruction: string;
     quantity: number;
 }
 
@@ -299,7 +300,7 @@ export const fetchLogs = async (appointment_id: number) => {
 export const updateAppointmentStatus = async (appointment_id: number, status: string) => {
     try {
         const response = await axios.put(`http://localhost:8080/api/v1/appointments/${appointment_id}/status`,
-            { status } // Chuyển đổi thành đối tượng với thuộc tính status
+            { status: status } // Chuyển đổi thành đối tượng với thuộc tính status
         );
         return response.data; // trả về dữ liệu từ API
     } catch (error) {

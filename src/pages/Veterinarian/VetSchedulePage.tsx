@@ -75,16 +75,34 @@ const VetSchedule: React.FC = () => {
     const weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     const [appointments, setAppointments] = useState<any[]>([]);
 
+    const formatStatus = (status: string) => {
+        switch (status) {
+            case 'CHECKED_IN':
+                return 'CHECKED IN';
+            case 'ON_GOING':
+                return 'ON GOING';
+            default:
+                return status;
+        }
+    };
 
     useEffect(() => {
         const loadVetSlots = async () => {
             console.log(vetId)
             if (vetId) {
-            try {
-                const slots = await fetchVetSlots(vetId);
-                setAppointments(slots);
-            } catch (error) {
-                console.error('Error fetching slots:', error);
+                try {
+                    const slots = await fetchVetSlots(vetId);
+                    if (slots) {
+                        setAppointments(slots);
+                    } else {
+                        // Handle the case where slots is null or empty
+                        console.log('No slots available');
+                        setAppointments([]);
+                    }
+                } catch (error) {
+                    console.log('No slots available');
+                    console.error('Error fetching slots:', error);
+                    setAppointments([]);
             }
         } else {
             alert('User ID is not available');
@@ -178,7 +196,7 @@ const VetSchedule: React.FC = () => {
                         <tr key={slotId}>
                             <td style={{height:"80px"}}>{`Slot ${slotId}`}</td>
                             {weekDates.map((date, dateIndex) => {
-                                const appointment = appointments.find(appointment => (
+                                const appointment = appointments?.find(appointment => (
                                     appointment.year === new Date(date).getUTCFullYear() &&
                                     appointment.month === new Date(date).getUTCMonth() + 1 &&
                                     appointment.day === new Date(date).getUTCDate() &&
@@ -196,7 +214,7 @@ const VetSchedule: React.FC = () => {
                                                                     appointment.appointment.current_status === 'ON_GOING' ? 'text-secondary' :
                                                                         appointment.appointment.current_status === 'DONE' ? 'text-success' : ''
                                                 }`}>
-                                                    {appointment.appointment.current_status}
+                                                    {formatStatus(appointment.appointment.current_status)}
                                                 </p>
                                                 <p>{slotOrderToTime[slotId as keyof typeof slotOrderToTime]}</p>
                                             </>
