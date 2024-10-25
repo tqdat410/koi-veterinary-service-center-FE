@@ -4,37 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dfa0a0f8-c0d0-4cf7-b8ea-c32e2affc709" name="Changes" comment="">
-<<<<<<< HEAD
-      <change afterPath="$PROJECT_DIR$/src/assets/images/defaultImage.jpg" afterDir="false" />
+    <list default="true" id="69fffb7f-33a6-409a-8f0f-685a0fcd3e71" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/components/layout/ConditionalNavbar.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/table/TableRow.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/table/TableRow.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/context/AuthContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/context/AuthContext.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/ProfilePage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/ProfilePage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/VetDetails.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/VetDetails.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/VetShiftSchePage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/VetShiftSchePage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/Profile.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/Profile.css" afterDir="false" />
-=======
-<<<<<<< HEAD
-      <change afterPath="$PROJECT_DIR$/src/components/vetAppointmentDetails/CreateFollowUpModal.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/vetAppointmentDetails/CreateMedicalReport.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/vetAppointmentDetails/Report.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/appointmentApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/appointmentApi.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/scheduleApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/scheduleApi.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/VetAppointmentDetails.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/VetAppointmentDetails.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/VetSchedulePage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/VetSchedulePage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types.ts" afterDir="false" />
-=======
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Appointment/OrderConfirmPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Appointment/OrderConfirmPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/CustomerAppointment.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/CustomerAppointment.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/CustomerAppointmentDetails.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/CustomerAppointmentDetails.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/ManagerAppointment.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/ManagerAppointment.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/StaffAppointment.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/StaffAppointment.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/StaffAppointmentDetails.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/StaffAppointmentDetails.tsx" afterDir="false" />
->>>>>>> dev
->>>>>>> dev
+      <change beforePath="$PROJECT_DIR$/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/layout/Sidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/layout/Sidebar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Appointment/InformationPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Appointment/InformationPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Veterinarian/VetSchedulePage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Veterinarian/VetSchedulePage.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,53 +20,25 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="modify-feature/manager-add-get-certificate-for-vet" />
+        <entry key="$PROJECT_DIR$" value="dev" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory">{
-  &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;hoangthao26&quot;
-  }
-}</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/dattqse180062/koi-veterinary-service-center-FE.git&quot;,
     &quot;accountId&quot;: &quot;6ae1e59b-d1dc-479d-ace6-7067e08a20ec&quot;
   }
 }</component>
-  <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 1
-}</component>
-  <component name="ProjectId" id="2myMh6fm4X1fpNeKXWMpsuHzTVH" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-<<<<<<< HEAD
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-<<<<<<< HEAD
-    &quot;git-widget-placeholder&quot;: &quot;modify-feature/manager-add-get-certificate-for-vet&quot;,
-=======
-    &quot;git-widget-placeholder&quot;: &quot;feature/kvfs-156-vet-view-shift-schedule&quot;,
->>>>>>> dev
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Admin\\Desktop\\reactjs\\test-fe\\node_modules\\typescript\\lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
-=======
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "dev",
+    "git-widget-placeholder": "modify-feature/fix-address-hide-nav",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -99,15 +47,8 @@
     "nodejs_package_manager_path": "npm",
     "ts.external.directory.path": "C:\\Users\\Admin\\Desktop\\reactjs\\test-fe\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
->>>>>>> dev
   }
 }]]></component>
-  <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Admin\Desktop\reactjs\test-fe\src\assets\images" />
-      <recent name="C:\Users\Admin\Desktop\reactjs\test-fe\src\pages" />
-    </key>
-  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -119,88 +60,16 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="dfa0a0f8-c0d0-4cf7-b8ea-c32e2affc709" name="Changes" comment="" />
-      <created>1728044479405</created>
+      <changelist id="69fffb7f-33a6-409a-8f0f-685a0fcd3e71" name="Changes" comment="" />
+      <created>1729760904362</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1728044479405</updated>
-      <workItem from="1728044480816" duration="112000" />
-      <workItem from="1728044612579" duration="8754000" />
-      <workItem from="1728057224555" duration="167000" />
-      <workItem from="1728057875019" duration="8919000" />
-      <workItem from="1728066855123" duration="286000" />
-      <workItem from="1728087991029" duration="4359000" />
-      <workItem from="1728095783772" duration="4273000" />
-      <workItem from="1728100120116" duration="690000" />
-      <workItem from="1728100830735" duration="1919000" />
-      <workItem from="1728136184338" duration="16296000" />
-      <workItem from="1728152951363" duration="1046000" />
-      <workItem from="1728307463923" duration="10551000" />
-      <workItem from="1728350350779" duration="6945000" />
-      <workItem from="1728357571096" duration="2144000" />
-      <workItem from="1728393464502" duration="14480000" />
-      <workItem from="1728408418783" duration="6161000" />
-      <workItem from="1728441276673" duration="299000" />
-      <workItem from="1728444258887" duration="1906000" />
-      <workItem from="1728475660518" duration="300000" />
-      <workItem from="1728624215836" duration="13212000" />
-<<<<<<< HEAD
-      <workItem from="1729346280180" duration="14448000" />
-      <workItem from="1729391180387" duration="1805000" />
-      <workItem from="1729398046547" duration="3872000" />
-=======
-      <workItem from="1729047383851" duration="5453000" />
-      <workItem from="1729084672240" duration="1042000" />
-      <workItem from="1729257949376" duration="7784000" />
-      <workItem from="1729267287675" duration="13229000" />
-      <workItem from="1729298424369" duration="4985000" />
-      <workItem from="1729305987897" duration="138000" />
-      <workItem from="1729306469095" duration="227000" />
-      <workItem from="1729307523503" duration="2009000" />
-      <workItem from="1729408668182" duration="6497000" />
->>>>>>> dev
+      <updated>1729760904362</updated>
+      <workItem from="1729760905486" duration="8735000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="RECENT_FILTERS">
-      <map>
-        <entry key="Branch">
-          <value>
-            <list>
-              <RecentGroup>
-                <option name="FILTER_VALUES">
-                  <option value="HEAD" />
-                </option>
-              </RecentGroup>
-            </list>
-          </value>
-        </entry>
-      </map>
-    </option>
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="HEAD" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-            </State>
-          </value>
-        </entry>
-      </map>
-    </option>
   </component>
 </project>
