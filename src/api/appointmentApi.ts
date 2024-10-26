@@ -14,10 +14,10 @@ export interface AppointmentDetails {
     phone_number: string;
     description: string;
     total_price: number;
-    slot:{
+    slot: {
         slot_id: number;
-        year:number;
-        month:number;
+        year: number;
+        month: number;
         day: number;
         slot_order: number;
         description: number;
@@ -151,7 +151,7 @@ export const fetchPrescriptionDetails = async (prescriptionId: number): Promise<
     }
 }
 
-export const updateDoneStatus = async (appointmentId: number,status: string ) => {
+export const updateDoneStatus = async (appointmentId: number, status: string) => {
     const response = await axios.put(`${API_BASE_URL}/${appointmentId}/status`, {
         status
     });
@@ -305,17 +305,32 @@ export const fetchLogs = async (appointment_id: number) => {
 }
 
 // Staff update appointment status
-export const updateAppointmentStatus = async (appointment_id: number, status: string) => {
+// export const updateAppointmentStatus = async (appointment_id: number, statusDto: any) :Promise<any> => {
+//     try {
+//         const response = await axios.put(`http://localhost:8080/api/v1/appointments/${appointment_id}/status`,
+//             {
+//                 status: statusDto.current_status
+//             }
+//         );
+//         return response.data; // trả về dữ liệu từ API
+//     } catch (error) {
+//         console.error('Error updating appointment status:', error);
+//         throw error; // ném lỗi để xử lý ở nơi gọi
+//     }
+// };
+
+export const updateAppointmentStatus = async (appointmentId: number, status: any): Promise<any> => {
     try {
-        const response = await axios.put(`http://localhost:8080/api/v1/appointments/${appointment_id}/status`,
-            { status: status } // Chuyển đổi thành đối tượng với thuộc tính status
+        await axios.put(`http://localhost:8080/api/v1/appointments/${appointmentId}/status`,
+            { status }  // gửi statusName trực tiếp dưới dạng statusDto
         );
-        return response.data; // trả về dữ liệu từ API
     } catch (error) {
         console.error('Error updating appointment status:', error);
-        throw error; // ném lỗi để xử lý ở nơi gọi
+        throw error;  // ném lỗi để xử lý ở nơi gọi
     }
 };
+
+
 
 // Staff update appointmet status: ONLY CANCELED
 export const updateAppointmentStatusCanceled = async (appointment_id: number) => {
@@ -335,7 +350,7 @@ export const getAppointmentDetailsForCus = async (appointment_id: number) => {
         return response.data; // trả về dữ liệu từ API
     } catch (error) {
         console.error('Error fetching appointment details:', error);
-        
+
     }
 }
 

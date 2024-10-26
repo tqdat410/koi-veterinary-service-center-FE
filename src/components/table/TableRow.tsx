@@ -23,7 +23,7 @@ interface TableRowProps {
 const TableRow: React.FC<TableRowProps> = ({ columns, rowData, actions = [], isKoiFishPage, isAddressPage, isAppointmentPage, isFeedbackPage }) => {
     const getStatusClass = (status: string) => {
         switch (status) {
-            case 'CANCELLED': return 'status-cancelled';
+            case 'CANCELED': return 'status-cancelled';
             case 'CHECKED_IN': return 'status-checked-in';
             case 'CONFIRMED': return 'status-confirmed';
             case 'DONE': return 'status-done';
