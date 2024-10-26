@@ -5,10 +5,10 @@
     margin-top: 6rem;
 }
 
-/* Card styling */
-.card {
-    width: 100%;
-}
+/*!* Card styling *!*/
+/*.card {*/
+/*    width: 100%;*/
+/*}*/
 
 .card-header h5 {
     font-weight: bold;
