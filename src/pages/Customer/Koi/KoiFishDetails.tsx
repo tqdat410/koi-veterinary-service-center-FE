@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {getKoiById, updateKoi, deleteKoi, addKoiImage} from '../../../api/koiApi';
 import '../../../styles/AddKoiFish.css';
-import axios from 'axios';
+
 import Sidebar from "../../../components/layout/Sidebar";
 
 const KoiDetail: React.FC = () => {
@@ -22,7 +22,7 @@ const KoiDetail: React.FC = () => {
     });
 
     const [koiData, setKoiData] = useState(initialKoiData);
-    const [imagePaths, setImagePaths] = useState<string[]>([]);
+
     const [showAllImages, setShowAllImages] = useState(false); // Control visibility of all uploaded images
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
     const [showModal, setShowModal] = useState(false);
@@ -130,11 +130,11 @@ const KoiDetail: React.FC = () => {
     };
     const nextImage = () => {
 
-        setCurrentIndex((prevIndex) => (prevIndex + 1) % koiData.images.length);
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % koiData.images?.length);
     };
 
     const prevImage = () => {
-        setCurrentIndex((prevIndex) => (prevIndex - 1 + koiData.images.length) % koiData.images.length);
+        setCurrentIndex((prevIndex) => (prevIndex - 1 + koiData.images?.length) % koiData.images?.length);
     };
 
 
@@ -156,10 +156,10 @@ const KoiDetail: React.FC = () => {
                                     className="image-display d-flex flex-column justify-content-center align-items-center">
                                     {koiData.images && koiData.images?.length > 0 && (
                                         <img
-                                            src={`http://localhost:8080/files/images/${koiData.images[currentIndex].source_path}`}
+                                            src={`http://localhost:8080/files/images/${koiData.images[currentIndex]?.source_path}`}
                                             className="image-upload"
                                             alt="Koi"
-                                            onClick={() => openModal(koiData.images[currentIndex].source_path)} // Open modal on click
+                                            onClick={() => openModal(koiData.images[currentIndex]?.source_path)} // Open modal on click
                                             style={{cursor: "pointer"}}
                                         />
                                     )}

@@ -1,10 +1,11 @@
 import axios from 'axios';
 import bcrypt from 'bcryptjs';
-const BASE_URL = 'http://localhost:8080/api/v1/users';
+import {BASE_API} from "./baseApi"
+const USER_URL = `${BASE_API}/users`;
 export const register = async (username: string, email: string, password: string, first_name: string, last_name: string) => {
     try {
 
-        const response = await axios.post(`${BASE_URL}/signup`, {
+        const response = await axios.post(`${USER_URL}/signup`, {
             "username": username,
             "email": email,
             "password": password,
@@ -34,7 +35,7 @@ export const getUserInfo = async (userId: number) => {
     const token = localStorage.getItem("token");
     console.log(token)
     try {
-        const response = await axios.get(`${BASE_URL}/profile?userId=${userId}`, {
+        const response = await axios.get(`${USER_URL}/profile?userId=${userId}`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,
@@ -49,7 +50,7 @@ export const getUserInfo = async (userId: number) => {
 // Update user profile
 export const updateUserInfoAPI = async (userId: number, userData: any) => {
     console.log(userData)
-    const response = await axios.put(`${BASE_URL}/profile?userId=${userId}`, userData);
+    const response = await axios.put(`${USER_URL}/profile?userId=${userId}`, userData);
 
     return response.data;
 
@@ -57,7 +58,7 @@ export const updateUserInfoAPI = async (userId: number, userData: any) => {
 
 // Update user address
 export const updateUserAddressAPI = async (userId: number, addressData: any) => {
-    const response = await axios.put(`${BASE_URL}/address?userId=${userId}`, addressData);
+    const response = await axios.put(`${USER_URL}/address?userId=${userId}`, addressData);
     return response.data;
 };
 export const changePassword = async (userId: number, currentPassword: string, newPassword: string) => {
@@ -70,14 +71,13 @@ export const changePassword = async (userId: number, currentPassword: string, ne
         console.log(isMatch);
 
         if (isMatch) {
-            const response = await axios.put(`http://localhost:8080/api/v1/users/password`, {
+            const response = await axios.put(`${USER_URL}/password`, {
                 password: newPassword
             } );
 
             console.log(response.data); // Log the response data for debugging
             return response.data;
         } else {
-            console.log("userpasss", user.password);
             throw new Error('Current password is incorrect.'); // Mật khẩu không khớp
         }
     } else {
@@ -88,7 +88,7 @@ export const changePassword = async (userId: number, currentPassword: string, ne
 
 export const logout = async (token: string) => {
     try {
-        const response = await axios.post(`${BASE_URL}/logout`, { token });
+        const response = await axios.post(`${USER_URL}/logout`, { token });
         return response.data; // Trả về phản hồi nếu cần thiết
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
@@ -100,7 +100,7 @@ export const logout = async (token: string) => {
 };
 
 export const refreshToken = async (token: string) => {
-    const response = await axios.post(`${BASE_URL}/refresh`, { refreshToken: token });
+    const response = await axios.post(`${USER_URL}/refresh`, { refreshToken: token });
     return response.data.result.token;
 };
 
@@ -112,7 +112,7 @@ export const updateUserAvatarAPI = async (userId: number, image: File) => {
     formData.append("image", image);
     const token = localStorage.getItem("token");
     console.log(token)
-    const response = await axios.put('http://localhost:8080/api/v1/users/avatar', formData, {
+    const response = await axios.put(`${USER_URL}/avatar`, formData, {
         headers: {
             'Content-Type': 'multipart/form-data',
             'Authorization': `Bearer ${token}`,

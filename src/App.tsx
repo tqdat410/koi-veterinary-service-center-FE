@@ -1,10 +1,9 @@
-import React, {lazy, Suspense, useContext} from 'react';
-import {BrowserRouter as Router, Route, Routes, useLocation} from 'react-router-dom';
+import React, {lazy, Suspense} from 'react';
+import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import './styles/App.css';
-import Navbar from "./components/layout/Navbar";
-import AuthContext, {AuthProvider, useAuth} from "./hooks/context/AuthContext";
+import  {AuthProvider} from "./hooks/context/AuthContext";
 import AuthGuard from '../src/guards/AuthGuard';
-import GuestGuard from '../src/guards/GuestGuard';
+
 import RoleBasedGuard from '../src/guards/RoleBasedGuard';
 import UnauthorizedPage from "./pages/UnauthorizedPage";
 import ServiceSelectionPage from "./pages/Appointment/ServiceSelectionPage";

@@ -1,11 +1,11 @@
 import axios from "axios";
-
-const API_URL = "http://localhost:8080/api/v1/users";
+import {BASE_API} from "./baseApi"
+const USER_URL = `${BASE_API}/users`;
 
 // Function to fetch staff from the API
 export const fetchStaff = async () => {
     try {
-        const response = await axios.get(`${API_URL}/staffs`);
+        const response = await axios.get(`${USER_URL}/staffs`);
         return response.data; // Return the data from the response
     } catch (error) {
         console.error("Error fetching customers:", error);
@@ -16,7 +16,7 @@ export const fetchStaff = async () => {
 //Function to get staff details by id
 export const getStaffDetailsById = async (userId: number) => {
     try {
-        const response = await axios.get(`${API_URL}/profile`, {
+        const response = await axios.get(`${USER_URL}/profile`, {
             params: { userId },
         });
         return response.data;
@@ -29,7 +29,7 @@ export const getStaffDetailsById = async (userId: number) => {
 //Fucntipn to add staff: ONLY MANAGER CAN DO
 export const createStaff = async (userDTO: any) => {
     try {
-        const response = await axios.post(`${API_URL}/staff`, userDTO); // Gọi API POST để tạo nhân viên mới
+        const response = await axios.post(`${USER_URL}/staff`, userDTO); // Gọi API POST để tạo nhân viên mới
         return response.data; // Trả về dữ liệu phản hồi từ server
     } catch (error) {
         console.error("Error creating staff:", error);
@@ -46,7 +46,7 @@ export const updateStaffProfile = async (
     updatedData: any
 ): Promise<any> => {
     try {
-        const response = await axios.put(`${API_URL}/profile`, updatedData, {
+        const response = await axios.put(`${USER_URL}/profile`, updatedData, {
             params: { userId },
         });
         return response.data;
@@ -58,7 +58,7 @@ export const updateStaffProfile = async (
 
 // Function to enable/disable staff
 export const modifyStaffStatus = async (id: number, enable: boolean) => {
-    await axios.delete(`http://localhost:8080/api/v1/users/deleteuser`, {
+    await axios.delete(`${USER_URL}/deleteuser`, {
         data: { // Đã thêm dấu hai chấm ở đây
             user_id: id, // Truyền giá trị id từ phía client
             enable: enable, // Truyền giá trị enable từ phía client

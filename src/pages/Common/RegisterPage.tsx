@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import backgroundImage from "../../assets/images/background.jpg";
-import Navbar from "../../components/layout/Navbar";
+
 import {register} from "../../api/authService";
 import "../../styles/LoginRegister.css";
 import {useNavigate} from "react-router-dom";
@@ -88,28 +88,6 @@ export default function RegisterPage(){
         }
 
     }
-// //Kiem Tra Ten Dang Nhap///////////////////////////////////////////////////////////////////////////////////////////
-//     const kiemTraTenDangNhapDaTonTai = async (username: string) =>{
-//         const url = 'https://66e10816c831c8811b538fae.mockapi.io/api/login';
-//         console.log(url);
-//
-//         try {
-//             const response = await fetch(url);
-//             const data = await response.json();  // Parse response as JSON
-//
-//             // Check if any user in the data array has the same username
-//             const userExists = data.some((user: any) => user.username === username);
-//
-//             if (userExists) {
-//                 setErrorTenDangNhap("Username already exists!");
-//                 return true;
-//             }
-//             return false;
-//         } catch (error) {
-//             console.error("Loi khi kiem tra ten dang nhap:", error);
-//             return false;
-//         }
-//     }
 
 
     const validateUsername = (username: string) => {

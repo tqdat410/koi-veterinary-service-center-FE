@@ -5,7 +5,7 @@ import axios from "axios";
 import {createAppointment} from "../../api/appointmentApi";
 import {persistor} from "../../store/store";
 import defaultImage from "../../assets/images/defaultImage.jpg";
-
+import {BASE_API} from "../../api/baseApi"
 
 
 const AppointmentOrderPage: React.FC = () => {
@@ -45,7 +45,7 @@ const AppointmentOrderPage: React.FC = () => {
 
     const fetchSurcharges = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/api/v1/surcharges');
+            const response = await axios.get(`${BASE_API}/surcharges`);
             setSurcharges(response.data);
         } catch (error) {
             console.error('Error fetching surcharges:', error);
