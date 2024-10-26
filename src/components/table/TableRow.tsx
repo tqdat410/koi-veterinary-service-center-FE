@@ -74,8 +74,9 @@ const TableRow: React.FC<TableRowProps> = ({ columns, rowData, actions = [], isK
                         <div>{dayOfSlot}</div> // Format datetime column
                     ) : column === 'datetime' ? (
                         <div>{rowData.created_date}</div> // Format datetime column
+                    ) : column ==='username'? (
+                        <div>{rowData.username}</div>
                     ) : (
-                        // !rowData[column] ? '' : rowData[column]
                         rowData[column] ? formatStatusText(rowData[column]) : '' // Format status column
                     )}
                 </td>
