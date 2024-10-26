@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../../components/layout/Sidebar';
-import TableComponent from '../../components/table/TableComponentForManager';
+import TableComponent from '../../components/table/TableComponent';
 import { useNavigate } from 'react-router-dom';
 import { fetchCustomers } from '../../api/customerApi';
 
