@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-
-// import TableComponent from '../components/table/TableComponent';
-import TableComponent from '../../components/table/TableComponentForStaff';
+import "../../styles/StaffAppointment.css";
+import TableComponent from '../../components/table/TableComponent';
 import { useNavigate } from 'react-router-dom';
-import { fetchAppointment, fetchAppointmentAndVeterinarians } from '../../api/appointmentApi';
+import { fetchAppointment } from '../../api/appointmentApi';
 import Sidebar from "../../components/layout/Sidebar";
 
 interface Appointment {
@@ -33,45 +32,6 @@ enum Status {
     ON_GOING = 'ON_GOING',
     PENDING = 'PENDING',
 }
-
-// interface Service {
-//     service_id: number;
-//     service_name: string;
-//     service_price: number;
-// };
-
-// interface movingSurcharge {
-//     moving_surcharge_id: number;
-//     district: string;
-//     price: number;
-// };
-
-// interface Address {
-//     address_id: number;
-//     city: string;
-//     district: string;
-//     ward: string;
-//     home_number: string;
-//     status: boolean;
-// };
-
-// interface Veterinarian {
-//     user_id: number;
-//     first_name: string;
-//     last_name: string;
-// };
-
-// interface Fish {
-//     fish_id: number;
-//     gender: string;
-//     age: number;
-//     species: string;
-//     size: number;
-//     weight: number;
-//     color: string;
-//     origin: string;
-//     enable: boolean;
-// };
 
 // Function to format DateTime
 
@@ -112,7 +72,6 @@ const StaffAppointment: React.FC = () => {
                     return {
                         ...rest,
                         date_time: formatDateTime(created_date), // Format created_date to desired format
-                        // current_status: mapStatus(current_status), // Map ENUM to readable status
                     };
                 });
                 const sortedData = filteredData.sort((a: Appointment, b: Appointment) => b.appointment_id - a.appointment_id);
@@ -125,12 +84,7 @@ const StaffAppointment: React.FC = () => {
         getAppointment();
     }, []);
 
-    // chuyển tới path my-appointment/appointment_id với state là appointment_id not path /số ra page khác 
-    // dấu / là trang khác còn : là trang cùng 1 trang
-    // dấu / chuyển theo path vd: appointment?appointment_id=1 ---> chuyền qua url parameters
- 
-    const handleAppointmentDetails = (appointment_id: number) => {
-        // console.log(appointment_id);
+   const handleAppointmentDetails = (appointment_id: number) => {
         navigate(`/staff/appointments/${appointment_id}`);
     };
     
@@ -142,16 +96,14 @@ const StaffAppointment: React.FC = () => {
             onClick: handleAppointmentDetails,
         },
     ];
-    
-    // console.log(appointment);
-    
+
     return (
         <div className="d-flex flex-grow-1">
             <Sidebar />
-            <div className="container" style={{ marginTop: "6rem" }}>
-                <div className="card" style={{ width: '100%' }}>
+            <div className="container">
+                <div className="card">
                     <div className="card-header">
-                        <h5 className="text-start" style={{ fontWeight: "bold", color: "#02033B", fontSize: "2.7rem", padding: "1.2rem" }}>
+                        <h5 className="text-start">
                             Appointment Lists
                         </h5>
                     </div>
