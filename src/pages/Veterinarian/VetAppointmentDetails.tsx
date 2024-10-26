@@ -29,6 +29,7 @@ const VetAppointmentDetails: React.FC = () => {
     const [prescription, setPrescription] = useState<Prescription | null>(null);
     const [isMedicineValid, setIsMedicineValid] = useState<boolean[]>([]);
     const [isQuantityValid, setIsQuantityValid] = useState<boolean[]>([]);
+    const [isInstructionValid, setIsInstructionValid] = useState<boolean[]>([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [description, setDescription] = useState<string>('');
     const [newReport, setNewReport] = useState<MedicalReport>({
@@ -84,24 +85,31 @@ const VetAppointmentDetails: React.FC = () => {
         try {
             let valid = true;
 
-            if (!newReport.conclusion.trim() || !newReport.advise.trim()) {
-                alert('Conclusion and advise cannot be empty.');
-                valid = false;
+            if (!newReport.advise.trim()) {
+                alert("Advise cannot be empty.");
+                return;
+            }
+
+            if (!newReport.conclusion.trim()) {
+                alert("Conclusion cannot be empty.");
+                return;
             }
 
             if (prescription) {
                 const medicineValidation = prescription.medicines.map((med) => {
-                    return med.medicine_id !== 0; // Check if medicine_id is valid
+                    return med.medicine_id !== 0;
                 });
                 const quantityValidation = prescription.medicines.map((med) => {
-                    return med.quantity > 0; // Check if quantity is greater than 0
+                    return med.quantity > 0;
                 });
-
+                const instructionValidation = prescription.medicines.map((med) => {
+                    return med.instruction.trim() !== "";
+                });
                 setIsMedicineValid(medicineValidation);
                 setIsQuantityValid(quantityValidation);
-
+                setIsInstructionValid(instructionValidation);
                 // Check overall validity
-                valid = medicineValidation.every(Boolean) && quantityValidation.every(Boolean);
+                valid = medicineValidation.every(Boolean) && quantityValidation.every(Boolean )&& instructionValidation.every(Boolean);
             }
 
             if (!valid) {
@@ -147,18 +155,19 @@ const VetAppointmentDetails: React.FC = () => {
             setPrescription({
                 prescription_id: null,
                 instruction: '',
-                medicines: [{ medicine_id: 0,medicine_name:'', quantity: 1 }]
+                medicines: [{ medicine_id: 0,medicine_name:'',instruction: '', quantity: 1 }]
             });
         } else {
             const updatedPrescription = {
                 ...prescription,
-                medicines: [...prescription.medicines, { medicine_id: 0,medicine_name:'', quantity: 1 }]
+                medicines: [...prescription.medicines, { medicine_id: 0,medicine_name:'',instruction: '',  quantity: 1 }]
             };
             setPrescription(updatedPrescription);
         }
         // Update validity state
         setIsMedicineValid([...isMedicineValid, true]); // Default to invalid
         setIsQuantityValid([...isQuantityValid, true]); // Quantity defaults to 1, which is valid
+        setIsInstructionValid([...isQuantityValid, true]);
     };
 
     const handleRemoveMedicine = (index: number) => {
@@ -172,13 +181,16 @@ const VetAppointmentDetails: React.FC = () => {
             const updatedQuantityValid = [...isQuantityValid];
             updatedQuantityValid.splice(index, 1);
             setIsQuantityValid(updatedQuantityValid);
+            const updatedInstructionValid = [...isInstructionValid];
+            updatedInstructionValid.splice(index, 1);
+            setIsInstructionValid(updatedInstructionValid);
         }
     };
 
     const handleMedicineChange = (index: number, field: string, value: any) => {
         if (prescription) {
             const updatedMedicines = prescription.medicines.map((medicine, idx) =>
-                idx === index ? { ...medicine, [field]: value === "" ? 0 : value } : medicine
+                idx === index ? { ...medicine, [field]: value === "" ? "" : value } : medicine
             );
             setPrescription({ ...prescription, medicines: updatedMedicines });
 
@@ -191,6 +203,10 @@ const VetAppointmentDetails: React.FC = () => {
                 const updatedValidity = [...isQuantityValid];
                 updatedValidity[index] = Number(value) > 0; // Update validity based on quantity
                 setIsQuantityValid(updatedValidity);
+            }else if (field === 'instruction') {
+                const updatedValidity = [...isInstructionValid];
+                updatedValidity[index] = value.trim() !== null; // Update validity based on instruction
+                setIsInstructionValid(updatedValidity);
             }
         }
     };
@@ -199,20 +215,33 @@ const VetAppointmentDetails: React.FC = () => {
         navigate('/veterinarian/schedule');
     };
 
-    const handleFinish = async () => {
-        const confirmFinish = window.confirm('Are you sure you want to mark this appointment as done?');
+    const handleUpdateStatus  = async (status: any) => {
+
+        const confirmFinish = window.confirm(`Are you sure you want to mark this appointment as ${status}?`);
         if (!confirmFinish) {
             return; // Exit the function if the user cancels
         }
         try {
-            const result = await updateDoneStatus(Number(appointmentId), "DONE");
-            alert('Appointment marked as done!');
+            const result = await updateDoneStatus(Number(appointmentId), status);
+            alert(`Appointment marked as ${status}!`);
             console.log('Update Result:', result);
             window.location.reload();
-            // navigate('/veterinarian-schedule');
-        } catch (error) {
-            console.error('Error finishing appointment:', error);
-            alert('Failed to mark appointment as done. Please try again.');
+
+        } catch (error: any) { // Chú ý: Sử dụng any nếu bạn không chắc chắn về kiểu lỗi
+            console.error(`Error updating appointment status to ${status}:`, error);
+
+            if (error.response && error.response.data) {
+                const errorMessage: string = error.response.data;
+
+                // Kiểm tra thông báo lỗi chứa thông tin về thanh toán chưa hoàn tất
+                if (errorMessage.includes("Payment is not paid yet")) {
+                    alert("Customer has not paid. Please wait for staff confirmation.!");
+                } else {
+                    alert(`Failed to mark appointment as ${status}. Please try again.`);
+                }
+            } else {
+                alert(`Failed to mark appointment as ${status}. Please try again.`);
+            }
         }
     };
     const handleOpenModal = () => {
@@ -226,6 +255,17 @@ const VetAppointmentDetails: React.FC = () => {
 
     const handleDescriptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setDescription(e.target.value);
+    };
+
+    const formatStatus = (status: string) => {
+        switch (status) {
+            case 'CHECKED_IN':
+                return 'CHECKED IN';
+            case 'ON_GOING':
+                return 'ON GOING';
+            default:
+                return status;
+        }
     };
 
     return (
@@ -252,7 +292,7 @@ const VetAppointmentDetails: React.FC = () => {
                                                 appointment.current_status === 'ON_GOING' ? 'text-secondary' :
                                                     appointment.current_status === 'DONE' ? 'text-success' : ''
                             }`}>
-                               {appointment.current_status}
+                               {formatStatus(appointment.current_status)}
                             </span></p>
                             <p><strong>Customer Name:</strong> {appointment.customer_name}</p>
                             <p><strong>Customer Email:</strong> {appointment.email}</p>
@@ -266,8 +306,14 @@ const VetAppointmentDetails: React.FC = () => {
 
                             <p><strong>Service:</strong> {appointment.service.service_name}</p>
                             <p><strong>Description:</strong> {appointment.description}</p>
-                            {medicalReport && appointment.current_status === 'ON_GOING' && (
-                                <button className="btn btn-secondary mt-3" onClick={handleFinish}>
+                            {appointment.current_status === 'ON_GOING' && (
+                                <button className="btn btn-secondary mt-3" onClick={() => handleUpdateStatus("CHECKED_IN")}>
+                                    Check In
+                                </button>
+                            )}
+
+                            {medicalReport && appointment.current_status === 'CHECKED_IN'  && (
+                                <button className="btn btn-success mt-3" onClick={() => handleUpdateStatus("DONE")}>
                                     Finish
                                 </button>
                             )}
@@ -330,6 +376,8 @@ const VetAppointmentDetails: React.FC = () => {
                                 setIsMedicineValid={setIsMedicineValid}
                                 isQuantityValid={isQuantityValid}
                                 setIsQuantityValid={setIsQuantityValid}
+                                isInstructionValid={isInstructionValid}
+                                setIsInstructionValid={setIsInstructionValid}
                                 handleCreateReport={handleCreateReport}
                             />
                         </div>

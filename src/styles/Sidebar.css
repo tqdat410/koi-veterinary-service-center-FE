@@ -24,8 +24,16 @@
 
 .sidebar {
     background-color: rgba(32, 30, 30, 0.16);
-
+    overflow-y: auto;
 }
+.fixed-left {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    z-index: 1000;
+}
+
 .sidebar-select {
     border-radius: 20px;
     background-color: rgba(31, 35, 51, 0.17)!important;

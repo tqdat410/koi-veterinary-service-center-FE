@@ -75,25 +75,33 @@ const VetSchedule: React.FC = () => {
     const weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     const [appointments, setAppointments] = useState<any[]>([]);
 
+    const formatStatus = (status: string) => {
+        switch (status) {
+            case 'CHECKED_IN':
+                return 'CHECKED IN';
+            case 'ON_GOING':
+                return 'ON GOING';
+            default:
+                return status;
+        }
+    };
 
     useEffect(() => {
         const loadVetSlots = async () => {
             console.log(vetId)
             if (vetId) {
-            try {
-                const slots = await fetchVetSlots(vetId);
-                if (Array.isArray(slots)) {
-                    setAppointments(slots);
-                } else {
-                    setAppointments([]);
+                try {
+                    const slots = await fetchVetSlots(vetId);
+                    if (Array.isArray(slots)) {
+                        setAppointments(slots);
+                    } else {
+                        console.log('No slots available');
+                        setAppointments([]);
+                    }
+                } catch (error) {
+                    console.log('No slots available');
                 }
-            } catch (error) {
-                console.error('Error fetching slots:', error);
-                setAppointments([]);
             }
-        } else {
-            alert('User ID is not available');
-        }
         };
 
         loadVetSlots();
@@ -128,7 +136,7 @@ const VetSchedule: React.FC = () => {
     };
 
     return (
-        <div className="d-flex flex-grow-1 gap-3">
+        <div className="d-flex flex-grow-1 gap-3" style={{ marginLeft: '272px' }}>
             <Sidebar />
             <div className="container" style={{ marginTop: "6rem" }}>
                 <div className="d-flex justify-content-between align-items-center mb-3">
@@ -201,7 +209,7 @@ const VetSchedule: React.FC = () => {
                                                                     appointment.appointment.current_status === 'ON_GOING' ? 'text-secondary' :
                                                                         appointment.appointment.current_status === 'DONE' ? 'text-success' : ''
                                                 }`}>
-                                                    {appointment.appointment.current_status}
+                                                    {formatStatus(appointment.appointment.current_status)}
                                                 </p>
                                                 <p>{slotOrderToTime[slotId as keyof typeof slotOrderToTime]}</p>
                                             </>

@@ -42,7 +42,7 @@ const TableComponent: React.FC<TableComponentProps> = ({ columns, columnHeaders,
                             <th key={index}>{header}</th>
                             
                         ))}
-                        <th>Actions</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>

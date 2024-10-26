@@ -241,7 +241,7 @@ console.log("avatar",selectedImage)
 
 
     return (
-        <div className="d-flex profile-page">
+        <div className="d-flex profile-page" style={{ marginLeft: '272px' }}>
             <Sidebar />
             <div className="flex-grow-1 bg-light" style={{ height: '100vh' }}>
                 <div className="profile-container">
