@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="b96b8ddc-e81e-40a9-b223-5d9d121be06e" name="Changes" comment="" />
+=======
+    <list default="true" id="69fffb7f-33a6-409a-8f0f-685a0fcd3e71" name="Changes" comment="" />
+>>>>>>> dev
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,6 +17,7 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+<<<<<<< HEAD
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
     &quot;state&quot;: &quot;OPEN&quot;,
@@ -29,6 +34,14 @@
   &quot;associatedIndex&quot;: 5
 }</component>
   <component name="ProjectId" id="2nt9fDgz0KqnEYCPEc8VGUW0tL2" />
+=======
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/dattqse180062/koi-veterinary-service-center-FE.git&quot;,
+    &quot;accountId&quot;: &quot;6ae1e59b-d1dc-479d-ace6-7067e08a20ec&quot;
+  }
+}</component>
+>>>>>>> dev
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />

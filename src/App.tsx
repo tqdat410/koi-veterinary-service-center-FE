@@ -1,8 +1,8 @@
-import React, { lazy, Suspense } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import React, {lazy, Suspense, useContext} from 'react';
+import {BrowserRouter as Router, Route, Routes, useLocation} from 'react-router-dom';
 import './styles/App.css';
 import Navbar from "./components/layout/Navbar";
-import { AuthProvider } from "./hooks/context/AuthContext";
+import AuthContext, {AuthProvider, useAuth} from "./hooks/context/AuthContext";
 import AuthGuard from '../src/guards/AuthGuard';
 import GuestGuard from '../src/guards/GuestGuard';
 import RoleBasedGuard from '../src/guards/RoleBasedGuard';
@@ -13,7 +13,7 @@ import InformationPage from "./pages/Appointment/InformationPage";
 import OrderConfirmPage from "./pages/Appointment/OrderConfirmPage";
 import AvailableSlots from "./pages/Appointment/AvailableSlotsPage";
 import BookedSchedulePage from "./pages/Manager/BookedSchedulePage";
-
+import ConditionalNavbar from './components/layout/ConditionalNavbar';
 // Lazy load pages
 const RegisterPage = lazy(() => import("./pages/Common/RegisterPage"));
 const DangNhapNguoiDung = lazy(() => import("./pages/Common/LoginPage"));
@@ -33,6 +33,7 @@ const VetDetails = lazy(() => import("./pages/Manager/VetDetails"));
 
 
 // NEW
+
 const DashBoardPage = lazy(() => import("./pages/Manager/DashBoard/DashBoardPage"))
 const CustomerManagementPage = lazy(() => import("./pages/Manager/CustomerManagementPage"))
 const CustomerDetailPage = lazy(() => import("./pages/Manager/CustomerDetails"))
@@ -44,6 +45,8 @@ const ManagerAppointmentDetails = lazy(() => import("./pages/Manager/ManagerAppo
 const CustomerAppointmentDetails = lazy(() => import("./pages/Customer/CustomerAppointmentDetails"))
 const ManagerStaffPage = lazy(() => import("./pages/Manager/ManagerStaffPage"))
 const AddStaffPage = lazy(() => import("./pages/Manager/AddStaffPage"))
+const ManagerStaffDetails = lazy(() => import("./pages/Manager/ManagerStaffDetailsPage"))
+
 // Define a higher-order component with authentication
 // const CustomerAppointment = lazy(() => import("./pages/CustomerAppointment"))
 // const StaffAppointment = lazy(() => import("./pages/StaffAppointment"))
@@ -85,11 +88,14 @@ const withRole = (Component: React.ComponentType, allowedRoles: string[]) => (
 
 
 function App() {
+
+
+
     return (
         <div className="App">
             <AuthProvider>
                 <Router>
-                    <Navbar />
+                    <ConditionalNavbar />
                     <Suspense fallback={<div>Loading...</div>}>
                         <Routes>
 
@@ -140,6 +146,7 @@ function App() {
                             <Route path="/manager/appointment-list" element={withRole(ManagerAppointment, ['MAN'])} />
                             <Route path="/manager/appointment-details" element={withRole(ManagerAppointmentDetails, ['MAN'])} />
                             <Route path="/manager/staff-list" element={withRole(ManagerStaffPage, ['MAN'])} />
+                            <Route path="/manager/staff-details" element={withRole(ManagerStaffDetails, ['MAN'])} />
                             <Route path="/manager/add-staff" element={withRole(AddStaffPage, ['MAN'])} />
                             <Route path="/manager/booked-schedule" element={withRole(BookedSchedulePage, ['MAN'])} />
                             <Route path="/manager/dashboard" element={withRole(DashBoardPage, ['MAN'])} />

@@ -1,0 +1,78 @@
+/* For CustomerAppointmentDetails.tsx */
+.container {
+    margin-top: 2rem;
+    text-align: left;
+}
+
+.container > h2 {
+    padding-top: 65px;
+}
+
+.container > .card {
+    border-radius: 40px;
+}
+
+.container > .card >.card-body >.card-title {
+    width: 100%;
+}
+
+.span-status{
+    font-weight: 600 !important;
+    color: white !important;
+    padding: 4px 8px !important;
+    border-radius: 40px !important;
+    margin-left: 4px !important;
+}
+
+.mt-3{
+    font-weight: 900 !important;
+}
+
+.back-button {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+}
+
+/* Specific colors for each status */
+.status-canceled {
+    background-color: red;
+}
+
+.status-checked-in {
+    background-color: blue;
+}
+
+.status-confirmed {
+    background-color: green;
+}
+
+.status-done {
+    background-color: #04BD04;
+}
+
+.status-on-going {
+    background-color: orange;
+}
+
+.status-pending {
+    background-color: purple;
+}
+
+.status-default {
+    background-color: black;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

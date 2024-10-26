@@ -1,24 +1,25 @@
 import React, { useState, useEffect } from 'react';
-
 import Sidebar from '../../components/layout/Sidebar';
 import TableComponent from '../../components/table/TableComponent';
-
 import { useNavigate } from 'react-router-dom';
-import { fetchAppointment } from '../../api/appointmentApi';
 import { fetchStaff } from '../../api/staffApi';
 
-
 interface Staff {
-    staff_id: number;
+    user_id: number;
+    fullName: string;
+    username: string;
+    email: string;
+    phone_number: string;
+    address: string;
+    avatar?: string;
 }
 
-
 const ManagerStaffPage: React.FC = () => {
-    const [staff, setStaff] = useState<Staff[]>([]);
 
-    const columns = ['user_id', 'first_name', 'last_name', 'username'];
-    const columnHeaders = ['User ID', 'First name', 'Last name', 'User name'];
-
+    const [staff, setStaff] = useState<any[]>([]);
+    const columns = ['user_id', 'fullName' ,'username'];
+    const columnHeaders = ['User ID', 'Full name' ,'User name'];
+    
     // tạm thời chưa có customer name!
     const navigate = useNavigate();
     const [currentPage, setCurrentPage] = useState<number>(1);
@@ -34,7 +35,7 @@ const ManagerStaffPage: React.FC = () => {
                         ...rest,
                     };
                 });
-                const sortedData = filteredData.sort((a: Staff, b: Staff) => b.staff_id - a.staff_id);
+                const sortedData = filteredData.sort((a: Staff, b: Staff) => b.user_id - a.user_id);
                 setStaff(sortedData);
             } catch (error) {
                 console.error('Error fetching feedbacks:', error);
@@ -44,16 +45,16 @@ const ManagerStaffPage: React.FC = () => {
         getStaff();
     }, []);
 
-    const handleAppointmentDetails = (staff_id: number) => {
-        console.log(staff_id); // check xem có ra id không
-        navigate('/staff-details', { state: { staff_id } });
+    const handleStaffDetails = (userId: number) => {
+        console.log(userId);
+        navigate('/manager/staff-details', { state: { userId } });
     };
 
     const actions = [
         {
             label: 'View Details',
             icon: 'fas fa-info-circle',
-            onClick: handleAppointmentDetails,
+            onClick: handleStaffDetails,
         },
     ];
     console.log(staff);
@@ -82,8 +83,6 @@ const ManagerStaffPage: React.FC = () => {
                             data={staff}
                             actions={actions} // Pass the actions to the TableComponent
                             isKoiFishPage={false}
-                            isAddressPage={false}
-                            isAppointmentPage={true}
                         />
                     </div>
                 </div>
