@@ -151,13 +151,9 @@ export const fetchPrescriptionDetails = async (prescriptionId: number): Promise<
     }
 }
 
-<<<<<<< HEAD
+
 export const updateDoneStatus = async (appointmentId: number,status: string ) => {
     const response = await axios.put(`${APPOINTMENT_URL}/${appointmentId}/status`, {
-=======
-export const updateDoneStatus = async (appointmentId: number, status: string) => {
-    const response = await axios.put(`${API_BASE_URL}/${appointmentId}/status`, {
->>>>>>> 4dcfad6143dbdefeddd71f16cf0d580f8e5a2194
         status
     });
     return response.data;
@@ -326,13 +322,8 @@ export const fetchLogs = async (appointment_id: number) => {
 
 export const updateAppointmentStatus = async (appointmentId: number, status: any): Promise<any> => {
     try {
-<<<<<<< HEAD
-        const response = await axios.put(`${APPOINTMENT_URL}/${appointment_id}/status`,
+        const response = await axios.put(`${APPOINTMENT_URL}/${appointmentId}/status`,
             { status: status } // Chuyển đổi thành đối tượng với thuộc tính status
-=======
-        await axios.put(`http://localhost:8080/api/v1/appointments/${appointmentId}/status`,
-            { status }  // gửi statusName trực tiếp dưới dạng statusDto
->>>>>>> 4dcfad6143dbdefeddd71f16cf0d580f8e5a2194
         );
     } catch (error) {
         console.error('Error updating appointment status:', error);
