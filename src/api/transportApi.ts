@@ -1,7 +1,7 @@
 // src/api/transportApi.ts
 import axios from 'axios';
-
-const TRANSPORT_API_URL = 'http://localhost:8080/api/v1/surcharges';
+import {BASE_API} from "./baseApi"
+const TRANSPORT_API_URL = `${BASE_API}/surcharges`;
 
 export const fetchTransportationPrices = async () => {
     try {

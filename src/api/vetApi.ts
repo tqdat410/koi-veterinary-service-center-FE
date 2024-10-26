@@ -1,9 +1,9 @@
 // src/api/vetApi.ts
 import axios from 'axios';
-
+import {BASE_API} from "./baseApi"
 // Base URL for API
-const API_BASE_URL = 'http://localhost:8080/api/v1/users';
-const API_CERTIFICATE = 'http://localhost:8080/api/v1/certificates';
+const API_BASE_URL = `${BASE_API}/users`;
+const API_CERTIFICATE = `${BASE_API}/certificates`;
 
 // Function to fetch veterinarians
 export const fetchVets = async () => {
@@ -21,7 +21,7 @@ export const fetchVets = async () => {
 // Slot id lấy = cách nào ???
 export const fetchVetBySlotId = async (slotId: number) => {
     try {
-        const response = await axios.get(`http://localhost:8080/api/v1/users/veterinarian/${slotId}`);
+        const response = await axios.get(`${API_BASE_URL}/veterinarian/${slotId}`);
         return response.data;
     } catch (error) {
         console.error('Error fetching veterinarian by slot ID:', error);

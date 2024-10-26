@@ -12,7 +12,7 @@ const AddKoiFish: React.FC = () => {
     const userId = user?.userId || 0;
     const navigate = useNavigate();
     const location = useLocation();
-    // Individual state variables for koi fish fields
+
     const [species, setSpecies] = useState<string>('');
 
     const [gender, setGender] = useState<string>('MALE');

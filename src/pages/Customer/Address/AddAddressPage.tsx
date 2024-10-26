@@ -18,7 +18,7 @@ const AddAddress: React.FC = () => {
     const [selectedDistrict, setSelectedDistrict] = useState<string>("");
     const [ward, setWard] = useState<string>("");
     const [homeNumber, setHomeNumber] = useState<string>("");
-    const [error, setError] = useState<boolean>(false); // State to track if there is an error
+    const [error, setError] = useState<boolean>(false);
 
     // Fetch Districts using API
     useEffect(() => {
@@ -152,4 +152,4 @@ const AddAddress: React.FC = () => {
             );
             };
 
-            export default AddAddress;
+export default AddAddress;

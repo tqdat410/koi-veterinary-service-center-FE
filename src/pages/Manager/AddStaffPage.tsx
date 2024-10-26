@@ -125,15 +125,6 @@ const AddStaffPage: React.FC = () => {
                             <div className=" row">
                                 <label htmlFor="password" className="col-sm-3 col-form-label text-end">Password</label>
                                 <div className="col-sm-6 mb-3">
-                                    {/* <input
-                                    type="password"
-                                    className="form-control"
-                                    id="password"
-                                    name="password"
-                                    value={staffData.password}
-                                    onChange={handleChange}
-                                    placeholder="Enter Password"
-                                /> */}
                                     <input
                                         type="password"
                                         className={`form-control ${passwordError ? 'is-invalid' : ''}`} // Thêm class 'is-invalid' nếu có lỗi

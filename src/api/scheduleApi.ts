@@ -1,11 +1,9 @@
 import axios from "axios";
-
-const API_BASE_URL = "http://localhost:8080/api/v1";
-
+import {BASE_API} from "./baseApi"
 
 export const fetchVetSlots = async (vetId: number) => {
     try {
-        const response = await axios.get(`${API_BASE_URL}/slots/${vetId}`);
+        const response = await axios.get(`${BASE_API}/slots/${vetId}`);
         return response.data;
     } catch (error) {
         console.error("Error fetching vet slots:", error);
@@ -15,7 +13,7 @@ export const fetchVetSlots = async (vetId: number) => {
 
 export const fetchVetSlotsAvailable = async (vetId: number) => {
     try {
-        const response = await axios.get(`${API_BASE_URL}/slots/${vetId}/available`);
+        const response = await axios.get(`${BASE_API}/slots/${vetId}/available`);
         return response.data;
     } catch (error) {
         console.error("Error fetching vet slots:", error);

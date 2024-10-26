@@ -90,7 +90,7 @@ const AddressDetail: React.FC = () => {
     useEffect(() => {
         const getDistricts = async () => {
             try {
-                const response = await fetchDistricts(); // Use the new fetchDistricts function
+                const response = await fetchDistricts();
                 setDistricts(response);
             } catch (error) {
                 setError("Failed to fetch districts");
@@ -269,6 +269,6 @@ const AddressDetail: React.FC = () => {
                 </div>
             </div>
         </div>
-            );
-            };
-            export default AddressDetail;
+        );
+      };
+export default AddressDetail;

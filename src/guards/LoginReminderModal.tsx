@@ -15,8 +15,8 @@ const LoginReminderModal: React.FC<LoginReminderModalProps> = ({ show, onClose }
                         <button type="button" className="close border-0 fs-1" onClick={onClose} aria-label="Close"  style={{
                             fontSize: '2rem', // Tăng kích thước chữ cho dấu X
                             padding: '0.5rem 1rem', // Thêm khoảng cách cho nút
-                            background: 'none', // Bỏ nền nếu có
-                            border: 'none', // Bỏ viền
+                            background: 'none',
+                            border: 'none',
                         }}>
                             <span aria-hidden="true">&times;</span>
                         </button>

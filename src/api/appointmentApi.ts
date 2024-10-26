@@ -1,10 +1,8 @@
 import axios from 'axios';
-import { fetchVetBySlotId } from './vetApi';
 
+import {BASE_API} from "./baseApi"
+const APPOINTMENT_URL = `${BASE_API}/appointments`;
 
-const API_BASE_URL = 'http://localhost:8080/api/v1/appointments';
-
-// Define interfaces for the data types used in the requests/responses
 export interface AppointmentDetails {
     appointment_id: number;
     created_date: string;
@@ -14,10 +12,10 @@ export interface AppointmentDetails {
     phone_number: string;
     description: string;
     total_price: number;
-    slot:{
+    slot: {
         slot_id: number;
-        year:number;
-        month:number;
+        year: number;
+        month: number;
         day: number;
         slot_order: number;
         description: number;
@@ -87,7 +85,7 @@ export interface Prescription {
 
 // API to fetch appointment details by ID
 export const getAppointmentDetailsVet = async (appointmentId: number): Promise<AppointmentDetails> => {
-    const response = await axios.get(`${API_BASE_URL}/${appointmentId}/veterinarian`);
+    const response = await axios.get(`${APPOINTMENT_URL}/${appointmentId}/veterinarian`);
     return response.data;
 };
 
@@ -95,19 +93,19 @@ export const getAppointmentDetailsVet = async (appointmentId: number): Promise<A
 
 // API to create a medical report for an appointment
 export const createMedicalReport = async (appointmentId: number, report: MedicalReport) => {
-    const response = await axios.post(`${API_BASE_URL}/${appointmentId}/report`, report);
+    const response = await axios.post(`${APPOINTMENT_URL}/${appointmentId}/report`, report);
     return response.data;
 };
 
 // API to fetch the medical report for an appointment
 export const getMedicalReport = async (appointmentId: number): Promise<MedicalReport> => {
-    const response = await axios.get(`${API_BASE_URL}/${appointmentId}/report`);
+    const response = await axios.get(`${APPOINTMENT_URL}/${appointmentId}/report`);
     return response.data;
 };
 
 // API to fetch appointment logs (status history)
 export const getAppointmentLogs = async (appointmentId: number) => {
-    const response = await axios.get(`${API_BASE_URL}/${appointmentId}/logs`);
+    const response = await axios.get(`${APPOINTMENT_URL}/${appointmentId}/logs`);
     return response.data;
 };
 
@@ -119,17 +117,19 @@ export const getAppointmentLogs = async (appointmentId: number) => {
 
 // API to fetch all appointments
 export const getAllAppointments = async () => {
-    const response = await axios.get(API_BASE_URL);
+    const response = await axios.get(APPOINTMENT_URL);
     return response.data;
 };
 
 // API to fetch appointments for a specific customer
 export const getAppointmentsForCustomer = async (customerId: number) => {
-    const response = await axios.get(`${API_BASE_URL}/customer/${customerId}`);
+    const response = await axios.get(`${APPOINTMENT_URL}/customer/${customerId}`);
     return response.data;
 };
 
-const API_PRESCRIPTION_URL = 'http://localhost:8080/api/v1/prescriptions';
+
+
+const API_PRESCRIPTION_URL = `${BASE_API}/prescriptions`;
 
 export const getMedicines = async () => {
     const response = await axios.get(`${API_PRESCRIPTION_URL}/medicines`);
@@ -151,8 +151,13 @@ export const fetchPrescriptionDetails = async (prescriptionId: number): Promise<
     }
 }
 
+<<<<<<< HEAD
 export const updateDoneStatus = async (appointmentId: number,status: string ) => {
+    const response = await axios.put(`${APPOINTMENT_URL}/${appointmentId}/status`, {
+=======
+export const updateDoneStatus = async (appointmentId: number, status: string) => {
     const response = await axios.put(`${API_BASE_URL}/${appointmentId}/status`, {
+>>>>>>> 4dcfad6143dbdefeddd71f16cf0d580f8e5a2194
         status
     });
     return response.data;
@@ -177,7 +182,7 @@ interface Appointment {
 
 const createAppointment = async (payload: Appointment) => {
     try {
-        const response = await axios.post('http://localhost:8080/api/v1/appointments', payload);
+        const response = await axios.post(APPOINTMENT_URL, payload);
         return response.data; // trả về dữ liệu từ API
     } catch (error) {
         console.error('Error creating appointment:', error);
@@ -187,7 +192,7 @@ const createAppointment = async (payload: Appointment) => {
 
 export const fetchAppointment = async () => {
     try {
-        const response = await axios.get(`http://localhost:8080/api/v1/appointments`);
+        const response = await axios.get(APPOINTMENT_URL);
         return response.data; // trả về dữ liệu từ API
     } catch (error) {
         console.error('Error fetching appointment:', error);
@@ -197,7 +202,7 @@ export const fetchAppointment = async () => {
 
 export const fetchAppointmentForCus = async () => {
     try {
-        const response = await axios.get(`http://localhost:8080/api/v1/appointments/customer`);
+        const response = await axios.get(`${APPOINTMENT_URL}/customer`);
         return response.data; // trả về dữ liệu từ API
     } catch (error) {
         console.error('Error fetching appointment:', error);
@@ -208,7 +213,7 @@ export const fetchAppointmentForCus = async () => {
 // Function to fetch appointment details and slot id to get veterinarian name
 export const getAppointmentDetails = async (appointment_id: number) => {
     try {
-        const response = await axios.get(`http://localhost:8080/api/v1/appointments/${appointment_id}`);
+        const response = await axios.get(`${APPOINTMENT_URL}/${appointment_id}`);
         return response.data; // trả về dữ liệu từ API
     } catch (error) {
         console.error('Error fetching appointment details:', error);
@@ -224,7 +229,7 @@ export const fetchAppointmentAndVeterinarians = async (appointment_id: number) =
 
         if (appointmentDetails.slot_id) {
             // Nếu có slot_id, gọi API lấy danh sách bác sĩ
-            const response = await axios.put(`http://localhost:8080/api/v1/users/appointments/${appointment_id}/veterinarian`);
+            const response = await axios.put(`${BASE_API}/users/appointments/${appointment_id}/veterinarian`);
             veterinarians = response.data; // Lưu dữ liệu vào biến veterinarians
             console.log('Danh sách bác sĩ từ slot id đó:', veterinarians);
         } else {
@@ -248,7 +253,7 @@ export const fetchAppointmentAndVeterinariansDemo = async (appointment_id: numbe
 
         if (appointmentDetails.slot_id) {
             // Nếu có slot_id, gọi API lấy danh sách bác sĩ từ slot_id đó
-            const response = await axios.get(`http://localhost:8080/api/v1/slots/${appointmentDetails.slot_id}/${vet_id}`);
+            const response = await axios.get(`${BASE_API}/slots/${appointmentDetails.slot_id}/${vet_id}`);
             veterinarians = response.data; // Lưu danh sách bác sĩ vào biến veterinarians
             console.log('Danh sách bác sĩ từ slot id:', veterinarians);
         } else {
@@ -272,7 +277,7 @@ export const fetchAppointmentAndVeterinariansDemo = async (appointment_id: numbe
 // update appointment : update veterinarian_id
 export const updateAppointment = async (appointment_id: number, veterinarian_id: number) => {
     try {
-        const response = await axios.put(`http://localhost:8080/api/v1/appointments/${appointment_id}/veterinarian/${veterinarian_id}`);
+        const response = await axios.put(`${APPOINTMENT_URL}/${appointment_id}/veterinarian/${veterinarian_id}`);
         return response.data; // trả về dữ liệu từ API
     } catch (error) {
         console.error('Error updating appointment:', error);
@@ -285,7 +290,7 @@ export const updateAppointment = async (appointment_id: number, veterinarian_id:
 //View medical report of an appointment
 export const fetchMedicalReport = async (appointment_id: number) => {
     try {
-        const response = await axios.get(`http://localhost:8080/api/v1/appointments/${appointment_id}/report`);
+        const response = await axios.get(`${APPOINTMENT_URL}/${appointment_id}/report`);
         return response.data; // trả về dữ liệu từ API
     } catch (error) {
         console.error('Error fetching medical report:', error);
@@ -296,7 +301,7 @@ export const fetchMedicalReport = async (appointment_id: number) => {
 //Manager get the logs of an appointment
 export const fetchLogs = async (appointment_id: number) => {
     try {
-        const response = await axios.get(`http://localhost:8080/api/v1/appointments/${appointment_id}/logs`);
+        const response = await axios.get(`${APPOINTMENT_URL}/${appointment_id}/logs`);
         return response.data; // trả về dữ liệu từ API
     } catch (error) {
         console.error('Error fetching logs:', error);
@@ -305,22 +310,42 @@ export const fetchLogs = async (appointment_id: number) => {
 }
 
 // Staff update appointment status
-export const updateAppointmentStatus = async (appointment_id: number, status: string) => {
+// export const updateAppointmentStatus = async (appointment_id: number, statusDto: any) :Promise<any> => {
+//     try {
+//         const response = await axios.put(`http://localhost:8080/api/v1/appointments/${appointment_id}/status`,
+//             {
+//                 status: statusDto.current_status
+//             }
+//         );
+//         return response.data; // trả về dữ liệu từ API
+//     } catch (error) {
+//         console.error('Error updating appointment status:', error);
+//         throw error; // ném lỗi để xử lý ở nơi gọi
+//     }
+// };
+
+export const updateAppointmentStatus = async (appointmentId: number, status: any): Promise<any> => {
     try {
-        const response = await axios.put(`http://localhost:8080/api/v1/appointments/${appointment_id}/status`,
+<<<<<<< HEAD
+        const response = await axios.put(`${APPOINTMENT_URL}/${appointment_id}/status`,
             { status: status } // Chuyển đổi thành đối tượng với thuộc tính status
+=======
+        await axios.put(`http://localhost:8080/api/v1/appointments/${appointmentId}/status`,
+            { status }  // gửi statusName trực tiếp dưới dạng statusDto
+>>>>>>> 4dcfad6143dbdefeddd71f16cf0d580f8e5a2194
         );
-        return response.data; // trả về dữ liệu từ API
     } catch (error) {
         console.error('Error updating appointment status:', error);
-        throw error; // ném lỗi để xử lý ở nơi gọi
+        throw error;  // ném lỗi để xử lý ở nơi gọi
     }
 };
+
+
 
 // Staff update appointmet status: ONLY CANCELED
 export const updateAppointmentStatusCanceled = async (appointment_id: number) => {
     try {
-        const response = await axios.delete(`http://localhost:8080/api/v1/appointments/${appointment_id}`);
+        const response = await axios.delete(`${APPOINTMENT_URL}/${appointment_id}`);
         return response.data; // trả về dữ liệu từ API
     } catch (error) {
         console.error('Error updating appointment status:', error);
@@ -331,11 +356,11 @@ export const updateAppointmentStatusCanceled = async (appointment_id: number) =>
 //get appointment details for customer
 export const getAppointmentDetailsForCus = async (appointment_id: number) => {
     try {
-        const response = await axios.get(`http://localhost:8080/api/v1/appointments/${appointment_id}/customer`);
+        const response = await axios.get(`${APPOINTMENT_URL}/${appointment_id}/customer`);
         return response.data; // trả về dữ liệu từ API
     } catch (error) {
         console.error('Error fetching appointment details:', error);
-        
+
     }
 }
 
@@ -343,7 +368,7 @@ export { createAppointment };
 
 export const getLinkMeetByVetId = async (vetId: number): Promise<string | null> => {
     try {
-        const response = await axios.get(`http://localhost:8080/api/v1/users/${vetId}/link`);
+        const response = await axios.get(`${BASE_API}/users/${vetId}/link`);
         return response.data; // Trả về link Meet từ API
     } catch (error) {
         console.error('Error fetching Meet link:', error);

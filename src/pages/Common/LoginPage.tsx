@@ -1,9 +1,8 @@
-import React, { useState , useEffect} from "react";
+import React, { useState} from "react";
 import backgroundImage from "../../assets/images/background.jpg";
 import googleIcon from "../../assets/images/flat-color-icons_google.svg";
-import Navbar from "../../components/layout/Navbar";
 import { Link, useNavigate } from "react-router-dom";
-
+import {BASE_API} from "../../api/baseApi"
 import { useAuth } from "../../hooks/context/AuthContext";
 import "../../styles/LoginRegister.css";
 import "../../styles/App.css"
@@ -12,7 +11,7 @@ import {jwtDecode} from "jwt-decode";
 
 
 const DangNhapNguoiDung: React.FC = () => {
-    const { login, user  } = useAuth();
+    const { login } = useAuth();
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [errorMessage, setErrorMessage] = useState("");
@@ -20,13 +19,12 @@ const DangNhapNguoiDung: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:8080/api/v1/users/token', { username, password });
+            const response = await axios.post(`${BASE_API}/users/token`, { username, password });
             const token = response.data.result.token;
             login(token);  // Lưu JWT sau khi đăng nhập
-
             const decodedToken: any = jwtDecode(token);
             const roleId = decodedToken.scope;
-
+            console.log("role",roleId)
 
             switch (roleId) {
                 case 'CUS':
@@ -45,7 +43,7 @@ const DangNhapNguoiDung: React.FC = () => {
                     navigate('/');  // Fallback for any other role
                     break;
             }
-            console.log("role",user?.roleId)
+
         } catch (err) {
             setErrorMessage('Incorrect username or password. Please try again.');
         }
