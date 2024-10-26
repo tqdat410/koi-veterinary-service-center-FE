@@ -43,6 +43,9 @@ const StaffProfile: React.FC = () => {
                 setLastname(staff.last_name || '');
                 setPhone(staff.phone_number || '');
                 setEmail(staff.email || '');
+                if(staff.avatar){
+                    setSelectedImage(staff.avatar);
+                }
                 console.log(staff)
             } catch (error) {
                 console.error('Failed to fetch user data:', error);
