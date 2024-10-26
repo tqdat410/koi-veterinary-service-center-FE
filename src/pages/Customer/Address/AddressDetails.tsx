@@ -200,7 +200,7 @@ const AddressDetail: React.FC = () => {
 
                             {/* District Select */}
                             <div className="mb-3">
-                                <label className="form-label ">District</label>
+                                <label className="form-label-koi ">District</label>
                                 <select
                                     className={`form-control input-field-koi ${errorSumbit && !selectedDistrict ? 'border-danger' : ''}`}
                                     value={selectedDistrict}
@@ -217,7 +217,7 @@ const AddressDetail: React.FC = () => {
 
                             {/* City Select */}
                             <div className="mb-3">
-                                <label className="form-label ">City</label>
+                                <label className="form-label-koi ">City</label>
                                 <select className="form-control" value="Hồ Chí Minh" disabled>
                                     <option value="Hồ Chí Minh">Hồ Chí Minh</option>
                                 </select>
@@ -225,7 +225,7 @@ const AddressDetail: React.FC = () => {
 
                             {/* Ward */}
                             <div className="mb-3">
-                                <label className="form-label ">Ward</label>
+                                <label className="form-label-koi ">Ward</label>
                                 <input
                                     type="text"
                                     name="ward"
@@ -237,7 +237,7 @@ const AddressDetail: React.FC = () => {
 
                             {/* Home Number */}
                             <div className="mb-3">
-                                <label className="form-label ">Home Number</label>
+                                <label className="form-label-koi ">Home Number</label>
                                 <input
                                     type="text"
                                     name="home_number"

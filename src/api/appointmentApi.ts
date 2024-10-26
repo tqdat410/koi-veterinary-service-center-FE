@@ -154,6 +154,7 @@ export const fetchPrescriptionDetails = async (prescriptionId: number): Promise<
 
 export const updateDoneStatus = async (appointmentId: number,status: string ) => {
     const response = await axios.put(`${APPOINTMENT_URL}/${appointmentId}/status`, {
+
         status
     });
     return response.data;
@@ -322,8 +323,10 @@ export const fetchLogs = async (appointment_id: number) => {
 
 export const updateAppointmentStatus = async (appointmentId: number, status: any): Promise<any> => {
     try {
-        const response = await axios.put(`${APPOINTMENT_URL}/${appointmentId}/status`,
-            { status: status } // Chuyển đổi thành đối tượng với thuộc tính status
+
+        await axios.put(`${APPOINTMENT_URL}/${appointmentId}/status`,
+            { status }  // gửi statusName trực tiếp dưới dạng statusDto
+
         );
     } catch (error) {
         console.error('Error updating appointment status:', error);

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import {Link, useLocation, useNavigate} from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import '../../styles/Sidebar.css';
 import { useAuth } from "../../hooks/context/AuthContext"; // Import CSS nếu cần
 
 const Sidebar: React.FC = () => {
-    const { user , logout} = useAuth();  // Lấy thông tin user từ context
+    const { user, logout } = useAuth();  // Lấy thông tin user từ context
     const role = user?.roleId;   // Lấy role của người dùng
     const [isPricingOpen, setIsPricingOpen] = useState(false); // State để mở rộng submenu Pricing
     const location = useLocation();
@@ -22,7 +22,7 @@ const Sidebar: React.FC = () => {
 
     return (
         <div className="d-flex flex-column sidebar border-right fixed-left " style={{ minWidth: '272px', height: '100vh' }}>
-            <div className="p-3 " style={{marginTop:"45px"}}>
+            <div className="p-3 " style={{ marginTop: "45px" }}>
                 {/* Hiển thị các mục theo role */}
                 {role === 'MAN' && (
                     <>
@@ -42,7 +42,7 @@ const Sidebar: React.FC = () => {
                         </Link>
 
                         <Link to="/manager/booked-schedule"
-                              className={`nav-link ${isActive('/manager/booked-schedule')}`}>
+                            className={`nav-link ${isActive('/manager/booked-schedule')}`}>
                             <div className="d-flex align-items-center">
                                 <i className="fa-solid fa-calendar-check"></i>
                                 <span className="fw-bold ms-3">Booked Schedule</span>
@@ -81,7 +81,7 @@ const Sidebar: React.FC = () => {
 
                         {/* Pricing submenu */}
                         <div className={`nav-link ${isPricingPage ? 'sidebar-select' : 'text-dark'} mb-1`}
-                             onClick={togglePricingMenu} style={{cursor: 'pointer'}}>
+                            onClick={togglePricingMenu} style={{ cursor: 'pointer' }}>
                             <div className="d-flex align-items-center ">
                                 <i className="fa-solid fa-file-invoice-dollar"></i>
                                 <span className="fw-bold ms-3 ">Pricing</span>
@@ -91,14 +91,14 @@ const Sidebar: React.FC = () => {
                         {isPricingOpen && (
                             <div className="ms-3"> {/* Submenu items */}
                                 <Link to="/manager/service-pricing"
-                                      className={`nav-link ${isActive('/manager/service-pricing')}`}>
+                                    className={`nav-link ${isActive('/manager/service-pricing')}`}>
                                     <div className="d-flex align-items-center">
                                         <i className="fa-solid fa-hand-holding-medical"></i>
                                         <span className="fw-bold ms-3">Service Pricing</span>
                                     </div>
                                 </Link>
                                 <Link to="/manager/transport-pricing"
-                                      className={`nav-link ${isActive('/manager/transport-pricing')}`}>
+                                    className={`nav-link ${isActive('/manager/transport-pricing')}`}>
                                     <div className="d-flex align-items-center">
                                         <i className="fa-solid fa-route"></i>
                                         <span className="fw-bold ms-3">Transport Pricing</span>
@@ -147,6 +147,15 @@ const Sidebar: React.FC = () => {
                                 <span className="fw-bold ms-3">Schedule</span>
                             </div>
                         </Link>
+
+                        <Link to="/veterinarian/vet-feedback"
+                            className={`nav-link ${isActive('/veterinarian/vet-feedback')}`}>
+                            <div className="d-flex align-items-center">
+                                <i className="fa-regular fa-comment"></i>
+                                <span className="fw-bold ms-3">Feedback list</span>
+                            </div>
+                        </Link>
+
                     </>
                 )}
 
@@ -154,7 +163,7 @@ const Sidebar: React.FC = () => {
                 {role === 'STA' && (
                     <>
                         <Link to="/staff/appointment-list"
-                              className={`nav-link ${isActive('/staff/appointment-list')}`}>
+                            className={`nav-link ${isActive('/staff/appointment-list')}`}>
                             <div className="d-flex align-items-center">
                                 <i className="fa-regular fa-calendar-days"></i>
                                 <span className="fw-bold ms-3">Appointment List</span>
@@ -171,7 +180,7 @@ const Sidebar: React.FC = () => {
                     </div>
                 </Link>
 
-                <div className="nav-link text-dark mb-1" style={{cursor: 'pointer'}} onClick={handleLogout}>
+                <div className="nav-link text-dark mb-1" style={{ cursor: 'pointer' }} onClick={handleLogout}>
                     <div className="d-flex align-items-center">
                         <i className="fa-solid fa-right-from-bracket"></i>
                         <span className="fw-bold ms-3">Logout</span>

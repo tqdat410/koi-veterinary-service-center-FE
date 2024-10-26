@@ -1,10 +1,9 @@
-import React, {lazy, Suspense, useContext} from 'react';
-import {BrowserRouter as Router, Route, Routes, useLocation} from 'react-router-dom';
+import React, {lazy, Suspense} from 'react';
+import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import './styles/App.css';
-import Navbar from "./components/layout/Navbar";
-import AuthContext, {AuthProvider, useAuth} from "./hooks/context/AuthContext";
+import  {AuthProvider} from "./hooks/context/AuthContext";
 import AuthGuard from '../src/guards/AuthGuard';
-import GuestGuard from '../src/guards/GuestGuard';
+
 import RoleBasedGuard from '../src/guards/RoleBasedGuard';
 import UnauthorizedPage from "./pages/UnauthorizedPage";
 import ServiceSelectionPage from "./pages/Appointment/ServiceSelectionPage";
@@ -35,17 +34,17 @@ const VetDetails = lazy(() => import("./pages/Manager/VetDetails"));
 // NEW
 
 const DashBoardPage = lazy(() => import("./pages/Manager/DashBoard/DashBoardPage"))
-const CustomerManagementPage = lazy(() => import("./pages/Manager/CustomerManagementPage"))
+const CustomerManagementPage = lazy(() => import("./pages/Manager/CustomerPage"))
 const CustomerDetailPage = lazy(() => import("./pages/Manager/CustomerDetails"))
 const FeedbackManagementPage = lazy(() => import("./pages/Manager/FeedbackManagementPage"))
 const FeedbackDetail = lazy(() => import("./pages/Manager/FeedbackDetailsManagerPage"))
 const StaffAppointmentDetails = lazy(() => import("./pages/Staff/StaffAppointmentDetails"))
-const ManagerAppointment = lazy(() => import("./pages/Manager/ManagerAppointment"))
+const ManagerAppointment = lazy(() => import("./pages/Manager/AppointmentPage"))
 const ManagerAppointmentDetails = lazy(() => import("./pages/Manager/ManagerAppointmentDetails"))
 const CustomerAppointmentDetails = lazy(() => import("./pages/Customer/CustomerAppointmentDetails"))
-const ManagerStaffPage = lazy(() => import("./pages/Manager/ManagerStaffPage"))
+const ManagerStaffPage = lazy(() => import("./pages/Manager/StaffPage"))
 const AddStaffPage = lazy(() => import("./pages/Manager/AddStaffPage"))
-const ManagerStaffDetails = lazy(() => import("./pages/Manager/ManagerStaffDetailsPage"))
+const ManagerStaffDetails = lazy(() => import("./pages/Manager/StaffDetailsPage"))
 
 // Define a higher-order component with authentication
 // const CustomerAppointment = lazy(() => import("./pages/CustomerAppointment"))
@@ -67,6 +66,7 @@ const StaffAppointment = lazy(() => import("./pages/Staff/StaffAppointment"))
 const VetSchedulePage = lazy(() => import("./pages/Veterinarian/VetSchedulePage"))
 
 //NEW: FOR VETERINARIAN
+const VetFeedbackPage = lazy(() => import("./pages/Veterinarian/VeterinarianFeedbackPage"))
 const VeterinarianFeedbackDetailsPage = lazy(() => import("./pages/Veterinarian/VeterinarianFeedbackDetailsPage"))
 const VetAppointmentDetails = lazy(() => import("./pages/Veterinarian/VetAppointmentDetails"))
 
@@ -156,6 +156,7 @@ function App() {
                             <Route path="/staff/appointments/:appointment_id" element={withRole(StaffAppointmentDetails, ['STA'])} />
 
                             {/* Role: Veterinarian */}
+                            <Route path="/veterinarian/vet-feedback" element={withRole(VetFeedbackPage, ['VET'])} />
                             <Route path="/veterinarian/vet-feedback-details" element={withRole(VeterinarianFeedbackDetailsPage, ['VET'])} />
                             <Route path="/veterinarian/schedule" element={withRole(VetSchedulePage, ['VET'])} />
                             <Route path="/veterinarian/appointment-details/:appointmentId" element={withRole(VetAppointmentDetails, ['VET'])} />
