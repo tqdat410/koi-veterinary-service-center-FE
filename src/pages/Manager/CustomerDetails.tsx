@@ -58,81 +58,83 @@ const CustomerDetails: React.FC = () => {
     }, [userID]);
 
     return (
-        <div className="d-flex profile-page">
-            <Sidebar />
-            <div className="flex-grow-1 bg-light" style={{ height: '100vh' }}>
-                <div className="profile-container">
-                    <div className="form-section">
-                        <form className="profile-form">
-                            <div className="form-group">
-                                <label className="fw-bold">Username</label>
-                                <input type="text" className="form-control input-field"
-                                    value={customerData?.username || 'Loading...'} readOnly />
-                            </div>
-                            <div className="form-group">
-                                <label className="fw-bold">Email</label>
-                                <input
-                                    type="email"
-                                    className="form-control input-field"
-                                    value={customerData?.email || 'Loading...'}
-                                    readOnly
-                                />
-                            </div>
-                            <div className="name-row">
-                                <div className="form-group">
-                                    <label className="fw-bold">First Name</label>
-                                    <input type="text" className="form-control input-field" value={firstname}
-                                        readOnly />
-                                </div>
-                                <div className="form-group">
-                                    <label className="fw-bold">Last Name</label>
-                                    <input type="text" className="form-control input-field" value={lastname}
-                                        readOnly />
-                                </div>
-                            </div>
-                            <div className="form-group">
-                                <label className="fw-bold">Contact Number</label>
-                                <input type="text" className="form-control input-field" value={phone}
-                                    readOnly />
-                            </div>
+        <div className="d-flex profile-page flex-grow-1 gap-3" style={{marginLeft: '272px'}}>
+            <Sidebar/>
 
-                            <div className="address-row">
+                <div className="flex-grow-1 bg-light" style={{height: '100vh'}}>
+                    <div className="profile-container">
+                        <div className="form-section">
+                            <form className="profile-form">
                                 <div className="form-group">
-                                    <label className="fw-bold">District</label>
-                                    <input type="text" className="form-control input-field" value={district}
-                                        readOnly />
+                                    <label className="fw-bold">Username</label>
+                                    <input type="text" className="form-control input-field"
+                                           value={customerData?.username || 'Loading...'} readOnly/>
                                 </div>
                                 <div className="form-group">
-                                    <label className="fw-bold">City</label>
-                                    <input type="text" className="form-control input-field" value={city}
-                                        readOnly />
+                                    <label className="fw-bold">Email</label>
+                                    <input
+                                        type="email"
+                                        className="form-control input-field"
+                                        value={customerData?.email || 'Loading...'}
+                                        readOnly
+                                    />
                                 </div>
-                            </div>
-                            <div className="address-row">
+                                <div className="name-row">
+                                    <div className="form-group">
+                                        <label className="fw-bold">First Name</label>
+                                        <input type="text" className="form-control input-field" value={firstname}
+                                               readOnly/>
+                                    </div>
+                                    <div className="form-group">
+                                        <label className="fw-bold">Last Name</label>
+                                        <input type="text" className="form-control input-field" value={lastname}
+                                               readOnly/>
+                                    </div>
+                                </div>
                                 <div className="form-group">
-                                    <label className="fw-bold">Ward</label>
-                                    <input type="text" className="form-control input-field" value={ward}
-                                        readOnly />
+                                    <label className="fw-bold">Contact Number</label>
+                                    <input type="text" className="form-control input-field" value={phone}
+                                           readOnly/>
                                 </div>
-                                <div className="form-group">
-                                    <label className="fw-bold">Home Number</label>
-                                    <input type="text" className="form-control input-field" value={homeNumber}
-                                        readOnly />
+
+                                <div className="address-row">
+                                    <div className="form-group">
+                                        <label className="fw-bold">District</label>
+                                        <input type="text" className="form-control input-field" value={district}
+                                               readOnly/>
+                                    </div>
+                                    <div className="form-group">
+                                        <label className="fw-bold">City</label>
+                                        <input type="text" className="form-control input-field" value={city}
+                                               readOnly/>
+                                    </div>
                                 </div>
-                            </div>
-                        </form>
-                        <button
-                            onClick={() => navigate(-1)} className="btn btn-secondary mb-3"
-                            style={{ width: '100px', marginTop: '1rem' }} 
-                        >
-                            Back
-                        </button> {/* Nút Back */}
+                                <div className="address-row">
+                                    <div className="form-group">
+                                        <label className="fw-bold">Ward</label>
+                                        <input type="text" className="form-control input-field" value={ward}
+                                               readOnly/>
+                                    </div>
+                                    <div className="form-group">
+                                        <label className="fw-bold">Home Number</label>
+                                        <input type="text" className="form-control input-field" value={homeNumber}
+                                               readOnly/>
+                                    </div>
+                                </div>
+                            </form>
+                            <button
+                                onClick={() => navigate(-1)} className="btn btn-secondary mb-3"
+                                style={{width: '100px', marginTop: '1rem'}}
+                            >
+                                Back
+                            </button>
+                            {/* Nút Back */}
+                        </div>
                     </div>
+
                 </div>
-
             </div>
-        </div>
-    );
-};
+            );
+            };
 
-export default CustomerDetails;
+            export default CustomerDetails;

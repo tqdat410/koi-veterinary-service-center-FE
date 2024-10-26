@@ -46,7 +46,7 @@
 .card-login {
     max-width: 70vw;
     width: 385px;
-    height: 490px;
+    height: 450px;
     background: rgba(103,82,49,0.20);
     backdrop-filter: blur(2px);
     border-color: rgba(154, 125, 75, 0.45);

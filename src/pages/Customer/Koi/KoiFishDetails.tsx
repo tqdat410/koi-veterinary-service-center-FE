@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import {getKoiById, updateKoi, deleteKoi, addKoiImage} from '../../../api/koiApi';
 import '../../../styles/AddKoiFish.css';
 import axios from 'axios';
+import Sidebar from "../../../components/layout/Sidebar";
 
 const KoiDetail: React.FC = () => {
     const location = useLocation();
@@ -128,6 +129,7 @@ const KoiDetail: React.FC = () => {
         setSelectedImage(null);
     };
     const nextImage = () => {
+
         setCurrentIndex((prevIndex) => (prevIndex + 1) % koiData.images.length);
     };
 
@@ -137,176 +139,187 @@ const KoiDetail: React.FC = () => {
 
 
     return (
-        <div className="container-fluid vh-100 d-flex justify-content-center align-items-center ">
-            <button className="btn btn-secondary back-button" onClick={handleBack}>
-                Back
-            </button>
-            <div className="row w-100 h-100">
-                {/* Image Section */}
-                <div className="col-md-6 col-sm-12 d-flex flex-column justify-content-center align-items-center mb-4" style={{ marginTop: "6rem" }}>
-                    <div className="image-upload-container">
-                        <div className="image-upload-card">
-                            <div className="image-display d-flex flex-column justify-content-center align-items-center">
-                                {koiData.images.length > 0 && (
-                                    <img
-                                        src={`http://localhost:8080/files/images/${koiData.images[currentIndex].source_path}`}
-                                        className="image-upload"
-                                        alt="Koi"
-                                        onClick={() => openModal(koiData.images[currentIndex].source_path)} // Open modal on click
-                                        style={{cursor: "pointer"}}
-                                    />
-                                )}
-                                <div className="image-navigation mt-3">
-                                    <button
-                                        onClick={prevImage}
-                                        disabled={koiData.images.length <= 1}
-                                        className="btn btn-outline-primary me-1"
-                                    >
-                                        &lt;
-                                    </button>
-                                    <button
-                                        onClick={nextImage}
-                                        disabled={koiData.images.length <= 1}
-                                        className="btn btn-outline-primary ms-1"
-                                    >
-                                         &gt;
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="upload-button-container text-center mt-3">
-                            <input type="file" onChange={(e) => e.target.files && setNewImage(e.target.files[0])}/>
-                            <button className="upload-button btn btn-warning text-white" onClick={handleImageUpload}>
-                                Upload New Image
-                            </button>
-                            <button className="upload-button btn btn-warning text-white" onClick={toggleImages}>
-                                {showAllImages ? 'Hide All Images' : 'Show All Images'}
-                            </button>
-                        </div>
-                        {showAllImages && koiData.images.length > 1 && (
-                            <div className="uploaded-images mt-3">
-                                {koiData.images.map((image, index) => (
-                                    <img
-                                        key={image.image_id}
-                                        src={`http://localhost:8080/files/images/${image.source_path}`}
-                                        className="image-upload-more"
-                                    alt={`Uploaded ${index + 1}`}
-                                    onClick={() => openModal(image.source_path)} // Open modal on click
-                                />
-                            ))}
-                        </div>
-                        )}
-                    </div>
-                </div>
-
-                {/* Form Section */}
-                <div className="col-md-6 col-sm-12 d-flex flex-column justify-content-center align-items-center" style={{ marginTop: "3.5rem" }}>
-                    <div className="form-container card w-100 ">
-                        <div className="card-body">
-                            <h2 className="text-start"
-                                style={{
-                                    fontWeight: "bold",
-                                    color: "#02033B",
-                                    fontSize: "2.3rem",
-
-                                }}>Koi fish details</h2>
-                            {/* Species */}
-                            <div className="mb-1">
-                                <label className="form-label-koi ">Species</label>
-                                <input type="text" name="species" className="form-control input-field-koi"
-                                       value={koiData.species}
-                                       onChange={(e) => setKoiData({...koiData, species: e.target.value})}/>
-                            </div>
-
-                            {/* Age and Gender */}
-                            <div className="mb-1 row">
-                                <div className="col-md-4 col-sm-6">
-                                    <label className="form-label-koi ">Age</label>
-                                    <input type="number" name="age" className="form-control input-field-koi"
-                                           value={koiData.age}
-                                           onChange={(e) => setKoiData({...koiData, age: e.target.value})}/>
-                                </div>
-                                <div className="col-md-8 col-sm-6 d-flex align-items-end gap-3 mt-2">
-                                    <div className="form-check">
-                                        <input className="form-check-input" type="radio" name="gender" value="MALE"
-                                               checked={koiData.gender === 'MALE'}
-                                               onChange={(e) => setKoiData({...koiData, gender: e.target.value})}/>
-                                        <label className="form-check-label fw-bold" htmlFor="male">Male</label>
-                                    </div>
-                                    <div className="form-check">
-                                        <input className="form-check-input" type="radio" name="gender" value="FEMALE"
-                                               checked={koiData.gender === 'FEMALE'}
-                                               onChange={(e) => setKoiData({...koiData, gender: e.target.value})}/>
-                                        <label className="form-check-label fw-bold" htmlFor="female">Female</label>
+        <div className="d-flex flex-grow-1 gap-3" style={{marginLeft: '272px'}}>
+            <Sidebar/>
+            <div className="container-fluid vh-100 d-flex justify-content-center align-items-center ">
+                {/*<button className="btn btn-secondary back-button" onClick={handleBack}>*/}
+                {/*    Back*/}
+                {/*</button>*/}
+                <div className="row w-100 h-100">
+                    {/* Image Section */}
+                    <div
+                        className="col-md-6 col-sm-12 d-flex flex-column justify-content-center align-items-center mb-4"
+                        style={{marginTop: "6rem"}}>
+                        <div className="image-upload-container">
+                            <div className="image-upload-card">
+                                <div
+                                    className="image-display d-flex flex-column justify-content-center align-items-center">
+                                    {koiData.images && koiData.images?.length > 0 && (
+                                        <img
+                                            src={`http://localhost:8080/files/images/${koiData.images[currentIndex].source_path}`}
+                                            className="image-upload"
+                                            alt="Koi"
+                                            onClick={() => openModal(koiData.images[currentIndex].source_path)} // Open modal on click
+                                            style={{cursor: "pointer"}}
+                                        />
+                                    )}
+                                    <div className="image-navigation mt-3">
+                                        <button
+                                            onClick={prevImage}
+                                            disabled={koiData.images?.length <= 1}
+                                            className="btn btn-outline-primary me-1"
+                                        >
+                                            &lt;
+                                        </button>
+                                        <button
+                                            onClick={nextImage}
+                                            disabled={koiData.images?.length <= 1}
+                                            className="btn btn-outline-primary ms-1"
+                                        >
+                                            &gt;
+                                        </button>
                                     </div>
                                 </div>
                             </div>
-
-                            {/* Size */}
-                            <div className="mb-1">
-                                <label className="form-label-koi ">Size</label>
-                                <input type="text" name="size" className="form-control input-field-koi"
-                                       value={koiData.size}
-                                       onChange={(e) => setKoiData({...koiData, size: e.target.value})}/>
+                            <div className="upload-button-container text-center mt-3">
+                                <input type="file" onChange={(e) => e.target.files && setNewImage(e.target.files[0])}/>
+                                <button className="upload-button btn btn-warning text-white"
+                                        onClick={handleImageUpload}>
+                                    Upload New Image
+                                </button>
+                                <button className="upload-button btn btn-warning text-white" onClick={toggleImages}>
+                                    {showAllImages ? 'Hide All Images' : 'Show All Images'}
+                                </button>
                             </div>
+                            {showAllImages && koiData.images?.length > 1 && (
+                                <div className="uploaded-images mt-3">
+                                    {koiData.images?.map((image, index) => (
+                                        <img
+                                            key={image.image_id}
+                                            src={`http://localhost:8080/files/images/${image.source_path}`}
+                                            className="image-upload-more"
+                                            alt={`Uploaded ${index + 1}`}
+                                            onClick={() => openModal(image.source_path)} // Open modal on click
+                                        />
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    </div>
 
-                            {/* Weight */}
-                            <div className="mb-1">
-                                <label className="form-label-koi ">Weight</label>
-                                <input type="text" name="weight" className="form-control input-field-koi"
-                                       value={koiData.weight}
-                                       onChange={(e) => setKoiData({...koiData, weight: e.target.value})}/>
-                            </div>
+                    {/* Form Section */}
+                    <div className="col-md-6 col-sm-12 d-flex flex-column justify-content-center align-items-center"
+                         style={{marginTop: "3.5rem"}}>
+                        <div className="form-container card w-100 ">
+                            <div className="card-body">
+                                <h2 className="text-start"
+                                    style={{
+                                        fontWeight: "bold",
+                                        color: "#02033B",
+                                        fontSize: "2.3rem",
 
-                            {/* Color */}
-                            <div className="mb-1">
-                                <label className="form-label-koi ">Color</label>
-                                <input type="text" name="color" className="form-control input-field-koi"
-                                       value={koiData.color}
-                                       onChange={(e) => setKoiData({...koiData, color: e.target.value})}/>
-                            </div>
+                                    }}>Koi fish details</h2>
+                                {/* Species */}
+                                <div className="mb-1">
+                                    <label className="form-label-koi ">Species</label>
+                                    <input type="text" name="species" className="form-control input-field-koi"
+                                           value={koiData.species}
+                                           onChange={(e) => setKoiData({...koiData, species: e.target.value})}/>
+                                </div>
 
-                            {/* Origin */}
-                            <div className="mb-2">
-                                <label className="form-label-koi ">Origin</label>
-                                <input type="text" name="origin" className="form-control input-field-koi"
-                                       value={koiData.origin}
-                                       onChange={(e) => setKoiData({...koiData, origin: e.target.value})}/>
-                            </div>
+                                {/* Age and Gender */}
+                                <div className="mb-1 row">
+                                    <div className="col-md-4 col-sm-6">
+                                        <label className="form-label-koi ">Age</label>
+                                        <input type="number" name="age" className="form-control input-field-koi"
+                                               value={koiData.age}
+                                               onChange={(e) => setKoiData({...koiData, age: e.target.value})}/>
+                                    </div>
+                                    <div className="col-md-8 col-sm-6 d-flex align-items-end gap-3 mt-2">
+                                        <div className="form-check">
+                                            <input className="form-check-input" type="radio" name="gender" value="MALE"
+                                                   checked={koiData.gender === 'MALE'}
+                                                   onChange={(e) => setKoiData({...koiData, gender: e.target.value})}/>
+                                            <label className="form-check-label fw-bold" htmlFor="male">Male</label>
+                                        </div>
+                                        <div className="form-check">
+                                            <input className="form-check-input" type="radio" name="gender"
+                                                   value="FEMALE"
+                                                   checked={koiData.gender === 'FEMALE'}
+                                                   onChange={(e) => setKoiData({...koiData, gender: e.target.value})}/>
+                                            <label className="form-check-label fw-bold" htmlFor="female">Female</label>
+                                        </div>
+                                    </div>
+                                </div>
 
-                            {/* Action Buttons */}
-                            <div className="d-flex gap-3">
-                                <button className="btn btn-primary" onClick={handleUpdate}>Save</button>
-                                <button className="btn btn-secondary" onClick={handleCancel}>Cancel</button>
-                                <button className="btn btn-danger" onClick={handleDelete}>Delete</button>
+                                {/* Size */}
+                                <div className="mb-1">
+                                    <label className="form-label-koi ">Size</label>
+                                    <input type="text" name="size" className="form-control input-field-koi"
+                                           value={koiData.size}
+                                           onChange={(e) => setKoiData({...koiData, size: e.target.value})}/>
+                                </div>
+
+                                {/* Weight */}
+                                <div className="mb-1">
+                                    <label className="form-label-koi ">Weight</label>
+                                    <input type="text" name="weight" className="form-control input-field-koi"
+                                           value={koiData.weight}
+                                           onChange={(e) => setKoiData({...koiData, weight: e.target.value})}/>
+                                </div>
+
+                                {/* Color */}
+                                <div className="mb-1">
+                                    <label className="form-label-koi ">Color</label>
+                                    <input type="text" name="color" className="form-control input-field-koi"
+                                           value={koiData.color}
+                                           onChange={(e) => setKoiData({...koiData, color: e.target.value})}/>
+                                </div>
+
+                                {/* Origin */}
+                                <div className="mb-2">
+                                    <label className="form-label-koi ">Origin</label>
+                                    <input type="text" name="origin" className="form-control input-field-koi"
+                                           value={koiData.origin}
+                                           onChange={(e) => setKoiData({...koiData, origin: e.target.value})}/>
+                                </div>
+
+                                {/* Action Buttons */}
+                                <div className="d-flex gap-3">
+                                    <button className="btn btn-primary" onClick={handleUpdate}>Save</button>
+                                    <button className="btn btn-secondary" onClick={handleCancel}>Cancel</button>
+                                    <button className="btn btn-danger" onClick={handleDelete}>Delete</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                {/* Modal for displaying images */}
+                {showModal && (
+                    <div className="modal fade show" tabIndex={-1} style={{display: 'block'}}>
+                        <div className="modal-dialog modal-lg">
+                            <div className="modal-content">
+                                <div className="modal-header">
+                                    <h5 className="modal-title fw-bold fs-2">Image Preview</h5>
+                                    <button type="button" className="btn-close" onClick={closeModal}></button>
+                                </div>
+                                <div className="modal-body text-center">
+                                    {selectedImage && (
+                                        <img src={`http://localhost:8080/files/images/${selectedImage}`}
+                                             className="img-fluid" alt="Koi"/>
+                                    )}
+                                </div>
+                                <div className="modal-footer">
+                                    <button type="button" className="btn btn-secondary" onClick={closeModal}>Close
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
-            {/* Modal for displaying images */}
-            {showModal && (
-                <div className="modal fade show" tabIndex={-1} style={{ display: 'block' }} >
-                    <div className="modal-dialog modal-lg">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <h5 className="modal-title fw-bold fs-2">Image Preview</h5>
-                                <button type="button" className="btn-close" onClick={closeModal}></button>
-                            </div>
-                            <div className="modal-body text-center">
-                                {selectedImage && (
-                                    <img src={`http://localhost:8080/files/images/${selectedImage}`} className="img-fluid" alt="Koi" />
-                                )}
-                            </div>
-                            <div className="modal-footer">
-                                <button type="button" className="btn btn-secondary" onClick={closeModal}>Close</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
         </div>
-    );
-};
+            );
+            };
 
-export default KoiDetail;
+            export default KoiDetail;

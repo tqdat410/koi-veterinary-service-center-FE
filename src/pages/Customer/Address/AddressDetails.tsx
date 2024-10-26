@@ -4,6 +4,7 @@ import {fetchAddressById, updateAddressById, deleteAddress, fetchDistricts, setC
 import { useAuth } from "../../../hooks/context/AuthContext";
 import '../../../styles/AddKoiFish.css';
 import {getUserInfo} from "../../../api/authService";
+import Sidebar from "../../../components/layout/Sidebar";
 interface District {
     moving_surcharge_id: number;
     district: string;
@@ -175,95 +176,99 @@ const AddressDetail: React.FC = () => {
     }
 
     return (
-        <div className="container-fluid vh-100 d-flex justify-content-center align-items-center">
-            <button
-                className="btn btn-secondary mb-3"
-                style={{position: 'absolute', top: '12%', left: '3%'}}
-                onClick={handleBack}>
-                Back
-            </button>
-            <div className="row w-100 h-100 d-flex justify-content-center align-items-center">
+        <div className="d-flex flex-grow-1 gap-3" style={{marginLeft: '272px'}}>
+            <Sidebar/>
+            <div className="container-fluid vh-100 d-flex justify-content-center align-items-center">
+                {/*<button*/}
+                {/*    className="btn btn-secondary mb-3"*/}
+                {/*    style={{position: 'absolute', top: '12%', left: '3%'}}*/}
+                {/*    onClick={handleBack}>*/}
+                {/*    Back*/}
+                {/*</button>*/}
+                <div className="row w-100 h-100 d-flex justify-content-center align-items-center">
 
-                <div className="form-container card w-100">
-                    <div className="card-body">
-                        <h2 className="text-start"
-                            style={{
-                                fontWeight: "bold",
-                                color: "#02033B",
-                                fontSize: "2.4rem",
+                    <div className="form-container card w-100">
+                        <div className="card-body">
+                            <h2 className="text-start"
+                                style={{
+                                    fontWeight: "bold",
+                                    color: "#02033B",
+                                    fontSize: "2.4rem",
 
-                            }}>Address Details</h2>
+                                }}>Address Details</h2>
 
 
-                        {/* District Select */}
-                        <div className="mb-3">
-                            <label className="form-label ">District</label>
-                            <select
-                                className={`form-control input-field-koi ${errorSumbit && !selectedDistrict ? 'border-danger' : ''}`}
-                                value={selectedDistrict}
-                                onChange={(e) => setSelectedDistrict(e.target.value)}
-                            >
-                                <option value="">Select a district</option>
-                                {districts.map((district) => (
-                                    <option key={district.moving_surcharge_id} value={district.district}>
-                                        {district.district}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
+                            {/* District Select */}
+                            <div className="mb-3">
+                                <label className="form-label ">District</label>
+                                <select
+                                    className={`form-control input-field-koi ${errorSumbit && !selectedDistrict ? 'border-danger' : ''}`}
+                                    value={selectedDistrict}
+                                    onChange={(e) => setSelectedDistrict(e.target.value)}
+                                >
+                                    <option value="">Select a district</option>
+                                    {districts.map((district) => (
+                                        <option key={district.moving_surcharge_id} value={district.district}>
+                                            {district.district}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
 
-                        {/* City Select */}
-                        <div className="mb-3">
-                            <label className="form-label ">City</label>
-                            <select className="form-control" value="Hồ Chí Minh" disabled>
-                                <option value="Hồ Chí Minh">Hồ Chí Minh</option>
-                            </select>
-                        </div>
+                            {/* City Select */}
+                            <div className="mb-3">
+                                <label className="form-label ">City</label>
+                                <select className="form-control" value="Hồ Chí Minh" disabled>
+                                    <option value="Hồ Chí Minh">Hồ Chí Minh</option>
+                                </select>
+                            </div>
 
-                        {/* Ward */}
-                        <div className="mb-3">
-                            <label className="form-label ">Ward</label>
-                            <input
-                                type="text"
-                                name="ward"
-                                className={`form-control input-field-koi ${errorSumbit && !ward ? 'border-danger' : ''}`}
-                                value={ward}
-                                onChange={(e) => setWard(e.target.value)}
-                            />
-                        </div>
+                            {/* Ward */}
+                            <div className="mb-3">
+                                <label className="form-label ">Ward</label>
+                                <input
+                                    type="text"
+                                    name="ward"
+                                    className={`form-control input-field-koi ${errorSumbit && !ward ? 'border-danger' : ''}`}
+                                    value={ward}
+                                    onChange={(e) => setWard(e.target.value)}
+                                />
+                            </div>
 
-                        {/* Home Number */}
-                        <div className="mb-3">
-                            <label className="form-label ">Home Number</label>
-                            <input
-                                type="text"
-                                name="home_number"
-                                className={`form-control input-field-koi ${errorSumbit && !homeNumber ? 'border-danger' : ''}`}
-                                value={homeNumber}
-                                onChange={(e) => setHomeNumber(e.target.value)}
-                            />
-                        </div>
-                        {isCurrentAddress && ( // Hiển thị thông báo nếu là current address
-                            <span className=" alert alert-info fw-bold " style={{display: "block",padding: "3px 10px"}}>
+                            {/* Home Number */}
+                            <div className="mb-3">
+                                <label className="form-label ">Home Number</label>
+                                <input
+                                    type="text"
+                                    name="home_number"
+                                    className={`form-control input-field-koi ${errorSumbit && !homeNumber ? 'border-danger' : ''}`}
+                                    value={homeNumber}
+                                    onChange={(e) => setHomeNumber(e.target.value)}
+                                />
+                            </div>
+                            {isCurrentAddress && ( // Hiển thị thông báo nếu là current address
+                                <span className=" alert alert-info fw-bold "
+                                      style={{display: "block", padding: "3px 10px"}}>
                                 This is your current address
                             </span>
-                        )}
-                        {/* Action Buttons */}
-                        <div className="d-flex gap-3">
-                            <button className="btn btn-primary" onClick={handleUpdate}>Save</button>
-                            <button className="btn btn-secondary" onClick={handleCancel}>Cancel</button>
-                            <button className="btn btn-danger" onClick={handleDelete}>Delete</button>
-                            {!isCurrentAddress && (
-                                <button className="btn btn-success" onClick={handleSetCurrentAddress}>Set Current
-                                    Address
-                                </button>
                             )}
+                            {/* Action Buttons */}
+                            <div className="d-flex gap-3">
+                                <button className="btn btn-primary" onClick={handleUpdate}>Save</button>
+                                <button className="btn btn-secondary" onClick={handleCancel}>Cancel</button>
+                                <button className="btn btn-danger" onClick={handleDelete}>Delete</button>
+                                {!isCurrentAddress && (
+                                    <button className="btn btn-success" onClick={handleSetCurrentAddress}>Set Current
+                                        Address
+                                    </button>
+                                )}
+                            </div>
                         </div>
                     </div>
-                </div>
 
+                </div>
             </div>
         </div>
-    );
-};
-export default AddressDetail;
+            );
+            };
+            export default AddressDetail;

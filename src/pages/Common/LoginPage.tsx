@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { useAuth } from "../../hooks/context/AuthContext";
 import "../../styles/LoginRegister.css";
+import "../../styles/App.css"
 import axios from  "axios"
 import {jwtDecode} from "jwt-decode";
 
@@ -44,7 +45,7 @@ const DangNhapNguoiDung: React.FC = () => {
                     navigate('/');  // Fallback for any other role
                     break;
             }
-            console.log("2",user?.roleId)
+            console.log("role",user?.roleId)
         } catch (err) {
             setErrorMessage('Incorrect username or password. Please try again.');
         }
@@ -100,9 +101,9 @@ const DangNhapNguoiDung: React.FC = () => {
                         </div>
 
                         {/* Forgot Password */}
-                        <div className="d-flex justify-content-end mb-3">
-                            <a href="#" className="text-white fw-bold" style={{ fontSize: '0.875rem' }}>Forgot Password?</a>
-                        </div>
+                        {/*<div className="d-flex justify-content-end mb-3">*/}
+                        {/*    <a href="#" className="text-white fw-bold" style={{ fontSize: '0.875rem' }}>Forgot Password?</a>*/}
+                        {/*</div>*/}
 
                         {/* Sign In Button */}
 

@@ -155,17 +155,17 @@ const StaffProfile: React.FC = () => {
 
 
     return (
-        <div className="d-flex profile-page">
-            <Sidebar />
+        <div className="d-flex profile-page flex-grow-1 gap-3" style={{marginLeft: '272px'}}>
+            <Sidebar/>
 
-            <div className="flex-grow-1 bg-light" style={{ height: '100vh' }}>
+            <div className="flex-grow-1 bg-light" style={{height: '100vh'}}>
 
                 <div className="profile-container">
                     <div className="image-section">
                         <div className="image-background">
                             {selectedImage ? (
 
-                                <img src={selectedImage} alt="Uploaded" className="uploaded-image" />
+                                <img src={selectedImage} alt="Uploaded" className="uploaded-image"/>
                             ) : (
                                 <div className="image-placeholder">No Image Selected</div>
                             )}
@@ -178,7 +178,7 @@ const StaffProfile: React.FC = () => {
                                 accept="image/*"
                                 onChange={handleImageChange}
 
-                                style={{ display: 'none' }}
+                                style={{display: 'none'}}
                             />
                         </label>
 
@@ -187,27 +187,32 @@ const StaffProfile: React.FC = () => {
                         <form className="profile-form">
                             <div className="form-group">
                                 <label className="fw-bold">Username</label>
-                                <input type="text" className="form-control input-field" value={StaffData?.username || 'Loading...'} readOnly />
+                                <input type="text" className="form-control input-field"
+                                       value={StaffData?.username || 'Loading...'} readOnly/>
                             </div>
                             <div className="form-group">
                                 <label className="fw-bold">Email</label>
-                                <input type="email" className="form-control input-field" value={email} onChange={e => setEmail(e.target.value)} onBlur={validateEmail}/>
+                                <input type="email" className="form-control input-field" value={email}
+                                       onChange={e => setEmail(e.target.value)} onBlur={validateEmail}/>
                                 {errorEmail && <div className="error-register">{errorEmail}</div>}
                             </div>
                             <div className="name-row">
                                 <div className="form-group">
                                     <label className="fw-bold">First Name</label>
 
-                                    <input type="text" className="form-control input-field" value={firstname} onChange={e => setFirstname(e.target.value)} />
+                                    <input type="text" className="form-control input-field" value={firstname}
+                                           onChange={e => setFirstname(e.target.value)}/>
                                 </div>
                                 <div className="form-group">
                                     <label className="fw-bold">Last Name</label>
-                                    <input type="text" className="form-control input-field" value={lastname} onChange={e => setLastname(e.target.value)} />
+                                    <input type="text" className="form-control input-field" value={lastname}
+                                           onChange={e => setLastname(e.target.value)}/>
                                 </div>
                             </div>
                             <div className="form-group">
                                 <label className="fw-bold">Contact Number</label>
-                                <input type="text" className="form-control input-field" value={phone} onChange={e => setPhone(e.target.value)} onBlur={validatePhone} />
+                                <input type="text" className="form-control input-field" value={phone}
+                                       onChange={e => setPhone(e.target.value)} onBlur={validatePhone}/>
                                 {errorPhone && <div className="error-register">{errorPhone}</div>}
                             </div>
 
@@ -222,14 +227,15 @@ const StaffProfile: React.FC = () => {
                                         type="button"
                                         className="btn btn-secondary"
                                         onClick={handleChangeStatus}
-                                        style={{ backgroundColor: enabled ? 'green' : 'red', marginTop: '10px' }}
+                                        style={{backgroundColor: enabled ? 'green' : 'red', marginTop: '10px'}}
                                     >
                                         {enabled ? "Disable" : "Enable"} {/* Thay đổi text nút */}
                                     </button>
 
                                 </div>
                                 <div className="right-buttons">
-                                    <button type="button" className="btn btn-dark" onClick={() => navigate(-1)}>Back</button>
+                                    <button type="button" className="btn btn-dark" onClick={() => navigate(-1)}>Back
+                                    </button>
                                     <button type="button" className="cancel-btn" onClick={handleCancel}>Cancel</button>
                                     <button type="button" className="save-btn" onClick={handleSave}>Save</button>
                                 </div>

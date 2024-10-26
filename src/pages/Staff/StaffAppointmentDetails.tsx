@@ -5,6 +5,7 @@ import { fetchPayment, updatePayment } from '../../api/paymentApi';
 import { updateAppointmentStatus, fetchAppointmentAndVeterinariansDemo, updateAppointmentStatusCanceled } from '../../api/appointmentApi';
 import { fetchVetBySlotId } from '../../api/vetApi';
 import { useParams } from 'react-router-dom';
+import Sidebar from "../../components/layout/Sidebar";
 interface AppointmentDetailsProps {
     appointment_id: number;
     created_date: string;
@@ -361,99 +362,107 @@ const AppointmentDetails: React.FC = () => {
 
 
     return (
-        <div className="container" style={{ marginTop: '2rem', textAlign: 'left' }}>
-            <h2 className="mb-4" style={{ paddingTop: '65px' }}>Appointment Details</h2>
+        <div className="d-flex flex-grow-1 gap-3" style={{marginLeft: '272px'}}>
+            <Sidebar/>
+            <div className="container" style={{marginTop: '2rem', textAlign: 'left'}}>
+                <h2 className="mb-4" style={{paddingTop: '65px'}}>Appointment Details</h2>
 
-            <div className="card">
-                <div className="card-body">
+                <div className="card">
                     <div className="card-body">
-                        <h5 className="card-title" style={{ width: '100%' }}>*Appointment ID: {appointment.appointment_id}</h5>
+                        <div className="card-body">
+                            <h5 className="card-title" style={{width: '100%'}}>*Appointment
+                                ID: {appointment.appointment_id}</h5>
 
-                        <div className="row">
-                            <div className="col-md-6">
-                                <p><strong>Date:</strong> {formattedDate}</p>
-                                {/* <p><strong>Status:</strong> {appointment?.current_status}</p> */}
-                                <p>
-                                    <strong>Status:</strong>
-                                    <span
-                                        style={{
-                                            backgroundColor:
-                                                appointment?.current_status === 'CANCELED' ? 'red' :
-                                                    appointment?.current_status === 'CHECKED_IN' ? 'blue' :
-                                                        appointment?.current_status === 'CONFIRMED' ? 'green' :
-                                                            appointment?.current_status === 'DONE' ? 'gray' :
-                                                                appointment?.current_status === 'ON_GOING' ? 'orange' :
-                                                                    appointment?.current_status === 'PENDING' ? 'purple' :
-                                                                        'black',
-                                            color: 'white',
-                                            padding: '4px 8px',
-                                            marginLeft: '10px',
-                                            borderRadius: '4px',
-                                            fontWeight: 'bold',
-                                        }}
-                                    >
+                            <div className="row">
+                                <div className="col-md-6">
+                                    <p><strong>Date:</strong> {formattedDate}</p>
+                                    {/* <p><strong>Status:</strong> {appointment?.current_status}</p> */}
+                                    <p>
+                                        <strong>Status:</strong>
+                                        <span
+                                            style={{
+                                                backgroundColor:
+                                                    appointment?.current_status === 'CANCELED' ? 'red' :
+                                                        appointment?.current_status === 'CHECKED_IN' ? 'blue' :
+                                                            appointment?.current_status === 'CONFIRMED' ? 'green' :
+                                                                appointment?.current_status === 'DONE' ? 'gray' :
+                                                                    appointment?.current_status === 'ON_GOING' ? 'orange' :
+                                                                        appointment?.current_status === 'PENDING' ? 'purple' :
+                                                                            'black',
+                                                color: 'white',
+                                                padding: '4px 8px',
+                                                marginLeft: '10px',
+                                                borderRadius: '4px',
+                                                fontWeight: 'bold',
+                                            }}
+                                        >
                                         {appointment?.current_status}
                                     </span>
-                                </p>
+                                    </p>
 
-                                <h5 className="mt-3" style={{ fontWeight: '900' }}>- Customer Information</h5>
-                                <p><strong>Name:</strong> {appointment?.customer_name}</p>
-                                {/* <p><strong>Slot ID:</strong> {appointment?.slot?.slot_id || 'NULL'}</p> */}
-                                <p><strong>Slot ID:</strong> {appointment.slot.slot_id}</p>
+                                    <h5 className="mt-3" style={{fontWeight: '900'}}>- Customer Information</h5>
+                                    <p><strong>Name:</strong> {appointment?.customer_name}</p>
+                                    {/* <p><strong>Slot ID:</strong> {appointment?.slot?.slot_id || 'NULL'}</p> */}
+                                    <p><strong>Slot ID:</strong> {appointment.slot.slot_id}</p>
 
 
-                                <p><strong>Email:</strong> {appointment?.email}</p>
-                                <p><strong>Phone:</strong> {appointment?.phone_number}</p>
-                                <p><strong>Description:</strong> {appointment?.description}</p>
+                                    <p><strong>Email:</strong> {appointment?.email}</p>
+                                    <p><strong>Phone:</strong> {appointment?.phone_number}</p>
+                                    <p><strong>Description:</strong> {appointment?.description}</p>
 
-                                <h5 className="mt-3" style={{ fontWeight: '900' }}>- Service Information</h5>
-                                <p><strong>Service id:</strong> {appointment.service?.service_id}</p>
-                                <p><strong>Service name:</strong> {appointment.service?.service_name}</p>
-                                <p><strong>Service Price:</strong> {appointment.service?.service_price} VND</p>
+                                    <h5 className="mt-3" style={{fontWeight: '900'}}>- Service Information</h5>
+                                    <p><strong>Service id:</strong> {appointment.service?.service_id}</p>
+                                    <p><strong>Service name:</strong> {appointment.service?.service_name}</p>
+                                    <p><strong>Service Price:</strong> {appointment.service?.service_price} VND</p>
 
-                                <h5 className="mt-3" style={{ fontWeight: '900' }}>- Veterinarian Information</h5>
+                                    <h5 className="mt-3" style={{fontWeight: '900'}}>- Veterinarian Information</h5>
 
-                                {/* thêm phần add bác sĩ ở đây */}
-                                {
-                                    appointment.veterinarian ? (
-                                        <p><strong>Name:</strong> {appointment.veterinarian?.first_name} {appointment.veterinarian?.last_name}</p>
-                                    ) : (
+                                    {/* thêm phần add bác sĩ ở đây */}
+                                    {
+                                        appointment.veterinarian ? (
+                                            <p>
+                                                <strong>Name:</strong> {appointment.veterinarian?.first_name} {appointment.veterinarian?.last_name}
+                                            </p>
+                                        ) : (
+                                            <div>
+                                                <label htmlFor="vet-select"><strong>Select
+                                                    Veterinarian:</strong></label>
+                                                <select id="vet-select" onChange={handleVetSelection}
+                                                        className="form-select">
+                                                    <option value="">-- Select a veterinarian --</option>
+                                                    {vetList && vetList.map(vet => (
+                                                        <option key={vet.user_id} value={vet.user_id}>
+                                                            {vet.first_name} {vet.last_name}
+                                                        </option>
+                                                    ))}
+                                                </select>
+
+                                                <button
+                                                    className="btn btn-primary mt-3"
+                                                    disabled={!selectedVetId} // Vô hiệu hóa nếu chưa chọn bác sĩ
+                                                    onClick={handleSubmitOrder}
+                                                    style={{backgroundColor: 'red'}}
+                                                >
+                                                    Save changes
+                                                </button>
+
+                                            </div>
+                                        )
+                                    }
+
+                                    {/* Chỉ hiển thị khi có địa chỉ */}
+                                    {appointment.address && (
                                         <div>
-                                            <label htmlFor="vet-select"><strong>Select Veterinarian:</strong></label>
-                                            <select id="vet-select" onChange={handleVetSelection} className="form-select">
-                                                <option value="">-- Select a veterinarian --</option>
-                                                {vetList && vetList.map(vet => (
-                                                    <option key={vet.user_id} value={vet.user_id}>
-                                                        {vet.first_name} {vet.last_name}
-                                                    </option>
-                                                ))}
-                                            </select>
-
-                                            <button
-                                                className="btn btn-primary mt-3"
-                                                disabled={!selectedVetId} // Vô hiệu hóa nếu chưa chọn bác sĩ
-                                                onClick={handleSubmitOrder}
-                                                style={{ backgroundColor: 'red' }}
-                                            >
-                                                Save changes
-                                            </button>
-
-                                        </div>
-                                    )
-                                }
-
-                                {/* Chỉ hiển thị khi có địa chỉ */}
-                                {appointment.address && (
-                                    <div>
-                                        <h5 className="mt-3" style={{ fontWeight: '900', display: 'inline' }}>- Address Information: </h5>
-                                        <span style={{ fontWeight: '300' }}>
+                                            <h5 className="mt-3" style={{fontWeight: '900', display: 'inline'}}>-
+                                                Address Information: </h5>
+                                            <span style={{fontWeight: '300'}}>
                                             {appointment.address?.home_number}, {appointment.address?.ward}, {appointment.address?.district}, {appointment.address?.city}
                                         </span>
-                                    </div>
-                                )}
+                                        </div>
+                                    )}
 
-                                {/* Hàm chỉnh appointment status */}
-                                {/* {appointment.current_status !== 'PENDING' && (
+                                    {/* Hàm chỉnh appointment status */}
+                                    {/* {appointment.current_status !== 'PENDING' && (
                                     <>
                                         <span style={{ fontWeight: '900', color: 'brown', backgroundColor: '', padding: '10px', fontSize: '20px' }}>Update status:</span>
                                         <select
@@ -484,8 +493,8 @@ const AppointmentDetails: React.FC = () => {
                                     </>
                                 )} */}
 
-                                {/* test */}
-                                {/* {appointment.current_status === 'PENDING'  ? (
+                                    {/* test */}
+                                    {/* {appointment.current_status === 'PENDING'  ? (
                                     <>
                                         <p style={{ fontWeight: '900', color: 'brown', backgroundColor: '', padding: '10px', fontSize: '20px' }}>Update Status</p>
                                         <button className="btn btn-info" onClick={handleEditStatus}>Click here to Update</button>
@@ -507,129 +516,158 @@ const AppointmentDetails: React.FC = () => {
                                     </>
                                 )} */}
 
-                                {appointment.current_status === 'PENDING' && (
-                                    !isEditingStatus ? (
-                                        <>
-                                            <p style={{ fontWeight: '900', color: 'brown', padding: '10px', fontSize: '20px' }}>Update Status</p>
-                                            <button className="btn btn-info" onClick={handleEditStatus}>Click here to Update</button>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <p style={{ fontWeight: '900', color: 'brown', padding: '10px', fontSize: '20px' }}>Update Status</p>
-                                            <select
-                                                className='form-select'
-                                                value={selectedStatus}
-                                                onChange={(e) => setSelectedStatus(e.target.value)}
-                                                style={{ marginLeft: '10px', width: '150px', marginTop: '15px' }}
-                                            >
-                                                <option value="">Select status:</option>
-                                                <option value="CONFIRMED">CONFIRMED</option>
-                                                <option value="CANCELED">CANCELED</option>
-                                            </select>
-                                            <button className="btn btn-primary mt-2" style={{ marginLeft: '10px' }} onClick={handleUpdateAppointmentStatus}>Save</button>
-                                            <button className="btn btn-secondary mt-2" style={{ marginLeft: '10px' }} onClick={handleCancelEditStatus}>Cancel</button>
-                                        </>
-                                    ))}
-
-                            </div>
-
-                            <div className="col-md-6">
-
-                                {appointment.fish && (
-                                    <div>
-                                        <h5 className="mt-3" style={{ fontWeight: '900' }}>- Fish Information</h5>
-                                        <p><strong>Species:</strong> {appointment.fish?.species}</p>
-                                        <p><strong>Gender:</strong> {appointment.fish?.gender}</p>
-                                        <p><strong>Size:</strong> {appointment.fish?.size} cm</p>
-                                        <p><strong>Weight:</strong> {appointment.fish?.weight} kg</p>
-                                        <p><strong>Origin:</strong> {appointment.fish?.origin}</p>
-                                    </div>
-                                )
-                                }
-
-                                {/* Chỉ show moving surcharge khi có */}
-                                {appointment.moving_surcharge && (
-                                    <div>
-                                        <h5 className="mt-3" style={{ fontWeight: '900' }}>- Moving Surcharge</h5>
-                                        <p><strong>District:</strong> {appointment.moving_surcharge?.district || 'Not available'}</p>
-                                        <p><strong>Price:</strong> {appointment.moving_surcharge?.price || '0'} VND </p>
-                                    </div>
-                                )}
-
-                                <h5 className="mt-3" style={{ fontWeight: '900' }}>- Total Price</h5>
-                                <p><strong>Total:</strong> {appointment?.total_price || ''} VND</p>
-
-                                {/* Conditionally render payment details */}
-                                {paymentDetails?.payment_id && (
-                                    <div className=""
-                                        style={{ marginBottom: '2rem' }}
-                                    >
-                                        <div className="">
-                                            <h5 className="card-title">Payment Details</h5>
-                                            <p><strong>Payment ID:</strong> {paymentDetails.payment_id}</p>
-                                            <p><strong>Payment method: </strong>{paymentDetails.payment_method}</p>
-                                            <p><strong>Payment amount:</strong> {paymentDetails.payment_amount} VND</p>
-                                            <p>
-                                                <strong>Status:</strong>
-                                                <span
-                                                    style={{
-                                                        backgroundColor:
-                                                            paymentDetails.status === 'NOT_PAID' ? 'red' :
-                                                                paymentDetails.status === 'PAID' ? 'green' :
-                                                                    'black',
-                                                        color: 'white',
-                                                        padding: '4px 8px',
-                                                        marginLeft: '10px',
-                                                        borderRadius: '4px',
-                                                        fontWeight: 'bold',
-                                                    }}
+                                    {appointment.current_status === 'PENDING' && (
+                                        !isEditingStatus ? (
+                                            <>
+                                                <p style={{
+                                                    fontWeight: '900',
+                                                    color: 'brown',
+                                                    padding: '10px',
+                                                    fontSize: '20px'
+                                                }}>Update Status</p>
+                                                <button className="btn btn-info" onClick={handleEditStatus}>Click here
+                                                    to Update
+                                                </button>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <p style={{
+                                                    fontWeight: '900',
+                                                    color: 'brown',
+                                                    padding: '10px',
+                                                    fontSize: '20px'
+                                                }}>Update Status</p>
+                                                <select
+                                                    className='form-select'
+                                                    value={selectedStatus}
+                                                    onChange={(e) => setSelectedStatus(e.target.value)}
+                                                    style={{marginLeft: '10px', width: '150px', marginTop: '15px'}}
                                                 >
+                                                    <option value="">Select status:</option>
+                                                    <option value="CONFIRMED">CONFIRMED</option>
+                                                    <option value="CANCELED">CANCELED</option>
+                                                </select>
+                                                <button className="btn btn-primary mt-2" style={{marginLeft: '10px'}}
+                                                        onClick={handleUpdateAppointmentStatus}>Save
+                                                </button>
+                                                <button className="btn btn-secondary mt-2" style={{marginLeft: '10px'}}
+                                                        onClick={handleCancelEditStatus}>Cancel
+                                                </button>
+                                            </>
+                                        ))}
+
+                                </div>
+
+                                <div className="col-md-6">
+
+                                    {appointment.fish && (
+                                        <div>
+                                            <h5 className="mt-3" style={{fontWeight: '900'}}>- Fish Information</h5>
+                                            <p><strong>Species:</strong> {appointment.fish?.species}</p>
+                                            <p><strong>Gender:</strong> {appointment.fish?.gender}</p>
+                                            <p><strong>Size:</strong> {appointment.fish?.size} cm</p>
+                                            <p><strong>Weight:</strong> {appointment.fish?.weight} kg</p>
+                                            <p><strong>Origin:</strong> {appointment.fish?.origin}</p>
+                                        </div>
+                                    )
+                                    }
+
+                                    {/* Chỉ show moving surcharge khi có */}
+                                    {appointment.moving_surcharge && (
+                                        <div>
+                                            <h5 className="mt-3" style={{fontWeight: '900'}}>- Moving Surcharge</h5>
+                                            <p>
+                                                <strong>District:</strong> {appointment.moving_surcharge?.district || 'Not available'}
+                                            </p>
+                                            <p><strong>Price:</strong> {appointment.moving_surcharge?.price || '0'} VND
+                                            </p>
+                                        </div>
+                                    )}
+
+                                    <h5 className="mt-3" style={{fontWeight: '900'}}>- Total Price</h5>
+                                    <p><strong>Total:</strong> {appointment?.total_price || ''} VND</p>
+
+                                    {/* Conditionally render payment details */}
+                                    {paymentDetails?.payment_id && (
+                                        <div className=""
+                                             style={{marginBottom: '2rem'}}
+                                        >
+                                            <div className="">
+                                                <h5 className="card-title">Payment Details</h5>
+                                                <p><strong>Payment ID:</strong> {paymentDetails.payment_id}</p>
+                                                <p><strong>Payment method: </strong>{paymentDetails.payment_method}</p>
+                                                <p><strong>Payment amount:</strong> {paymentDetails.payment_amount} VND
+                                                </p>
+                                                <p>
+                                                    <strong>Status:</strong>
+                                                    <span
+                                                        style={{
+                                                            backgroundColor:
+                                                                paymentDetails.status === 'NOT_PAID' ? 'red' :
+                                                                    paymentDetails.status === 'PAID' ? 'green' :
+                                                                        'black',
+                                                            color: 'white',
+                                                            padding: '4px 8px',
+                                                            marginLeft: '10px',
+                                                            borderRadius: '4px',
+                                                            fontWeight: 'bold',
+                                                        }}
+                                                    >
                                                     {paymentDetails.status || 'Unknown'}
                                                 </span>
-                                            </p>
+                                                </p>
 
-                                            {/* Hiển thị phần update payment chỉ khi status là NOT_PAID và method là CASH */}
-                                            {appointment.current_status === 'CONFIRMED' && paymentDetails.status === "NOT_PAID" && paymentDetails.payment_method === "CASH" && (
-                                                <div>
-                                                    <span style={{ fontWeight: 'bold', fontSize: '24px', fontStyle: 'italic' }}>Update Payment Status: </span>
-                                                    {!isEditingPaymentMethod ? (
-                                                        <button className="btn btn-primary" onClick={handleEditPaymentMethod}>
-                                                            Edit Payment Method
-                                                        </button>
-                                                    ) : (
-                                                        <div>
-                                                            <button className="btn btn-success mt-2" onClick={handleUpdatePaymentMethod}>
-                                                                Update CONFIRMED
+                                                {/* Hiển thị phần update payment chỉ khi status là NOT_PAID và method là CASH */}
+                                                {appointment.current_status === 'CONFIRMED' && paymentDetails.status === "NOT_PAID" && paymentDetails.payment_method === "CASH" && (
+                                                    <div>
+                                                        <span style={{
+                                                            fontWeight: 'bold',
+                                                            fontSize: '24px',
+                                                            fontStyle: 'italic'
+                                                        }}>Update Payment Status: </span>
+                                                        {!isEditingPaymentMethod ? (
+                                                            <button className="btn btn-primary"
+                                                                    onClick={handleEditPaymentMethod}>
+                                                                Edit Payment Method
                                                             </button>
-                                                            <button className="btn btn-success mt-2" style={{ marginLeft: '12px', backgroundColor: 'red' }} onClick={() => setIsEditingPaymentMethod(false)}>
-                                                                Cancel
-                                                            </button>
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            )}
+                                                        ) : (
+                                                            <div>
+                                                                <button className="btn btn-success mt-2"
+                                                                        onClick={handleUpdatePaymentMethod}>
+                                                                    Update CONFIRMED
+                                                                </button>
+                                                                <button className="btn btn-success mt-2" style={{
+                                                                    marginLeft: '12px',
+                                                                    backgroundColor: 'red'
+                                                                }} onClick={() => setIsEditingPaymentMethod(false)}>
+                                                                    Cancel
+                                                                </button>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                )}
 
+                                            </div>
                                         </div>
-                                    </div>
-                                )}
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                {/*<div*/}
+                {/*    style={{marginTop: '2rem', marginBottom: '2rem'}}*/}
+                {/*>*/}
+                {/*    /!* Back Button *!/*/}
+                {/*    <button className="btn btn-secondary mt-3" onClick={() => navigate(-1)}>Back</button>*/}
+
+                {/*</div>*/}
+            </div>
             </div>
 
-            <div
-                style={{ marginTop: '2rem', marginBottom: '2rem' }}
-            >
-                {/* Back Button */}
-                <button className="btn btn-secondary mt-3" onClick={() => navigate(-1)}>Back</button>
+            );
+            };
 
-            </div>
-
-        </div>
-
-    );
-};
-
-export default AppointmentDetails;
+            export default AppointmentDetails;
 
