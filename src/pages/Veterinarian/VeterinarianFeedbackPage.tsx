@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import Sidebar from '../components/layout/Sidebar';
-import TableComponent from '../components/table/TableComponentForVet';
+import Sidebar from '../../components/layout/Sidebar';
+import TableComponent from '../../components/table/TableComponentForVet';
 import { useNavigate } from 'react-router-dom';
-import { fetchVetFeedbacks } from '../api/feedbackApi'
+import { fetchVetFeedbacks } from '../../api/feedbackApi'
 
 interface Feedback {
     feedback_id: number;

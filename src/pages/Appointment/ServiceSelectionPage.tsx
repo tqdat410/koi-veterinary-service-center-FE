@@ -8,7 +8,7 @@ import "../../styles/Appointment.css";
 import { setService } from '../../store/actions';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-
+import {BASE_API} from "../../api/baseApi"
 // Define the interface for Service
 interface Service {
     service_id: number;
@@ -32,7 +32,7 @@ const ServiceSection: React.FC = () => {
     useEffect(() => {
         const fetchServices = async () => {
             try {
-                const response = await axios.get<Service[]>('http://localhost:8080/api/v1/services'); // Replace with your actual API URL
+                const response = await axios.get<Service[]>(`${BASE_API}/services`); // Replace with your actual API URL
                 console.log('Fetched services:', response.data); // Debugging
                 setServices(response.data);
             } catch (error) {

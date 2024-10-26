@@ -4,8 +4,7 @@ import Sidebar from "../../components/layout/Sidebar";
 import { useLocation, useNavigate } from "react-router-dom";
 import '../../styles/Profile.css'
 import { getStaffDetailsById, modifyStaffStatus, updateStaffProfile } from "../../api/staffApi";
-
-
+import {BASE_API} from "../../api/baseApi"
 // Define interfaces for user data
 
 interface StaffData {
@@ -61,7 +60,7 @@ const StaffProfile: React.FC = () => {
             formData.append('user_id', userId);  // Append user ID
             
             try {
-                const response = await axios.put('http://localhost:8080/api/v1/users/avatar', formData, {
+                const response = await axios.put(`${BASE_API}/users/avatar`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }

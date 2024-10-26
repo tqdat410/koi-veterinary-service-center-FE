@@ -1,12 +1,13 @@
 import axios from "axios";
+import {BASE_API} from "./baseApi"
 
-const API_URL = "http://localhost:8080/api/v1/feedbacks/all";
-const API_BASE_URL = "http://localhost:8080/api/v1/feedbacks";
+// const API_URL = `http://localhost:8080/api/v1/feedbacks/all`;
+const FEEDBACK_URL = `${BASE_API}/feedbacks`;
 
 // Function to fetch feedback for manager
 export const fecthFeedbacks = async () => {
   try {
-    const response = await axios.get(API_URL);
+    const response = await axios.get(`${FEEDBACK_URL}/all`);
     return response.data; // Return the data from the response
   } catch (error) {
     console.error("Error fetching feedback:", error);
@@ -17,7 +18,7 @@ export const fecthFeedbacks = async () => {
 // Function to get feedback details information for manager
 export const fecthFeedbackDetails = async (feedback_id: number): Promise<any> => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/${feedback_id}`,
+    const response = await axios.get(`${FEEDBACK_URL}/${feedback_id}`,
       {
         params: { feedback_id },
       }
@@ -32,7 +33,7 @@ export const fecthFeedbackDetails = async (feedback_id: number): Promise<any> =>
 // For Veterinarian get feedbacks
 export const fetchVetFeedbacks = async () => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/veterinarian`);
+    const response = await axios.get(`${FEEDBACK_URL}/veterinarian`);
     return response.data;
   } catch (error) {
     console.error("Error fetching feedback:", error);
@@ -43,7 +44,7 @@ export const fetchVetFeedbacks = async () => {
 // For Veterinarian get feedback details
 export const fetchVetFeedbackDetails = async (feedback_id: number): Promise<any> => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/${feedback_id}/veterinarian`,
+    const response = await axios.get(`${FEEDBACK_URL}/${feedback_id}/veterinarian`,
       {
         params: { feedback_id },
       }
@@ -80,7 +81,7 @@ export const createFeedback = async (appointmentId: number, feedbackDto: any) =>
 //For customer: get feedback details
 export const getFeedbackDetailsCus = async(feedback_id: number) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/${feedback_id}/customer`,
+    const response = await axios.get(`${FEEDBACK_URL}/${feedback_id}/customer`,
       {
         params: { feedback_id },
       }

@@ -1,27 +1,26 @@
-// api/koiApi.ts
 import axios from 'axios';
-
-const BASE_URL = 'http://localhost:8080/api/v1/fishes';
+import {BASE_API} from "./baseApi"
+const FISH_URL = `${BASE_API}/fishes`;
 
 export const getKoiById = async (id: string) => {
-    const response = await axios.get(`${BASE_URL}/${id}`);
+    const response = await axios.get(`${FISH_URL}/${id}`);
     return response.data;
 };
 
 export const updateKoi = async (id: number, koiData: any) => {
-    const response = await axios.put(`${BASE_URL}/update/${id}`, koiData);
+    const response = await axios.put(`${FISH_URL}/update/${id}`, koiData);
     return response.data;
 };
 
 export const deleteKoi = async (id: number) => {
-    await axios.delete(`${BASE_URL}/deletefish`, {
+    await axios.delete(`${FISH_URL}/deletefish`, {
         data: { fish_id: id ,"enable": false },
     });
 };
 
 export const fetchFishes = async (userId: number) => {
     const token = localStorage.getItem("token");  // Assuming the token is stored in localStorage
-    const response = await axios.get(`${BASE_URL}`, {
+    const response = await axios.get(`${FISH_URL}`, {
         headers: {
             Authorization: `Bearer ${token}`,
         },
@@ -31,7 +30,7 @@ export const fetchFishes = async (userId: number) => {
 
 // Add a new Koi fish
 export const addKoi = async (koiData: any) => {
-    const response = await axios.post(`${BASE_URL}/addfish`, koiData);
+    const response = await axios.post(`${FISH_URL}/addfish`, koiData);
     console.log(response.data)
     return response.data;
 };
@@ -42,7 +41,7 @@ export const addKoiImage = async (fishId: number, image: File) => {
     formData.append('fish_id', fishId.toString());
     formData.append('image', image);
 
-    const response = await axios.post(`${BASE_URL}/add_image`, formData, {
+    const response = await axios.post(`${FISH_URL}/add_image`, formData, {
         headers: {
             'Content-Type': 'multipart/form-data',
         },
