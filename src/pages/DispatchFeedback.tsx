@@ -1,6 +1,6 @@
 import { useAuth } from '../hooks/context/AuthContext';
-import FeebackManagementPage from './FeedbackManagementPage';
-import VeterinarianFeedbackPage from './VeterinarianFeedbackPage';
+import FeebackManagementPage from './Manager/FeedbackManagementPage';
+import VeterinarianFeedbackPage from './Veterinarian/VeterinarianFeedbackPage';
 import UnauthorizedPage from './UnauthorizedPage';
 
 interface User {

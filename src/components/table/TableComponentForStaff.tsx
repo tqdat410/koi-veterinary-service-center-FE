@@ -40,6 +40,7 @@ const TableComponent: React.FC<TableComponentProps> = ({ columns, columnHeaders,
                     <tr>
                         {columnHeaders.map((header, index) => (
                             <th key={index}>{header}</th>
+                            
                         ))}
                         <th></th>
                     </tr>

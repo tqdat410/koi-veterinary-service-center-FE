@@ -129,7 +129,6 @@ const FillInformationPage: React.FC = () => {
                 setLoading(false);
             }
         };
-
         getFishes();
     }, [userId]);
 
@@ -159,8 +158,8 @@ const FillInformationPage: React.FC = () => {
         const isAddressValid =
             (service_id === 1) || // Service 1 does not need an address
             (serviceLocation === 'at_hospital' && formData.address_id === null) || // No address needed for hospital
-            (serviceLocation === 'at_home' && selectedAddress.trim() !== '');
-        const isFishValid = (service_id === 1 || service_id === 2 || selectedFish.trim() !== '');
+            (serviceLocation === 'at_home' && selectedAddress.trim() !== '' && addresses.length > 0);
+        const isFishValid = (service_id === 1 || service_id === 2 || selectedFish.trim() !== ''|| fishes.length > 0);
 
         setValidity({
             name: isNameValid,
@@ -185,17 +184,21 @@ const FillInformationPage: React.FC = () => {
 
     // Handle validation for phone number
     const validatePhone = () => {
-        const phonePattern = /^[0-9]{10}$/;
-        if (formData.phone.trim() === '') {
-            setErrorPhone('Phone number is required.'); // Error when phone is empty
-            return false;
-        } else if (!phonePattern.test(formData.phone)) {
-            setErrorPhone('Contact number must be a 10-digit number.'); // Error for invalid phone format
-            return false;
-        } else {
-            setErrorPhone(''); // Clear error if phone is valid
-            return true;
+        const phoneValue = formData.phone; // Lấy giá trị điện thoại từ formData
+
+        // Kiểm tra xem phoneValue có tồn tại và không phải là chuỗi rỗng
+        if (!phoneValue || phoneValue.trim() === '') {
+            setErrorPhone('Phone number is required.'); // Cài đặt thông báo lỗi nếu không có giá trị
+            return false; // Trả về false nếu không hợp lệ
         }
+        const phonePattern = /^[0-9]{10}$/;
+        if (!phonePattern.test(phoneValue)) {
+            setErrorPhone('Contact number must be a 10-digit number.'); // Kiểm tra số điện thoại có đúng định dạng không
+            return false; // Trả về false nếu không hợp lệ
+        }
+
+        setErrorPhone(''); // Xóa thông báo lỗi nếu hợp lệ
+        return true; // Trả về true nếu hợp lệ
     };
 
     // Handle validation for email
@@ -232,7 +235,7 @@ const FillInformationPage: React.FC = () => {
         }
     };
     const handleBackClick = () => {
-        navigate('/appointment/slot-date-selection'); // Navigate back to service selection page
+        navigate('/appointment/vet-selection'); // Navigate back to service selection page
     };
 
     const handleServiceLocationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -276,7 +279,7 @@ const FillInformationPage: React.FC = () => {
                         </div>
                         <div className="col-md-6">
                             <div className="form-group mb-3">
-                                <label className="fw-bold form-label">Your Name</label>
+                                <label className="fw-bold form-label-koi">Your Name</label>
                                 <input
                                     type="text"
                                     className={`form-control input-field ${!validity.name ? 'border-danger' : ''}`}
@@ -289,7 +292,7 @@ const FillInformationPage: React.FC = () => {
                             </div>
 
                             <div className="form-group mb-3">
-                                <label className="fw-bold form-label">Phone</label>
+                                <label className="fw-bold form-label-koi">Phone</label>
                                 <input
                                     type="text"
                                     className={`form-control input-field ${!validity.phone ? 'border-danger' : ''}`}
@@ -302,7 +305,7 @@ const FillInformationPage: React.FC = () => {
                             </div>
 
                             <div className="form-group mb-3">
-                                <label className="fw-bold form-label">Email</label>
+                                <label className="fw-bold form-label-koi">Email</label>
                                 <input
                                     type="email"
                                     className={`form-control input-field ${!validity.email ? 'border-danger' : ''}`}
@@ -316,7 +319,7 @@ const FillInformationPage: React.FC = () => {
                             {service_id !== 1 && service_id !== 2 && (
                                 <div className="form-group mb-3 position-relative">
                                     <div className="d-flex justify-content-between mb-1">
-                                        <label className="fw-bold form-label">Fish</label>
+                                        <label className="fw-bold form-label-koi">Fish</label>
                                         <button type="button" className="btn btn-sm btn-primary ms-2"
                                                 onClick={handleAddFish}>
                                             <i className="fas fa-plus"></i>
@@ -331,12 +334,15 @@ const FillInformationPage: React.FC = () => {
                                             onChange={handleFishChange}
                                         >
                                             <option value="">Select a fish</option>
-                                            {fishes.map((fish, index) => (
-                                                <option key={fish.fish_id || index}
-                                                        value={`${fish.species}/ ${fish.origin}/ ${fish.color} (${fish.gender})`}>
-                                                    {fish.species} ({fish.origin}) - Color: {fish.color}
-                                                </option>
-                                            ))}
+                                            {fishes.length > 0 ? (
+                                                fishes.map(fish => (
+                                                    <option key={fish.fish_id} value={`${fish.species}/ ${fish.origin}/ ${fish.color} (${fish.gender})`}>
+                                                        {`${fish.species}/ ${fish.origin}/ ${fish.color} (${fish.gender})`}
+                                                    </option>
+                                                ))
+                                            ) : (
+                                                <option value="" disabled>No fishes available</option>
+                                            )}
                                         </select>
                                         <i className="bi bi-chevron-down dropdown-icon"></i>
                                     </div>
@@ -345,10 +351,10 @@ const FillInformationPage: React.FC = () => {
                         </div>
 
                         <div className="col-md-6">
-                            {service_id !== 1 && (
+                            {service_id !== 1 && service_id !== 2 && (
                                 <div className="form-group mb-3">
 
-                                <label className="fw-bold form-label">Service Location</label>
+                                <label className="fw-bold form-label-koi">Service Location</label>
                                     <div className="d-flex align-items-center">
                                     <div className="form-check me-3">
                                         <input
@@ -376,10 +382,10 @@ const FillInformationPage: React.FC = () => {
 
                                 </div>
                             )}
-                                {serviceLocation === 'at_home' && ( // Chỉ hiển thị địa chỉ khi chọn 'At Home' và service_id không phải 1
+                                {service_id !== 1 && serviceLocation === 'at_home' && ( // Chỉ hiển thị địa chỉ khi chọn 'At Home' và service_id không phải 1
                                     <div className="form-group mb-3 position-relative">
                                         <div className="d-flex justify-content-between mb-1">
-                                            <label className="fw-bold form-label">Address</label>
+                                            <label className="fw-bold form-label-koi">Address</label>
                                             <button type="button" className="btn btn-sm btn-primary ms-2"
                                                     onClick={handleAddAddress}>
                                                 <i className="fas fa-plus"></i>
@@ -394,12 +400,15 @@ const FillInformationPage: React.FC = () => {
                                                 onChange={handleAddressChange}
                                             >
                                                 <option value="">Select an address</option>
-                                                {addresses.map((address, index) => (
-                                                    <option key={address.address_id || index}
-                                                            value={`${address.home_number}/ ${address.district}/ ${address.ward}/ ${address.city}`}>
-                                                        {address.home_number}/ {address.district}/ {address.ward}/ {address.city}
-                                                    </option>
-                                                ))}
+                                                {addresses.length > 0 ? (
+                                                    addresses.map(address => (
+                                                        <option key={address.address_id} value={`${address.home_number}/ ${address.district}/ ${address.ward}/ ${address.city}`}>
+                                                            {`${address.home_number}/ ${address.district}/ ${address.ward}/ ${address.city}`}
+                                                        </option>
+                                                    ))
+                                                ) : (
+                                                    <option value="" disabled>No addresses available</option>
+                                                )}
                                             </select>
                                             <i className="bi bi-chevron-down dropdown-icon"></i>
                                         </div>
@@ -408,7 +417,7 @@ const FillInformationPage: React.FC = () => {
                                 )}
 
                                 <div className="form-group mb-3">
-                                    <label className="fw-bold form-label">Description</label>
+                                    <label className="fw-bold form-label-koi">Description</label>
                                     <textarea
                                         className="form-control input-field"
                                         name="description"
@@ -420,7 +429,7 @@ const FillInformationPage: React.FC = () => {
                                 </div>
 
                                 <div className=" form-group mb-3">
-                                    <label className="fw-bold form-label">Payment Method</label>
+                                    <label className="fw-bold form-label-koi">Payment Method</label>
                                     <div className="form-check">
                                         <input
                                             className="form-check-input"

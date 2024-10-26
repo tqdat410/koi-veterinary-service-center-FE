@@ -52,7 +52,7 @@ const ServiceSection: React.FC = () => {
         console.log('Selected service_id:', service);
         // Navigate to FishSelectionPage
         // window.location.href = '/appointment/vet-selection'; // Replace with react-router navigate if needed
-        navigate('/appointment/vet-selection');
+        navigate('/appointment/slot-date-selection');
     };
 
     return (

@@ -1,5 +1,6 @@
 import React from 'react';
 import defaultImage from "../../assets/images/defaultImage.jpg"
+import "../../styles/TableComponent.css" // Import the TableComponent.css file
 
 interface Action {
     label: string;
@@ -19,48 +20,63 @@ interface TableRowProps {
 
 }
 
-// Function to format DateTime
-// const formatDateTime = (dateString: string) => {
-//     const date = new Date(dateString);
-//
-//     if (isNaN(date.getTime())) {
-//         return 'Invalid date';
-//     }
-//     const options: Intl.DateTimeFormatOptions = {
-//         day: '2-digit',
-//         month: '2-digit',
-//         year: 'numeric',
-//         hour: '2-digit',
-//         minute: '2-digit',
-//         hour12: false,
-//     };
-//
-//     return date.toLocaleString('en-GB', options);
-// };
+const TableRow: React.FC<TableRowProps> = ({ columns, rowData, actions = [], isKoiFishPage, isAddressPage, isAppointmentPage, isFeedbackPage }) => {
+    const getStatusClass = (status: string) => {
+        switch (status) {
+            case 'CANCELED': return 'status-cancelled';
+            case 'CHECKED_IN': return 'status-checked-in';
+            case 'CONFIRMED': return 'status-confirmed';
+            case 'DONE': return 'status-done';
+            case 'ON_GOING': return 'status-on-going';
+            case 'PENDING': return 'status-pending';
+            case 'PAID': return 'status-paid';
+            case 'NOT_PAID': return 'status-not-paid';
+            default: return '';
+        }
+    };
 
-    const TableRow: React.FC<TableRowProps> = ({ columns, rowData, actions = [], isKoiFishPage, isAddressPage, isAppointmentPage, isFeedbackPage }) => {
+    const formatStatusText = (text: any) => {
+        if (typeof text === 'string') {
+            return text
+                .toLowerCase()
+                .split('_')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(' ');
+        }
+        return text; // Trả về giá trị gốc nếu không phải là chuỗi
+    };
+    
     const fullName = `${rowData.first_name || rowData.name} ${rowData.last_name || ''}`.trim(); // Tạo fullName
-        const dayOfSlot = rowData.time_slot
-            ? `${rowData.time_slot.day}/${rowData.time_slot.month}/${rowData.time_slot.year}`.trim()
-            : 'N/A';
+
+    const dayOfSlot = rowData.time_slot
+        ? `${rowData.time_slot.day}/${rowData.time_slot.month}/${rowData.time_slot.year}`.trim()
+        : 'N/A';
+
     return (
         <tr>
             {columns.map((column) => (
-                <td key={column}>
+                <td key={column}
+                    className={
+                        column === 'appointment_status' || column === 'payment_status'
+                            ? getStatusClass(rowData[column])
+                            : ''
+                    }
+                >
                     {column === 'fullName' ? (
                         <div className="d-flex justify-content-center align-items-center ms-5" >
                             <img
                                 src={rowData.avatar || defaultImage}
-                                style={{ width: 35, height: 35, borderRadius: '50%',border: '1px solid #002d72'}}
+                                style={{ width: 35, height: 35, borderRadius: '50%', border: '1px solid #002d72' }}
                             />
-                            <span className="flex-grow-1 text-center fw-bold" style={{width:"50px"}}>{fullName}</span>
+                            <span className="flex-grow-1 text-center fw-bold" style={{ width: "50px" }}>{fullName}</span>
                         </div>
-                    )  : column === 'dayOfSlot' ? (
+                    ) : column === 'dayOfSlot' ? (
                         <div>{dayOfSlot}</div> // Format datetime column
-                    )  : column === 'datetime' ? (
+                    ) : column === 'datetime' ? (
                         <div>{rowData.created_date}</div> // Format datetime column
                     ) : (
-                        !rowData[column] ? '' : rowData[column]
+                        // !rowData[column] ? '' : rowData[column]
+                        rowData[column] ? formatStatusText(rowData[column]) : '' // Format status column
                     )}
                 </td>
             ))}
@@ -90,7 +106,7 @@ interface TableRowProps {
                     <button
                         onClick={() => console.log("View ")}
                         className="btn btn-primary btn-sm"
-                        
+
                     >
                         View
                     </button>

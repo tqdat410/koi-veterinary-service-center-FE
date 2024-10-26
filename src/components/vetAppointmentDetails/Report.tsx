@@ -40,7 +40,8 @@ const PrescriptionComponent: React.FC<{ prescription: Prescription }> = ({ presc
                 <ul>
                     {prescription.medicines.map((med, index) => (
                         <li key={index}>
-                            {med.medicine_name} (Quantity: {med.quantity})
+                            {med.medicine_name} (Quantity: {med.quantity}) - {med.instruction}
+
                         </li>
                     ))}
                 </ul>

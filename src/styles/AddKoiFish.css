@@ -1,6 +1,5 @@
 .container-fluid {
     padding: auto;
-
 }
 
 .image-upload-container {
@@ -10,34 +9,56 @@
 }
 
 .image-upload-card {
-    width: 100%;
+    width: 500px;
+    height: 520px; /* Set a fixed height for the card */
     padding: 20px;
     background-color: white;
-    border: 2px solid #e0e6ed;
-    border-radius: 20px;
+    border: 1px solid #e0e6ed;
+    border-radius: 30px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
-    margin-bottom: 10px; /* Space between image and button */
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
 }
 
+.image-upload {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    border: 1px solid black;
+    border-radius: 30px;
+    object-fit: cover;
+    margin-bottom: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25) ;
+}
 
+.image-upload-more {
+    width: 30%;
+    height: auto;
+    max-height: 400px;
+    border: 1px solid black;
+    border-radius: 30px;
+    object-fit: cover;
+    margin: 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25) ;
+}
+
+.image-navigation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute; /* Position absolute within the card */
+    bottom: 20px; /* Distance from the bottom of the card */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Offset left by 50% of its own width */
+}
 
 .upload-button-container {
     width: 100%;
     margin-top: 10px; /* Optional: additional spacing above button */
-}
-
-
-.image-upload {
-    width: 300px;
-    height: auto;
-    border-radius: 15px;
-}
-
-.upload-button-container {
-    width: 100%;
-    bottom: 0;
-    left: 0;
-    right: 0;
 }
 
 .upload-button {
@@ -51,12 +72,11 @@
     border-radius: 15px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
     padding: 20px;
-
 }
 
 .input-field-koi {
     border: 1px solid #848484;
-    box-shadow:4px 4px 20px rgba(0, 0, 0, 0.25);
+    box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.25);
 }
 
 .submit-button {
@@ -86,20 +106,19 @@
         padding: 8px;
     }
 }
-.form-label {
+
+.form-label-koi {
     font-weight: bold;
     text-align: left;
     display: block;
-
 }
 
 .back-button {
-
-    position: relative;
-    top: 10%;
-    left: 2%;
-    z-index: 1000;
+    position: absolute;
+    top: 12%;
+    left: 3%;
 }
+
 .border-danger {
     border-color: rgba(255, 0, 0, 0.39) !important;
     box-shadow: 0 0 6px rgba(255, 0, 0, 0.15), 0 0 6px rgba(255, 0, 0, 0.15); /* Softer glowing effect */

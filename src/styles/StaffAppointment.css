@@ -1,0 +1,18 @@
+/* StaffAppointment.css */
+
+/* Container styling */
+.container {
+    margin-top: 6rem;
+}
+
+/*!* Card styling *!*/
+/*.card {*/
+/*    width: 100%;*/
+/*}*/
+
+.card-header h5 {
+    font-weight: bold;
+    color: #02033B;
+    font-size: 2.7rem;
+    padding: 1.2rem;
+}

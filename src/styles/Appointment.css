@@ -46,11 +46,11 @@ p{
 
 .close-icon {
     position: absolute;
-    top: 25px;
-    right: 25px;
+    top: 15px;
+    right: 15px;
     background: none;
     border: none;
-    font-size: 4rem;
+    font-size: 5rem;
     color: black;
     cursor: pointer;
     display: flex;
@@ -144,7 +144,7 @@ p{
     width: 100%; /* Adjust width as necessary */
     max-width: 1200px; /* Set a maximum width */
     display: flex;
-    max-height: 90vh;
+    max-height: 96vh;
     flex-direction: column; /* Align children vertically */
     overflow-y: auto;
 }

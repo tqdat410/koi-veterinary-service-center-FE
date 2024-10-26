@@ -1,6 +1,6 @@
 import { useAuth } from '../hooks/context/AuthContext';
-import StaffAppointment from './StaffAppointment';
-import CustomerAppointment from './CustomerAppointment';
+import StaffAppointment from './Staff/StaffAppointment';
+import CustomerAppointment from './Customer/CustomerAppointment';
 import UnauthorizedPage from './UnauthorizedPage';
 interface User {
     roleId: string;

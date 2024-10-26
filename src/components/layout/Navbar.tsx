@@ -78,22 +78,22 @@ function Navbar() {
                             </Link>
                         </>
                     ) : (
-                        <div className="dropdown">
+                        <div className="dropdown" >
                             <button className={`btn btn-custom dropdown-toggle ${buttonStyleClass}`} id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                                 Profile
                             </button>
-                            <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <li><Link className="dropdown-item" to="/profile">Profile</Link></li>
+                            <ul className="dropdown-menu mb-2"  aria-labelledby="dropdownMenuButton">
+                                <li ><Link className="dropdown-item mb-1" to="/profile">Profile</Link></li>
                                 {(role === 'STA' || role === 'CUS') && (
-                                    <li><Link className="dropdown-item" to="/my-appointment">Appointments</Link></li>
+                                    <li><Link className="dropdown-item mb-1" to="/my-appointment">Appointments</Link></li>
                                 )}
                                 {role === 'MAN' && (
-                                    <li><Link className="dropdown-item" to="/manager/appointment-list">Manager Appointments</Link></li>
+                                    <li><Link className="dropdown-item mb-1" to="/manager/appointment-list">Manager Appointments</Link></li>
                                 )}
                                 {role === 'VET' && (
-                                    <li><Link className="dropdown-item" to="/veterinarian/schedule">My Schedule</Link></li>
+                                    <li><Link className="dropdown-item mb-1" to="/veterinarian/schedule">My Schedule</Link></li>
                                 )}
-                                <li><button className="dropdown-item" onClick={handleLogout}>Logout</button></li>
+                                <li><button className="dropdown-item mb-1" onClick={handleLogout}>Logout</button></li>
                             </ul>
                         </div>
                     )}

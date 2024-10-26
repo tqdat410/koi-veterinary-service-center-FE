@@ -19,6 +19,18 @@
 }
 
 
+.table-small th:first-child,
+.table-small td:first-child {
+    min-width: 30px;
+    max-width: 60px;
+    white-space: nowrap;
+}
+
+.table-small th:last-child,
+.table-small td:last-child {
+    width: 30px;
+    white-space: nowrap;
+}
 
 
 .table-small tr {

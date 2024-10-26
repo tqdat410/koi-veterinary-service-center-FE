@@ -42,7 +42,7 @@ const TableComponent: React.FC<TableComponentProps> = ({ columns, columnHeaders,
                             <th key={index}>{header}</th>
                         ))}
                         {/* <th></th> */}
-                        <th>Actions</th> {/* Actions column with padding and custom width */}
+                        <th></th> {/* Actions column with padding and custom width */}
                     </tr>                    
                 </thead>
                 <tbody>

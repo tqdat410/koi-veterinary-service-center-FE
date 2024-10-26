@@ -2,7 +2,7 @@ import { useSelector } from "react-redux"; // Import useDispatch
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import '../../styles/Schedule.css';
+import '../../styles/TableSchedule.css';
 import { useDispatch } from "react-redux";
 import { setSlot } from '../../store/actions';
 import defaultImage from "../../assets/images/defaultImage.jpg"
@@ -55,8 +55,8 @@ interface AvailableSlotProps {
 const AvailableSlot: React.FC<AvailableSlotProps> = ({ vetId, appointmentId, description }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const doctor = useSelector((state: any) => state.doctor);
-    const currentUserId = doctor?.user_id; // Get the doctor's user ID
+    // const doctor = useSelector((state: any) => state.doctor);
+    // const currentUserId = doctor?.user_id; // Get the doctor's user ID
   // Initialize useNavigate
     const currentYear = new Date().getUTCFullYear();
     const [selectedYear, setSelectedYear] = useState(currentYear);
@@ -70,18 +70,18 @@ const AvailableSlot: React.FC<AvailableSlotProps> = ({ vetId, appointmentId, des
 
     useEffect(() => {
         // Use vetId if provided, otherwise fallback to doctor's user ID
-        const idToUse = vetId || currentUserId;
 
-        // Fetch available slots using the selected ID
-        axios.get(`http://localhost:8080/api/v1/slots/${idToUse}/available`)
+
+        axios.get(`http://localhost:8080/api/v1/slots/${vetId}/follow-up-appointment?appointmentId=${appointmentId}`)
             .then((response) => {
                 console.log(response);
                 setAvailableSlots(response.data);
+                console.log("available", availableSlots)
             })
             .catch((error) => {
                 console.error('Error fetching available slots:', error);
             });
-    }, [vetId, currentUserId]);
+    }, [vetId]);
 
 
     const handleWeekChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -115,6 +115,7 @@ const AvailableSlot: React.FC<AvailableSlotProps> = ({ vetId, appointmentId, des
                     .then(response => {
                         console.log('Follow-up appointment created:', response.data);
                         alert("create following appointment successfully!!")
+                        window.location.reload()
                     })
                     .catch(error => {
                         console.error('Error creating follow-up appointment:', error);
@@ -129,38 +130,9 @@ const AvailableSlot: React.FC<AvailableSlotProps> = ({ vetId, appointmentId, des
         navigate('/appointment/vet-selection'); // Navigate back to service selection page
     };
     return (
-                <div className="d-flex flex-grow-1 align-items-center">
+        <div className="d-flex flex-grow-1 align-items-center">
             <div className="container-fluid">
-                {currentUserId && (
-                <button
-                    className="btn btn-secondary mb-3"
-                    style={{position: 'absolute', top: '12%', left: '3%'}}
-                    onClick={handleBackClick}>
-                    Back
-                </button>
-                    )}
-                <div className="row gap-4">
-                    {currentUserId && (
 
-                    <div className="ms-5 col-md-3 mb-4 d-flex justify-content-center align-items-center">
-                        <div className="card shadow mt-5"
-                             style={{borderRadius: '40px', width: '300px', height: '330px'}}>
-                            <img
-                                src={doctor.avatar || defaultImage}
-                                className="card-img-top rounded-circle mx-auto mt-4"
-                                alt={`${doctor?.first_name} ${doctor?.last_name}`}
-                                style={{width: '200px', height: '200px'}}
-                            />
-                            <div className="card-body text-center">
-                                <h5 className="card-title text-center font-weight-bold"
-                                    style={{
-                                        textAlign: "center",
-                                        width: "100%"
-                                    }}>{`${doctor?.first_name} ${doctor?.last_name}`}</h5>
-                            </div>
-                        </div>
-                    </div>
-                    )}
                     <div className="col-md-7">
                         <h3 className="text-start" style={{fontWeight: "bold", color: "#02033B", fontSize: "2.5rem"}}>
                             Doctor Schedule
@@ -186,7 +158,7 @@ const AvailableSlot: React.FC<AvailableSlotProps> = ({ vetId, appointmentId, des
                             </div>
                         </div>
                         <div className="table-container">
-                            <table className="table table-bordered table-small table-striped">
+                            <table className="table table-bordered table-schedule table-striped">
                                 <thead>
                                 <tr>
                                     <th className="fs-5">Slot</th>
@@ -200,7 +172,7 @@ const AvailableSlot: React.FC<AvailableSlotProps> = ({ vetId, appointmentId, des
                                 <tbody>
                                 {[1, 2, 3, 4].map((slotOrder) => (
                                     <tr key={slotOrder}>
-                                        <td style={{height:"70px"}}>{`Slot ${slotOrder}`}</td>
+                                        <td >{`Slot ${slotOrder}`}</td>
                                         {weekDates.map((date, dateIndex) => {
                                             const isAvailable = availableSlots.some(slot =>
                                                 slot.year === new Date(date).getUTCFullYear() &&
@@ -252,13 +224,13 @@ const AvailableSlot: React.FC<AvailableSlotProps> = ({ vetId, appointmentId, des
                             </table>
                         </div>
 
-                                <button className="btn btn-primary mt-3" onClick={handleNextClick}
+                                <button className="btn btn-primary" onClick={handleNextClick}
                                         disabled={!selectedSlot}>
                                     Next
                                 </button>
 
                         </div>
-                    </div>
+
                 </div>
             </div>
     );

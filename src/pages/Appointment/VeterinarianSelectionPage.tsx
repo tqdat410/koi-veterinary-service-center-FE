@@ -14,35 +14,36 @@ interface Doctor {
 }
 
 interface Feedback {
-    rating: number; // Assume you have a rating field in feedback
+    rating: number;
 }
 
 const ChooseVeterinarianPage: React.FC = () => {
     const [doctors, setDoctors] = useState<Doctor[]>([]);
     const [ratings, setRatings] = useState<{ [key: number]: number }>({});
-    const cardContainerRef = useRef<HTMLDivElement | null>(null); // Reference for the card container
-    const dispatch = useDispatch(); // Initialize useDispatch
+    const cardContainerRef = useRef<HTMLDivElement | null>(null);
+    const dispatch = useDispatch();
     const navigate = useNavigate();
-    // Function to fetch doctors from the API
-
-
+    const slot = useSelector((state: any) => state.slot);
     const service = useSelector((state: any) => state.service);
 
     useEffect(() => {
-        // Nếu service là null, điều hướng về trang chọn service
+        // If service is null, navigate to service selection
         if (!service) {
-            alert("You should choose service first!!!")
+            alert("You need to choose a service first!");
             navigate('/appointment/service-selection');
-
         }
-    }, [service, navigate]);
+        // If service is present but slotDate is null, navigate to slot date selection
+        else if (!slot) {
+            alert("You should choose a slot first!");
+            navigate('/appointment/slot-date-selection');
+        }
+    }, [service, slot, navigate]);
     const fetchDoctors = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/api/v1/users/veterinarians');
+            const response = await axios.get(`http://localhost:8080/api/v1/users/veterinarian/${slot.slot_id}`);
             console.log('Fetched doctors:', response.data);
             setDoctors(response.data); // Assume the API response is an array of doctors
 
-            // Fetch feedback for each doctor
 
         } catch (error) {
             console.error('Error fetching doctors:', error);
@@ -80,19 +81,19 @@ const ChooseVeterinarianPage: React.FC = () => {
         dispatch(setDoctor(doctorData)); // Dispatch action to set service_id
         console.log('Selected user_id:', doctor);
         // Navigate to FishSelectionPage
-        navigate('/appointment/slot-date-selection'); // Replace with react-router navigate if needed
+        navigate('/appointment/fill-information'); // Replace with react-router navigate if needed
     };
 
     const handleSkipClick = () => {
         dispatch(setDoctor(null)); // Dispatch null for user_id
 
         // Navigate to FishSelectionPage or any other page you want
-        navigate('/appointment/slot-date-selection');
+        navigate('/appointment/fill-information');
 
     };
 
     const handleBackClick = () => {
-        navigate('/appointment/service-selection'); // Navigate back to service selection page
+        navigate('/appointment/slot-date-selection'); // Navigate back to service selection page
     };
 
     return (
@@ -110,13 +111,13 @@ const ChooseVeterinarianPage: React.FC = () => {
                 </button>
                 {/* Main content */}
                 <div className="text-center my-4">
-                    <h1 className="display-4 fw-bold" style={{color: '#02033B'}}>Choose Veterinarian</h1>
+                    <h1 className="display-4 fw-bold" style={{color: '#02033B'}}>Veterinarians available in this slot</h1>
                 </div>
 
 
                 {/* Doctors Grid */}
                 <div
-                    className="d-flex " // Enable horizontal scrolling
+                    className={`d-flex ${doctors.length > 5 ? 'justify-content-start' : 'justify-content-center'}`}
                     ref={cardContainerRef} // Attach ref to the container
                     style={{
                         padding: '40px',
@@ -153,22 +154,24 @@ const ChooseVeterinarianPage: React.FC = () => {
                 </div>
                 {/* Navigation buttons */}
 
-                <div className="d-flex justify-content-between mt-1" style={{margin: "0px 20px"}}>
+                {/* Show navigation buttons only if there are more than 5 doctors */}
+                {doctors.length > 5 && (
+                    <div className="d-flex justify-content-between mt-1" style={{ margin: "0px 20px" }}>
+                        <button className="prev-next-button d-flex align-items-center fw-bold" onClick={scrollLeft}>
+                            <i className="fa-solid fa-circle-chevron-left" style={{ marginRight: '8px' }}></i>
+                            Prev
+                        </button>
+                        <button className="prev-next-button d-flex align-items-center fw-bold" onClick={scrollRight}>
+                            Next
+                            <i className="fa-solid fa-circle-chevron-right" style={{ marginLeft: '8px' }}></i>
+                        </button>
+                    </div>
+                )}
 
-                    <button className="prev-next-button d-flex align-items-center fw-bold" onClick={scrollLeft}>
-                        <i className="fa-solid fa-circle-chevron-left " style={{marginRight: '8px'}}></i>
-                        Prev
-                    </button>
-                    <button className="btn btn-warning px-4 py-2 rounded-pill fw-bold mt-3" onClick={handleSkipClick}>
-                        Not indicated
-                    </button>
-                    <button className="prev-next-button d-flex align-items-center fw-bold" onClick={scrollRight}>
-                        Next
-                        <i className="fa-solid fa-circle-chevron-right" style={{marginLeft: '8px'}}></i>
-                    </button>
-                </div>
-                {/* Skip button */}
-
+                {/* Always show the "Not indicated" button */}
+                <button className="btn btn-warning px-4 py-2 rounded-pill fw-bold mt-3" onClick={handleSkipClick}>
+                    Not indicated
+                </button>
             </div>
         </div>
     );

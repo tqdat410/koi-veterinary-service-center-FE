@@ -71,9 +71,3 @@
     font-size: 1.1rem;
 }
 
-/* Target specific columns (e.g., Current Price column) */
-.table-small th:nth-child(3),
-.table-small td:nth-child(3) {
-    width: 10rem; /* Set a fixed width */
-    white-space: nowrap; /* Prevent text wrapping */
-}

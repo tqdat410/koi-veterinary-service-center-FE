@@ -23,7 +23,7 @@
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    margin-bottom: 10px;
+
 }
 
 .profile-page .uploaded-image {
@@ -105,7 +105,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 7px;
+
 }
 
 .profile-page .left-buttons {
@@ -232,9 +232,9 @@
 
 .modal-content {
     background: white;
-    padding: 20px;
+    padding: 30px 40px;
     border-radius: 40px;
-    max-width: 1050px;
+    max-width: 1150px;
     z-index: 9999; /* On top of the backdrop */
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }

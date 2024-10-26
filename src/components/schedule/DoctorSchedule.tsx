@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import '../../styles/Schedule.css';
+import '../../styles/TableSchedule.css';
 import Sidebar from "../layout/Sidebar";
 import axios from "axios";
 import {fetchVetSlots} from "../../api/scheduleApi"; // Import your custom CSS
@@ -108,11 +108,11 @@ const DoctorSchedule: React.FC = () => {
     };
 
     return (
-        <div className="d-flex flex-grow-1">
+        <div className="d-flex flex-grow-1" style={{ marginLeft: '272px' }}>
             <Sidebar />
             <div className="container" style={{ marginTop: "6rem" }}>
                 <div className="d-flex justify-content-between align-items-center mb-3">
-                    <h3 className="text-start" style={{fontWeight:"bold", color:"#02033B", fontSize:"2rem"}}>
+                    <h3 className="text-start" style={{fontWeight:"bold", color:"#02033B", fontSize:"2.7rem"}}>
                         Doctor Schedule
                     </h3>
                     <h3 className="text-end fst-italic" >
@@ -146,7 +146,7 @@ const DoctorSchedule: React.FC = () => {
                         </button>
                     </div>
                 </div>
-                <table className="table-bordered table-small">
+                <table className="table-bordered table-schedule">
                     <thead>
                     <tr>
                         <th className="fs-5">Slot</th>
@@ -190,7 +190,7 @@ const DoctorSchedule: React.FC = () => {
                                                 <p>{slotOrderToTime[slotId as keyof typeof slotOrderToTime]}</p>
                                             </>
                                         ) : (
-                                            <p>-</p>
+                                            <p className="fw-bold">-</p>
                                         )}
                                     </td>
                                 );

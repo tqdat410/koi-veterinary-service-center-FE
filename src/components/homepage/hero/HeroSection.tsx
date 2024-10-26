@@ -1,9 +1,30 @@
 import React, { useState } from 'react';
 import backgroundImage from '../../../assets/images/homepage.jpg'; // Adjust the path as needed
 import koiImage from '../../../assets/images/homepage2.jpg'; // Adjust the path as needed
-import { Link } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
+import {useAuth} from "../../../hooks/context/AuthContext";
+import LoginReminderModal from "../../../guards/LoginReminderModal";
 const HeroSection = () => {
     const [isHovered, setIsHovered] = useState(false);
+    const { isAuthenticated } = useAuth();
+    const [showModal, setShowModal] = useState(false);
+    const navigate = useNavigate();
+
+    const handleRequestAppointment = () => {
+        if (!isAuthenticated) {
+            setShowModal(true);
+        } else {
+            navigate('/appointment/service-selection');
+        }
+    };
+
+    const handleModalClose = () => {
+        setShowModal(false);
+        navigate('/login');
+    };
+
+
+
 
     return (
         <section className="hero">
@@ -23,7 +44,7 @@ const HeroSection = () => {
                         <div className="col-md-6 d-flex flex-column align-items-start ps-5">
                             {/* Request Appointment Button */}
                             <div className="mb-4" style={{ marginLeft: "5px" }}>
-                                <Link to="/appointment/service-selection" style={{ textDecoration: 'none' }}>
+
                                 <button
                                     className="btn d-flex align-items-center btn-custom btn-shadow"
                                     style={{
@@ -36,6 +57,7 @@ const HeroSection = () => {
                                     }}
                                     onMouseEnter={() => setIsHovered(true)}
                                     onMouseLeave={() => setIsHovered(false)}
+                                    onClick={handleRequestAppointment}
                                 >
                             <span className="text-white fw-bold" style={{fontSize: "1.3rem"}}>
                                 Request appointment
@@ -43,7 +65,7 @@ const HeroSection = () => {
                                     <i className="fas fa-arrow-right text-white ms-3 mt-1"
                                        style={{fontSize: "1.3rem"}}/>
                                 </button>
-                                </Link>
+
                             </div>
 
                             {/* Description */}
@@ -92,6 +114,7 @@ const HeroSection = () => {
                     </div>
                 </div>
             </div>
+            <LoginReminderModal show={showModal} onClose={handleModalClose} />
         </section>
     );
 };

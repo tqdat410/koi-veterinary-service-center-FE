@@ -8,7 +8,7 @@
 }
 
 .navbar.scrolled {
-    background-color: #b6851e;
+    background-color: #ffc107;
 }
 
 .navbar.transparent {
@@ -65,12 +65,22 @@
 
 
 .dropdown-item {
+    padding: 2px 20px;
     font-weight: bold;
+    border-radius: 10px;
+
+}
+
+.dropdown-item:hover {
+    border-radius: 10px;
+color: #002d72;
+    /*background-color: rgba(108, 117, 125, 0.27);*/
+
 }
 
 /* Responsive Styles */
 .navbar .dropdown-menu {
-    left: -70% !important;
+    left: -90% !important;
     right: auto !important;
     margin-top: 5px !important;
 }

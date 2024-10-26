@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Prescription, Medicine, MedicalReport } from '../../../src/types';
-
+import "../../styles/AddKoiFish.css"
 interface CreateMedicalReportProps {
     isCreatingReport: boolean;
     toggleReportModal: () => void;
@@ -15,6 +15,8 @@ interface CreateMedicalReportProps {
     isMedicineValid: boolean[];
     setIsMedicineValid: (validity: boolean[]) => void;
     isQuantityValid: boolean[];
+    isInstructionValid: boolean[];
+    setIsInstructionValid: (validity: boolean[]) => void;
     setIsQuantityValid: (validity: boolean[]) => void;
     handleCreateReport: () => void;
 }
@@ -31,8 +33,10 @@ const CreateMedicalReport: React.FC<CreateMedicalReportProps> = ({
                                                                      handleAddMedicine,
                                                                      handleRemoveMedicine,
                                                                      isMedicineValid,
+                                                                     isInstructionValid,
                                                                      setIsMedicineValid,
                                                                      isQuantityValid,
+                                                                     setIsInstructionValid,
                                                                      setIsQuantityValid,
                                                                      handleCreateReport,
                                                                  }) => {
@@ -50,7 +54,7 @@ const CreateMedicalReport: React.FC<CreateMedicalReportProps> = ({
                     </div>
                     <div className="modal-body">
                         <div className="mb-3">
-                            <label className="form-label">Conclusion</label>
+                            <label className="form-label-koi">Conclusion</label>
                             <input
                                 type="text"
                                 className="form-control"
@@ -59,7 +63,7 @@ const CreateMedicalReport: React.FC<CreateMedicalReportProps> = ({
                             />
                         </div>
                         <div className="mb-3">
-                            <label className="form-label">Advise</label>
+                            <label className="form-label-koi">Advise</label>
                             <input
                                 type="text"
                                 className="form-control"
@@ -73,48 +77,66 @@ const CreateMedicalReport: React.FC<CreateMedicalReportProps> = ({
                             </div>
                             <div className="modal-body">
                                 {prescription?.medicines.map((med, index) => (
-                                    <div key={index} className="d-flex mb-2">
-                                        <select
-                                            className={`form-select ${!isMedicineValid[index] ? 'is-invalid' : ''}`}
-                                            value={med.medicine_id}
-                                            style={{ width: "100%" }}
-                                            onChange={(e) => {
-                                                handleMedicineChange(index, 'medicine_id', e.target.value);
-                                                const updatedValidity = [...isMedicineValid];
-                                                updatedValidity[index] = e.target.value !== "0";
-                                                setIsMedicineValid(updatedValidity);
-                                            }}
-                                        >
-                                            <option value="">Select Medicine</option>
-                                            {medicines.map((medicine) => (
-                                                <option key={medicine.medicine_id} value={medicine.medicine_id}>
-                                                    {medicine.medicine_name}
-                                                </option>
-                                            ))}
-                                        </select>
-                                        <input
-                                            type="number"
-                                            className={`form-control ms-2 ${!isQuantityValid[index] ? 'is-invalid' : ''}`}
-                                            style={{ width: "25%" }}
-                                            value={med.quantity}
-                                            onChange={(e) => {
-                                                const quantityValue = Number(e.target.value);
-                                                handleMedicineChange(index, 'quantity', quantityValue);
-                                                const updatedValidity = [...isQuantityValid];
-                                                updatedValidity[index] = quantityValue > 0;
-                                                setIsQuantityValid(updatedValidity);
-                                            }}
-                                        />
-                                        <button className="btn btn-danger ms-2" onClick={() => handleRemoveMedicine(index)}>
-                                            Remove
-                                        </button>
+                                    <div key={index} className="mb-4">
+                                        <div className="d-flex mb-2">
+                                            <select
+                                                className={`form-select ${!isMedicineValid[index] ? 'is-invalid' : ''}`}
+                                                value={med.medicine_id}
+                                                style={{width: "100%"}}
+                                                onChange={(e) => {
+                                                    handleMedicineChange(index, 'medicine_id', e.target.value);
+                                                    const updatedValidity = [...isMedicineValid];
+                                                    updatedValidity[index] = e.target.value !== "0";
+                                                    setIsMedicineValid(updatedValidity);
+                                                }}
+                                            >
+                                                <option value="">Select Medicine</option>
+                                                {medicines.map((medicine) => (
+                                                    <option key={medicine.medicine_id} value={medicine.medicine_id}>
+                                                        {medicine.medicine_name}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                            <input
+                                                type="number"
+                                                className={`form-control ms-2 ${!isQuantityValid[index] ? 'is-invalid' : ''}`}
+                                                style={{width: "25%"}}
+                                                value={med.quantity}
+                                                onChange={(e) => {
+                                                    const quantityValue = Number(e.target.value);
+                                                    handleMedicineChange(index, 'quantity', quantityValue);
+                                                    const updatedValidity = [...isQuantityValid];
+                                                    updatedValidity[index] = quantityValue > 0;
+                                                    setIsQuantityValid(updatedValidity);
+                                                }}
+                                            />
+                                            <button className="btn btn-danger ms-2"
+                                                    onClick={() => handleRemoveMedicine(index)}>
+                                                X
+                                            </button>
+                                        </div>
+                                        <div className="mb-2">
+                                            <input
+                                                type="text"
+                                                placeholder="Enter instruction"
+                                                className={`form-control ms-2 ${!isInstructionValid[index] ? 'is-invalid' : ''}`}
+                                                value={med.instruction}
+                                                onChange={(e) => {
+                                                    const instructionValue = e.target.value;
+                                                    handleMedicineChange(index, 'instruction',  e.target.value);
+                                                    const updatedValidity = [...isInstructionValid];
+                                                    updatedValidity[index] = instructionValue.trim() !== null;
+                                                    setIsInstructionValid(updatedValidity);
+                                                }}
+                                            />
+                                        </div>
                                     </div>
                                 ))}
                                 <button className="btn btn-secondary mb-2" onClick={handleAddMedicine}>
                                     Add Medicine
                                 </button>
                                 <div className="mb-3">
-                                    <label className="form-label">Instructions</label>
+                                    <label className="form-label-koi">Instructions</label>
                                     <input
                                         type="text"
                                         className="form-control"

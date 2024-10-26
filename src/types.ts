@@ -19,12 +19,13 @@ export interface UserData {
 export interface Medicine {
     medicine_id: number;
     medicine_name: string;
+    instruction: string;
 }
 
 export interface Prescription {
     prescription_id: number | null;
     instruction: string;
-    medicines: { medicine_id: number;medicine_name:string ; quantity: number }[];
+    medicines: { medicine_id: number;medicine_name:string; instruction: string ; quantity: number }[];
 }
 
 export interface MedicalReport {
