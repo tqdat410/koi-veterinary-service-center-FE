@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../../components/layout/Sidebar';
+<<<<<<< HEAD
 import TableComponent from '../../components/table/TableComponentForVet';
+=======
+import TableComponent from '../../components/table/TableComponent';
+>>>>>>> 4dcfad6143dbdefeddd71f16cf0d580f8e5a2194
 import { useNavigate } from 'react-router-dom';
 import { fetchVetFeedbacks } from '../../api/feedbackApi'
 
@@ -15,7 +19,7 @@ interface Feedback {
 const VeterinarianFeedbackPage: React.FC = () => {
     const [Feedbacks, setFeedbacks] = useState<Feedback[]>([]);
     const columns = ['feedback_id', 'rating', 'comment', 'date_time'];
-    const columnHeaders = ['Feedback ID', 'Rating', 'Comment', 'Date & time'];
+    const columnHeaders = ['ID', 'Rating', 'Comment', 'Date & time'];
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -47,7 +51,7 @@ const VeterinarianFeedbackPage: React.FC = () => {
 
     const handleFeedbackDetails = (feedback_id: number) => {
         console.log('Feedback ID:', feedback_id);
-        navigate('/vet-feedback-details', { state: { feedback_id } });
+        navigate('/veterinarian/vet-feedback-details', { state: { feedback_id } });
     };
 
     // Function to format DateTime
@@ -79,12 +83,12 @@ const VeterinarianFeedbackPage: React.FC = () => {
     ];
 
     return (
-        <div className="d-flex flex-grow-1">
+        <div className="d-flex flex-grow-1" style={{ marginLeft: '272px' }}>
             <Sidebar />
             <div className="container" style={{ marginTop: "6rem" }}>
-                <div className="card" style={{ width: '100%' }}>
+                <div className="card" >
                     <div className="card-header">
-                        <h5 className="text-start" style={{ fontWeight: "bold", color: "#02033B", fontSize: "2rem", padding: "1.2rem" }}>
+                        <h5 className="text-start" style={{fontWeight:'bold', fontSize: '40px'}} >
                             Feedback & rating lists
                         </h5>
                     </div>

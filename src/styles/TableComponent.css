@@ -10,17 +10,18 @@
 }
 
 .status-checked-in {
-    color: #D9F2D0;
+    background-color: #D9F2D0 !important;
+    color: white !important;
     font-weight: 600;
     font-family: sans-serif;
     
 }
 
-.status-confirmed, .status-paid{
-    color: blue;
+.status-confirmed {
+    background-color: blue !important;
+    color: white !important;
     font-weight: 600;
     font-family: sans-serif;
-    
 }
 
 .status-done {

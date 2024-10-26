@@ -1,0 +1,132 @@
+/* StaffAppointmentDetails.css */
+
+/* Main container styling */
+.container-details {
+    margin-top: 1rem;
+    text-align: left;
+}
+
+/* Card styling */
+.card-body-appointment {
+    width: 100%;
+}
+
+.card-title-appointment {
+    margin: 0;
+    margin-bottom: 12px;
+}
+
+/* Status badge styling */
+.span-status {
+    color: white;
+    padding: 4px 8px;
+    margin-left: 10px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.status-canceled {
+    background-color: red;
+}
+
+.status-checked-in {
+    background-color: blue;
+}
+
+.status-confirmed {
+    background-color: green;
+}
+
+.status-done {
+    background-color: gray;
+}
+
+.status-on-going {
+    background-color: orange;
+}
+
+.status-pending {
+    background-color: purple;
+}
+
+.status-default {
+    background-color: black;
+}
+
+/* Customer Information and headers styling */
+.customer-info-header,
+.service-info-header,
+.vet-info-header,
+.fish-info-header,
+.surcharge-info-header,
+.total-price-header,
+.payment-info-header {
+    font-weight: 900;
+    margin-top: 1rem;
+}
+
+.address-info {
+    font-weight: 300;
+}
+
+/* Button styling */
+.btn-save-changes {
+    background-color: red;
+}
+
+.btn-edit-status {
+    font-weight: 900;
+    color: brown;
+    padding: 10px;
+    font-size: 20px;
+}
+
+.select-status {
+    margin-left: 10px;
+    width: 150px;
+    margin-top: 15px;
+}
+
+.mt-2 {
+    margin-top: 0.5rem;
+}
+
+.mt-3 {
+    font-weight: 900 !important;
+}
+
+/* Payment status badge */
+.payment-status {
+    color: white;
+    padding: 4px 8px;
+    margin-left: 10px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.payment-status-paid {
+    background-color: green;
+}
+
+.payment-status-not-paid {
+    background-color: red;
+}
+
+/* Payment update styling */
+.payment-update-header {
+    font-weight: bold;
+    font-size: 24px;
+    font-style: italic;
+}
+
+/* Margin for bottom section */
+.bottom-section {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.back-button {
+    /* style={{ marginTop: '2rem', marginBottom: '2rem' }} */
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}

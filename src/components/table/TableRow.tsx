@@ -23,7 +23,7 @@ interface TableRowProps {
 const TableRow: React.FC<TableRowProps> = ({ columns, rowData, actions = [], isKoiFishPage, isAddressPage, isAppointmentPage, isFeedbackPage }) => {
     const getStatusClass = (status: string) => {
         switch (status) {
-            case 'CANCELLED': return 'status-cancelled';
+            case 'CANCELED': return 'status-cancelled';
             case 'CHECKED_IN': return 'status-checked-in';
             case 'CONFIRMED': return 'status-confirmed';
             case 'DONE': return 'status-done';
@@ -74,8 +74,9 @@ const TableRow: React.FC<TableRowProps> = ({ columns, rowData, actions = [], isK
                         <div>{dayOfSlot}</div> // Format datetime column
                     ) : column === 'datetime' ? (
                         <div>{rowData.created_date}</div> // Format datetime column
+                    ) : column ==='username'? (
+                        <div>{rowData.username}</div>
                     ) : (
-                        // !rowData[column] ? '' : rowData[column]
                         rowData[column] ? formatStatusText(rowData[column]) : '' // Format status column
                     )}
                 </td>
