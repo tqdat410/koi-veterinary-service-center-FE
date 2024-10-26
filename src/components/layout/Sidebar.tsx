@@ -19,21 +19,22 @@ const Sidebar: React.FC = () => {
 
     const isActive = (path: string) => location.pathname === path ? 'mb-1 sidebar-select' : 'mb-1 text-dark';
     const isPricingPage = location.pathname === '/manager/service-pricing' || location.pathname === '/manager/transport-pricing';
+
     return (
-        <div className="d-flex flex-column sidebar border-right " style={{ minWidth: '272px', height: '100vh' }}>
-            <div className="p-3 " style={{marginTop: "55px"}}>
+        <div className="d-flex flex-column sidebar border-right fixed-left " style={{ minWidth: '272px', height: '100vh' }}>
+            <div className="p-3 " style={{marginTop:"45px"}}>
                 {/* Hiển thị các mục theo role */}
                 {role === 'MAN' && (
                     <>
-                        <Link to="/" className={`nav-link ${isActive('/')}`}>
+
+                        <Link to="/manager/dashboard" className={`nav-link ${isActive('/manager/dashboard')}`}>
                             <div className="d-flex align-items-center">
-                                <i className="fa-solid fa-house"></i>
-                                <span className="fw-bold ms-3">Home</span>
+                                <i className="fa-solid fa-square-poll-vertical"></i>
+                                <span className="fw-bold ms-3">Dashboard</span>
                             </div>
                         </Link>
 
-                        <Link to="/manager/appointment-list"
-                              className={`nav-link ${isActive('/manager/appointment-list')}`}>
+                        <Link to="/manager/appointment-list" className={`nav-link ${isActive('/manager/appointment-list')}`}>
                             <div className="d-flex align-items-center">
                                 <i className="fa-regular fa-calendar-days"></i>
                                 <span className="fw-bold ms-3">Appointment List</span>
@@ -117,7 +118,6 @@ const Sidebar: React.FC = () => {
                         <Link to="/my-appointment" className={`nav-link ${isActive('/my-appointment')}`}>
                             <div className="d-flex align-items-center">
                                 <i className="fa-regular fa-calendar-days"></i>
-
                                 <span className="fw-bold ms-3">My Appointment</span>
                             </div>
                         </Link>
@@ -141,12 +141,6 @@ const Sidebar: React.FC = () => {
                 {/* Veterinarian Role */}
                 {role === 'VET' && (
                     <>
-                        <Link to="/" className={`nav-link ${isActive('/')}`}>
-                            <div className="d-flex align-items-center">
-                                <i className="fa-solid fa-house"></i>
-                                <span className="fw-bold ms-3">Home</span>
-                            </div>
-                        </Link>
                         <Link to="/veterinarian/schedule" className={`nav-link ${isActive('/veterinarian/schedule')}`}>
                             <div className="d-flex align-items-center">
                                 <i className="fa-regular fa-calendar-days"></i>
@@ -159,12 +153,6 @@ const Sidebar: React.FC = () => {
                 {/* Staff Role */}
                 {role === 'STA' && (
                     <>
-                        <Link to="/" className={`nav-link ${isActive('/')}`}>
-                            <div className="d-flex align-items-center">
-                                <i className="fa-solid fa-house"></i>
-                                <span className="fw-bold ms-3">Home</span>
-                            </div>
-                        </Link>
                         <Link to="/staff/appointment-list"
                               className={`nav-link ${isActive('/staff/appointment-list')}`}>
                             <div className="d-flex align-items-center">

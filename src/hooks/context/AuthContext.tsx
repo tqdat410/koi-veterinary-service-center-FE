@@ -31,14 +31,18 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true); // Thêm trạng thái loading để quản lý quá trình xác thực
 
-    const checkTokenExpiration = async (token: string) => {
+    const handleTokenRefresh = async () => {
         try {
+            const token = localStorage.getItem('token');
+            if (!token) return;
             const decodedToken: any = jwtDecode(token);
             const currentTime = Date.now() / 1000;
 
-            if (decodedToken.exp && decodedToken.exp < currentTime) {
+            if (decodedToken.exp && decodedToken.exp - currentTime < 60 * 5) {
                 // Token expired, attempt to refresh
                 const refreshedToken = await refreshToken(token);
+                localStorage.setItem('token', refreshedToken);
+                axios.defaults.headers.common['Authorization'] = `Bearer ${refreshedToken}`;
                 login(refreshedToken); // Refresh and re-login with new token
             }
         } catch (error) {
@@ -50,12 +54,14 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
-            checkTokenExpiration(token);
+
             try {
                 const decodedToken: any = jwtDecode(token);
+
                 setIsAuthenticated(true);
                 setUser({ userId: decodedToken.userId, roleId: decodedToken.scope });
                 axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+                setInterval(handleTokenRefresh, 60 * 1000);
             } catch (error) {
                 console.error("Invalid token:", error);
                 logout();
@@ -67,6 +73,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const login = (token: string) => {
         localStorage.setItem('token', token);
         const decodedToken: any = jwtDecode(token);
+        if (decodedToken.exp * 1000 < Date.now()) {
+            console.error("Token is already expired");
+            return logout();
+        }
+        console.log(decodedToken)
         setIsAuthenticated(true);
         setUser({ roleId: decodedToken.scope, userId: decodedToken.userId });
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;

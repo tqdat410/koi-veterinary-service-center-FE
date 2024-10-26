@@ -43,7 +43,7 @@ const Profile: React.FC = () => {
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
     const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
     const navigate = useNavigate();
-
+    const [isUploading, setIsUploading] = useState(false);
     const [userProfiles, setUserProfiles] = useState<UserData | null>(null);
 
 
@@ -83,12 +83,15 @@ const Profile: React.FC = () => {
     const updateAvatar = async (image: File) => {
         if (userId) {
             try {
+                setIsUploading(true);
                 await updateUserAvatarAPI(userId, image); // Gọi hàm API cập nhật avatar
                 alert("Avatar updated successfully!");
                 // Có thể gọi lại API để lấy lại thông tin người dùng mới nếu cần
             } catch (error) {
                 console.error('Failed to update avatar:', error);
                 alert("Failed to update avatar.");
+            } finally {
+                setIsUploading(false); // Stop loading
             }
         }
     };
@@ -116,8 +119,6 @@ const Profile: React.FC = () => {
                 phone_number,
 
             };
-
-
             if (userId) {
                 await updateUserInfoAPI(userId, updatedData); // Use authService function
                 console.log("User profile updated successfully!");
@@ -142,7 +143,7 @@ const Profile: React.FC = () => {
     const canEditProfile = roleId === 'CUS' || roleId === 'MAN';
 
     return (
-        <div className="d-flex profile-page">
+        <div className="d-flex profile-page" style={{ marginLeft: '272px' }}>
             <Sidebar />
 
             <div className="flex-grow-1 bg-light" style={{ height: '100vh' }}>
@@ -156,6 +157,7 @@ const Profile: React.FC = () => {
                                 className="uploaded-image"
                             />
                         </div>
+                        {canEditProfile &&(
                         <label className="upload-btn btn-shadow">
                             {selectedImage ? "Change Image" : "Choose Image"}
                             <input
@@ -165,7 +167,7 @@ const Profile: React.FC = () => {
                                 style={{ display: 'none' }}
                             />
                         </label>
-
+                            )}
                     </div>
                     <div className="form-section">
                         <form className="profile-form">

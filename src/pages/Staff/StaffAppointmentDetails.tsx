@@ -6,7 +6,6 @@ import { updateAppointmentStatus, fetchAppointmentAndVeterinariansDemo, updateAp
 import { fetchVetBySlotId } from '../../api/vetApi';
 import '../../styles/StaffAppointmentDetails.css';
 import { useParams } from 'react-router-dom';
-
 interface AppointmentDetailsProps {
     appointment_id: number;
     created_date: string;
@@ -184,7 +183,7 @@ const StaffAppointmentDetails: React.FC = () => {
         console.log(`Selected status set to: ${status}`);
         const confirmUpdate = window.confirm(`Are you sure you want to update the status to: ${status}?`);
         if (confirmUpdate) {
-            handleUpdateAppointmentStatus1(status);  // Gọi hàm cập nhật
+            handleUpdateAppointmentStatus(status);  // Gọi hàm cập nhật
         }
     };
 
@@ -194,114 +193,8 @@ const StaffAppointmentDetails: React.FC = () => {
         setIsEditingStatus(false);
         setSelectedStatus('');
     };
-
-    //Fucntion to update appointment status: current status (for all status except CANCELED)
-    // const handleUpdateAppointmentStatus = async () => {
-    //     const confirmUpdate = window.confirm(`Appointment status updated to: ${selectedStatus}, do you want to change it?`);
-
-    //     if (confirmUpdate) {
-    //         if (appointment) {
-    //             try {
-    //                 // Gọi API để cập nhật trạng thái
-    //                 await updateAppointmentStatus(appointment.appointment_id, selectedStatus);
-    //                 // Cập nhật lại thông tin trạng thái trong state appointment
-    //                 setAppointment(prevAppointment => {
-    //                     if (prevAppointment) {
-    //                         return {
-    //                             ...prevAppointment,
-    //                             current_status: selectedStatus
-    //                         };
-    //                     }
-    //                     return prevAppointment;
-    //                 });
-    //                 // Đặt selectedStatus về giá trị mới
-    //                 setSelectedStatus(selectedStatus);
-
-    //                 console.log('Updated appointment status:', selectedStatus);
-    //             } catch (error) {
-    //                 alert('Error updating appointment status');
-    //                 console.error('Error updating appointment status:', error);
-    //             }
-    //         }
-    //     }
-    // };
-
-    // const handleUpdateAppointmentStatus = async () => {
-    //     if (appointment) {
-    //         try {
-    //             // Gọi API để cập nhật trạng thái
-    //             const response =  await updateAppointmentStatus(appointment.appointment_id, selectedStatus);
-    //             // Cập nhật lại thông tin trạng thái trong state appointment
-    //             if(response){
-    //                 setAppointment(prevAppointment => {
-    //                     if (prevAppointment) {
-    //                         return {
-    //                             ...prevAppointment,
-    //                             current_status: selectedStatus
-    //                         };
-    //                     }
-    //                     return prevAppointment;
-    //                 });
-    //                 console.log('Updated appointment status:', selectedStatus);
-    //             }
-    //             // setAppointment(prevAppointment => {
-    //             //     if (prevAppointment) {
-    //             //         return {
-    //             //             ...prevAppointment,
-    //             //             current_status: selectedStatus
-    //             //         };
-    //             //     }
-    //             //     return prevAppointment;
-    //             // });
-    //             console.log('Updated appointment status:', selectedStatus);
-    //         } catch (error) {
-    //             alert('Error updating appointment status');
-    //             console.error('Error updating appointment status:', error);
-    //         }
-
-    //     }
-    // };
-
-    const handleUpdateAppointmentStatus = async () => {
-
-        const confirmUpdate = window.confirm(`Bạn có chắc chắn muốn cập nhật trạng thái thành: ${selectedStatus}?`);
-        if (!confirmUpdate) return;
-
-        if (appointment) {
-            try {
-                console.log("Updating appointment status with:", selectedStatus);
-                const statusDto = {
-                    status: selectedStatus
-                }
-                // Gọi API để cập nhật trạng thái, truyền selectedStatus trực tiếp
-                // const response = 
-                await updateAppointmentStatus(appointment.appointment_id, selectedStatus);
-
-                // Kiểm tra nếu API thành công
-                // if (response) {
-                setAppointment(prevAppointment => {
-                    if (prevAppointment) {
-                        return {
-                            ...prevAppointment,
-                            current_status: selectedStatus
-                        };
-                    }
-                    return prevAppointment;
-                });
-                console.log('Updated appointment status:', selectedStatus);
-                // }
-                //  else {
-                //     console.error('Failed to update status, response:', response);
-                //     alert('Failed to update status. Please try again.');
-                // }
-            } catch (error) {
-                console.error('Error updating appointment status:', error);
-                alert('Error updating appointment status.');
-            }
-        }
-    };
-
-    const handleUpdateAppointmentStatus1 = async (status: string) => {
+    // Function to update appointment status
+    const handleUpdateAppointmentStatus = async (status: string) => {
 
         const confirmUpdate = window.confirm(`Bạn có chắc chắn muốn cập nhật trạng thái thành: ${status}?`);
         if (!confirmUpdate) return;
@@ -501,7 +394,7 @@ const StaffAppointmentDetails: React.FC = () => {
                                             appointment.current_status.replace('_', ' ').toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase())
                                             : 'N/A'}
                                     </span>
-                                </p>
+                                    </p>
 
                                 <h5 className="mt-3">Customer Information:</h5>
                                 <p>Name: {appointment?.customer_name}</p>
@@ -651,16 +544,25 @@ const StaffAppointmentDetails: React.FC = () => {
                         </div>
                     </div>
                 </div>
+
+                {/*<div*/}
+                {/*    style={{marginTop: '2rem', marginBottom: '2rem'}}*/}
+                {/*>*/}
+                {/*    /!* Back Button *!/*/}
+                {/*    <button className="btn btn-secondary mt-3" onClick={() => navigate(-1)}>Back</button>*/}
+
+                {/*</div>*/}
             </div>
+            
 
             <div className='back-button'>
                 <button className="btn btn-secondary" onClick={() => navigate(-1)}>Back</button>
             </div>
 
-        </div>
-
+            </div>
+       
     );
-};
 
+};
 export default StaffAppointmentDetails;
 

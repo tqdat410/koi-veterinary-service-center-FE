@@ -31,10 +31,21 @@ export const register = async (username: string, email: string, password: string
 
 // API để lấy thông tin người dùng
 export const getUserInfo = async (userId: number) => {
-    const response = await axios.get(`${BASE_URL}/profile?userId=${userId}`);
-    return response.data;
+    const token = localStorage.getItem("token");
+    console.log(token)
+    try {
+        const response = await axios.get(`${BASE_URL}/profile?userId=${userId}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+        return response.data;
+    } catch (error: any) {
+        console.error("Error fetching user info:", error.response?.data || error.message);
+        throw error; // hoặc xử lý lỗi theo cách của bạn
+    }
 };
-
 // Update user profile
 export const updateUserInfoAPI = async (userId: number, userData: any) => {
     console.log(userData)
@@ -99,10 +110,12 @@ export const updateUserAvatarAPI = async (userId: number, image: File) => {
     const formData = new FormData();
     formData.append("user_id", userId.toString());
     formData.append("image", image);
-
+    const token = localStorage.getItem("token");
+    console.log(token)
     const response = await axios.put('http://localhost:8080/api/v1/users/avatar', formData, {
         headers: {
             'Content-Type': 'multipart/form-data',
+            'Authorization': `Bearer ${token}`,
         },
     });
     return response.data;

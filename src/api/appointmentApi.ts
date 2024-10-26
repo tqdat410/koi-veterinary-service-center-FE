@@ -14,6 +14,14 @@ export interface AppointmentDetails {
     phone_number: string;
     description: string;
     total_price: number;
+    slot: {
+        slot_id: number;
+        year: number;
+        month: number;
+        day: number;
+        slot_order: number;
+        description: number;
+    };
     service: {
         service_id: number;
         service_name: string;
@@ -66,6 +74,7 @@ export interface MedicalReport {
 export interface Medicine {
     medicine_id: number;
     medicine_name: string;
+    instruction: string;
     quantity: number;
 }
 
@@ -347,3 +356,12 @@ export const getAppointmentDetailsForCus = async (appointment_id: number) => {
 
 export { createAppointment };
 
+export const getLinkMeetByVetId = async (vetId: number): Promise<string | null> => {
+    try {
+        const response = await axios.get(`http://localhost:8080/api/v1/users/${vetId}/link`);
+        return response.data; // Trả về link Meet từ API
+    } catch (error) {
+        console.error('Error fetching Meet link:', error);
+        return null;
+    }
+};

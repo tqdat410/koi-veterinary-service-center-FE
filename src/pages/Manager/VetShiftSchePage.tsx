@@ -16,8 +16,8 @@ interface Vet {
 }
 const VetShiftSchePage: React.FC = () => {
     const [vets, setVets] = useState<any[]>([]);
-    const columns = ['user_id', 'fullName', 'username', 'email', 'phone_number', 'address'];
-    const columnHeaders = ['ID', 'Full Name', 'Username', 'Email', 'Phone Number', 'Address'];
+    const columns = ['user_id', 'fullName', 'username', 'email', 'phone_number'];
+    const columnHeaders = ['ID', 'Full Name', 'Username', 'Email', 'Phone Number'];
     const navigate = useNavigate();
 
 
@@ -62,7 +62,7 @@ const VetShiftSchePage: React.FC = () => {
     ];
 
     return (
-        <div className="d-flex flex-grow-1">
+        <div className="d-flex flex-grow-1" style={{ marginLeft: '272px' }}>
             <Sidebar />
             <div className="container" style={{ marginTop: "6rem" }}>
                 <div className="card" style={{ width: '100%' }}>

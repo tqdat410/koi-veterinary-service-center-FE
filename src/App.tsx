@@ -34,6 +34,7 @@ const VetDetails = lazy(() => import("./pages/Manager/VetDetails"));
 
 // NEW
 
+const DashBoardPage = lazy(() => import("./pages/Manager/DashBoard/DashBoardPage"))
 const CustomerManagementPage = lazy(() => import("./pages/Manager/CustomerManagementPage"))
 const CustomerDetailPage = lazy(() => import("./pages/Manager/CustomerDetails"))
 const FeedbackManagementPage = lazy(() => import("./pages/Manager/FeedbackManagementPage"))
@@ -148,8 +149,7 @@ function App() {
                             <Route path="/manager/staff-details" element={withRole(ManagerStaffDetails, ['MAN'])} />
                             <Route path="/manager/add-staff" element={withRole(AddStaffPage, ['MAN'])} />
                             <Route path="/manager/booked-schedule" element={withRole(BookedSchedulePage, ['MAN'])} />
-
-
+                            <Route path="/manager/dashboard" element={withRole(DashBoardPage, ['MAN'])} />
                             {/* Staff routes */}
                             <Route path="/staff/appointment-list" element={withRole(StaffAppointment, ['STA'])} />
                             {/*<Route path="/staff/appointment-details" element={withRole(StaffAppointmentDetails, ['STA'])} />*/}

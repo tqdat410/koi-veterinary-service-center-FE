@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { useAuth } from "../../hooks/context/AuthContext";
 import "../../styles/LoginRegister.css";
+import "../../styles/App.css"
 import axios from  "axios"
 import {jwtDecode} from "jwt-decode";
 
@@ -16,23 +17,16 @@ const DangNhapNguoiDung: React.FC = () => {
     const [password, setPassword] = useState<string>('');
     const [errorMessage, setErrorMessage] = useState("");
     const navigate = useNavigate();
-
-    // useEffect(() => {
-    //     // Check if user is already logged in
-    //     const token = localStorage.getItem('token');
-    //     if (token) {
-    //         login(token); // Set the token in context
-    //         navigate('/'); // Redirect to home if already logged in
-    //     }
-    // }, [login, navigate]);
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
             const response = await axios.post('http://localhost:8080/api/v1/users/token', { username, password });
             const token = response.data.result.token;
+            login(token);  // Lưu JWT sau khi đăng nhập
+
             const decodedToken: any = jwtDecode(token);
             const roleId = decodedToken.scope;
-            login(token);  // Lưu JWT sau khi đăng nhập
+
 
             switch (roleId) {
                 case 'CUS':
@@ -51,7 +45,7 @@ const DangNhapNguoiDung: React.FC = () => {
                     navigate('/');  // Fallback for any other role
                     break;
             }
-            console.log("2",user?.roleId)
+            console.log("role",user?.roleId)
         } catch (err) {
             setErrorMessage('Incorrect username or password. Please try again.');
         }
@@ -107,9 +101,9 @@ const DangNhapNguoiDung: React.FC = () => {
                         </div>
 
                         {/* Forgot Password */}
-                        <div className="d-flex justify-content-end mb-3">
-                            <a href="#" className="text-white fw-bold" style={{ fontSize: '0.875rem' }}>Forgot Password?</a>
-                        </div>
+                        {/*<div className="d-flex justify-content-end mb-3">*/}
+                        {/*    <a href="#" className="text-white fw-bold" style={{ fontSize: '0.875rem' }}>Forgot Password?</a>*/}
+                        {/*</div>*/}
 
                         {/* Sign In Button */}
 
