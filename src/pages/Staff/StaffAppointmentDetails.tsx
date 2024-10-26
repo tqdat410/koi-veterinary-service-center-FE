@@ -625,7 +625,7 @@ const StaffAppointmentDetails: React.FC = () => {
                                         </p>
 
                                         {/* Hiển thị phần update payment chỉ khi status là NOT_PAID và method là CASH */}
-                                        {appointment.current_status === 'CONFIRMED' && paymentDetails.status === "NOT_PAID" && paymentDetails.payment_method === "CASH" && (
+                                        {paymentDetails.status === "NOT_PAID" && paymentDetails.payment_method === "CASH" && (
                                             <div>
                                                 <span style={{ fontWeight: 'bold', fontSize: '24px', fontStyle: 'italic' }}>Update Payment Status: </span>
                                                 {!isEditingPaymentMethod ? (
@@ -635,7 +635,7 @@ const StaffAppointmentDetails: React.FC = () => {
                                                 ) : (
                                                     <div>
                                                         <button className="btn btn-success mt-2" onClick={handleUpdatePaymentMethod}>
-                                                            Update CONFIRMED
+                                                            Update PAID
                                                         </button>
                                                         <button className="btn btn-success mt-2" style={{ marginLeft: '12px', backgroundColor: 'red' }} onClick={() => setIsEditingPaymentMethod(false)}>
                                                             Cancel
