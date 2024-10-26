@@ -1,0 +1,15 @@
+.status.enabled {
+    background-color: #d4edda; /* Màu nền xanh nhạt cho trạng thái Enabled */
+    color: #155724; /* Màu chữ xanh đậm */
+    padding: 5px 10px;
+    border-radius: 5px;
+    width: 100px;
+}
+
+.status.disabled {
+    background-color: #f8d7da; /* Màu nền đỏ nhạt cho trạng thái Disabled */
+    color: #721c24; /* Màu chữ đỏ đậm */
+    padding: 5px 10px;
+    border-radius: 5px;
+    width: 100px;
+}
