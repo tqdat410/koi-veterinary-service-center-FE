@@ -67,6 +67,7 @@ const StaffAppointment = lazy(() => import("./pages/Staff/StaffAppointment"))
 const VetSchedulePage = lazy(() => import("./pages/Veterinarian/VetSchedulePage"))
 
 //NEW: FOR VETERINARIAN
+const VetFeedbackPage = lazy(() => import("./pages/Veterinarian/VeterinarianFeedbackPage"))
 const VeterinarianFeedbackDetailsPage = lazy(() => import("./pages/Veterinarian/VeterinarianFeedbackDetailsPage"))
 const VetAppointmentDetails = lazy(() => import("./pages/Veterinarian/VetAppointmentDetails"))
 
@@ -156,6 +157,7 @@ function App() {
                             <Route path="/staff/appointments/:appointment_id" element={withRole(StaffAppointmentDetails, ['STA'])} />
 
                             {/* Role: Veterinarian */}
+                            <Route path="/veterinarian/vet-feedback" element={withRole(VetFeedbackPage, ['VET'])} />
                             <Route path="/veterinarian/vet-feedback-details" element={withRole(VeterinarianFeedbackDetailsPage, ['VET'])} />
                             <Route path="/veterinarian/schedule" element={withRole(VetSchedulePage, ['VET'])} />
                             <Route path="/veterinarian/appointment-details/:appointmentId" element={withRole(VetAppointmentDetails, ['VET'])} />
