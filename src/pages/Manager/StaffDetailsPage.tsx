@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "../../components/layout/Sidebar";
 import { useLocation, useNavigate } from "react-router-dom";
 import '../../styles/Profile.css'
+import '../../styles/StaffDetailsPage.css';
 import { getStaffDetailsById, modifyStaffStatus, updateStaffProfile } from "../../api/staffApi";
 
 
@@ -43,6 +44,9 @@ const StaffProfile: React.FC = () => {
                 setLastname(staff.last_name || '');
                 setPhone(staff.phone_number || '');
                 setEmail(staff.email || '');
+                if (staff.avatar) {
+                    setSelectedImage(staff.avatar);
+                }
                 console.log(staff)
             } catch (error) {
                 console.error('Failed to fetch user data:', error);
@@ -59,7 +63,7 @@ const StaffProfile: React.FC = () => {
             const formData = new FormData();
             formData.append('image', file);  // Append file image
             formData.append('user_id', userId);  // Append user ID
-            
+
             try {
                 const response = await axios.put('http://localhost:8080/api/v1/users/avatar', formData, {
                     headers: {
@@ -131,7 +135,7 @@ const StaffProfile: React.FC = () => {
     const handleChangeStatus = async () => {
         const isConfirmed = window.confirm("Are you sure you want to change this user's status?");
         if (!isConfirmed) return;
-    
+
         try {
             await modifyStaffStatus(userId, !enabled); // Truyền giá trị enable mới (đảo ngược)
             setEnabled(prev => !prev); // Cập nhật trạng thái trên frontend
@@ -141,7 +145,7 @@ const StaffProfile: React.FC = () => {
             console.error('Failed to update user status:', error);
         }
     };
-    
+
 
     // Handle cancel action to reset form values to original state
     const handleCancel = () => {
@@ -155,17 +159,17 @@ const StaffProfile: React.FC = () => {
 
 
     return (
-        <div className="d-flex profile-page flex-grow-1 gap-3" style={{marginLeft: '272px'}}>
-            <Sidebar/>
+        <div className="d-flex profile-page flex-grow-1 gap-3" style={{ marginLeft: '272px' }}>
+            <Sidebar />
 
-            <div className="flex-grow-1 bg-light" style={{height: '100vh'}}>
+            <div className="flex-grow-1 bg-light" style={{ height: '100vh' }}>
 
                 <div className="profile-container">
                     <div className="image-section">
                         <div className="image-background">
                             {selectedImage ? (
 
-                                <img src={selectedImage} alt="Uploaded" className="uploaded-image"/>
+                                <img src={selectedImage} alt="Uploaded" className="uploaded-image" />
                             ) : (
                                 <div className="image-placeholder">No Image Selected</div>
                             )}
@@ -177,8 +181,7 @@ const StaffProfile: React.FC = () => {
                                 type="file"
                                 accept="image/*"
                                 onChange={handleImageChange}
-
-                                style={{display: 'none'}}
+                                style={{ display: 'none' }}
                             />
                         </label>
 
@@ -188,12 +191,12 @@ const StaffProfile: React.FC = () => {
                             <div className="form-group">
                                 <label className="fw-bold">Username</label>
                                 <input type="text" className="form-control input-field"
-                                       value={StaffData?.username || 'Loading...'} readOnly/>
+                                    value={StaffData?.username || 'Loading...'} readOnly />
                             </div>
                             <div className="form-group">
                                 <label className="fw-bold">Email</label>
                                 <input type="email" className="form-control input-field" value={email}
-                                       onChange={e => setEmail(e.target.value)} onBlur={validateEmail}/>
+                                    onChange={e => setEmail(e.target.value)} onBlur={validateEmail} />
                                 {errorEmail && <div className="error-register">{errorEmail}</div>}
                             </div>
                             <div className="name-row">
@@ -201,25 +204,30 @@ const StaffProfile: React.FC = () => {
                                     <label className="fw-bold">First Name</label>
 
                                     <input type="text" className="form-control input-field" value={firstname}
-                                           onChange={e => setFirstname(e.target.value)}/>
+                                        onChange={e => setFirstname(e.target.value)} />
                                 </div>
                                 <div className="form-group">
                                     <label className="fw-bold">Last Name</label>
                                     <input type="text" className="form-control input-field" value={lastname}
-                                           onChange={e => setLastname(e.target.value)}/>
+                                        onChange={e => setLastname(e.target.value)} />
                                 </div>
                             </div>
                             <div className="form-group">
                                 <label className="fw-bold">Contact Number</label>
                                 <input type="text" className="form-control input-field" value={phone}
-                                       onChange={e => setPhone(e.target.value)} onBlur={validatePhone}/>
+                                    onChange={e => setPhone(e.target.value)} onBlur={validatePhone} />
                                 {errorPhone && <div className="error-register">{errorPhone}</div>}
                             </div>
 
                             <div className="form-group">
                                 <label className="fw-bold">Status: {StaffData?.enable}</label>
-                                <p>{enabled ? "Enabled" : "Disabled"}</p> {/* Hiển thị trạng thái */}
+                                <p
+                                    className={`status ${enabled ? "enabled" : "disabled"}`}
+                                >
+                                    {enabled ? "Enabled" : "Disabled"}
+                                </p>
                             </div>
+
 
                             <div className="button-group">
                                 <div className="left-buttons">
@@ -227,10 +235,11 @@ const StaffProfile: React.FC = () => {
                                         type="button"
                                         className="btn btn-secondary"
                                         onClick={handleChangeStatus}
-                                        style={{backgroundColor: enabled ? 'green' : 'red', marginTop: '10px'}}
+                                        style={{ backgroundColor: enabled ? 'red' : 'green', marginTop: '10px' }}
                                     >
                                         {enabled ? "Disable" : "Enable"} {/* Thay đổi text nút */}
                                     </button>
+
 
                                 </div>
                                 <div className="right-buttons">
