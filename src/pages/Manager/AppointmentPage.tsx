@@ -23,7 +23,6 @@ enum Status {
 }
 
 
-
 const formatDateTime = (dateString: string) => {
     const date = new Date(dateString);
 
@@ -34,7 +33,7 @@ const formatDateTime = (dateString: string) => {
     const options: Intl.DateTimeFormatOptions = {
         day: '2-digit',
         month: '2-digit',
-        year: '2-digit',
+        year: 'numeric',
         hour: '2-digit',
         minute: '2-digit',
         hour12: false, // Use 24-hour format
@@ -46,7 +45,7 @@ const formatDateTime = (dateString: string) => {
 
 const ManagerAppointment: React.FC = () => {
     const [appointment, setAppointment] = useState<Appointment[]>([]);
-    const columns = ['appointment_id', 'date_time', 'service_name', 'veterinarian_name', 'appointment_status'];
+    const columns = ['appointment_id', 'created_date', 'service_name', 'veterinarian_name', 'appointment_status'];
     const columnHeaders = ['ID', 'Created date', 'Service', 'Veterinarian', 'Status'];
     // tạm thời chưa có customer name!
     const navigate = useNavigate();
@@ -56,11 +55,10 @@ const ManagerAppointment: React.FC = () => {
             try {
                 const data = await fetchAppointment();
                 const filteredData = data.map((appointment: any) => {
-                    const { password, created_date,  ...rest } = appointment; // Exclude password
+                    const { created_date, ...rest } = appointment; // Exclude password
                     return {
                         ...rest,
-                        date_time: formatDateTime(created_date), // Format created_date to desired format
-                        // current_status: mapStatus(current_status), // Map ENUM to readable status
+                        created_date: formatDateTime(created_date), // Format created_date to desired format
                     };
                 });
                 const sortedData = filteredData.sort((a: Appointment, b: Appointment) => b.appointment_id - a.appointment_id);
