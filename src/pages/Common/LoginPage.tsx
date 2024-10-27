@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, {useEffect, useState} from "react";
 import backgroundImage from "../../assets/images/background.jpg";
 import googleIcon from "../../assets/images/flat-color-icons_google.svg";
 import { Link, useNavigate } from "react-router-dom";
@@ -8,6 +8,7 @@ import "../../styles/LoginRegister.css";
 import "../../styles/App.css"
 import axios from  "axios"
 import {jwtDecode} from "jwt-decode";
+import {OAuthConfig} from "./LoginWithGmail/OAuthConfig";
 
 
 const DangNhapNguoiDung: React.FC = () => {
@@ -16,6 +17,27 @@ const DangNhapNguoiDung: React.FC = () => {
     const [password, setPassword] = useState<string>('');
     const [errorMessage, setErrorMessage] = useState("");
     const navigate = useNavigate();
+
+    const handleContinueWithGoogle = () => {
+        // const { authUri, clientId, redirectUri } = OAuthConfig;
+        const callbackUrl = OAuthConfig.redirectUri;
+        const authUrl = OAuthConfig.authUri;
+        const googleClientId = OAuthConfig.clientId;
+
+        const targetUrl = `${authUrl}?redirect_uri=${encodeURIComponent(callbackUrl)}&response_type=code&client_id=${googleClientId}&scope=openid%20email%20profile`;
+        console.log(targetUrl);
+        window.location.href = targetUrl;
+    };
+
+    useEffect(() => {
+        // Check if user is already authenticated
+        if (localStorage.getItem("token")) {
+            navigate("/");
+        }
+    }, [navigate]);
+
+
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
@@ -48,6 +70,8 @@ const DangNhapNguoiDung: React.FC = () => {
             setErrorMessage('Incorrect username or password. Please try again.');
         }
     };
+
+
 
     return (
         <div
@@ -115,25 +139,26 @@ const DangNhapNguoiDung: React.FC = () => {
                         {/* Or continue with */}
                         <p className="text-center text-white fw-bold mb-3" style={{ fontSize: '0.875rem' }}>or continue with</p>
 
-                        {/* Social Buttons */}
-                        <div className="d-flex justify-content-center gap-3 mb-3">
-                            <button className="btn btn-outline-secondary"
-                                    style={{
-                                        backgroundColor: 'white',
-                                        border: '1px solid #bcbcc0',
-                                        borderRadius: '5px',
-                                        fontSize: '0.875rem',
-                                        padding: '0.5rem',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                    }}>
-                                <img src={googleIcon} alt="Google" style={{ width: '35px', height: '20px' }} />
-                            </button>
-                            {/* Add more social buttons similarly */}
-                        </div>
-                    </form>
 
+                    </form>
+                    {/* Social Buttons */}
+                    <div className="d-flex justify-content-center gap-3 mb-3">
+                        <button className="btn btn-outline-secondary"
+                                style={{
+                                    backgroundColor: 'white',
+                                    border: '1px solid #bcbcc0',
+                                    borderRadius: '5px',
+                                    fontSize: '0.875rem',
+                                    padding: '0.5rem',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                }}
+                                onClick={handleContinueWithGoogle}>
+                            <img src={googleIcon} alt="Google" style={{ width: '35px', height: '20px' }} />
+                        </button>
+                        {/* Add more social buttons similarly */}
+                    </div>
                     {/* Register Link */}
                     <p className="text-center text-white fw-bold" style={{ fontSize: '0.875rem' }}>
                         Don’t have an account yet? <Link className="text-warning" to="/register">Register for free</Link>
