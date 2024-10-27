@@ -105,9 +105,13 @@ const AddKoiFish: React.FC = () => {
                         style={{marginTop: "6rem"}}>
                         <div className="image-upload-container">
                             <div className="image-upload-card">
-                                {imagePaths.length > 0 && (
+                                {imagePaths.length > 0 ? (
                                     <img src={imagePaths[0]} className="image-upload" alt="Koi"/>
-                                )}
+                                ) : (
+                                    <div className="upload-placeholder text-muted fs-5 fw-bold">
+                                    Upload your fish or not
+                                    </div>
+                                    )}
                             </div>
                             <div className="upload-button-container text-center mt-3">
                                 <input type="file" multiple onChange={(e) => handleImageUpload(e.target.files)}/>
@@ -118,7 +122,7 @@ const AddKoiFish: React.FC = () => {
                             {showAllImages && imagePaths.length > 1 && (
                                 <div className="uploaded-images mt-3">
                                     {imagePaths.slice(1).map((path, index) => (
-                                        <img key={index} src={path} className="image-upload"
+                                        <img key={index} src={path} className="image-upload-more"
                                              alt={`Uploaded ${index + 1}`}/>
                                     ))}
                                 </div>
@@ -130,7 +134,7 @@ const AddKoiFish: React.FC = () => {
                     </div>
 
                     {/* Form Section */}
-                    <div className="col-md-6 col-sm-12 d-flex flex-column justify-content-center align-items-center  "
+                    <div className="col-md-6 col-sm-12 d-flex justify-content-center align-items-start"
                          style={{marginTop: "3.5rem"}}>
                         <div className="form-container card w-100">
                             <div className="card-body">
@@ -167,14 +171,14 @@ const AddKoiFish: React.FC = () => {
                                                 id="MALE"
                                                 checked={gender === 'MALE'}
                                                 onChange={(e) => setGender(e.target.value)}/>
-                                            <label className="form-check-label" htmlFor="MALE">Male</label>
+                                            <label className="form-check-label fw-bold" htmlFor="MALE">Male</label>
                                         </div>
                                         <div className="form-check">
                                             <input
                                                 className={`form-check-input ${error && !gender ? 'border-danger' : ''}`}
                                                 type="radio" name="gender" value="FEMALE"
                                                 id="FEMALE" onChange={(e) => setGender(e.target.value)}/>
-                                            <label className="form-check-label" htmlFor="FEMALE">Female</label>
+                                            <label className="form-check-label fw-bold" htmlFor="FEMALE">Female</label>
                                         </div>
                                     </div>
                                 </div>
@@ -218,7 +222,7 @@ const AddKoiFish: React.FC = () => {
 
                                 {/* Submit Button */}
                                 <div className="d-grid ">
-                                    <button className="btn btn-primary submit-button mt-3" onClick={handleSubmit}>
+                                    <button className="btn btn-primary mt-3" onClick={handleSubmit}>
                                         Add koi fish
                                     </button>
                                 </div>

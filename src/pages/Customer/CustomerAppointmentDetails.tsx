@@ -1,9 +1,15 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { getAppointmentDetailsForCus } from '../../api/appointmentApi';
+import { getAppointmentDetailsForCus, getLinkMeetByVetId, getMedicalReport, fetchPrescriptionDetails } from '../../api/appointmentApi';
 import { createPayment, fetchPayment } from '../../api/paymentApi';
 import { createFeedback, getFeedbackDetailsCus } from '../../api/feedbackApi';
+
+import { fetchMedicalReport } from '../../api/appointmentApi';
+import { fetchPrescription } from '../../api/prescriptionApi';
+
 import '../../styles/CustomerAppointmentDetails.css';
+import { MedicalReport, Medicine, Prescription } from "../../types";
+
 import { Rating, Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField } from '@mui/material';
 import Sidebar from "../../components/layout/Sidebar";
 
@@ -82,6 +88,13 @@ interface Slot {
     description: string,
 }
 
+interface prescription_info {
+    prescription_id: number;
+    veterinarian_id: number;
+    conclusion: string;
+    advise: string;
+}
+
 enum payment_method {
     CASH = 'CASH',
     VN_PAY = 'VN_PAY',
@@ -96,6 +109,8 @@ const CustomerAppointmentDetails: React.FC = () => {
     const location = useLocation();
     const appointment_id: number = location.state?.appointment_id;
     const [appointment, setAppointment] = useState<AppointmentDetailsProps | null>(null);
+    const [medicalReport, setMedicalReport] = useState<MedicalReport | null>(null);
+    const [prescription, setPrescription] = useState<Prescription | null>(null);
     const [PaymentDetails, setPaymentDetails] = useState<PaymentDetails | null>(null);
     // const [isPaymentVisible, setIsPaymentVisible] = useState(false);
     const paymentRef = useRef<HTMLDivElement>(null);
@@ -114,7 +129,19 @@ const CustomerAppointmentDetails: React.FC = () => {
                     const appointmentData = await getAppointmentDetailsForCus(Number(appointment_id));
                     const paymentData = await fetchPayment(appointment_id);
                     setAppointment(appointmentData);
-                    setPaymentDetails(paymentData); // Update only PaymentDetails state                  
+                    setPaymentDetails(paymentData); // Update only PaymentDetails state 
+
+                    const report = await getMedicalReport(Number(appointment_id));  // Call the medical report
+                    console.log(report); // đã lây được  
+                    if (report) {
+                        setMedicalReport(report); // Update only MedicalReport state
+                        if (report.prescription_id) {
+                            const prescriptionData = await fetchPrescriptionDetails(report.prescription_id);
+                            console.log(prescriptionData);
+                            setPrescription(prescriptionData); // Update only Prescription state
+                        }
+                    }
+
                 } catch (error) {
                     console.error('Error fetching appointment details:', error);
                 }
@@ -136,14 +163,30 @@ const CustomerAppointmentDetails: React.FC = () => {
                     console.error('Error fetching feedback details:', error);
                 }
             }
+
+
         };
 
         fetchFeedbackDetails();
     }, [appointment?.feedback_id]);
+
     if (!appointment) {
         return <div>Loading...</div>;
     }
 
+    //Fetch google meeting if the user id of veterinarian is available and the service id = 3
+    const fetchGoogleMeeting = async () => {
+        try {
+            const linkMeet = await getLinkMeetByVetId(appointment.veterinarian.user_id);
+            if (linkMeet) { // Kiểm tra linkMeet khác null
+                window.open(linkMeet, '_blank');
+            } else {
+                console.warn('No Google Meet link available');
+            }
+        } catch (error) {
+            console.error('Error fetching Google meeting:', error);
+        }
+    };
 
 
     // Handle payment initiation
@@ -226,8 +269,8 @@ const CustomerAppointmentDetails: React.FC = () => {
     };
 
     return (
-        <div className="d-flex flex-grow-1 gap-3" style={{marginLeft: '272px'}}>
-            <Sidebar/>
+        <div className="d-flex flex-grow-1 gap-3" style={{ marginLeft: '272px' }}>
+            <Sidebar />
             <div className="container">
                 <h2 className="mb-4">Appointment Details</h2>
                 <div className="card">
@@ -249,12 +292,12 @@ const CustomerAppointmentDetails: React.FC = () => {
                                                         appointment?.current_status === 'ON_GOING' ? 'status-on-going' :
                                                             appointment?.current_status === 'PENDING' ? 'status-pending' :
                                                                 'status-default'
-                                        }`}>
-                                    {/* Format lại chữ */}
+                                            }`}>
+                                        {/* Format lại chữ */}
                                         {appointment?.current_status ?
                                             appointment.current_status.replace('_', ' ').toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase())
                                             : 'N/A'}
-                                </span>
+                                    </span>
                                 </p>
 
 
@@ -266,9 +309,14 @@ const CustomerAppointmentDetails: React.FC = () => {
                                 <h5 className="mt-3">Service Information:</h5>
                                 <p>Service name: {appointment.service?.service_name}</p>
                                 <p>Service Price: {appointment.service?.service_price} VND</p>
+                                {/* Tư vấn online (service id = 1) thì sẽ hiển thị nút tư vấn online qua gg meet */}
+                                {appointment.service?.service_id === 1 && (
+                                    <button className="btn btn-primary meet-btn" onClick={fetchGoogleMeeting}>Click here to Consult Online</button>
+                                )}
 
                                 <h5 className="mt-3">Veterinarian Information:</h5>
                                 <p>Name: {appointment.veterinarian?.first_name} {appointment.veterinarian?.last_name}</p>
+                                <p>Vet id: {appointment.veterinarian?.user_id}</p>
 
                                 {/* Chỉ hiển thị khi có địa chỉ */}
                                 {appointment.address && (
@@ -290,6 +338,32 @@ const CustomerAppointmentDetails: React.FC = () => {
                                     </div>
                                 )}
 
+
+                                {/* Hiển thị medical report khi có */}
+                                {medicalReport && (
+                                    <div>
+                                        <h5 className="mt-3">Medical Report</h5>
+                                        <p>Vet ID: {medicalReport.veterinarian_id}</p>
+                                        <p>Conclusion: {medicalReport?.conclusion || 'N/A'}</p>
+                                        <p>Advise: {medicalReport?.advise || 'N/A'}</p>
+                                    </div>
+                                )}
+
+                                {/* Hiển thị prescription khi có */}
+                                {prescription && (
+                                    <div>
+                                        <h5 className="mt-3">Prescription</h5>
+                                        <p>Medicines:</p>
+                                        <ul>
+                                            {prescription.medicines.map((medicine: Medicine) => (
+                                                <li key={medicine.medicine_id} className='medicine-item'>
+                                                   ID {medicine.medicine_id} :  {medicine.medicine_name} -  {medicine.instruction}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                )}
+
                                 {/* Chỉ hiển thị khi có thông tin moving surcharge */}
                                 {appointment.moving_surcharge && (
                                     <div>
@@ -305,7 +379,7 @@ const CustomerAppointmentDetails: React.FC = () => {
                                 <h5 className="mt-3">Feedback Details</h5>
                                 {feedbackDetails ? (
                                     <div>
-                                        <p>Date time: {formatDateTime(feedbackDetails.date_time)}</p>
+                                        <p>Date & time: {formatDateTime(feedbackDetails.date_time)}</p>
                                         <p>Rating: {feedbackDetails.rating}</p>
                                         <p>Comment: {feedbackDetails.comment}</p>
                                         {/* Bạn có thể thêm các chi tiết khác nếu có */}
@@ -317,27 +391,26 @@ const CustomerAppointmentDetails: React.FC = () => {
                                 <div ref={paymentRef}>
                                     <h5 className="mt-3">Payment Information</h5>
                                     <p>Payment Method: {PaymentDetails?.payment_method || 'N/A'}</p>
-                                    <p>Payment Amount: {PaymentDetails?.payment_amount || 'N/A'} VND</p>
-                                    <p>Description: {PaymentDetails?.description || 'N/A'}</p>
+                                    <p>Payment Amount: {PaymentDetails?.payment_amount || '0'} VND</p>
+                                    <p>Description: {PaymentDetails?.description || 'Empty'}</p>
 
                                     <p>Status:
-                                        <span className={`span-status ${
-                                            PaymentDetails?.status === 'PAID' ? 'status-done' :
-                                                PaymentDetails?.status === 'NOT_PAID' ? 'status-pending' :
-                                                    'status-default'
-                                        }`}
+                                        <span className={`span-status ${PaymentDetails?.status === 'PAID' ? 'status-done' :
+                                            PaymentDetails?.status === 'NOT_PAID' ? 'status-canceled' :
+                                                'status-default'
+                                            }`}
                                         >
-                                        {/* Transform 'PAID' or 'NOT_PAID' to 'Paid' or 'Not paid' */}
+                                            {/* Transform 'PAID' or 'NOT_PAID' to 'Paid' or 'Not paid' */}
                                             {PaymentDetails?.status
                                                 ? PaymentDetails.status.replace('_', ' ').toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase())
                                                 : 'N/A'}
-                                    </span>
+                                        </span>
                                     </p>
 
 
                                     {/* Show Payment button only if payment method is VN PAY and curreny status is NOT_PAID */}
-                                    {PaymentDetails?.payment_method === payment_method.VN_PAY && PaymentDetails?.status === payment_status.NOT_PAID && appointment.current_status === 'CONFIRMED' && (
-                                        <button className="btn btn-primary mt-3" onClick={handlePayment}>Pay</button>
+                                    {PaymentDetails?.payment_method === payment_method.VN_PAY && PaymentDetails?.status === payment_status.NOT_PAID && (
+                                        <button className="btn btn-primary pay-btn" onClick={handlePayment}>Click here to pay</button>
                                     )}
                                 </div>
 
@@ -376,7 +449,7 @@ const CustomerAppointmentDetails: React.FC = () => {
                                             variant="outlined"
                                             value={comment}
                                             onChange={(e) => setComment(e.target.value)}
-                                            style={{marginTop: '20px'}}
+                                            style={{ marginTop: '20px' }}
                                         />
                                     </DialogContent>
                                     <DialogActions>
@@ -394,13 +467,14 @@ const CustomerAppointmentDetails: React.FC = () => {
                     </div>
                 </div>
 
-                {/*<div className='back-button'>*/}
-                {/*    <button className="btn btn-secondary mt-3" onClick={() => navigate(-1)}>Back</button>*/}
-                {/*</div>*/}
+                <div className='back-button'>
+                    <button className="btn btn-secondary mt-3" onClick={() => navigate(-1)}>Back</button>
+                </div>
+
             </div>
-            </div>
-            );
-            };
+        </div>
+    );
+};
 
 
-            export default CustomerAppointmentDetails;
+export default CustomerAppointmentDetails;
