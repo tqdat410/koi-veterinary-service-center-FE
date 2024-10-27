@@ -13,6 +13,7 @@ import OrderConfirmPage from "./pages/Appointment/OrderConfirmPage";
 import AvailableSlots from "./pages/Appointment/AvailableSlotsPage";
 import BookedSchedulePage from "./pages/Manager/BookedSchedulePage";
 import ConditionalNavbar from './components/layout/ConditionalNavbar';
+import Authenticate from "./pages/Common/LoginWithGmail/Authenticate";
 // Lazy load pages
 const RegisterPage = lazy(() => import("./pages/Common/RegisterPage"));
 const DangNhapNguoiDung = lazy(() => import("./pages/Common/LoginPage"));
@@ -106,6 +107,7 @@ function App() {
                             <Route path="/feedback" element={withAuth(DispatchFeedback)} />
 
                             {/* Public routes */}
+                            <Route path="/authenticate" element={< Authenticate/>} />
                             <Route path="/login" element={<DangNhapNguoiDung />} />
                             <Route path="/register" element={<RegisterPage />} />
                             <Route path="/" element={<HomePage />} />
