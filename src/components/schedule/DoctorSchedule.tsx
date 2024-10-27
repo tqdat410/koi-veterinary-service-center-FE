@@ -75,7 +75,13 @@ const DoctorSchedule: React.FC = () => {
         const loadVetSlots = async () => {
             try {
                 const slots = await fetchVetSlots(vetId);
-                setAppointments(slots);  // Store the fetched appointments
+                if (Array.isArray(slots)) {
+                    setAppointments(slots);
+                } else {
+                    console.log('No slots available');
+                    setAppointments([]);
+                }
+
             } catch (error) {
                 console.error('Error fetching slots:', error);
             }

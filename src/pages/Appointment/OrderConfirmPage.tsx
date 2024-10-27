@@ -5,7 +5,7 @@ import axios from "axios";
 import {createAppointment} from "../../api/appointmentApi";
 import {persistor} from "../../store/store";
 import defaultImage from "../../assets/images/defaultImage.jpg";
-import {BASE_API} from "../../api/baseApi"
+import {BASE_API, IMAGE_API} from "../../api/baseApi"
 
 
 const AppointmentOrderPage: React.FC = () => {
@@ -154,7 +154,7 @@ const AppointmentOrderPage: React.FC = () => {
                             <div className="card shadow d-flex flex-column align-items-center justify-content-center"
                                  style={{borderRadius: '40px', width: '320px', height: '360px'}}>
                                 <img
-                                    src={doctor?.avatar  || defaultImage}
+                                    src={doctor?.avatar ? `${IMAGE_API}/${doctor?.avatar}` : defaultImage}
                                     className="card-img-top rounded-circle mt-5"
                                     alt={`${doctor?.first_name} ${doctor?.last_name}`}
                                     style={{width: '200px', height: '200px'}}
