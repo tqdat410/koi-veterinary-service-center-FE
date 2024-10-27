@@ -230,77 +230,95 @@ const AppointmentDetails: React.FC = () => {
                 <div className="card">
                     <div className="card-body">
                         <div className="card-body">
-                            <h5 className="card-title" style={{ width: '100%' }}>Appointment
+                            <h5 className="card-title title-appointment" >Appointment
                                 ID: {appointment.appointment_id}</h5>
 
                             <div className="row">
                                 <div className="col-md-6">
-                                    <p><strong>Date:</strong> {formattedCreatedDate}</p>
-                                    <p><strong>Status:</strong> {appointment?.current_status}</p>
+                                    <p>Date: {formattedCreatedDate}</p>
+                                    <p>Status:
+                                        <span
+                                            className={`span-status ${appointment?.current_status === 'CANCELED' ? 'status-canceled' :
+                                                appointment?.current_status === 'CHECKED_IN' ? 'status-checked-in' :
+                                                    appointment?.current_status === 'CONFIRMED' ? 'status-confirmed' :
+                                                        appointment?.current_status === 'DONE' ? 'status-done' :
+                                                            appointment?.current_status === 'ON_GOING' ? 'status-on-going' :
+                                                                appointment?.current_status === 'PENDING' ? 'status-pending' :
+                                                                    ''
+                                                }`}>
+                                            {/* Format lại chữ */}
+                                            {appointment?.current_status ?
+                                                appointment.current_status.replace('_', ' ').toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase())
+                                                : 'N/A'}
+                                        </span>
+                                    </p>
 
-                                    <h5 className="mt-3" style={{ fontWeight: '900' }}>Customer Information</h5>
-                                    <p><strong>Name:</strong> {appointment?.customer_name}</p>
-                                    <p><strong>Email:</strong> {appointment?.email}</p>
-                                    <p><strong>Phone:</strong> {appointment?.phone_number}</p>
-                                    <p><strong>Description:</strong> {appointment?.description || 'Nothing'}</p>
 
-                                    <h5 className="mt-3" style={{ fontWeight: '900' }}>Service Information</h5>
-                                    <p><strong>Service name:</strong> {appointment.service?.service_name}</p>
-                                    <p><strong>Service Price:</strong> {appointment.service?.service_price} USD</p>
+                                    <h5 className="mt-3">Customer Information</h5>
+                                    <p>Name: {appointment?.customer_name}</p>
+                                    <p>Email: {appointment?.email}</p>
+                                    <p>Phone: {appointment?.phone_number}</p>
+                                    <p>Description: {appointment?.description || 'Nothing'}</p>
 
-                                    <h5 className="mt-3" style={{ fontWeight: '900' }}>Veterinarian Information</h5>
+                                    <h5 className="mt-3">Service Information</h5>
+                                    <p>Service name: {appointment.service?.service_name}</p>
+                                    <p>Service Price: {appointment.service?.service_price} USD</p>
+
+                                    <h5 className="mt-3">Veterinarian Information</h5>
                                     <p>
-                                        <strong>Veterinarian name:</strong> {
+                                        Veterinarian name: {
                                             (appointment.veterinarian?.first_name || appointment.veterinarian?.last_name)
                                                 ? `${appointment.veterinarian.first_name || ''} ${appointment.veterinarian.last_name || ''}`
                                                 : 'No veterinarian assigned'
                                         }
                                     </p>
 
-                                    <h5 className="mt-3" style={{ fontWeight: '900', display:'inline' }}>
+                                    <h5 className="mt-3" style={{ fontWeight: '900', display: 'inline' }}>
                                         Address Information:
-                                        <span style={{ fontWeight: 'normal' }}>
+                                        <p style={{ fontWeight: 'normal' }}>
                                             {
                                                 (appointment.address?.home_number || appointment.address?.ward || appointment.address?.district || appointment.address?.city)
-                                                    ? `${appointment.address.home_number || ''},
-                                                    ${appointment.address.ward || ''},
-                                                    ${appointment.address.district || ''},
-                                                    ${appointment.address.city || ''} `
+                                                    ? `${appointment.address.home_number}, ${appointment.address.ward}, ${appointment.address.district}, ${appointment.address.city}`
                                                     : ' No address assigned'
                                             }
-                                        </span>
+                                        </p>
                                     </h5>
 
-                                    <h5 className="mt-3" style={{ fontWeight: '900' }}>Fish Information</h5>
-                                    <p><strong>Species:</strong> {appointment.fish?.species}</p>
-                                    <p><strong>Gender:</strong> {appointment.fish?.gender}</p>
-                                    <p><strong>Size:</strong> {appointment.fish?.size} cm</p>
-                                    <p><strong>Weight:</strong> {appointment.fish?.weight} kg</p>
-                                    <p><strong>Origin:</strong> {appointment.fish?.origin}</p>
+                                    {/* Tồn tại thì mới có hiển thị */}
+                                    {appointment.fish && (
+                                        <div>
+                                            <h5 className="mt-3">Fish Information</h5>
+                                            <p>Species: {appointment.fish?.species}</p>
+                                            <p>Gender: {appointment.fish?.gender}</p>
+                                            <p>Size: {appointment.fish?.size} cm</p>
+                                            <p>Weight: {appointment.fish?.weight} kg</p>
+                                            <p>Origin: {appointment.fish?.origin}</p>
+                                        </div>
+                                    )}
 
-                                    <h5 className="mt-3" style={{ fontWeight: '900' }}>Moving Surcharge</h5>
+                                    <h5 className="mt-3">Moving Surcharge</h5>
                                     <p>
-                                        <strong>District:</strong> {appointment.moving_surcharge?.district || 'Not available'}
+                                        District: {appointment.moving_surcharge?.district || 'Not available'}
                                     </p>
-                                    <p><strong>Price:</strong> {appointment.moving_surcharge?.price || '0'} USD </p>
+                                    <p>Price: {appointment.moving_surcharge?.price || '0'} USD </p>
 
-                                    <h5 className="mt-3" style={{ fontWeight: '900' }}>Total Price</h5>
-                                    <p><strong>Total:</strong> {appointment?.total_price || ''} USD</p>
+                                    <h5 className="mt-3">Total Price</h5>
+                                    <p>Total: {appointment?.total_price || ''} USD</p>
 
-                                    <h5 className="mt-3" style={{ fontWeight: '900' }}>Report Information</h5>
-                                    <p><strong>Report ID:</strong> {report?.report_id || 'No id'}</p>
-                                    <p><strong>Veterinarian ID:</strong> {report?.veterinarian_id || 'No veterinarain'}
+                                    <h5 className="mt-3">Report Information</h5>
+                                    <p>Report ID: {report?.report_id || 'No id'}</p>
+                                    <p>Veterinarian ID: {report?.veterinarian_id || 'No veterinarain'}
                                     </p>
-                                    <p><strong>Conclusion:</strong> {report?.conclusion || 'No conclusion'}</p>
-                                    <p><strong>Advise:</strong> {report?.advise || 'No advise'}</p>
+                                    <p>Conclusion: {report?.conclusion || 'No conclusion'}</p>
+                                    <p>Advise: {report?.advise || 'No advise'}</p>
 
-                                    <h5 className="mt-3" style={{ fontWeight: '900' }}>Logs of appointment
+                                    <h5 className="mt-3">Logs of appointment
                                         information</h5>
                                     <button className="btn btn-primary" onClick={handleViewLogs}>
                                         View Log Details
                                     </button>
 
-                                    <h5 className="mt-3" style={{ fontWeight: '900' }}>Prescription</h5>
+                                    <h5 className="mt-3">Prescription</h5>
                                     <button className="btn btn-primary" onClick={handleViewPrescription}>
                                         View prescription details
                                     </button>
@@ -309,46 +327,77 @@ const AppointmentDetails: React.FC = () => {
 
                             {/* Modal để hiển thị logs */}
                             <div className={`modal ${showLogsModal ? 'open' : ''}`}
-                                style={{ display: showLogsModal ? 'block' : 'none' }}>
+                                style={{ display: showLogsModal ? 'flex' : 'none' }}
+                            >
                                 <div className="modal-content">
                                     <h2>Logs Details</h2>
                                     {logs.length > 0 ? (
-                                        <ul
-                                            style={{ textAlign: 'left', listStyleType: 'none' }}
-                                        >
-                                            {logs.map((log) => (
-                                                <li key={log.status_id} style={{ paddingTop: '16px' }}>
-                                                    <strong>Log ID: {log.status_id}</strong> <br />
-                                                    <strong>Status:</strong> {log.status} <br />
-                                                    <strong>Time:</strong> {formatDateTime(log.time)} <br />
-                                                    <strong>Note:</strong> {log.note || 'No note'}
-                                                </li>
-                                            ))}
+                                        <ul className="logs-list">
+                                            {logs.map((log) => {
+                                                // Tạo tên lớp dựa trên status
+                                                let statusClass = "";
+                                                switch (log.status) {
+                                                    case "CANCELED":
+                                                        statusClass = "status-cancelled";
+                                                        break;
+                                                    case "CHECKED_IN":
+                                                        statusClass = "status-checked-in";
+                                                        break;
+                                                    case "CONFIRMED":
+                                                        statusClass = "status-confirmed";
+                                                        break;
+                                                    case "DONE":
+                                                        statusClass = "status-done";
+                                                        break;
+                                                    case "ON_GOING":
+                                                        statusClass = "status-on-going";
+                                                        break;
+                                                    case "PENDING":
+                                                        statusClass = "status-pending";
+                                                        break;
+                                                    default:
+                                                        statusClass = "";
+                                                }
+
+                                                return (
+                                                    <li key={log.status_id} className="log-item">
+                                                        <span className="label">Log ID:</span> {log.status_id} <br />
+                                                        <span className="label">Status:</span>
+                                                        <span className={`status ${statusClass}`}>
+                                                            {log.status}
+                                                        </span><br />
+                                                        <span className="label">Time:</span> {formatDateTime(log.time)} <br />
+                                                        <span className="label">Note:</span> {log.note || 'No note'}
+                                                    </li>
+                                                );
+                                            })}
                                         </ul>
                                     ) : (
                                         <p>No logs available</p>
                                     )}
-                                    <button className="btn btn-secondary" onClick={handleCloseLogsModal}>Close</button>
+                                    <button className="btn btn-secondary close-btn" onClick={handleCloseLogsModal}>Close</button>
                                 </div>
                             </div>
 
+
                             {/* Modal để hiển thị prescription */}
+
                             <div className={`modal ${showPrescriptionModal ? 'open' : ''}`}
-                                style={{ display: showPrescriptionModal ? 'block' : 'none' }}>
+                                style={{ display: showPrescriptionModal ? 'flex' : 'none' }}>
                                 <div className="modal-content">
                                     <h2>Prescription Details</h2>
                                     {prescription ? ( // Kiểm tra nếu có prescription
                                         <>
-                                            <p><strong>Prescription
-                                                ID:</strong> {prescription.prescription_id || 'No id'}</p>
+                                            <p>Prescription
+                                                ID: {prescription.prescription_id || 'No id'}</p>
                                             {prescription.medicines.length > 0 ? (
-                                                <ul style={{ textAlign: 'left', listStyleType: 'none' }}>
+                                                <ul className='logs-list'>
                                                     {prescription.medicines.map((medicine) => (
-                                                        <li key={medicine.medicine_id} style={{ paddingTop: '16px' }}>
-                                                            <strong>Medicine ID: {medicine.medicine_id}</strong> <br />
-                                                            <strong>Medicine Name:</strong> {medicine.medicine_name}
-                                                            <br />
-                                                            <strong>Quantity:</strong> {medicine.quantity}
+                                                        <li key={medicine.medicine_id} className='log-item'>
+
+                                                            <span className="label">Medicine ID:</span> {medicine.medicine_id} <br />
+                                                            <span className="label">Medicine Name:</span> {medicine.medicine_name}<br />
+                                                            <span className="label">Quantity:</span> {medicine.quantity}
                                                         </li>
                                                     ))}
                                                 </ul>
@@ -357,7 +406,7 @@ const AppointmentDetails: React.FC = () => {
                                                 <p>No medicines available</p>
                                             )}
                                             <p>
-                                                <strong>Instruction:</strong> {prescription.instruction || 'No instruction'}
+                                                Instruction: {prescription.instruction || 'No instruction'}
                                             </p>
                                         </>
                                     ) : (
@@ -369,14 +418,13 @@ const AppointmentDetails: React.FC = () => {
                                 </div>
                             </div>
 
-
                         </div>
                     </div>
                 </div>
 
 
                 {/* Back Button */}
-                <div style={{ marginTop: '2rem', marginBottom: '2rem' }}>
+                <div style={{ marginTop: '1rem', marginBottom: '2rem' }}>
                     <button className="btn btn-secondary mt-3" onClick={() => navigate(-1)}>Back</button>
                 </div>
 
