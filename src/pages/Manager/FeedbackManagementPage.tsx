@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../../components/layout/Sidebar';
-import TableComponent from '../../components/table/TableComponentForManager';
+import TableComponent from '../../components/table/TableComponent';
 import { useNavigate } from 'react-router-dom';
 import { fecthFeedbacks } from '../../api/feedbackApi'
 
@@ -28,7 +28,7 @@ const FeebackManagementPage: React.FC = () => {
                         date_time: formatDateTime(date_time), // Format created_date to desired format
                     }
                 });
-                const sortedData = filteredData.sort((a: Feedback, b: Feedback) => a.feedback_id - b.feedback_id);
+                const sortedData = filteredData.sort((a: Feedback, b: Feedback) => b.feedback_id - a.feedback_id);
                 setFeedbacks(sortedData);
             } catch (error) {
                 console.error('Error fetching feedbacks:', error);
