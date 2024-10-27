@@ -41,7 +41,6 @@
   position: relative; /* Để có thể sử dụng position: absolute */
 }
 
-
 /* Close button */
 .close {
   color: #aaa;
@@ -113,7 +112,6 @@
   padding: 4px;
   
 }
-
 
 .status-on-going {
   background-color: orange! important;

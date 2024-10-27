@@ -37,7 +37,7 @@ const DashBoardPage = lazy(() => import("./pages/Manager/DashBoard/DashBoardPage
 const CustomerManagementPage = lazy(() => import("./pages/Manager/CustomerPage"))
 const CustomerDetailPage = lazy(() => import("./pages/Manager/CustomerDetails"))
 const FeedbackManagementPage = lazy(() => import("./pages/Manager/FeedbackPage"))
-const FeedbackDetail = lazy(() => import("./pages/Manager/FeedbackDetailsManagerPage"))
+const FeedbackDetail = lazy(() => import("./pages/Manager/FeedbackDetails"))
 const StaffAppointmentDetails = lazy(() => import("./pages/Staff/StaffAppointmentDetails"))
 const ManagerAppointment = lazy(() => import("./pages/Manager/AppointmentPage"))
 const ManagerAppointmentDetails = lazy(() => import("./pages/Manager/AppointmentDetails"))
