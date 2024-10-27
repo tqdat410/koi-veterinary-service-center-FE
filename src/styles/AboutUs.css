@@ -1,0 +1,39 @@
+/* Đảm bảo footer luôn ở cuối trang */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.container {
+    min-height: auto; /* Điều chỉnh tùy theo chiều cao của Navbar và Footer */
+}
+
+footer {
+    background-color: #001f54;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    position: relative; /* Make sure it's positioned at the bottom */
+    width: 100%;
+}
+
+.content-about-us {
+    /* margin: auto !important; */
+    margin-bottom: auto !important;
+    padding: 0 !important; /* Remove extra padding */
+    background-image: url('../assets/images/background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    color: white;
+    min-height: 100vh;
+    font-style: roboto;
+}
+
+.content-body {
+    margin: 4px 12px;
+    text-align: left;
+}
