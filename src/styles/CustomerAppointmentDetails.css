@@ -24,6 +24,16 @@
     margin-left: 4px !important;
 }
 
+.pay-btn, .meet-btn {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 20px;
+}
+
+.meet-btn {
+    background-color: brown;
+}
+
 .mt-3{
     font-weight: 900 !important;
 }
@@ -55,7 +65,8 @@
 }
 
 .status-pending {
-    background-color: purple;
+    background-color: #ffd900c7;
+    color: black !important;
 }
 
 .status-default {
