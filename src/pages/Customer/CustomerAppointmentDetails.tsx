@@ -1,9 +1,15 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { getAppointmentDetailsForCus, getLinkMeetByVetId } from '../../api/appointmentApi';
+import { getAppointmentDetailsForCus, getLinkMeetByVetId, getMedicalReport, fetchPrescriptionDetails } from '../../api/appointmentApi';
 import { createPayment, fetchPayment } from '../../api/paymentApi';
 import { createFeedback, getFeedbackDetailsCus } from '../../api/feedbackApi';
+
+import { fetchMedicalReport } from '../../api/appointmentApi';
+import { fetchPrescription } from '../../api/prescriptionApi';
+
 import '../../styles/CustomerAppointmentDetails.css';
+import { MedicalReport, Medicine, Prescription } from "../../types";
+
 import { Rating, Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField } from '@mui/material';
 import Sidebar from "../../components/layout/Sidebar";
 
@@ -82,6 +88,13 @@ interface Slot {
     description: string,
 }
 
+interface prescription_info {
+    prescription_id: number;
+    veterinarian_id: number;
+    conclusion: string;
+    advise: string;
+}
+
 enum payment_method {
     CASH = 'CASH',
     VN_PAY = 'VN_PAY',
@@ -96,6 +109,8 @@ const CustomerAppointmentDetails: React.FC = () => {
     const location = useLocation();
     const appointment_id: number = location.state?.appointment_id;
     const [appointment, setAppointment] = useState<AppointmentDetailsProps | null>(null);
+    const [medicalReport, setMedicalReport] = useState<MedicalReport | null>(null);
+    const [prescription, setPrescription] = useState<Prescription | null>(null);
     const [PaymentDetails, setPaymentDetails] = useState<PaymentDetails | null>(null);
     // const [isPaymentVisible, setIsPaymentVisible] = useState(false);
     const paymentRef = useRef<HTMLDivElement>(null);
@@ -114,7 +129,19 @@ const CustomerAppointmentDetails: React.FC = () => {
                     const appointmentData = await getAppointmentDetailsForCus(Number(appointment_id));
                     const paymentData = await fetchPayment(appointment_id);
                     setAppointment(appointmentData);
-                    setPaymentDetails(paymentData); // Update only PaymentDetails state                  
+                    setPaymentDetails(paymentData); // Update only PaymentDetails state 
+
+                    const report = await getMedicalReport(Number(appointment_id));  // Call the medical report
+                    console.log(report); // đã lây được  
+                    if (report) {
+                        setMedicalReport(report); // Update only MedicalReport state
+                        if (report.prescription_id) {
+                            const prescriptionData = await fetchPrescriptionDetails(report.prescription_id);
+                            console.log(prescriptionData);
+                            setPrescription(prescriptionData); // Update only Prescription state
+                        }
+                    }
+
                 } catch (error) {
                     console.error('Error fetching appointment details:', error);
                 }
@@ -136,10 +163,13 @@ const CustomerAppointmentDetails: React.FC = () => {
                     console.error('Error fetching feedback details:', error);
                 }
             }
+
+
         };
 
         fetchFeedbackDetails();
     }, [appointment?.feedback_id]);
+
     if (!appointment) {
         return <div>Loading...</div>;
     }
@@ -308,6 +338,32 @@ const CustomerAppointmentDetails: React.FC = () => {
                                     </div>
                                 )}
 
+
+                                {/* Hiển thị medical report khi có */}
+                                {medicalReport && (
+                                    <div>
+                                        <h5 className="mt-3">Medical Report</h5>
+                                        <p>Vet ID: {medicalReport.veterinarian_id}</p>
+                                        <p>Conclusion: {medicalReport?.conclusion || 'N/A'}</p>
+                                        <p>Advise: {medicalReport?.advise || 'N/A'}</p>
+                                    </div>
+                                )}
+
+                                {/* Hiển thị prescription khi có */}
+                                {prescription && (
+                                    <div>
+                                        <h5 className="mt-3">Prescription</h5>
+                                        <p>Medicines:</p>
+                                        <ul>
+                                            {prescription.medicines.map((medicine: Medicine) => (
+                                                <li key={medicine.medicine_id} className='medicine-item'>
+                                                   ID {medicine.medicine_id} :  {medicine.medicine_name} -  {medicine.instruction}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                )}
+
                                 {/* Chỉ hiển thị khi có thông tin moving surcharge */}
                                 {appointment.moving_surcharge && (
                                     <div>
@@ -340,8 +396,8 @@ const CustomerAppointmentDetails: React.FC = () => {
 
                                     <p>Status:
                                         <span className={`span-status ${PaymentDetails?.status === 'PAID' ? 'status-done' :
-                                                PaymentDetails?.status === 'NOT_PAID' ? 'status-canceled' :
-                                                    'status-default'
+                                            PaymentDetails?.status === 'NOT_PAID' ? 'status-canceled' :
+                                                'status-default'
                                             }`}
                                         >
                                             {/* Transform 'PAID' or 'NOT_PAID' to 'Paid' or 'Not paid' */}

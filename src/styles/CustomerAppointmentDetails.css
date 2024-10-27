@@ -34,6 +34,11 @@
     background-color: brown;
 }
 
+.medicine-item {
+    list-style-type: none;
+    font-size: 20.4px;
+}
+
 .mt-3{
     font-weight: 900 !important;
 }
@@ -65,8 +70,8 @@
 }
 
 .status-pending {
-    background-color: #ffd900c7;
-    color: black !important;
+    background-color: #ffd900c7 ;
+    /* color: black !important; */
 }
 
 .status-default {
