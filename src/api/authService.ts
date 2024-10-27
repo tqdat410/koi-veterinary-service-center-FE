@@ -33,7 +33,7 @@ export const register = async (username: string, email: string, password: string
 // API để lấy thông tin người dùng
 export const getUserInfo = async (userId: number) => {
     const token = localStorage.getItem("token");
-    console.log(token)
+
     try {
         const response = await axios.get(`${USER_URL}/profile?userId=${userId}`, {
             headers: {

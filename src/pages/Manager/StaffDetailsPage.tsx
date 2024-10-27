@@ -6,8 +6,9 @@ import '../../styles/Profile.css'
 import '../../styles/StaffDetailsPage.css';
 import { getStaffDetailsById, modifyStaffStatus, updateStaffProfile } from "../../api/staffApi";
 import {BASE_API} from "../../api/baseApi"
+import defaultImage from "../../assets/images/defaultImage.jpg"
 // Define interfaces for user data
-
+import {IMAGE_API} from "../../api/baseApi"
 interface StaffData {
     username: string;
     email: string;
@@ -44,7 +45,7 @@ const StaffProfile: React.FC = () => {
                 setPhone(staff.phone_number || '');
                 setEmail(staff.email || '');
                 if (staff.avatar) {
-                    setSelectedImage(staff.avatar);
+                    setSelectedImage(`${IMAGE_API}/${staff.avatar}`);
                 }
                 console.log(staff)
             } catch (error) {
@@ -168,7 +169,7 @@ const StaffProfile: React.FC = () => {
                         <div className="image-background">
                             {selectedImage ? (
 
-                                <img src={selectedImage} alt="Uploaded" className="uploaded-image" />
+                                <img src={selectedImage|| defaultImage} alt="Uploaded" className="uploaded-image" />
                             ) : (
                                 <div className="image-placeholder">No Image Selected</div>
                             )}

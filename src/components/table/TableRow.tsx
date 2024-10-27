@@ -1,7 +1,7 @@
 import React from 'react';
 import defaultImage from "../../assets/images/defaultImage.jpg"
 import "../../styles/TableComponent.css" // Import the TableComponent.css file
-
+import {IMAGE_API} from "../../api/baseApi"
 interface Action {
     label: string;
     onClick: (id: number, fullName?: string) => void;
@@ -65,7 +65,7 @@ const TableRow: React.FC<TableRowProps> = ({ columns, rowData, actions = [], isK
                     {column === 'fullName' ? (
                         <div className="d-flex justify-content-center align-items-center ms-5" >
                             <img
-                                src={rowData.avatar || defaultImage}
+                                src={ rowData.avatar ? `${IMAGE_API}/${rowData.avatar}` : defaultImage}
                                 style={{ width: 35, height: 35, borderRadius: '50%', border: '1px solid #002d72' }}
                             />
                             <span className="flex-grow-1 text-center fw-bold" style={{ width: "50px" }}>{fullName}</span>

@@ -9,8 +9,8 @@
 }
 
 .image-upload-card {
-    width: 500px;
-    height: 520px; /* Set a fixed height for the card */
+    width: 450px;
+    height: 470px; /* Set a fixed height for the card */
     padding: 20px;
     background-color: white;
     border: 1px solid #e0e6ed;
@@ -27,7 +27,7 @@
 .image-upload {
     width: 100%;
     height: auto;
-    max-height: 400px;
+    max-height: 360px;
     border: 1px solid black;
     border-radius: 30px;
     object-fit: cover;
@@ -36,7 +36,7 @@
 }
 
 .image-upload-more {
-    width: 30%;
+    width: 40%;
     height: auto;
     max-height: 400px;
     border: 1px solid black;
@@ -67,11 +67,17 @@
     padding: 8px 16px;
 }
 
+
+
 .form-container {
     max-width: 515px;
     border-radius: 15px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
     padding: 20px;
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
 }
 
 .input-field-koi {
@@ -84,14 +90,16 @@
     padding: 10px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1268px) {
     .image-upload-container,
     .form-container {
         max-width: 100%;
         margin-bottom: 2rem;
+        position: sticky;
     }
 
     .image-upload-card {
+        max-width: 100%;
         padding: 10px;
         border-radius: 10px;
         margin-top: 2rem;
@@ -106,6 +114,7 @@
         padding: 8px;
     }
 }
+
 
 .form-label-koi {
     font-weight: bold;

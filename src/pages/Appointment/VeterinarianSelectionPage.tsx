@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-
+import {IMAGE_API} from "../../api/baseApi"
 import {setDoctor} from "../../store/actions";
 import { useDispatch } from 'react-redux';
 import {useNavigate} from "react-router-dom";
@@ -43,7 +43,7 @@ const ChooseVeterinarianPage: React.FC = () => {
     const fetchDoctors = async () => {
         try {
             const response = await axios.get(`${BASE_API}/users/veterinarian/${slot.slot_id}`);
-            console.log('Fetched doctors:', response.data);
+
             setDoctors(response.data); // Assume the API response is an array of doctors
 
 
@@ -81,7 +81,7 @@ const ChooseVeterinarianPage: React.FC = () => {
         };
 
         dispatch(setDoctor(doctorData)); // Dispatch action to set service_id
-        console.log('Selected user_id:', doctor);
+
         // Navigate to FishSelectionPage
         navigate('/appointment/fill-information'); // Replace with react-router navigate if needed
     };
@@ -140,7 +140,7 @@ const ChooseVeterinarianPage: React.FC = () => {
                                  style={{borderRadius: '40px', width: '300px', height: '340px'}}
                                  onClick={() => handleCardClick(doctor)}>
                                 <img
-                                    src={doctor.avatar || defaultImage}
+                                    src={`${IMAGE_API}/${doctor.avatar}` || defaultImage}
                                     className="card-img-top  rounded-circle mx-auto mt-5 mb-2"
                                     alt={`${doctor.first_name} ${doctor.last_name}`}
                                     style={{width: '190px', height: '190px'}}
