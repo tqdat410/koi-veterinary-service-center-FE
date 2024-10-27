@@ -57,7 +57,7 @@ const ManagerStaffPage: React.FC = () => {
             onClick: handleStaffDetails,
         },
     ];
-    console.log(staff);
+
     return (
         <div className="d-flex flex-grow-1" style={{ marginLeft: '272px' }}>
             <Sidebar />

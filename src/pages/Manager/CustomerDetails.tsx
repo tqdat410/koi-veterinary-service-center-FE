@@ -5,7 +5,7 @@ import { getUserProfile } from "../../api/customerApi"; // Import the API functi
 import '../../styles/Profile.css';
 import { useNavigate } from 'react-router-dom';
 import defaultImage from "../../assets/images/defaultImage.jpg"
-
+import {IMAGE_API} from "../../api/baseApi"
 interface CustomerAddress {
     district: string;
     city: string;
@@ -51,7 +51,7 @@ const CustomerDetails: React.FC = () => {
                 setWard(customer.address?.ward || '');
                 setHomeNumber(customer.address?.home_number || '');
                 if (customer.avatar) {
-                    setSelectedImage(customer.avatar);
+                    setSelectedImage(`${IMAGE_API}/${customer.avatar}`);
                 }
             } catch (error) {
                 console.error('Failed to fetch customer data:', error);

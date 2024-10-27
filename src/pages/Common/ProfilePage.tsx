@@ -7,6 +7,7 @@ import { Link,useNavigate } from "react-router-dom";
 import '../../styles/Profile.css'
 import axios from "axios";
 import { Tooltip } from '@mui/material';
+import {IMAGE_API} from "../../api/baseApi"
 // Define interfaces for user data
 
 interface UserAddress {
@@ -60,7 +61,7 @@ const Profile: React.FC = () => {
                     setPhone(user.phone_number || '');
 
                     if (user.avatar) {
-                        setSelectedImage(user.avatar);
+                        setSelectedImage(`${IMAGE_API}/${user.avatar}`);
                     }
                 }
             } catch (error) {
