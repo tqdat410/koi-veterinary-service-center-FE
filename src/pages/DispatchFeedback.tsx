@@ -3,10 +3,6 @@ import FeebackManagementPage from './Manager/FeedbackManagementPage';
 import VeterinarianFeedbackPage from './Veterinarian/VeterinarianFeedbackPage';
 import UnauthorizedPage from './UnauthorizedPage';
 
-interface User {
-    roleId: string;
-    userId: number;
-}
 
 const DispatchFeedback = () => {
     const { user } = useAuth();

@@ -1,6 +1,6 @@
 import axios from 'axios';
-
-const API_URL = 'http://localhost:8080/api/v1/users';
+import {BASE_API} from "./baseApi"
+const API_URL = `${BASE_API}/users`;
 
 // Fetch user and fish statistics
 export const getUserFishStatistics = () => {

@@ -1,15 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import "../../styles/TableSchedule.css"
-
+import {BASE_API} from "../../api/baseApi"
 import Sidebar from "../../components/layout/Sidebar";
 
-const slotOrderToTime = {
-    1: '7:30 - 9:30',
-    2: '10:00 - 12:00',
-    3: '13:00 - 15:00',
-    4: '15:30 - 17:30',
-};
 
 const weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 interface Veterinarian {
@@ -73,7 +67,7 @@ const AvailableSlot: React.FC = () => {
 
     useEffect(() => {
         // Fetch available slots
-        axios.get(`http://localhost:8080/api/v1/slots/booked`)
+        axios.get(`${BASE_API}/slots/booked`)
             .then((response) => {
                 console.log(response)
 
@@ -185,8 +179,6 @@ const AvailableSlot: React.FC = () => {
                             ))}
                             </tbody>
                         </table>
-
-
                 </div>
             </div>
         </div>

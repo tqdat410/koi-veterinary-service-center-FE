@@ -1,4 +1,3 @@
-// context/AuthContext.tsx
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
@@ -41,9 +40,16 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             if (decodedToken.exp && decodedToken.exp - currentTime < 60 * 5) {
                 // Token expired, attempt to refresh
                 const refreshedToken = await refreshToken(token);
-                localStorage.setItem('token', refreshedToken);
-                axios.defaults.headers.common['Authorization'] = `Bearer ${refreshedToken}`;
-                login(refreshedToken); // Refresh and re-login with new token
+                if (refreshedToken) {
+                    localStorage.setItem('token', refreshedToken);
+                    axios.defaults.headers.common['Authorization'] = `Bearer ${refreshedToken}`;
+                    login(refreshedToken);
+                } else {
+                    logout();
+                }
+            }else if (decodedToken.exp && decodedToken.exp < currentTime) {
+                // Token đã hết hạn
+                logout();
             }
         } catch (error) {
             console.error("Token refresh failed:", error);
@@ -54,20 +60,20 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
-
             try {
                 const decodedToken: any = jwtDecode(token);
-
                 setIsAuthenticated(true);
                 setUser({ userId: decodedToken.userId, roleId: decodedToken.scope });
                 axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-                setInterval(handleTokenRefresh, 60 * 1000);
             } catch (error) {
                 console.error("Invalid token:", error);
                 logout();
             }
         }
         setLoading(false);
+        const intervalId = setInterval(handleTokenRefresh, 60 * 1000); // Kiểm tra mỗi phút
+        // Dọn dẹp interval khi component bị hủy
+        return () => clearInterval(intervalId);
     }, []);
 
     const login = (token: string) => {

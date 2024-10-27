@@ -1,11 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-import { Rating } from '@mui/material';
+
 import {setDoctor} from "../../store/actions";
 import { useDispatch } from 'react-redux';
 import {useNavigate} from "react-router-dom";
 import { useSelector } from 'react-redux';
 import defaultImage from "../../assets/images/defaultImage.jpg"
+import {BASE_API} from "../../api/baseApi"
+
 interface Doctor {
     user_id: number;
     first_name: string;
@@ -40,7 +42,7 @@ const ChooseVeterinarianPage: React.FC = () => {
     }, [service, slot, navigate]);
     const fetchDoctors = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/api/v1/users/veterinarian/${slot.slot_id}`);
+            const response = await axios.get(`${BASE_API}/users/veterinarian/${slot.slot_id}`);
             console.log('Fetched doctors:', response.data);
             setDoctors(response.data); // Assume the API response is an array of doctors
 

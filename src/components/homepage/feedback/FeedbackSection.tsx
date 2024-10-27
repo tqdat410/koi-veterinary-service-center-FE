@@ -3,7 +3,7 @@ import FeedbackCard from './FeedbackCard';
 import axios from "axios";
 import {useAuth} from "../../../hooks/context/AuthContext";
 import {useNavigate} from "react-router-dom"; // Adjust the import path as needed
-
+import {BASE_API} from "../../../api/baseApi"
 interface Feedback {
     feedback_id: number;
     rating: number;
@@ -20,7 +20,7 @@ const FeedbackSection: React.FC = () => {
     useEffect(() => {
         const fetchFeedbacks = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/api/v1/feedbacks/limited');
+                const response = await axios.get(`${BASE_API}/feedbacks/limited`);
                 const feedbackData: Feedback[] = response.data;
                 // Sắp xếp theo rating giảm dần và lấy 10 feedback
                 const sortedFeedbacks = feedbackData.sort((a, b) => b.rating - a.rating).slice(0, 10);

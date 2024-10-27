@@ -3,18 +3,9 @@ import Sidebar from '../../../components/layout/Sidebar';
 import TableComponent from '../../../components/table/TableComponent';
 import { useNavigate } from 'react-router-dom';
 import {useAuth} from "../../../hooks/context/AuthContext";
-import axios from "axios";
 import {fetchAddresses} from "../../../api/addressApi";
-import Pagination from '@mui/material/Pagination';
 import {getUserInfo} from "../../../api/authService";
-// interface Address {
-//     address_id:number
-//     district: string;
-//     city: string;
-//     ward: string;
-//     home_number: string;
-//
-// }
+
 const AddressManagementPage: React.FC = () => {
     const [addresses, setAddresses] = useState<any[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
@@ -35,7 +26,7 @@ const AddressManagementPage: React.FC = () => {
                     const userInfo = await getUserInfo(userId);
                     setCurrentAddress(userInfo.address);
                     const data = await fetchAddresses(); // Gọi API để lấy danh sách địa chỉ
-                    setAddresses(data); // Cập nhật state với dữ liệu địa chỉ
+                    setAddresses(data);
                 } catch (err) {
                     setError('Failed to fetch addresses');
                 } finally {

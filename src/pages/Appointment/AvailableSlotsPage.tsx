@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import "../../styles/TableSchedule.css"
 import {useDispatch, useSelector} from "react-redux";
 import { setSlot } from '../../store/actions';
+import {BASE_API} from "../../api/baseApi"
 
 const slotOrderToTime = {
     1: '7:30 - 9:30',
@@ -71,7 +72,7 @@ const AvailableSlot: React.FC = () => {
 
     useEffect(() => {
         // Fetch available slots
-        axios.get(`http://localhost:8080/api/v1/slots/available`)
+        axios.get(`${BASE_API}/slots/available`)
             .then((response) => {
                 console.log(response)
 

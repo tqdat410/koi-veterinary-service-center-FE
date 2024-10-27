@@ -26,15 +26,15 @@ interface FormData {
 }
 
 interface State {
-    service: any; // Add a type or interface for your service if you have one
-    doctor: Doctor | null; // Add a type or interface for your doctor if you have one
-    slot: Slot | null; // Add a slot property
+    service: any;
+    doctor: Doctor | null;
+    slot: Slot | null;
 }
 
 const initialState: State = {
-    service: null, // Initialize service as null
-    doctor: null,  // Initialize doctor as null
-    slot: null,    // Initialize slot as null
+    service: null,
+    doctor: null,
+    slot: null,
 };
 
 export const rootReducer = (state = initialState, action: any) => {

@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import Sidebar from '../../../components/layout/Sidebar';
 import TableComponent from '../../../components/table/TableComponent';
 import { useAuth } from "../../../hooks/context/AuthContext";
-import Pagination from '@mui/material/Pagination';
+
+import {BASE_API} from "../../../api/baseApi"
 const KoiFishPage: React.FC = () => {
     const [koiFishData, setKoiFishData] = useState<any[]>([]);
     const navigate = useNavigate();
@@ -20,7 +21,7 @@ const KoiFishPage: React.FC = () => {
             return;
         }
 
-        axios.get('http://localhost:8080/api/v1/fishes')
+        axios.get(`${BASE_API}/fishes`)
             .then(response => {
                 const filteredData = response.data.filter((fish: { customer_id: number }) => fish.customer_id === Number(userId));
                 setKoiFishData(filteredData);

@@ -1,8 +1,8 @@
 import axios from 'axios';
-
+import {BASE_API} from "./baseApi"
 // URL cơ bản cho các API liên quan đến địa chỉ
-const BASE_URL = 'http://localhost:8080/api/v1/addresses';
-const DISTRICT_URL = 'http://localhost:8080/api/v1';
+const BASE_URL = `${BASE_API}/addresses`;
+// const DISTRICT_URL = 'http://localhost:8080/api/v1';
 // API để lấy tất cả địa chỉ của khách hàng
 export const fetchAddresses = async () => {
     try {
@@ -71,13 +71,13 @@ export const deleteAddress = async (addressId: number) => {
 };
 
 export const fetchDistricts = async () => {
-    const response = await axios.get(`${DISTRICT_URL}/surcharges`);
+    const response = await axios.get(`${BASE_API}/surcharges`);
     return response.data;
 };
 
 export const setCurrentAddress = async (addressId: number): Promise<void> => {
     try {
-        const response = await axios.put(`http://localhost:8080/api/v1/users/address`, null, {
+        const response = await axios.put(`${BASE_API}/users/address`, null, {
             params: { addressId }
         });
         return response.data; // Optionally return the updated address data if needed
