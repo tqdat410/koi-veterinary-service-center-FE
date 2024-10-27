@@ -40,11 +40,11 @@ const FeedbackManagementPage = lazy(() => import("./pages/Manager/FeedbackManage
 const FeedbackDetail = lazy(() => import("./pages/Manager/FeedbackDetailsManagerPage"))
 const StaffAppointmentDetails = lazy(() => import("./pages/Staff/StaffAppointmentDetails"))
 const ManagerAppointment = lazy(() => import("./pages/Manager/AppointmentPage"))
-const ManagerAppointmentDetails = lazy(() => import("./pages/Manager/ManagerAppointmentDetails"))
+const ManagerAppointmentDetails = lazy(() => import("./pages/Manager/AppointmentDetails"))
 const CustomerAppointmentDetails = lazy(() => import("./pages/Customer/CustomerAppointmentDetails"))
 const ManagerStaffPage = lazy(() => import("./pages/Manager/StaffPage"))
 const AddStaffPage = lazy(() => import("./pages/Manager/AddStaffPage"))
-const ManagerStaffDetails = lazy(() => import("./pages/Manager/StaffDetailsPage"))
+const ManagerStaffDetails = lazy(() => import("./pages/Manager/StaffDetails"))
 
 // Define a higher-order component with authentication
 // const CustomerAppointment = lazy(() => import("./pages/CustomerAppointment"))
