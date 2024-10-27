@@ -139,26 +139,26 @@ const DangNhapNguoiDung: React.FC = () => {
                         {/* Or continue with */}
                         <p className="text-center text-white fw-bold mb-3" style={{ fontSize: '0.875rem' }}>or continue with</p>
 
-                        {/* Social Buttons */}
-                        <div className="d-flex justify-content-center gap-3 mb-3">
-                            <button className="btn btn-outline-secondary"
-                                    style={{
-                                        backgroundColor: 'white',
-                                        border: '1px solid #bcbcc0',
-                                        borderRadius: '5px',
-                                        fontSize: '0.875rem',
-                                        padding: '0.5rem',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                    }}
-                                    onClick={handleContinueWithGoogle}>
-                                <img src={googleIcon} alt="Google" style={{ width: '35px', height: '20px' }} />
-                            </button>
-                            {/* Add more social buttons similarly */}
-                        </div>
-                    </form>
 
+                    </form>
+                    {/* Social Buttons */}
+                    <div className="d-flex justify-content-center gap-3 mb-3">
+                        <button className="btn btn-outline-secondary"
+                                style={{
+                                    backgroundColor: 'white',
+                                    border: '1px solid #bcbcc0',
+                                    borderRadius: '5px',
+                                    fontSize: '0.875rem',
+                                    padding: '0.5rem',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                }}
+                                onClick={handleContinueWithGoogle}>
+                            <img src={googleIcon} alt="Google" style={{ width: '35px', height: '20px' }} />
+                        </button>
+                        {/* Add more social buttons similarly */}
+                    </div>
                     {/* Register Link */}
                     <p className="text-center text-white fw-bold" style={{ fontSize: '0.875rem' }}>
                         Don’t have an account yet? <Link className="text-warning" to="/register">Register for free</Link>
