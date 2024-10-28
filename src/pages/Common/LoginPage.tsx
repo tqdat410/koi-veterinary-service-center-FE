@@ -56,7 +56,7 @@ const DangNhapNguoiDung: React.FC = () => {
                     navigate('/my-appointment');
                     break;
                 case 'MAN':
-                    navigate('/manager/appointment-list');
+                    navigate('/manager/dashboard');
                     break;
                 case 'VET':
                     navigate('/veterinarian/schedule');
