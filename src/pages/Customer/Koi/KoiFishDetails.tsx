@@ -1,16 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import {getKoiById, updateKoi, deleteKoi, addKoiImage} from '../../../api/koiApi';
+import {getKoiById, updateKoi, deleteKoi, addKoiImage, deleteKoiImage} from '../../../api/koiApi';
 import '../../../styles/AddKoiFish.css';
-
+import {IMAGE_API} from "../../../api/baseApi"
 import Sidebar from "../../../components/layout/Sidebar";
+interface Image {
+    image_id: number;
+    source_path: string;
+    enable: boolean; // Make sure this matches the structure of your API
+}
+interface KoiData {
+    species: string;
+    age: string;
+    gender: string;
+    size: string;
+    weight: string;
+    color: string;
+    origin: string;
+    images: Image[]; // Use the Image interface for the images array
+}
+
 
 const KoiDetail: React.FC = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const fishId: number = location.state?.fishId; // Get fishId from state
-    const [newImage, setNewImage] = useState<File | null>(null);
-    const [initialKoiData, setInitialKoiData] = useState({
+    const [newImages, setNewImages] = useState<File[]>([]);
+    const [initialKoiData, setInitialKoiData] = useState<KoiData>({
         species: '',
         age: '',
         gender: '',
@@ -18,7 +34,7 @@ const KoiDetail: React.FC = () => {
         weight: '',
         color: '',
         origin: '',
-        images: [] as Array<{ image_id: number; source_path: string; }>
+        images: []  // Use the Image interface for the images array
     });
 
     const [koiData, setKoiData] = useState(initialKoiData);
@@ -32,8 +48,10 @@ const KoiDetail: React.FC = () => {
             if (fishId) {
                 const data = await getKoiById(fishId.toString());
                 console.log(data);
-                setKoiData(data);
-                setInitialKoiData(data); // Store initial data for cancel button
+                const filteredImages = data.images.filter((image: Image) => image.enable);
+                setKoiData({ ...data, images: filteredImages });
+                setInitialKoiData({ ...data, images: filteredImages });
+
             }
         };
         fetchKoiData();
@@ -68,37 +86,44 @@ const KoiDetail: React.FC = () => {
 
     // Function to handle new image upload
     const handleImageUpload = async () => {
-        if (newImage) {
+        if (newImages.length > 0) {
             try {
-                await addKoiImage(fishId, newImage);
-                alert('Image uploaded successfully!');
-                // Re-fetch koi data to update the images state
+                for (let image of newImages) {
+                    await addKoiImage(fishId, image);
+                }
+                alert('Images uploaded successfully!');
+
                 const updatedKoiData = await getKoiById(fishId.toString());
                 setKoiData(updatedKoiData);
-                setNewImage(null); // Reset the new image state
+                setNewImages([]);
+                window.location.reload();
             } catch (error) {
-                console.error('Error uploading image:', error);
-                alert('Failed to upload image. Please try again.');
+                console.error('Error uploading images:', error);
+                alert('Failed to upload images. Please try again.');
             }
         } else {
-            alert('Please select an image to upload!');
+            alert('Please select images to upload!');
         }
     };
 
-    const handleImageDelete = async (imageId: number) => {
+    const handleDeleteImage = async (imageId: number) => {
         const confirmDelete = window.confirm('Are you sure you want to delete this image?');
         if (confirmDelete) {
-            const updatedImages = koiData.images.filter(image => image.image_id !== imageId);
-            const updatedKoiData = { ...koiData, images: updatedImages };
-
-            // Update koi data without the deleted image
-            setKoiData(updatedKoiData);
             try {
-                await updateKoi(fishId, updatedKoiData);
+                const imageDTO = {
+                    image_id: imageId,
+                    enable: "false"
+                };
+                console.log(imageDTO)
+                await deleteKoiImage(imageDTO);
+
+
+                // Cập nhật lại danh sách ảnh sau khi xóa
                 alert('Image deleted successfully!');
+                window.location.reload()
             } catch (error) {
-                console.error('Error updating koi after image delete:', error);
-                alert('Failed to update Koi after image deletion. Please try again.');
+                console.error('Error deleting image:', error);
+                alert('Failed to delete image. Please try again.');
             }
         }
     };
@@ -154,14 +179,18 @@ const KoiDetail: React.FC = () => {
                             <div className="image-upload-card">
                                 <div
                                     className="image-display d-flex flex-column justify-content-center align-items-center">
-                                    {koiData.images && koiData.images?.length > 0 && (
+                                    {koiData.images && koiData.images?.length > 0 ? (
                                         <img
-                                            src={`http://localhost:8080/files/images/${koiData.images[currentIndex]?.source_path}`}
+                                            src={`${IMAGE_API}/${koiData.images[currentIndex]?.source_path}`}
                                             className="image-upload"
                                             alt="Koi"
                                             onClick={() => openModal(koiData.images[currentIndex]?.source_path)} // Open modal on click
                                             style={{cursor: "pointer"}}
                                         />
+                                    ): (
+                                        <div className="upload-placeholder text-muted fs-5 fw-bold">
+                                            No image uploaded
+                                        </div>
                                     )}
                                     <div className="image-navigation mt-3">
                                         <button
@@ -181,26 +210,34 @@ const KoiDetail: React.FC = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="upload-button-container text-center mt-3">
-                                <input type="file" onChange={(e) => e.target.files && setNewImage(e.target.files[0])}/>
-                                <button className="upload-button btn btn-warning text-white"
+                            <div className="upload-button-container text-center  mt-3">
+                                <input type="file" multiple onChange={(e) => setNewImages(Array.from(e.target.files || []))} />
+                                <button className="upload-button btn btn-warning text-white me-1"
                                         onClick={handleImageUpload}>
-                                    Upload New Image
+                                    Upload
                                 </button>
-                                <button className="upload-button btn btn-warning text-white" onClick={toggleImages}>
-                                    {showAllImages ? 'Hide All Images' : 'Show All Images'}
+                                <button className="upload-button btn btn-warning text-white ms-1" onClick={toggleImages}>
+                                    {showAllImages ? 'Hide Images' : 'Show Images'}
                                 </button>
                             </div>
-                            {showAllImages && koiData.images?.length > 1 && (
+                            {showAllImages && koiData.images.length > 0 && (
                                 <div className="uploaded-images mt-3">
-                                    {koiData.images?.map((image, index) => (
-                                        <img
-                                            key={image.image_id}
-                                            src={`http://localhost:8080/files/images/${image.source_path}`}
-                                            className="image-upload-more"
-                                            alt={`Uploaded ${index + 1}`}
-                                            onClick={() => openModal(image.source_path)} // Open modal on click
-                                        />
+                                    {koiData.images.map((image, index) => (
+                                        <div key={image.image_id} className="image-container">
+                                            <img
+                                                src={`${IMAGE_API}/${image.source_path}`}
+                                                className="image-upload-more"
+                                                alt={`Uploaded ${index + 1}`}
+                                                onClick={() => openModal(image.source_path)}
+                                            />
+                                            <button
+                                                className="btn btn-danger btn-sm"
+                                                onClick={() => handleDeleteImage(image.image_id)}
+                                                style={{ marginLeft: '5px' }}
+                                            >
+                                                Delete
+                                            </button>
+                                        </div>
                                     ))}
                                 </div>
                             )}
@@ -208,8 +245,8 @@ const KoiDetail: React.FC = () => {
                     </div>
 
                     {/* Form Section */}
-                    <div className="col-md-6 col-sm-12 d-flex flex-column justify-content-center align-items-center"
-                         style={{marginTop: "3.5rem"}}>
+                    <div className="col-md-6 d-flex  justify-content-center align-items-start"
+                         style={{marginTop: "6rem"}}>
                         <div className="form-container card w-100 ">
                             <div className="card-body">
                                 <h2 className="text-start"
@@ -220,7 +257,7 @@ const KoiDetail: React.FC = () => {
 
                                     }}>Koi fish details</h2>
                                 {/* Species */}
-                                <div className="mb-1">
+                                <div className="mb-3">
                                     <label className="form-label-koi ">Species</label>
                                     <input type="text" name="species" className="form-control input-field-koi"
                                            value={koiData.species}
@@ -228,14 +265,14 @@ const KoiDetail: React.FC = () => {
                                 </div>
 
                                 {/* Age and Gender */}
-                                <div className="mb-1 row">
-                                    <div className="col-md-4 col-sm-6">
+                                <div className="mb-3 row">
+                                    <div className="col-md-5 col-sm-6">
                                         <label className="form-label-koi ">Age</label>
                                         <input type="number" name="age" className="form-control input-field-koi"
                                                value={koiData.age}
                                                onChange={(e) => setKoiData({...koiData, age: e.target.value})}/>
                                     </div>
-                                    <div className="col-md-8 col-sm-6 d-flex align-items-end gap-3 mt-2">
+                                    <div className="col-md-7 col-sm-6 d-flex align-items-end gap-3 mt-2">
                                         <div className="form-check">
                                             <input className="form-check-input" type="radio" name="gender" value="MALE"
                                                    checked={koiData.gender === 'MALE'}
@@ -251,48 +288,48 @@ const KoiDetail: React.FC = () => {
                                         </div>
                                     </div>
                                 </div>
+                                <div className="mb-3 row">
+                                    {/* Size */}
+                                    <div className="col-md-6 col-sm-6">
+                                        <label className="form-label-koi ">Size (cm)</label>
+                                        <input type="text" name="size" className="form-control input-field-koi"
+                                               value={koiData.size}
+                                               onChange={(e) => setKoiData({...koiData, size: e.target.value})}/>
+                                    </div>
 
-                                {/* Size */}
-                                <div className="mb-1">
-                                    <label className="form-label-koi ">Size</label>
-                                    <input type="text" name="size" className="form-control input-field-koi"
-                                           value={koiData.size}
-                                           onChange={(e) => setKoiData({...koiData, size: e.target.value})}/>
+                                    {/* Weight */}
+                                    <div className="col-md-6 col-sm-6">
+                                        <label className="form-label-koi ">Weight (kg)</label>
+                                        <input type="text" name="weight" className="form-control input-field-koi"
+                                               value={koiData.weight}
+                                               onChange={(e) => setKoiData({...koiData, weight: e.target.value})}/>
+                                    </div>
                                 </div>
+                                    {/* Color */}
+                                    <div className="mb-3">
+                                        <label className="form-label-koi ">Color</label>
+                                        <input type="text" name="color" className="form-control input-field-koi"
+                                               value={koiData.color}
+                                               onChange={(e) => setKoiData({...koiData, color: e.target.value})}/>
+                                    </div>
 
-                                {/* Weight */}
-                                <div className="mb-1">
-                                    <label className="form-label-koi ">Weight</label>
-                                    <input type="text" name="weight" className="form-control input-field-koi"
-                                           value={koiData.weight}
-                                           onChange={(e) => setKoiData({...koiData, weight: e.target.value})}/>
-                                </div>
+                                    {/* Origin */}
+                                    <div className="mb-3">
+                                        <label className="form-label-koi ">Origin</label>
+                                        <input type="text" name="origin" className="form-control input-field-koi"
+                                               value={koiData.origin}
+                                               onChange={(e) => setKoiData({...koiData, origin: e.target.value})}/>
+                                    </div>
 
-                                {/* Color */}
-                                <div className="mb-1">
-                                    <label className="form-label-koi ">Color</label>
-                                    <input type="text" name="color" className="form-control input-field-koi"
-                                           value={koiData.color}
-                                           onChange={(e) => setKoiData({...koiData, color: e.target.value})}/>
-                                </div>
-
-                                {/* Origin */}
-                                <div className="mb-2">
-                                    <label className="form-label-koi ">Origin</label>
-                                    <input type="text" name="origin" className="form-control input-field-koi"
-                                           value={koiData.origin}
-                                           onChange={(e) => setKoiData({...koiData, origin: e.target.value})}/>
-                                </div>
-
-                                {/* Action Buttons */}
-                                <div className="d-flex gap-3">
-                                    <button className="btn btn-primary" onClick={handleUpdate}>Save</button>
-                                    <button className="btn btn-secondary" onClick={handleCancel}>Cancel</button>
-                                    <button className="btn btn-danger" onClick={handleDelete}>Delete</button>
+                                    {/* Action Buttons */}
+                                    <div className="d-flex gap-3 ">
+                                        <button className="btn btn-primary  mt-3" onClick={handleUpdate}>Save</button>
+                                        <button className="btn btn-secondary  mt-3" onClick={handleCancel}>Cancel</button>
+                                        <button className="btn btn-danger  mt-3" onClick={handleDelete}>Delete</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                 </div>
                 {/* Modal for displaying images */}
                 {showModal && (
@@ -305,7 +342,7 @@ const KoiDetail: React.FC = () => {
                                 </div>
                                 <div className="modal-body text-center">
                                     {selectedImage && (
-                                        <img src={`http://localhost:8080/files/images/${selectedImage}`}
+                                        <img src={`${IMAGE_API}/${selectedImage}`}
                                              className="img-fluid" alt="Koi"/>
                                     )}
                                 </div>
@@ -319,7 +356,7 @@ const KoiDetail: React.FC = () => {
                 )}
             </div>
         </div>
-            );
-            };
+    );
+ };
 
-            export default KoiDetail;
+export default KoiDetail;

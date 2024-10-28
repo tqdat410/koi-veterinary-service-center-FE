@@ -73,12 +73,21 @@ const FillInformationPage: React.FC = () => {
             if (userId) {
                 try {
                     const userData = await getUserInfo(userId); // Fetch user profile
+
+                    const { address } = userData;
                     setFormData((prevData) => ({
                         ...prevData,
                         customer_name: `${userData.first_name} ${userData.last_name}`, // Combine first and last name
                         phone: userData.phone_number, // Use the user's phone number
                         email: userData.email, // Use the user's email
+                        address: address ? `${address.home_number}, ${address.ward}, ${address.district}, ${address.city}` : '',
+                        address_id: address?.address_id || null,
                     }));
+                    if (address) {
+                        setSelectedAddress(`${address.home_number}, ${address.ward}, ${address.district}, ${address.city}`);
+                    } else {
+                        setSelectedAddress("Select an address");
+                    }
                 } catch (err) {
                     setError('Failed to fetch user profile');
                 } finally {
@@ -98,7 +107,7 @@ const FillInformationPage: React.FC = () => {
             if (userId) {
                 try {
                     const data = await fetchAddresses(); // Gọi API để lấy danh sách địa chỉ
-                    setAddresses(data); // Cập nhật state với dữ liệu địa chỉ
+                    setAddresses(Array.isArray(data) ? data : []); // Cập nhật state với dữ liệu địa chỉ
                 } catch (err) {
                     setError('Failed to fetch addresses');
                 } finally {
@@ -224,7 +233,7 @@ const FillInformationPage: React.FC = () => {
         }
 
 
-        console.log(formData);
+
 
 
         try {
@@ -333,7 +342,8 @@ const FillInformationPage: React.FC = () => {
                                             value={selectedFish}
                                             onChange={handleFishChange}
                                         >
-                                            <option value="">Select a fish</option>
+                                            <option value=""
+                                                    disabled>{fishes.length ? "Select an fish" : "No fish available"}</option>
                                             {fishes.length > 0 ? (
                                                 fishes.map(fish => (
                                                     <option key={fish.fish_id} value={`${fish.species}/ ${fish.origin}/ ${fish.color} (${fish.gender})`}>
@@ -399,16 +409,15 @@ const FillInformationPage: React.FC = () => {
                                                 value={selectedAddress}
                                                 onChange={handleAddressChange}
                                             >
-                                                <option value="">Select an address</option>
-                                                {addresses.length > 0 ? (
-                                                    addresses.map(address => (
-                                                        <option key={address.address_id} value={`${address.home_number}/ ${address.district}/ ${address.ward}/ ${address.city}`}>
-                                                            {`${address.home_number}/ ${address.district}/ ${address.ward}/ ${address.city}`}
-                                                        </option>
-                                                    ))
-                                                ) : (
-                                                    <option value="" disabled>No addresses available</option>
-                                                )}
+                                                <option value="" disabled>{addresses.length ? "Select an address" : "No addresses available"}</option>
+                                                {addresses.map((addr) => (
+                                                    <option
+                                                        key={addr.address_id}
+                                                        value={`${addr.home_number}, ${addr.ward}, ${addr.district}, ${addr.city}`}
+                                                    >
+                                                        {addr.home_number}, {addr.ward}, {addr.district}, {addr.city}
+                                                    </option>
+                                                ))}
                                             </select>
                                             <i className="bi bi-chevron-down dropdown-icon"></i>
                                         </div>
@@ -444,7 +453,7 @@ const FillInformationPage: React.FC = () => {
                                     </div>
 
                                     {/* Show cash payment option only if service_id is not 1 */}
-                                    {service_id !== 1 && (
+                                    {service_id !== 1 && service_id !== 2 && (
                                         <div className="form-check">
                                             <input
                                                 className="form-check-input"

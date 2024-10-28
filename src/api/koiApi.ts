@@ -49,3 +49,12 @@ export const addKoiImage = async (fishId: number, image: File) => {
 
     return response.data;
 };
+
+export const deleteKoiImage = async (imageDTO: { image_id: number; enable: string  }) => {
+    const response = await axios.delete(`${FISH_URL}/deleteimage`, {
+        data: imageDTO
+    });
+    console.log(response)
+    console.log(response.data)
+    return response.data;
+};

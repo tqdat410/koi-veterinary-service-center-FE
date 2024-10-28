@@ -3,56 +3,41 @@
 /* PAID, NOT_PAID */
 
 .status-cancelled, .status-not-paid {
-    background-color: red !important;
-    color: white !important;
-    font-weight: 600;
+    color: red !important;
     font-family: sans-serif;
 }
 
 .status-checked-in {
-    background-color: #D9F2D0 !important;
-    color: white !important;
-    font-weight: 600;
+    color: #D9F2D0 !important;
     font-family: sans-serif;
     
 }
 
 .status-confirmed {
-    background-color: blue !important;
-    color: white !important;
-    font-weight: 600;
+    color: blue !important;
     font-family: sans-serif;
 }
 
 .status-done {
-    background-color: green !important;
-    color: white !important;
-    font-weight: 600;
+    color: green !important;
     font-family: sans-serif;
     
 }
 
 .status-paid {
-    background-color: #04BD04 !important;
-    color: white !important;
-    font-weight: 600;
+    color: green !important;
     font-family: sans-serif;
     
 }
 
 .status-on-going {
-    color: orange;
-    font-weight: 600;
+    color: orange !important;
     font-family: sans-serif;
-
 }
 
 .status-pending {
-    background-color: purple  !important;
-    color: white !important;
-    font-weight: 600;
+    color: purple  !important;
     font-family: sans-serif;
-    
 }
 
 

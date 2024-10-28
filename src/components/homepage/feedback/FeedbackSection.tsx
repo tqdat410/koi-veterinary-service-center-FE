@@ -4,12 +4,15 @@ import axios from "axios";
 import {useAuth} from "../../../hooks/context/AuthContext";
 import {useNavigate} from "react-router-dom"; // Adjust the import path as needed
 import {BASE_API} from "../../../api/baseApi"
+import LoginReminderModal from "../../../guards/LoginReminderModal";
 interface Feedback {
     feedback_id: number;
     rating: number;
     comment: string;
     date_time: string;
 }
+
+
 
 const FeedbackSection: React.FC = () => {
     const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
@@ -51,12 +54,19 @@ const FeedbackSection: React.FC = () => {
     };
 
 
+
+
     const handleRequestAppointment = () => {
         if (!isAuthenticated) {
             setShowModal(true);
         } else {
             navigate('/appointment/service-selection');
         }
+    };
+
+    const handleModalClose = () => {
+        setShowModal(false);
+        navigate('/login');
     };
 
     return (
@@ -103,6 +113,7 @@ const FeedbackSection: React.FC = () => {
                     </button>
                 </div>
             </div>
+            <LoginReminderModal show={showModal} onClose={handleModalClose} />
         </section>
 
     );

@@ -18,38 +18,45 @@
 
 /* Status badge styling */
 .span-status {
-    color: white;
+    color: white !important;
     padding: 4px 8px;
     margin-left: 10px;
     border-radius: 4px;
     font-weight: bold;
 }
 
-.status-canceled {
+.canceled {
+    color: white !important;
     background-color: red;
 }
 
-.status-checked-in {
+.checked-in {
+    color: white !important;
     background-color: blue;
 }
 
-.status-confirmed {
+.confirmed {
+    color: white !important;
     background-color: green;
 }
 
-.status-done {
-    background-color: gray;
+.done {
+    color: white !important;
+    background-color: green;
 }
 
-.status-on-going {
+.on-going {
+    color: white !important;
     background-color: orange;
 }
 
-.status-pending {
+.pending {
+    color: white !important;
     background-color: purple;
 }
 
-.status-default {
+.default {
+    color: white !important;
     background-color: black;
 }
 

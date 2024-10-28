@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { getAppointmentDetailsForCus, getLinkMeetByVetId } from '../../api/appointmentApi';
+import { getAppointmentDetailsForCus, getLinkMeetByVetId, getMedicalReport, fetchPrescriptionDetails } from '../../api/appointmentApi';
 import { createPayment, fetchPayment } from '../../api/paymentApi';
 import { createFeedback, getFeedbackDetailsCus } from '../../api/feedbackApi';
 import '../../styles/CustomerAppointmentDetails.css';
+import { MedicalReport, Medicine, Prescription } from "../../types";
 import { Rating, Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField } from '@mui/material';
 import Sidebar from "../../components/layout/Sidebar";
 
@@ -96,6 +97,8 @@ const CustomerAppointmentDetails: React.FC = () => {
     const location = useLocation();
     const appointment_id: number = location.state?.appointment_id;
     const [appointment, setAppointment] = useState<AppointmentDetailsProps | null>(null);
+    const [medicalReport, setMedicalReport] = useState<MedicalReport | null>(null);
+    const [prescription, setPrescription] = useState<Prescription | null>(null);
     const [PaymentDetails, setPaymentDetails] = useState<PaymentDetails | null>(null);
     // const [isPaymentVisible, setIsPaymentVisible] = useState(false);
     const paymentRef = useRef<HTMLDivElement>(null);
@@ -114,7 +117,19 @@ const CustomerAppointmentDetails: React.FC = () => {
                     const appointmentData = await getAppointmentDetailsForCus(Number(appointment_id));
                     const paymentData = await fetchPayment(appointment_id);
                     setAppointment(appointmentData);
-                    setPaymentDetails(paymentData); // Update only PaymentDetails state                  
+                    setPaymentDetails(paymentData); // Update only PaymentDetails state 
+
+                    const report = await getMedicalReport(Number(appointment_id));  // Call the medical report
+                    console.log(report); // đã lây được  
+                    if (report) {
+                        setMedicalReport(report); // Update only MedicalReport state
+                        if (report.prescription_id) {
+                            const prescriptionData = await fetchPrescriptionDetails(report.prescription_id);
+                            console.log(prescriptionData);
+                            setPrescription(prescriptionData); // Update only Prescription state
+                        }
+                    }
+
                 } catch (error) {
                     console.error('Error fetching appointment details:', error);
                 }
@@ -136,10 +151,13 @@ const CustomerAppointmentDetails: React.FC = () => {
                     console.error('Error fetching feedback details:', error);
                 }
             }
+
+
         };
 
         fetchFeedbackDetails();
     }, [appointment?.feedback_id]);
+
     if (!appointment) {
         return <div>Loading...</div>;
     }
@@ -286,12 +304,14 @@ const CustomerAppointmentDetails: React.FC = () => {
 
                                 <h5 className="mt-3">Veterinarian Information:</h5>
                                 <p>Name: {appointment.veterinarian?.first_name} {appointment.veterinarian?.last_name}</p>
-                                <p>Vet id: {appointment.veterinarian?.user_id}</p>
+                                <p>Vet ID: {appointment.veterinarian?.user_id}</p>
+                            </div>
 
+                            <div className="col-md-6">
                                 {/* Chỉ hiển thị khi có địa chỉ */}
                                 {appointment.address && (
                                     <div>
-                                        <h5 className="mt-3">Address Information: </h5>
+                                        <h5 className="mt-3">Address Information </h5>
                                         <p>{appointment.address?.home_number}, {appointment.address?.ward}, {appointment.address?.district}, {appointment.address?.city}</p>
                                     </div>
                                 )}
@@ -300,11 +320,37 @@ const CustomerAppointmentDetails: React.FC = () => {
                                 {appointment.fish && (
                                     <div>
                                         <h5 className="mt-3">Fish Information</h5>
-                                        <p>Species: {appointment.fish?.species || 'NA'}</p>
-                                        <p>Gender: {appointment.fish?.gender || 'NA'}</p>
-                                        <p>Size: {appointment.fish?.size || 'NA'} cm </p>
-                                        <p>Weight: {appointment.fish?.weight || 'NA'} kg</p>
-                                        <p>Origin: {appointment.fish?.origin || 'NA'}</p>
+                                        <p>Species: {appointment.fish?.species || 'N/A'}</p>
+                                        <p>Gender: {appointment.fish?.gender || 'N/A'}</p>
+                                        <p>Size: {appointment.fish?.size || 'N/A'} cm </p>
+                                        <p>Weight: {appointment.fish?.weight || 'N/A'} kg</p>
+                                        <p>Origin: {appointment.fish?.origin || 'N/A'}</p>
+                                    </div>
+                                )}
+
+
+                                {/* Hiển thị medical report khi có */}
+                                {medicalReport && (
+                                    <div>
+                                        <h5 className="mt-3">Medical Report</h5>
+                                        <p>ID: {medicalReport.veterinarian_id}</p>
+                                        <p>Conclusion: {medicalReport?.conclusion || 'N/A'}</p>
+                                        <p>Advise: {medicalReport?.advise || 'N/A'}</p>
+                                    </div>
+                                )}
+
+                                {/* Hiển thị prescription khi có */}
+                                {prescription && (
+                                    <div>
+                                        <h5 className="mt-3">Prescription</h5>
+                                        <p>Medicines:</p>
+                                        <ul>
+                                            {prescription.medicines.map((medicine: Medicine) => (
+                                                <li key={medicine.medicine_id} className='medicine-item'>
+                                                    ID {medicine.medicine_id} :  {medicine.medicine_name} -  {medicine.instruction}
+                                                </li>
+                                            ))}
+                                        </ul>
                                     </div>
                                 )}
 
@@ -340,8 +386,8 @@ const CustomerAppointmentDetails: React.FC = () => {
 
                                     <p>Status:
                                         <span className={`span-status ${PaymentDetails?.status === 'PAID' ? 'status-done' :
-                                                PaymentDetails?.status === 'NOT_PAID' ? 'status-canceled' :
-                                                    'status-default'
+                                            PaymentDetails?.status === 'NOT_PAID' ? 'status-canceled' :
+                                                'status-default'
                                             }`}
                                         >
                                             {/* Transform 'PAID' or 'NOT_PAID' to 'Paid' or 'Not paid' */}
@@ -405,7 +451,6 @@ const CustomerAppointmentDetails: React.FC = () => {
                                         </Button>
                                     </DialogActions>
                                 </Dialog>
-
                             </div>
                         </div>
                     </div>

@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, ReactNode, useEffect } from
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 import {logout as logoutAPI, refreshToken} from "../../api/authService"
+
 interface User {
     roleId: string;
     userId: number;
@@ -83,7 +84,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             console.error("Token is already expired");
             return logout();
         }
-        console.log(decodedToken)
+        console.log("Debug:",decodedToken)
         setIsAuthenticated(true);
         setUser({ roleId: decodedToken.scope, userId: decodedToken.userId });
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
