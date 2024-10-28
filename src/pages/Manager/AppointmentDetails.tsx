@@ -238,12 +238,12 @@ const AppointmentDetails: React.FC = () => {
                                     <p>Date: {formattedCreatedDate}</p>
                                     <p>Status:
                                         <span
-                                            className={`span-status ${appointment?.current_status === 'CANCELED' ? 'status-canceled' :
-                                                appointment?.current_status === 'CHECKED_IN' ? 'status-checked-in' :
-                                                    appointment?.current_status === 'CONFIRMED' ? 'status-confirmed' :
-                                                        appointment?.current_status === 'DONE' ? 'status-done' :
-                                                            appointment?.current_status === 'ON_GOING' ? 'status-on-going' :
-                                                                appointment?.current_status === 'PENDING' ? 'status-pending' :
+                                            className={`span-status ${appointment?.current_status === 'CANCELED' ? 'canceled' :
+                                                appointment?.current_status === 'CHECKED_IN' ? 'checked-in' :
+                                                    appointment?.current_status === 'CONFIRMED' ? 'confirmed' :
+                                                        appointment?.current_status === 'DONE' ? 'done' :
+                                                            appointment?.current_status === 'ON_GOING' ? 'on-going' :
+                                                                appointment?.current_status === 'PENDING' ? 'pending' :
                                                                     ''
                                                 }`}>
                                             {/* Format lại chữ */}
