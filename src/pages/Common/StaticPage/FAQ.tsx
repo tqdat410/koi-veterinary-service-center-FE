@@ -1,225 +1,101 @@
-
-import "../../../styles/FAQ.css"
-
 // src/pages/FAQ.tsx
 import React from 'react';
+import "../../../styles/FAQ.css";
+import Footer from "../../../components/layout/Footer";
+
+export const faqData = [
+    {
+        question: "How do I book a service?",
+        answer: "You can book our services directly through the website. Select the service, specify your preferred veterinarian (optional), and choose a time slot. For consultations, ensure your Koi's information is registered in our system."
+    },
+    {
+        question: "Can I select a specific veterinarian for my service?",
+        answer: "Absolutely. You can specify a veterinarian while booking, or allow our staff to assign one best suited for your Koi's needs."
+    },
+    {
+        question: "What payment options do you offer?",
+        answer: "We offer both online and offline payment options. Online payments are required for certain services, including online consultations."
+    },
+    {
+        question: "Are emergency services available?",
+        answer: "Yes, emergency services are available upon request. Please contact us directly to arrange for immediate assistance."
+    },
+    {
+        question: "What should I do if my Koi fish is sick?",
+        answer: "If you suspect your Koi fish is sick, it's best to book a consultation with one of our veterinarians as soon as possible. Make sure to note any symptoms you observe for better diagnosis."
+    },
+    {
+        question: "How often should I bring my Koi fish for checkups?",
+        answer: "We recommend annual health checkups for Koi fish. However, if your Koi exhibits any signs of illness or stress, you should schedule an appointment immediately."
+    },
+    {
+        question: "Can I watch the procedure when my Koi fish is being treated?",
+        answer: "Yes, we encourage pet owners to be involved in their pet's care. You can observe the treatment process as long as it does not interfere with the veterinarian’s work."
+    },
+    {
+        question: "What are the signs of stress or illness in Koi fish?",
+        answer: "Signs of stress or illness in Koi fish can include:\n- Changes in color or fading\n- Listlessness or lack of movement\n- Gasping at the water surface\n- Abnormal swimming patterns\n- Loss of appetite\n- Visible lesions or ulcers. If you notice any of these symptoms, please contact us for a consultation."
+    },
+    {
+        question: "How can I maintain a healthy environment for my Koi fish?",
+        answer: "To maintain a healthy environment for your Koi fish:\n- Regularly check and maintain water quality.\n- Perform routine water changes.\n- Ensure proper filtration and aeration.\n- Provide appropriate nutrition.\n- Avoid overstocking your pond. If you have questions about specific products or practices, don’t hesitate to ask our veterinarians."
+    },
+    {
+        question: "Can I bring my Koi fish to the clinic?",
+        answer: "Yes, you can bring your Koi fish to our clinic. Please use a suitable container and ensure that the water conditions are similar to their home environment to minimize stress during transport."
+    },
+    {
+        question: "What should I feed my Koi fish?",
+        answer: "Koi fish thrive on a balanced diet of high-quality pellets, supplemented with occasional fruits and vegetables. Avoid overfeeding and provide just enough that they can consume in a few minutes to prevent water quality issues."
+    },
+    {
+        question: "How can I tell the age of my Koi fish?",
+        answer: "Determining a Koi's age can be challenging without precise records. However, experienced veterinarians can provide an estimate based on size, scale condition, and general health. Larger Koi with thick, sturdy bodies are often older."
+    },
+    {
+        question: "What should I do if I need to transport my Koi fish?",
+        answer: "Transporting Koi requires careful preparation. Use an aerated, clean container with pond water. Ensure the temperature and oxygen levels remain stable, especially for longer trips. We recommend contacting our clinic for guidance on safe transportation practices."
+    },
+    {
+        question: "Can Koi fish live indoors?",
+        answer: "Koi can live indoors in a large enough tank or aquarium. Indoor tanks need proper filtration, aeration, and regular water maintenance to provide a healthy environment. Be mindful of space as Koi can grow quite large."
+    }
+];
+
 
 const FAQ: React.FC = () => {
     return (
+        <div>
         <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
             <div className="container my-5">
-                <h1 className="text-center mb-4">Frequently Asked Questions</h1>
+                <h1 className="text-center mb-4" style={{ fontWeight: "bold", color: "#02033B", fontSize: "2.5rem" }}>Frequently Asked Questions</h1>
 
                 <div className="accordion" id="faqAccordion">
-                    <div className="accordion-item">
-                        <h2 className="accordion-header">
-                            <button
-                                className="accordion-button"
-                                type="button"
-                                data-bs-toggle="collapse"
-                                data-bs-target="#panelsStayOpen-collapseOne"
-                                aria-expanded="true"
-                                aria-controls="panelsStayOpen-collapseOne">
-                                How do I book a service?
-                            </button>
-                        </h2>
-                        <div id="panelsStayOpen-collapseOne" className="accordion-collapse collapse show">
-                            <div className="accordion-body">
-                                <strong>You can book our services directly through the website.</strong>
-                                Select the service, specify your preferred veterinarian (optional), and choose a time slot. For consultations, ensure your Koi's information is registered in our system.
+                    {faqData.map((faq, index) => (
+                        <div className="accordion-item" key={index}>
+                            <h2 className="accordion-header">
+                                <button
+                                    className={`accordion-button ${index === 0 ? '' : 'collapsed'}`}
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target={`#panelsStayOpen-collapse${index}`}
+                                    aria-expanded={index === 0 ? 'true' : 'false'}
+                                    aria-controls={`panelsStayOpen-collapse${index}`}>
+                                    {faq.question}
+                                </button>
+                            </h2>
+                            <div id={`panelsStayOpen-collapse${index}`} className={`accordion-collapse collapse ${index === 0 ? 'show' : ''}`}>
+                                <div className="accordion-body">
+                                    <strong>{faq.answer}</strong>
+                                </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div className="accordion-item">
-                        <h2 className="accordion-header">
-                            <button
-                                className="accordion-button collapsed"
-                                type="button"
-                                data-bs-toggle="collapse"
-                                data-bs-target="#panelsStayOpen-collapseTwo"
-                                aria-expanded="false"
-                                aria-controls="panelsStayOpen-collapseTwo">
-                                Can I select a specific veterinarian for my service?
-                            </button>
-                        </h2>
-                        <div id="panelsStayOpen-collapseTwo" className="accordion-collapse collapse">
-                            <div className="accordion-body">
-                                <strong>Absolutely.</strong> You can specify a veterinarian while booking, or allow our staff to assign one best suited for your Koi's needs.
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="accordion-item">
-                        <h2 className="accordion-header">
-                            <button
-                                className="accordion-button collapsed"
-                                type="button"
-                                data-bs-toggle="collapse"
-                                data-bs-target="#panelsStayOpen-collapseThree"
-                                aria-expanded="false"
-                                aria-controls="panelsStayOpen-collapseThree">
-                                What payment options do you offer?
-                            </button>
-                        </h2>
-                        <div id="panelsStayOpen-collapseThree" className="accordion-collapse collapse">
-                            <div className="accordion-body">
-                                <strong>We offer both online and offline payment options.</strong> Online payments are required for certain services, including online consultations.
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="accordion-item">
-                        <h2 className="accordion-header">
-                            <button
-                                className="accordion-button collapsed"
-                                type="button"
-                                data-bs-toggle="collapse"
-                                data-bs-target="#panelsStayOpen-collapseFour"
-                                aria-expanded="false"
-                                aria-controls="panelsStayOpen-collapseFour">
-                                Are emergency services available?
-                            </button>
-                        </h2>
-                        <div id="panelsStayOpen-collapseFour" className="accordion-collapse collapse">
-                            <div className="accordion-body">
-                                <strong>Yes, emergency services are available upon request.</strong> Please contact us directly to arrange for immediate assistance.
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="accordion-item">
-                        <h2 className="accordion-header">
-                            <button
-                                className="accordion-button collapsed"
-                                type="button"
-                                data-bs-toggle="collapse"
-                                data-bs-target="#panelsStayOpen-collapseFive"
-                                aria-expanded="false"
-                                aria-controls="panelsStayOpen-collapseFive">
-                                What should I do if my Koi fish is sick?
-                            </button>
-                        </h2>
-                        <div id="panelsStayOpen-collapseFive" className="accordion-collapse collapse">
-                            <div className="accordion-body">
-                                <strong>If you suspect your Koi fish is sick,</strong> it's best to book a consultation with one of our veterinarians as soon as possible. Make sure to note any symptoms you observe for better diagnosis.
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="accordion-item">
-                        <h2 className="accordion-header">
-                            <button
-                                className="accordion-button collapsed"
-                                type="button"
-                                data-bs-toggle="collapse"
-                                data-bs-target="#panelsStayOpen-collapseSix"
-                                aria-expanded="false"
-                                aria-controls="panelsStayOpen-collapseSix">
-                                How often should I bring my Koi fish for checkups?
-                            </button>
-                        </h2>
-                        <div id="panelsStayOpen-collapseSix" className="accordion-collapse collapse">
-                            <div className="accordion-body">
-                                <strong>We recommend annual health checkups for Koi fish.</strong> However, if your Koi exhibits any signs of illness or stress, you should schedule an appointment immediately.
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="accordion-item">
-                        <h2 className="accordion-header">
-                            <button
-                                className="accordion-button collapsed"
-                                type="button"
-                                data-bs-toggle="collapse"
-                                data-bs-target="#panelsStayOpen-collapseSeven"
-                                aria-expanded="false"
-                                aria-controls="panelsStayOpen-collapseSeven">
-                                Can I watch the procedure when my Koi fish is being treated?
-                            </button>
-                        </h2>
-                        <div id="panelsStayOpen-collapseSeven" className="accordion-collapse collapse">
-                            <div className="accordion-body">
-                                <strong>Yes, we encourage pet owners to be involved in their pet's care.</strong> You can observe the treatment process as long as it does not interfere with the veterinarian’s work.
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="accordion-item">
-                        <h2 className="accordion-header">
-                            <button
-                                className="accordion-button collapsed"
-                                type="button"
-                                data-bs-toggle="collapse"
-                                data-bs-target="#panelsStayOpen-collapseEight"
-                                aria-expanded="false"
-                                aria-controls="panelsStayOpen-collapseEight">
-                                What are the signs of stress or illness in Koi fish?
-                            </button>
-                        </h2>
-                        <div id="panelsStayOpen-collapseEight" className="accordion-collapse collapse">
-                            <div className="accordion-body">
-                                <strong>Signs of stress or illness in Koi fish can include:</strong>
-                                <ul>
-                                    <li>Changes in color or fading</li>
-                                    <li>Listlessness or lack of movement</li>
-                                    <li>Gasping at the water surface</li>
-                                    <li>Abnormal swimming patterns</li>
-                                    <li>Loss of appetite</li>
-                                    <li>Visible lesions or ulcers</li>
-                                </ul>
-                                If you notice any of these symptoms, please contact us for a consultation.
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="accordion-item">
-                        <h2 className="accordion-header">
-                            <button
-                                className="accordion-button collapsed"
-                                type="button"
-                                data-bs-toggle="collapse"
-                                data-bs-target="#panelsStayOpen-collapseNine"
-                                aria-expanded="false"
-                                aria-controls="panelsStayOpen-collapseNine">
-                                How can I maintain a healthy environment for my Koi fish?
-                            </button>
-                        </h2>
-                        <div id="panelsStayOpen-collapseNine" className="accordion-collapse collapse">
-                            <div className="accordion-body">
-                                <strong>To maintain a healthy environment for your Koi fish:</strong>
-                                <ul>
-                                    <li>Regularly check and maintain water quality.</li>
-                                    <li>Perform routine water changes.</li>
-                                    <li>Ensure proper filtration and aeration.</li>
-                                    <li>Provide appropriate nutrition.</li>
-                                    <li>Avoid overstocking your pond.</li>
-                                </ul>
-                                If you have questions about specific products or practices, don’t hesitate to ask our veterinarians.
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="accordion-item">
-                        <h2 className="accordion-header">
-                            <button
-                                className="accordion-button collapsed"
-                                type="button"
-                                data-bs-toggle="collapse"
-                                data-bs-target="#panelsStayOpen-collapseTen"
-                                aria-expanded="false"
-                                aria-controls="panelsStayOpen-collapseTen">
-                                Can I bring my Koi fish to the clinic?
-                            </button>
-                        </h2>
-                        <div id="panelsStayOpen-collapseTen" className="accordion-collapse collapse">
-                            <div className="accordion-body">
-                                <strong>Yes, you can bring your Koi fish to our clinic.</strong> Please use a suitable container and ensure that the water conditions are similar to their home environment to minimize stress during transport.
-                            </div>
-                        </div>
-                    </div>
+                    ))}
                 </div>
             </div>
+
+        </div>
+        <Footer/>
         </div>
     );
 }
