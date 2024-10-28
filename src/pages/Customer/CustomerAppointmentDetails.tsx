@@ -305,11 +305,13 @@ const CustomerAppointmentDetails: React.FC = () => {
                                 <h5 className="mt-3">Veterinarian Information:</h5>
                                 <p>Name: {appointment.veterinarian?.first_name} {appointment.veterinarian?.last_name}</p>
                                 <p>Vet ID: {appointment.veterinarian?.user_id}</p>
+                            </div>
 
+                            <div className="col-md-6">
                                 {/* Chỉ hiển thị khi có địa chỉ */}
                                 {appointment.address && (
                                     <div>
-                                        <h5 className="mt-3">Address Information: </h5>
+                                        <h5 className="mt-3">Address Information </h5>
                                         <p>{appointment.address?.home_number}, {appointment.address?.ward}, {appointment.address?.district}, {appointment.address?.city}</p>
                                     </div>
                                 )}
@@ -345,7 +347,7 @@ const CustomerAppointmentDetails: React.FC = () => {
                                         <ul>
                                             {prescription.medicines.map((medicine: Medicine) => (
                                                 <li key={medicine.medicine_id} className='medicine-item'>
-                                                   ID {medicine.medicine_id} :  {medicine.medicine_name} -  {medicine.instruction}
+                                                    ID {medicine.medicine_id} :  {medicine.medicine_name} -  {medicine.instruction}
                                                 </li>
                                             ))}
                                         </ul>
@@ -449,7 +451,6 @@ const CustomerAppointmentDetails: React.FC = () => {
                                         </Button>
                                     </DialogActions>
                                 </Dialog>
-
                             </div>
                         </div>
                     </div>
