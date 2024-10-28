@@ -24,11 +24,16 @@ const AddressManagementPage: React.FC = () => {
             if (userId) {  // Kiểm tra nếu userId không undefined
                 try {
                     const userInfo = await getUserInfo(userId);
-                    setCurrentAddress(userInfo.address);
+                    setCurrentAddress(userInfo?.address);
                     const data = await fetchAddresses(); // Gọi API để lấy danh sách địa chỉ
-                    setAddresses(data);
+                    if (Array.isArray(data)) {
+                        setAddresses(data);
+                    } else {
+                        console.log('No address');
+                        setAddresses([]);
+                    }
                 } catch (err) {
-                    setError('Failed to fetch addresses');
+                    console.error('Error fetching address data:', err);
                 } finally {
                     setLoading(false); // Tắt trạng thái loading sau khi dữ liệu đã được load
                 }

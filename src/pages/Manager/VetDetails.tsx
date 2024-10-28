@@ -314,30 +314,30 @@ const VetDetails: React.FC = () => {
                                 {errorPhone && <div className="error-register">{errorPhone}</div>}
                             </div>
 
-                            <div className="address-row">
-                                <div className="form-group">
-                                    <label className="fw-bold">District</label>
-                                    <input type="text" className="form-control input-field" value={district}
-                                           onChange={e => setDistrict(e.target.value)}/>
-                                </div>
-                                <div className="form-group">
-                                    <label className="fw-bold">City</label>
-                                    <input type="text" className="form-control input-field" value={city}
-                                           onChange={e => setCity(e.target.value)}/>
-                                </div>
-                            </div>
-                            <div className="address-row">
-                                <div className="form-group">
-                                    <label className="fw-bold">Ward</label>
-                                    <input type="text" className="form-control input-field" value={ward}
-                                           onChange={e => setWard(e.target.value)}/>
-                                </div>
-                                <div className="form-group">
-                                    <label className="fw-bold">Home Number</label>
-                                    <input type="text" className="form-control input-field" value={homeNumber}
-                                           onChange={e => setHomeNumber(e.target.value)}/>
-                                </div>
-                            </div>
+                            {/*<div className="address-row">*/}
+                            {/*    <div className="form-group">*/}
+                            {/*        <label className="fw-bold">District</label>*/}
+                            {/*        <input type="text" className="form-control input-field" value={district}*/}
+                            {/*               onChange={e => setDistrict(e.target.value)}/>*/}
+                            {/*    </div>*/}
+                            {/*    <div className="form-group">*/}
+                            {/*        <label className="fw-bold">City</label>*/}
+                            {/*        <input type="text" className="form-control input-field" value={city}*/}
+                            {/*               onChange={e => setCity(e.target.value)}/>*/}
+                            {/*    </div>*/}
+                            {/*</div>*/}
+                            {/*<div className="address-row">*/}
+                            {/*    <div className="form-group">*/}
+                            {/*        <label className="fw-bold">Ward</label>*/}
+                            {/*        <input type="text" className="form-control input-field" value={ward}*/}
+                            {/*               onChange={e => setWard(e.target.value)}/>*/}
+                            {/*    </div>*/}
+                            {/*    <div className="form-group">*/}
+                            {/*        <label className="fw-bold">Home Number</label>*/}
+                            {/*        <input type="text" className="form-control input-field" value={homeNumber}*/}
+                            {/*               onChange={e => setHomeNumber(e.target.value)}/>*/}
+                            {/*    </div>*/}
+                            {/*</div>*/}
                             {errorAddress && <div className="error-register">{errorAddress}</div>}
                             <div className="button-group">
                                 <div className="right-buttons">
