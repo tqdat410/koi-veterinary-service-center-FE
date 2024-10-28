@@ -96,21 +96,13 @@ const StaffAppointmentDetails: React.FC = () => {
     const [appointment, setAppointment] = useState<AppointmentDetailsProps | null>(null); // Assuming your data structure
     const [paymentDetails, setPaymentDetails] = useState<PaymentDetails | null>(null); // State for payment details
     const [isEditingPaymentMethod, setIsEditingPaymentMethod] = useState(false); // State to handle editing payment method
-    //State to handing appointment status
     const [appointmentStatus, setAppointmentStatus] = useState(false); // State to store selected appointment
     const [isEditingStatus, setIsEditingStatus] = useState(false); // New state for editing status
-
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string>(''); // State to store selected payment method
-
     const navigate = useNavigate(); // Hook for navigation
-
     const [vetList, setVetList] = useState<Veterinarian[]>([]); // List of vets
     const [selectedVetId, setSelectedVetId] = useState<number | null>(null); // Selected vet ID
-
-    // Tạo trạng thái isVetSelected
-    const [isVetSelected, setIsVetSelected] = useState(false);
-
-    // Tạo biến selectedStatus
+    const [isVetSelected, setIsVetSelected] = useState(false); // Tạo trạng thái isVetSelected
     const [selectedStatus, setSelectedStatus] = useState(''); // Trạng thái được chọn
 
     // Fetch appointment details by ID
@@ -126,7 +118,7 @@ const StaffAppointmentDetails: React.FC = () => {
             }
         };
         fetchAppointmentDetails();
-    }, [appointmentIdNumber]);
+    }, [appointmentIdNumber, appointmentStatus]); // Call the function when the appointment ID changes
     console.log('Appointment slot id:', appointment);
 
     // Function to handle view payment details
@@ -151,11 +143,6 @@ const StaffAppointmentDetails: React.FC = () => {
         setIsEditingPaymentMethod(true); // Switch to editing mode
     };
 
-    // Function to handle payment method change
-    const handlePaymentMethodChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setSelectedPaymentMethod(e.target.value); // Update selected payment method
-        // console.log(selectedPaymentMethod);
-    };
 
     // Function to update payment method
     const handleUpdatePaymentMethod = async () => {
@@ -184,6 +171,7 @@ const StaffAppointmentDetails: React.FC = () => {
         const confirmUpdate = window.confirm(`Are you sure you want to update the status to: ${status}?`);
         if (confirmUpdate) {
             handleUpdateAppointmentStatus(status);  // Gọi hàm cập nhật
+            navigate(0); // Tự động làm mới trang sau khi cập nhật
         }
     };
 
@@ -195,9 +183,6 @@ const StaffAppointmentDetails: React.FC = () => {
     };
     // Function to update appointment status
     const handleUpdateAppointmentStatus = async (status: string) => {
-
-        const confirmUpdate = window.confirm(`Bạn có chắc chắn muốn cập nhật trạng thái thành: ${status}?`);
-        if (!confirmUpdate) return;
 
         if (appointment) {
             try {
@@ -212,12 +197,13 @@ const StaffAppointmentDetails: React.FC = () => {
                         if (prevAppointment) {
                             return {
                                 ...prevAppointment,
-                                current_status: selectedStatus
+                                current_status: selectedStatus // Cập nhật trạng thái mới
                             };
                         }
                         return prevAppointment;
                     });
                     console.log('Updated appointment status:', status);
+
                 }
             } catch (error) {
                 console.error('Error updating appointment status:', error);
@@ -234,26 +220,36 @@ const StaffAppointmentDetails: React.FC = () => {
             if (confirmUpdate) {
                 try {
                     // Gọi API để cập nhật trạng thái
-                    await updateAppointmentStatusCanceled(appointment.appointment_id);
-                    // Cập nhật lại thông tin trạng thái trong state appointment
-                    setAppointment(prevAppointment => {
-                        if (prevAppointment) {
-                            return {
-                                ...prevAppointment,
-                                current_status: 'CANCELED'
-                            };
-                        }
-                        return prevAppointment;
-                    });
-                    console.log('Updated appointment status: CANCELED');
-                } catch (error) {
-                    console.error('Error updating appointment status:', error);
+                    const response = await updateAppointmentStatusCanceled(appointment.appointment_id);
+    
+                    // Kiểm tra nếu response thành công
+                    if (response && response.status === 200) {
+                        // Cập nhật trạng thái trên giao diện
+                        setAppointment(prevAppointment => {
+                            if (prevAppointment) {
+                                return {
+                                    ...prevAppointment,
+                                    current_status: 'CANCELED'
+                                };
+                            }
+                            return prevAppointment;
+                        });
+                        console.log('Updated appointment status: CANCELED');
+                        navigate(0); // Tự động làm mới trang sau khi cập nhật
+                    } else {
+                        // Trường hợp response không thành công
+                        navigate(0); // Tự động làm mới trang sau khi cập nhật
+                        console.error('Failed to update appointment status');
+                        // alert('Failed to update appointment status due to server error.');
+                    }
+                } catch (error) {                    
+                    navigate(0); // Tự động làm mới trang sau khi cập nhật
+                    console.error('Failed to update appointment status');
                 }
             }
         }
     };
-
-
+    
     // xử lý khi bác sĩ được chọn, chỉ run khi chưa có bác sĩ!
     // Fetch vet by slot id
     useEffect(() => {
@@ -394,7 +390,7 @@ const StaffAppointmentDetails: React.FC = () => {
                                             appointment.current_status.replace('_', ' ').toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase())
                                             : 'N/A'}
                                     </span>
-                                    </p>
+                                </p>
 
                                 <h5 className="mt-3">Customer Information:</h5>
                                 <p>Name: {appointment?.customer_name}</p>
@@ -458,12 +454,12 @@ const StaffAppointmentDetails: React.FC = () => {
                                         </>
                                     ) : (
                                         <>
-                                            <p style={{ fontWeight: 'bold', fontSize: '24px', fontStyle: 'italic' }}>Update Status: {selectedStatus}</p>
+                                            <p style={{ fontWeight: 'bold', fontSize: '24px', fontStyle: 'italic' }}>Update Status</p>
                                             <button style={{ marginLeft: '4px' }} className="btn btn-primary" onClick={() => handleSelectStatus("CONFIRMED")}>Confirmed</button>
                                             {/* CHECK IN KHI VÀ CHỈ KHI LÀ SERVICE ID = 3 VÀ ADDRESS = NULL */}
 
-                                            {appointment.service?.service_id === 3 && !appointment.address 
-                                             && <button style={{ marginLeft: '4px' }} className="btn btn-warning" onClick={() => handleSelectStatus("CHECKED_IN")}>Check in</button>}                                            
+                                            {appointment.service?.service_id === 3 && !appointment.address
+                                                && <button style={{ marginLeft: '4px' }} className="btn btn-warning" onClick={() => handleSelectStatus("CHECKED_IN")}>Check in</button>}
                                             <button style={{ marginLeft: '4px' }} className="btn btn-danger" onClick={handleUpdateAppointmentStatusCanceled}>Canceled</button>
                                             <button style={{ marginLeft: '4px' }} className="btn btn-secondary" onClick={handleCancelEditStatus}>Undo</button>
                                         </>
@@ -553,14 +549,14 @@ const StaffAppointmentDetails: React.FC = () => {
 
                 {/*</div>*/}
             </div>
-            
+
 
             <div className='back-button'>
                 <button className="btn btn-secondary" onClick={() => navigate(-1)}>Back</button>
             </div>
 
-            </div>
-       
+        </div>
+
     );
 
 };
