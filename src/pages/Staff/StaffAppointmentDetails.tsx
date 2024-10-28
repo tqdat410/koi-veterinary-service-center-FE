@@ -445,8 +445,8 @@ const StaffAppointmentDetails: React.FC = () => {
                                     </div>
                                 )}
 
-                                {/*  Chỉ có PENDING mới chỉnh  */}
-                                {appointment.current_status === 'PENDING' && (
+                                {/*  Chỉ có PENDING mới chỉnh, VÀ ĐÃ THANH TOÁN  */}
+                                {appointment.current_status === 'PENDING' && paymentDetails?.status === 'PAID' &&(
                                     !isEditingStatus ? (
                                         <>
                                             <p style={{ fontWeight: '900', color: 'brown', padding: '10px', fontSize: '20px' }}>Update Status</p>
@@ -465,7 +465,7 @@ const StaffAppointmentDetails: React.FC = () => {
                                     ))}
 
                                 {/* Thêm điều kiện ngoài: ON_GOING, service id = 3, method = vn_pay, status pay = paid thì có nút mỗi nút ON_going */}
-                                {appointment.current_status === 'ON_GOING' && appointment.service?.service_id === 3 && paymentDetails?.payment_method === 'VN_PAY' && paymentDetails?.status === 'PAID' && (
+                                {appointment.current_status === 'ON_GOING' && appointment.service?.service_id === 3 && paymentDetails?.payment_method === 'VN_PAY' && paymentDetails?.status === 'PAID' && !appointment.address &&(
                                     <button style={{ marginLeft: '4px', fontSize:'16px' }} className="btn btn-warning" onClick={() => handleSelectStatus("CHECKED_IN")}>Check in</button>
                                 )}
 
