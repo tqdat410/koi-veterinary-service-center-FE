@@ -84,8 +84,8 @@
   padding: 4px;
 }
 
-.status-checked-in {
-  color: #31b700 !important;
+.status-check-in {
+  color: rgb(209, 209, 22) !important;
   /* color: white !important; */
   /* font-weight: 600; */
   font-family: sans-serif;
