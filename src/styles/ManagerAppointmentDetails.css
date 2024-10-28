@@ -76,59 +76,123 @@
 }
 
 .status-cancelled {
-  background-color: red !important;
-  color: white !important;
-  font-weight: 600;
-  /* font-family: sans-serif; */
+  color: red !important;
+  /* color: white !important; */
+  /* font-weight: 600; */
+  font-family: sans-serif;
   margin-left: 4px;
   padding: 4px;
 }
 
 .status-checked-in {
-  background-color: #31b700 !important;
-  color: white !important;
-  font-weight: 600;
-  /* font-family: sans-serif; */
+  color: #31b700 !important;
+  /* color: white !important; */
+  /* font-weight: 600; */
+  font-family: sans-serif;
   margin-left: 4px;
   padding: 4px;
   
 }
 
 .status-confirmed {
-  background-color: blue !important;
-  color: white !important;
-  font-weight: 600;
-  /* font-family: sans-serif; */
+  color: blue !important;
+  /* color: white !important; */
+  /* font-weight: 600; */
+  font-family: sans-serif;
   margin-left: 4px;
   padding: 4px;
 }
 
 .status-done {
-  background-color: green !important;
-  color: white !important;
-  font-weight: 600;
-  /* font-family: sans-serif; */
+  color: green !important;
+  /* color: white !important; */
+  /* font-weight: 600; */
+  font-family: sans-serif;
   margin-left: 4px;
   padding: 4px;
   
 }
 
 .status-on-going {
-  background-color: orange! important;
-  color: white !important;
-  font-weight: 600;
-  /* font-family: sans-serif; */
+  color: orange! important;
+  /* color: white !important; */
+  /* font-weight: 600; */
+  font-family: sans-serif;
   margin-left: 4px;
   padding: 4px;
 
 }
 
 .status-pending {
-  background-color: purple  !important;
-  color: white !important;
-  font-weight: 600;
-  /* font-family: sans-serif; */
+  color: purple  !important;
+  /* color: white !important; */
+  /* font-weight: 600; */
+  font-family: sans-serif;
   margin-left: 4px;
   padding: 4px;
   
+}
+
+
+.canceled {
+  background-color: red;
+  color: white !important;
+  
+  font-family: sans-serif;
+  margin-left: 4px;
+  padding: 4px;
+}
+
+.checked-in {
+  background-color: blue;
+  color: white !important;
+  
+  font-family: sans-serif;
+  margin-left: 4px;
+  padding: 4px;
+}
+
+.confirmed {
+  background-color: green;
+  color: white !important;
+  
+  font-family: sans-serif;
+  margin-left: 4px;
+  padding: 4px;
+}
+
+.done {
+  background-color: rgb(37, 195, 37);
+  color: white !important;
+  
+  font-family: sans-serif;
+  margin-left: 4px;
+  padding: 4px;
+}
+
+.on-going {
+  background-color: orange;
+  color: white !important;
+  
+  font-family: sans-serif;
+  margin-left: 4px;
+  padding: 4px;
+}
+
+.pending {
+  background-color: #ffd900c7 ;
+  color: white !important;
+  
+  font-family: sans-serif;
+  margin-left: 4px;
+  padding: 4px;
+}
+
+.default {
+  background-color: black;
+  color: white !important;
+  
+  font-family: sans-serif;
+  margin-left: 4px;
+  padding: 4px;
 }
