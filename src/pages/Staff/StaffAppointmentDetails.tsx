@@ -459,14 +459,20 @@ const StaffAppointmentDetails: React.FC = () => {
                                             {/* CHECK IN KHI VÀ CHỈ KHI LÀ SERVICE ID = 3 VÀ ADDRESS = NULL */}
                                             {/* {appointment.service?.service_id === 3 && !appointment.address
                                                 && <button style={{ marginLeft: '4px' }} className="btn btn-warning" onClick={() => handleSelectStatus("CHECKED_IN")}>Check in</button>} */}
-                                            {/* CHECK IN KHI LÀ VN_PAY VÀ STATUS CỦA APPOINTMENT = PAID */}
-                                            {paymentDetails?.payment_method === 'VN_PAY' && paymentDetails?.status === 'PAID' &&
-                                                <button style={{ marginLeft: '4px' }} className="btn btn-warning" onClick={() => handleSelectStatus("CHECKED_IN")}>Check in</button>}
-
                                             <button style={{ marginLeft: '4px' }} className="btn btn-danger" onClick={handleUpdateAppointmentStatusCanceled}>Canceled</button>
                                             <button style={{ marginLeft: '4px' }} className="btn btn-secondary" onClick={handleCancelEditStatus}>Undo</button>
                                         </>
                                     ))}
+
+                                {/* Thêm điều kiện ngoài: ON_GOING, service id = 3, method = vn_pay, status pay = paid thì có nút mỗi nút ON_going */}
+                                {appointment.current_status === 'ON_GOING' && appointment.service?.service_id === 3 && paymentDetails?.payment_method === 'VN_PAY' && paymentDetails?.status === 'PAID' && (
+                                    <button style={{ marginLeft: '4px', fontSize:'16px' }} className="btn btn-warning" onClick={() => handleSelectStatus("CHECKED_IN")}>Check in</button>
+                                )}
+
+                                {/* CHECK IN KHI LÀ VN_PAY VÀ STATUS CỦA APPOINTMENT = PAID */}
+                                {/* {  appointment.current_status ==='CHECKED_IN' &&  paymentDetails?.payment_method === 'VN_PAY' && paymentDetails?.status === 'PAID' && */}
+                                                {/* <button style={{ marginLeft: '4px' }} className="btn btn-warning" onClick={() => handleSelectStatus("CHECKED_IN")}>Check in</button>} */}
+                                
 
                             </div>
 
