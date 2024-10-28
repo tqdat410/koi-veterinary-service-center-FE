@@ -284,6 +284,17 @@ const AppointmentDetails: React.FC = () => {
                                         </p>
                                     </h5>
 
+
+                                    <h5 className="mt-3">Report Information</h5>
+                                    <p>Report ID: {report?.report_id || 'No id'}</p>
+                                    <p>Veterinarian ID: {report?.veterinarian_id || 'No veterinarain'}
+                                    </p>
+                                    <p>Conclusion: {report?.conclusion || 'No conclusion'}</p>
+                                    <p>Advise: {report?.advise || 'No advise'}</p>
+
+                                </div>
+
+                                <div className="col-md-6">
                                     {/* Tồn tại thì mới có hiển thị */}
                                     {appointment.fish && (
                                         <div>
@@ -305,12 +316,10 @@ const AppointmentDetails: React.FC = () => {
                                     <h5 className="mt-3">Total Price</h5>
                                     <p>Total: {appointment?.total_price || ''} USD</p>
 
-                                    <h5 className="mt-3">Report Information</h5>
-                                    <p>Report ID: {report?.report_id || 'No id'}</p>
-                                    <p>Veterinarian ID: {report?.veterinarian_id || 'No veterinarain'}
-                                    </p>
-                                    <p>Conclusion: {report?.conclusion || 'No conclusion'}</p>
-                                    <p>Advise: {report?.advise || 'No advise'}</p>
+                                    <h5 className="mt-3">Prescription</h5>
+                                    <button className="btn btn-primary" onClick={handleViewPrescription}>
+                                        View prescription details
+                                    </button>
 
                                     <h5 className="mt-3">Logs of appointment
                                         information</h5>
@@ -318,10 +327,6 @@ const AppointmentDetails: React.FC = () => {
                                         View Log Details
                                     </button>
 
-                                    <h5 className="mt-3">Prescription</h5>
-                                    <button className="btn btn-primary" onClick={handleViewPrescription}>
-                                        View prescription details
-                                    </button>
                                 </div>
                             </div>
 
@@ -341,7 +346,7 @@ const AppointmentDetails: React.FC = () => {
                                                         statusClass = "status-cancelled";
                                                         break;
                                                     case "CHECKED_IN":
-                                                        statusClass = "status-checked-in";
+                                                        statusClass = "status-check-in";
                                                         break;
                                                     case "CONFIRMED":
                                                         statusClass = "status-confirmed";
@@ -363,7 +368,7 @@ const AppointmentDetails: React.FC = () => {
                                                     <li key={log.status_id} className="log-item">
                                                         <span className="label">Log ID:</span> {log.status_id} <br />
                                                         <span className="label">Status:</span>
-                                                        <span className={`status ${statusClass}`}>
+                                                        <span className={` ${statusClass}`}>
                                                             {log.status}
                                                         </span><br />
                                                         <span className="label">Time:</span> {formatDateTime(log.time)} <br />
