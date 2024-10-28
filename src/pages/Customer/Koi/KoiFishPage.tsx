@@ -23,9 +23,21 @@ const KoiFishPage: React.FC = () => {
 
         axios.get(`${BASE_API}/fishes`)
             .then(response => {
-                const filteredData = response.data.filter((fish: { customer_id: number }) => fish.customer_id === Number(userId));
-                setKoiFishData(filteredData);
-                console.log(filteredData)
+                if (Array.isArray(response.data)) {
+                    const filteredData = response.data.filter((fish: { customer_id: number }) => fish.customer_id === Number(userId));
+
+                    if (filteredData.length > 0) {
+                        setKoiFishData(filteredData);
+                    } else {
+                        console.log('No Koi Fish data available');
+                        setKoiFishData([]); // Cập nhật lại dữ liệu trống nếu không có dữ liệu khớp
+                    }
+
+
+                } else {
+                    console.log('Unexpected response format:', response.data);
+                    setKoiFishData([]);
+                }
             })
             .catch(error => {
                 console.error('Error fetching Koi Fish data:', error);

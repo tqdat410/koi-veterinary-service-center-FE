@@ -168,7 +168,7 @@ const FillInformationPage: React.FC = () => {
             (service_id === 1) || // Service 1 does not need an address
             (serviceLocation === 'at_hospital' && formData.address_id === null) || // No address needed for hospital
             (serviceLocation === 'at_home' && selectedAddress.trim() !== '' && addresses.length > 0);
-        const isFishValid = (service_id === 1 || service_id === 2 || selectedFish.trim() !== ''|| fishes.length > 0);
+        const isFishValid = service_id === 1 || service_id === 2 ||  (selectedFish.trim() !== '' && formData.fish_id !== null);
 
         setValidity({
             name: isNameValid,

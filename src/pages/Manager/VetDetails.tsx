@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "../../components/layout/Sidebar";
 import { useLocation } from "react-router-dom";
-import {getUserProfile, updateUserProfile, updateUserAddress, getCertificates, uploadCertificate} from "../../api/vetApi"; // Import the API functions
+import {getUserProfile, updateUserProfile, updateUserAddress, getCertificates, uploadCertificate} from "../../api/vetApi";
 import '../../styles/Profile.css';
 import axios from "axios";
-import {updateUserAvatarAPI} from "../../api/authService"; // Create a new CSS file for specific styles
+import {updateUserAvatarAPI} from "../../api/authService";
 import defaultImage from "../../assets/images/defaultImage.jpg"
-// Define interfaces for veterinarian data
+import {IMAGE_API} from "../../api/baseApi";
+import { Tooltip } from '@mui/material'
+
 interface VetAddress {
     district: string;
     city: string;
@@ -35,9 +37,9 @@ const VetDetails: React.FC = () => {
     const location = useLocation();
     const { vetId } = location.state; // Get veterinarian ID passed via state
     const [vetData, setVetData] = useState<VetData | null>(null);
-    const [firstname, setFirstname] = useState("");
-    const [lastname, setLastname] = useState("");
-    const [phone, setPhone] = useState("");
+    const [first_name, setFirstname] = useState("");
+    const [last_name, setLastname] = useState("");
+    const [phone_number, setPhone] = useState("");
     const [district, setDistrict] = useState("");
     const [city, setCity] = useState("");
     const [ward, setWard] = useState("");
@@ -60,13 +62,14 @@ const VetDetails: React.FC = () => {
                 setVetData(vet);
                 setFirstname(vet.first_name || '');
                 setLastname(vet.last_name || '');
+                setEmail(vet.email || '');
                 setPhone(vet.phone_number || '');
                 setDistrict(vet.address?.district || '');
                 setCity(vet.address?.city || '');
                 setWard(vet.address?.ward || '');
                 setHomeNumber(vet.address?.home_number || '');
                 if (vet.avatar) {
-                    setSelectedImage(vet.avatar);
+                    setSelectedImage(`${IMAGE_API}/${vet.avatar}`);
                 }
             } catch (error) {
                 console.error('Failed to fetch veterinarian data:', error);
@@ -146,7 +149,7 @@ const VetDetails: React.FC = () => {
             updateAvatar(file); // Gọi hàm cập nhật avatar
         }
     };
-console.log("avatar",selectedImage)
+
     const updateAvatar = async (image: File) => {
         if (vetId) {
             try {
@@ -163,7 +166,7 @@ console.log("avatar",selectedImage)
     // Validate phone number
     const validatePhone = () => {
         const phonePattern = /^[0-9]{10}$/;
-        if (phone.trim() !== "" && !phonePattern.test(phone)) {
+        if (phone_number.trim() !== "" && !phonePattern.test(phone_number)) {
             setErrorPhone("Contact number must be a 10-digit number.");
         } else {
             setErrorPhone("");
@@ -193,9 +196,9 @@ console.log("avatar",selectedImage)
 
         try {
             const updatedProfileData = {
-                firstname,
-                lastname,
-                phone,
+                first_name,
+                last_name,
+                phone_number,
                 email,
                 avatar: selectedImage,
             };
@@ -221,12 +224,14 @@ console.log("avatar",selectedImage)
         if (vetData) {
             setFirstname(vetData.first_name || '');
             setLastname(vetData.last_name || '');
+            setEmail(vetData.email || '');
             setPhone(vetData.phone_number || '');
             setDistrict(vetData.address?.district || '');
+
             setCity(vetData.address?.city || '');
             setWard(vetData.address?.ward || '');
             setHomeNumber(vetData.address?.home_number || '');
-            setSelectedImage(vetData.avatar || null);
+            setSelectedImage(`${IMAGE_API}/${vetData.avatar}` || null);
         }
     };
     // Show/hide certificate input div
@@ -272,62 +277,67 @@ console.log("avatar",selectedImage)
                         <form className="profile-form">
                             <div className="form-group">
                                 <label className="fw-bold">Username</label>
+                                <Tooltip title="You cannot change username" placement="top" arrow>
                                 <input type="text" className="form-control input-field"
                                        value={vetData?.username || 'Loading...'} readOnly/>
+                                </Tooltip>
                             </div>
                             <div className="form-group">
                                 <label className="fw-bold">Email</label>
+                                <Tooltip title="You cannot change email" placement="top" arrow>
                                 <input
-                                    type="email"
+                                    type="text"
                                     className="form-control input-field"
-                                    value={email}
+                                    value={vetData?.email|| 'Loading...'}
                                     onChange={e => setEmail(e.target.value)} // Update email state
                                     placeholder="Enter your email"
+                                    readOnly
                                 />
+                                </Tooltip>
                             </div>
                             <div className="name-row">
                                 <div className="form-group">
                                     <label className="fw-bold">First Name</label>
-                                    <input type="text" className="form-control input-field" value={firstname}
+                                    <input type="text" className="form-control input-field" value={first_name}
                                            onChange={e => setFirstname(e.target.value)}/>
                                 </div>
                                 <div className="form-group">
                                     <label className="fw-bold">Last Name</label>
-                                    <input type="text" className="form-control input-field" value={lastname}
+                                    <input type="text" className="form-control input-field" value={last_name}
                                            onChange={e => setLastname(e.target.value)}/>
                                 </div>
                             </div>
                             <div className="form-group">
                                 <label className="fw-bold">Contact Number</label>
-                                <input type="text" className="form-control input-field" value={phone}
+                                <input type="text" className="form-control input-field" value={phone_number}
                                        onChange={e => setPhone(e.target.value)} onBlur={validatePhone}/>
                                 {errorPhone && <div className="error-register">{errorPhone}</div>}
                             </div>
 
-                            <div className="address-row">
-                                <div className="form-group">
-                                    <label className="fw-bold">District</label>
-                                    <input type="text" className="form-control input-field" value={district}
-                                           onChange={e => setDistrict(e.target.value)}/>
-                                </div>
-                                <div className="form-group">
-                                    <label className="fw-bold">City</label>
-                                    <input type="text" className="form-control input-field" value={city}
-                                           onChange={e => setCity(e.target.value)}/>
-                                </div>
-                            </div>
-                            <div className="address-row">
-                                <div className="form-group">
-                                    <label className="fw-bold">Ward</label>
-                                    <input type="text" className="form-control input-field" value={ward}
-                                           onChange={e => setWard(e.target.value)}/>
-                                </div>
-                                <div className="form-group">
-                                    <label className="fw-bold">Home Number</label>
-                                    <input type="text" className="form-control input-field" value={homeNumber}
-                                           onChange={e => setHomeNumber(e.target.value)}/>
-                                </div>
-                            </div>
+                            {/*<div className="address-row">*/}
+                            {/*    <div className="form-group">*/}
+                            {/*        <label className="fw-bold">District</label>*/}
+                            {/*        <input type="text" className="form-control input-field" value={district}*/}
+                            {/*               onChange={e => setDistrict(e.target.value)}/>*/}
+                            {/*    </div>*/}
+                            {/*    <div className="form-group">*/}
+                            {/*        <label className="fw-bold">City</label>*/}
+                            {/*        <input type="text" className="form-control input-field" value={city}*/}
+                            {/*               onChange={e => setCity(e.target.value)}/>*/}
+                            {/*    </div>*/}
+                            {/*</div>*/}
+                            {/*<div className="address-row">*/}
+                            {/*    <div className="form-group">*/}
+                            {/*        <label className="fw-bold">Ward</label>*/}
+                            {/*        <input type="text" className="form-control input-field" value={ward}*/}
+                            {/*               onChange={e => setWard(e.target.value)}/>*/}
+                            {/*    </div>*/}
+                            {/*    <div className="form-group">*/}
+                            {/*        <label className="fw-bold">Home Number</label>*/}
+                            {/*        <input type="text" className="form-control input-field" value={homeNumber}*/}
+                            {/*               onChange={e => setHomeNumber(e.target.value)}/>*/}
+                            {/*    </div>*/}
+                            {/*</div>*/}
                             {errorAddress && <div className="error-register">{errorAddress}</div>}
                             <div className="button-group">
                                 <div className="right-buttons">
