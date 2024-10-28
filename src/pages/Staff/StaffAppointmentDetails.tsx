@@ -457,9 +457,12 @@ const StaffAppointmentDetails: React.FC = () => {
                                             <p style={{ fontWeight: 'bold', fontSize: '24px', fontStyle: 'italic' }}>Update Status</p>
                                             <button style={{ marginLeft: '4px' }} className="btn btn-primary" onClick={() => handleSelectStatus("CONFIRMED")}>Confirmed</button>
                                             {/* CHECK IN KHI VÀ CHỈ KHI LÀ SERVICE ID = 3 VÀ ADDRESS = NULL */}
+                                            {/* {appointment.service?.service_id === 3 && !appointment.address
+                                                && <button style={{ marginLeft: '4px' }} className="btn btn-warning" onClick={() => handleSelectStatus("CHECKED_IN")}>Check in</button>} */}
+                                            {/* CHECK IN KHI LÀ VN_PAY VÀ STATUS CỦA APPOINTMENT = PAID */}
+                                            {paymentDetails?.payment_method === 'VN_PAY' && paymentDetails?.status === 'PAID' &&
+                                                <button style={{ marginLeft: '4px' }} className="btn btn-warning" onClick={() => handleSelectStatus("CHECKED_IN")}>Check in</button>}
 
-                                            {appointment.service?.service_id === 3 && !appointment.address
-                                                && <button style={{ marginLeft: '4px' }} className="btn btn-warning" onClick={() => handleSelectStatus("CHECKED_IN")}>Check in</button>}
                                             <button style={{ marginLeft: '4px' }} className="btn btn-danger" onClick={handleUpdateAppointmentStatusCanceled}>Canceled</button>
                                             <button style={{ marginLeft: '4px' }} className="btn btn-secondary" onClick={handleCancelEditStatus}>Undo</button>
                                         </>
