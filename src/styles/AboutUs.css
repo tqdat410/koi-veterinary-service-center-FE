@@ -22,18 +22,34 @@ footer {
     /* margin: auto !important; */
     margin-bottom: auto !important;
     padding: 0 !important; /* Remove extra padding */
-    background-image: url('../assets/images/background.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    background-color: #1C1F20;
     max-width: 100% !important;
     max-height: 100% !important;
     color: white;
     min-height: 100vh;
-    font-style: roboto;
+    font-style: 'Roboto', sans-serif; 
 }
 
 .content-body {
     margin: 4px 12px;
     text-align: left;
+}
+
+.vet-img {
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+    display: block;
+}
+
+.about-section {
+    text-align: left;
+}
+
+.about-text > h2 {
+    margin-top: 1rem;
+}
+
+.about-text > p {
+    margin-top: 1rem;
 }
