@@ -3,13 +3,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { getAppointmentDetailsForCus, getLinkMeetByVetId, getMedicalReport, fetchPrescriptionDetails } from '../../api/appointmentApi';
 import { createPayment, fetchPayment } from '../../api/paymentApi';
 import { createFeedback, getFeedbackDetailsCus } from '../../api/feedbackApi';
-
-import { fetchMedicalReport } from '../../api/appointmentApi';
-import { fetchPrescription } from '../../api/prescriptionApi';
-
 import '../../styles/CustomerAppointmentDetails.css';
 import { MedicalReport, Medicine, Prescription } from "../../types";
-
 import { Rating, Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField } from '@mui/material';
 import Sidebar from "../../components/layout/Sidebar";
 
@@ -86,13 +81,6 @@ interface Slot {
     day: number,
     slot_order: number,
     description: string,
-}
-
-interface prescription_info {
-    prescription_id: number;
-    veterinarian_id: number;
-    conclusion: string;
-    advise: string;
 }
 
 enum payment_method {
@@ -316,12 +304,14 @@ const CustomerAppointmentDetails: React.FC = () => {
 
                                 <h5 className="mt-3">Veterinarian Information:</h5>
                                 <p>Name: {appointment.veterinarian?.first_name} {appointment.veterinarian?.last_name}</p>
-                                <p>Vet id: {appointment.veterinarian?.user_id}</p>
+                                <p>Vet ID: {appointment.veterinarian?.user_id}</p>
+                            </div>
 
+                            <div className="col-md-6">
                                 {/* Chỉ hiển thị khi có địa chỉ */}
                                 {appointment.address && (
                                     <div>
-                                        <h5 className="mt-3">Address Information: </h5>
+                                        <h5 className="mt-3">Address Information </h5>
                                         <p>{appointment.address?.home_number}, {appointment.address?.ward}, {appointment.address?.district}, {appointment.address?.city}</p>
                                     </div>
                                 )}
@@ -330,11 +320,11 @@ const CustomerAppointmentDetails: React.FC = () => {
                                 {appointment.fish && (
                                     <div>
                                         <h5 className="mt-3">Fish Information</h5>
-                                        <p>Species: {appointment.fish?.species || 'NA'}</p>
-                                        <p>Gender: {appointment.fish?.gender || 'NA'}</p>
-                                        <p>Size: {appointment.fish?.size || 'NA'} cm </p>
-                                        <p>Weight: {appointment.fish?.weight || 'NA'} kg</p>
-                                        <p>Origin: {appointment.fish?.origin || 'NA'}</p>
+                                        <p>Species: {appointment.fish?.species || 'N/A'}</p>
+                                        <p>Gender: {appointment.fish?.gender || 'N/A'}</p>
+                                        <p>Size: {appointment.fish?.size || 'N/A'} cm </p>
+                                        <p>Weight: {appointment.fish?.weight || 'N/A'} kg</p>
+                                        <p>Origin: {appointment.fish?.origin || 'N/A'}</p>
                                     </div>
                                 )}
 
@@ -343,7 +333,7 @@ const CustomerAppointmentDetails: React.FC = () => {
                                 {medicalReport && (
                                     <div>
                                         <h5 className="mt-3">Medical Report</h5>
-                                        <p>Vet ID: {medicalReport.veterinarian_id}</p>
+                                        <p>ID: {medicalReport.veterinarian_id}</p>
                                         <p>Conclusion: {medicalReport?.conclusion || 'N/A'}</p>
                                         <p>Advise: {medicalReport?.advise || 'N/A'}</p>
                                     </div>
@@ -357,7 +347,7 @@ const CustomerAppointmentDetails: React.FC = () => {
                                         <ul>
                                             {prescription.medicines.map((medicine: Medicine) => (
                                                 <li key={medicine.medicine_id} className='medicine-item'>
-                                                   ID {medicine.medicine_id} :  {medicine.medicine_name} -  {medicine.instruction}
+                                                    ID {medicine.medicine_id} :  {medicine.medicine_name} -  {medicine.instruction}
                                                 </li>
                                             ))}
                                         </ul>
@@ -461,7 +451,6 @@ const CustomerAppointmentDetails: React.FC = () => {
                                         </Button>
                                     </DialogActions>
                                 </Dialog>
-
                             </div>
                         </div>
                     </div>
