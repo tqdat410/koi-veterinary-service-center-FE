@@ -24,10 +24,10 @@ function Navbar() {
                 setLinkColorClass('text-white');
                 setButtonStyleClass('btn-outline-warning');
             } else {
-                // For all other pages, set the background color to #ffc247
-                setBgColorClass('bg-warning'); // You can create this class in CSS
-                setLinkColorClass('text-dark'); // Adjust link color if needed
-                setButtonStyleClass('btn-outline-dark'); // Adjust button color if needed
+
+                setBgColorClass('bg-warning');
+                setLinkColorClass('text-dark');
+                setButtonStyleClass('btn-outline-dark');
             }
         };
 

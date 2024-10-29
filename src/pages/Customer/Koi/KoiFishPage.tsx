@@ -10,7 +10,7 @@ const KoiFishPage: React.FC = () => {
     const [koiFishData, setKoiFishData] = useState<any[]>([]);
     const navigate = useNavigate();
     const { user  } = useAuth(); // Use Auth context to get userId
-    const userId = user?.userId; // Access userId safely
+    const userId = user?.userId;
 
 
     useEffect(() => {
@@ -72,7 +72,7 @@ const KoiFishPage: React.FC = () => {
                             columnHeaders={['ID', 'Species', 'Age', 'Gender', 'Color', 'Size (cm)']}
                             data={koiFishData}
                             actions={[{ label: 'View Details', icon: 'fas fa-info-circle', onClick: handleKoiFishClick }]} // Action for Koi Fish
-                            isKoiFishPage={true} // Thêm prop này
+                            isKoiFishPage={true}
                         />
 
                     </div>

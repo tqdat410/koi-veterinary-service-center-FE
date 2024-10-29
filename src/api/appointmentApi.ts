@@ -109,11 +109,6 @@ export const getAppointmentLogs = async (appointmentId: number) => {
     return response.data;
 };
 
-// // API to create a new appointment
-// export const createAppointment = async (appointmentData: any) => {
-//     const response = await axios.post(API_BASE_URL, appointmentData);
-//     return response.data;
-// };
 
 // API to fetch all appointments
 export const getAllAppointments = async () => {

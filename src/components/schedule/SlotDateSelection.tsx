@@ -47,7 +47,7 @@ const generateWeeksOfYear = (selectedYear: number) => {
 };
 
 interface AvailableSlotProps {
-    vetId?: number; // Optional prop for VetId
+    vetId?: number; // prop for VetId
     appointmentId?: number; // Pass appointmentId as a prop
     description?: string; // Pass description as a prop
 }
@@ -55,9 +55,7 @@ interface AvailableSlotProps {
 const AvailableSlot: React.FC<AvailableSlotProps> = ({ vetId, appointmentId, description }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    // const doctor = useSelector((state: any) => state.doctor);
-    // const currentUserId = doctor?.user_id; // Get the doctor's user ID
-  // Initialize useNavigate
+
     const currentYear = new Date().getUTCFullYear();
     const [selectedYear, setSelectedYear] = useState(currentYear);
     const currentWeekStart = getCurrentWeekStart();

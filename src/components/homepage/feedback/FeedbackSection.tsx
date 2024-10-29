@@ -101,12 +101,7 @@ const FeedbackSection: React.FC = () => {
                     </div>
                 )}
                 <div className="button-container mt-4"> {/* New div for centering buttons */}
-                    {/* Read More Button */}
-                    {/*<button className="btn rounded-pill custom-button-feedback read-more-btn btn-shadow mb-3">*/}
-                    {/*    <span className="fw-bold">Read more</span>*/}
-                    {/*    <i className="fas fa-arrow-right ms-2"/>*/}
-                    {/*</button>*/}
-                    {/* Request Appointment Button */}
+
                     <button className="btn rounded-pill custom-button-feedback btn-shadow mt-3"
                             onClick={handleRequestAppointment}>
                         Request Appointment <i className="fas fa-arrow-right ms-3 mt-1" style={{fontSize: "1.3rem"}}/>
