@@ -4,6 +4,20 @@ body, html {
     height: 100%;
 }
 
+.content-header {
+    font-size: 60px !important;
+    padding-top: 2rem;
+}
+
+.content-body {
+        /* style={{ textAlign: 'left', marginLeft: '1rem' }} */
+    text-align: left;
+    margin-left: 1rem;
+}
+
+.mbt-1 {
+    margin-bottom: 1rem;
+}
 
 .container {
     min-height: auto; /* Điều chỉnh tùy theo chiều cao của Navbar và Footer */
@@ -17,7 +31,6 @@ body, html {
     max-height: 100% !important;
     color: white;
     min-height: 100vh;
-    font-style: 'Roboto', sans-serif; 
     padding-bottom: 15px;
 }
 
