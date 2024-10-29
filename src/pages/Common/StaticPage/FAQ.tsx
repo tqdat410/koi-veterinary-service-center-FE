@@ -83,7 +83,7 @@ const FAQ: React.FC = () => {
         <div>
         <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
             <div className="container my-5">
-                <h1 className="text-center mb-4" style={{ fontWeight: "bold", color: "#02033B", fontSize: "2.5rem" }}>Frequently Asked Questions</h1>
+                <h1 className="text-center mb-4 mt-4" style={{ fontWeight: "bold", color: "#02033B", fontSize: "2.5rem" }}>Frequently Asked Questions</h1>
 
                 <div className="accordion" id="faqAccordion">
                     {faqData.map((faq, index) => (
