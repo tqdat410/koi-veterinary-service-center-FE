@@ -2,8 +2,14 @@ import React from 'react';
 import onlImage from "../../../assets/images/online.jpg";
 import hosImage from "../../../assets/images/veterinarian.jpg";
 import homeImage from "../../../assets/images/home.jpg";
+import {useNavigate} from "react-router-dom";
 
 const ServiceSection: React.FC = () => {
+    const navigate = useNavigate();  // Khai báo useNavigate để điều hướng
+
+    const handleReadMore = () => {
+        navigate('/services');  // Chuyển hướng đến trang /services
+    };
     return (
         <section className="service-section py-5 bg-light">
             <div className="container py-5 bg-light">
@@ -39,7 +45,7 @@ const ServiceSection: React.FC = () => {
                         </div>
                     </div>
                 </div>
-                <button className="btn btn-warning px-4 py-2 rounded-pill fw-bold text-dark btn-shadow" style={{ marginBottom: "-50px" }}>
+                <button className="btn btn-warning px-4 py-2 rounded-pill fw-bold text-dark btn-shadow"  onClick={handleReadMore} style={{ marginBottom: "-50px" }}>
                     <span className="fw-bold">Read more</span>
                     <i className="fas fa-arrow-right ms-2" />
                 </button>

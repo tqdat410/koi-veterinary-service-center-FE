@@ -298,7 +298,7 @@ const CustomerAppointmentDetails: React.FC = () => {
                                 <p>Service name: {appointment.service?.service_name}</p>
                                 <p>Service Price: {appointment.service?.service_price} VND</p>
                                 {/* Tư vấn online (service id = 1) thì sẽ hiển thị nút tư vấn online qua gg meet */}
-                                {appointment.service?.service_id === 1 && (
+                                {appointment.service?.service_id === 1 && appointment?.current_status ===  "ON_GOING" && (
                                     <button className="btn btn-primary meet-btn" onClick={fetchGoogleMeeting}>Click here to Consult Online</button>
                                 )}
 
