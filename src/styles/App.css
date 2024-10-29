@@ -7,7 +7,7 @@
 
 .main-content {
   margin-left: 272px; /* Same width as the sidebar */
-  padding: 20px; /* Optional padding */
+  padding: 20px;
 }
 
 @import 'Font.css';
@@ -48,7 +48,7 @@
 }
 
 .App {
-  position: relative; /* Ensure that child elements can be absolutely positioned */
+  position: relative;
   min-height: 100vh; /* Make sure the App component covers at least the viewport height */
 }
 
@@ -63,7 +63,7 @@
   background-image: url('../assets/images/background.jpg'); /* Update this path if needed */
   background-size: cover;
   background-position: center;
-  z-index: 1; /* Ensure the background is below the content */
+  z-index: 1;
 }
 
 .content {
@@ -73,7 +73,7 @@
 
 input::placeholder {
   color: #BDBCC0;
-  opacity: 1; /* Ensures full opacity for the color */
+  opacity: 1;
 }
 
 /*.custom-placeholder::placeholder {*/
@@ -162,7 +162,7 @@ input::placeholder {
   flex-direction: column; /* Stack buttons vertically */
   align-items: center; /* Center items horizontally */
   justify-content: center; /* Center items vertically */
-  margin-top: 1rem; /* Optional spacing */
+  margin-top: 1rem;
 }
 
 .btn-shadow {

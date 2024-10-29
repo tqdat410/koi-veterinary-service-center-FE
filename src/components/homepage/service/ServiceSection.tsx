@@ -5,10 +5,10 @@ import homeImage from "../../../assets/images/home.jpg";
 import {useNavigate} from "react-router-dom";
 
 const ServiceSection: React.FC = () => {
-    const navigate = useNavigate();  // Khai báo useNavigate để điều hướng
+    const navigate = useNavigate();
 
     const handleReadMore = () => {
-        navigate('/services');  // Chuyển hướng đến trang /services
+        navigate('/services');
     };
     return (
         <section className="service-section py-5 bg-light">

@@ -1,7 +1,7 @@
 import axios from "axios";
 import {BASE_API} from "./baseApi"
 const API_URL = `${BASE_API}/users`;
-// const API_BASE_URL = "http://localhost:8080/api/v1/users";
+// const API_BASE_URL = "http://3.0.21.248:8080/api/v1/users";
 
 // Function to fetch customers
 export const fetchCustomers = async () => {

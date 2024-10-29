@@ -47,7 +47,7 @@ const generateWeeksOfYear = (selectedYear: number) => {
 };
 
 interface AvailableSlotProps {
-    vetId?: number; // Optional prop for VetId
+    vetId?: number; // prop for VetId
     appointmentId?: number; // Pass appointmentId as a prop
     description?: string; // Pass description as a prop
 }
@@ -55,9 +55,7 @@ interface AvailableSlotProps {
 const AvailableSlot: React.FC<AvailableSlotProps> = ({ vetId, appointmentId, description }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    // const doctor = useSelector((state: any) => state.doctor);
-    // const currentUserId = doctor?.user_id; // Get the doctor's user ID
-  // Initialize useNavigate
+
     const currentYear = new Date().getUTCFullYear();
     const [selectedYear, setSelectedYear] = useState(currentYear);
     const currentWeekStart = getCurrentWeekStart();
@@ -72,7 +70,7 @@ const AvailableSlot: React.FC<AvailableSlotProps> = ({ vetId, appointmentId, des
         // Use vetId if provided, otherwise fallback to doctor's user ID
 
 
-        axios.get(`http://localhost:8080/api/v1/slots/${vetId}/follow-up-appointment?appointmentId=${appointmentId}`)
+        axios.get(`http://3.0.21.248:8080/api/v1/slots/${vetId}/follow-up-appointment?appointmentId=${appointmentId}`)
             .then((response) => {
                 console.log(response);
                 setAvailableSlots(response.data);
@@ -111,7 +109,7 @@ const AvailableSlot: React.FC<AvailableSlotProps> = ({ vetId, appointmentId, des
                     description: description
                 };
 
-                axios.post(`http://localhost:8080/api/v1/appointments/follow-up-appointment?appointmentId=${appointmentId}`, followUpAppointmentDto)
+                axios.post(`http://3.0.21.248:8080/api/v1/appointments/follow-up-appointment?appointmentId=${appointmentId}`, followUpAppointmentDto)
                     .then(response => {
                         console.log('Follow-up appointment created:', response.data);
                         alert("create following appointment successfully!!")

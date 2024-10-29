@@ -5,10 +5,9 @@ import { useAuth } from "../../hooks/context/AuthContext";
 import {getUserInfo, updateUserAddressAPI, updateUserInfoAPI, updateUserAvatarAPI} from "../../api/authService"; // Import authService functions
 import { Link,useNavigate } from "react-router-dom";
 import '../../styles/Profile.css'
-import axios from "axios";
 import { Tooltip } from '@mui/material';
 import {IMAGE_API} from "../../api/baseApi"
-// Define interfaces for user data
+
 
 interface UserAddress {
     address_id:number;
@@ -45,7 +44,7 @@ const Profile: React.FC = () => {
     const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
     const navigate = useNavigate();
     const [isUploading, setIsUploading] = useState(false);
-    const [userProfiles, setUserProfiles] = useState<UserData | null>(null);
+
 
 
     // Fetch user data from API on component mount
@@ -110,8 +109,6 @@ const Profile: React.FC = () => {
 
     // Handle saving updated user info
     const handleSave = async () => {
-        // const isAddressValid = validateAddress();
-        // if (!isAddressValid || errorPhone) return;
         if (errorPhone) return;
         try {
             const updatedData = {

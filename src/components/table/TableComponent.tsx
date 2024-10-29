@@ -11,12 +11,12 @@ interface TableComponentProps {
     data: any[];
     actions?: { label: string; icon: string; onClick: (id: number, fullName?: string, slotId?: number) => void }[]; // Actions prop
     itemsPerPage?: number;
-    isKoiFishPage?: boolean; // Thêm prop
-    isAppointmentPage?: boolean; // Thêm prop
-    isAddressPage?: boolean; // Thêm prop
-    isFeedbackPage?: boolean; // Thêm prop
+    isKoiFishPage?: boolean;
+    isAppointmentPage?: boolean;
+    isAddressPage?: boolean;
+    isFeedbackPage?: boolean;
 
-} // Define the TableComponentProps interface
+}
 
 
 const TableComponent: React.FC<TableComponentProps> = ({ columns, columnHeaders, data, actions, itemsPerPage = 8, isKoiFishPage, isAddressPage, isAppointmentPage, isFeedbackPage  }) => {

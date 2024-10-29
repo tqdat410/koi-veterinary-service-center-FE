@@ -157,7 +157,9 @@ const StaffAppointmentDetails: React.FC = () => {
                 );
                 // console.log(selectedPaymentMethod);
                 setPaymentDetails(updatedPayment); // Update the payment details
+
                 setIsEditingPaymentMethod(false); // Exit editing mode
+                window.location.reload();
             } catch (error) {
                 console.error('Error updating payment method:', error);
             }
@@ -446,7 +448,7 @@ const StaffAppointmentDetails: React.FC = () => {
                                 )}
 
                                 {/*  Chỉ có PENDING mới chỉnh, VÀ ĐÃ THANH TOÁN  */}
-                                {appointment.current_status === 'PENDING' && paymentDetails?.status === 'PAID' &&(
+                                {appointment.current_status === 'PENDING' &&(
                                     !isEditingStatus ? (
                                         <>
                                             <p style={{ fontWeight: '900', color: 'brown', padding: '10px', fontSize: '20px' }}>Update Status</p>
