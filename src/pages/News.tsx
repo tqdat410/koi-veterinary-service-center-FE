@@ -4,7 +4,7 @@ import '../styles/News.css';
 const News = () => (
     <div>
         <div className="container my-5 news-container">
-            <h2 className="text-center mb-4">Welcome to Our News!</h2>
+            <h2 className="text-center mb-4 content-header">Welcome to Our News!</h2>
             <p className="text-center text-muted">
                 In this section, you will find the latest updates, articles, and announcements related to Koi care, veterinary services, and events at our center. We aim to keep our community informed and engaged with valuable information and resources.
             </p>
@@ -57,7 +57,7 @@ const News = () => (
                 <h3>Subscribe to Our Newsletter</h3>
                 <p>Stay updated with our latest news, tips, and events! Subscribe to our newsletter by entering your email address below:</p>
                 <form className="d-flex justify-content-center">
-                    <input type="email" className="form-control me-2" placeholder="Enter your email" style={{ maxWidth: '300px' }} />
+                    <input type="email" className="form-control me-2 mxw-300" placeholder="Enter your email" />
                     <button type="submit" className="btn btn-primary">Subscribe</button>
                 </form>
             </div>
