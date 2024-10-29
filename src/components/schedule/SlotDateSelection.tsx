@@ -111,7 +111,7 @@ const AvailableSlot: React.FC<AvailableSlotProps> = ({ vetId, appointmentId, des
                     description: description
                 };
 
-                axios.post(`http://3.0.21.248:8080/api/v1/appointments/follow-up-appointment?appointmentId=${appointmentId}`, followUpAppointmentDto)
+                axios.post(`${BASE_API}/appointments/follow-up-appointment?appointmentId=${appointmentId}`, followUpAppointmentDto)
                     .then(response => {
                         console.log('Follow-up appointment created:', response.data);
                         alert("create following appointment successfully!!")
