@@ -18,7 +18,7 @@ const AppointmentOrderPage: React.FC = () => {
     const formData = useSelector((state: any) => state.formData);
     const [surcharges, setSurcharges] = useState<any[]>([]);
     const [surchargePrice, setSurchargePrice] = useState<number | null>(null);
-
+    console.log(formData)
     const [showModal, setShowModal] = useState(false);
     const [notificationMessage, setNotificationMessage] = useState('');
 
