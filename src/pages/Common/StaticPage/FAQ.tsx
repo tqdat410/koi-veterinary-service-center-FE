@@ -34,12 +34,27 @@ export const faqData = [
     },
     {
         question: "What are the signs of stress or illness in Koi fish?",
-        answer: "Signs of stress or illness in Koi fish can include:\n- Changes in color or fading\n- Listlessness or lack of movement\n- Gasping at the water surface\n- Abnormal swimming patterns\n- Loss of appetite\n- Visible lesions or ulcers. If you notice any of these symptoms, please contact us for a consultation."
-    },
+        answer: [
+            "Signs of stress or illness in Koi fish can include:",
+            "- Changes in color or fading",
+            "- Listlessness or lack of movement",
+            "- Gasping at the water surface",
+            "- Abnormal swimming patterns",
+            "- Loss of appetite",
+            "- Visible lesions or ulcers.",
+            "If you notice any of these symptoms, please contact us for a consultation."
+        ]    },
     {
         question: "How can I maintain a healthy environment for my Koi fish?",
-        answer: "To maintain a healthy environment for your Koi fish:\n- Regularly check and maintain water quality.\n- Perform routine water changes.\n- Ensure proper filtration and aeration.\n- Provide appropriate nutrition.\n- Avoid overstocking your pond. If you have questions about specific products or practices, don’t hesitate to ask our veterinarians."
-    },
+        answer: [
+            "To maintain a healthy environment for your Koi fish:",
+            "- Regularly check and maintain water quality.",
+            "- Perform routine water changes.",
+            "- Ensure proper filtration and aeration.",
+            "- Provide appropriate nutrition.",
+            "- Avoid overstocking your pond.",
+            "If you have questions about specific products or practices, don’t hesitate to ask our veterinarians."
+        ]    },
     {
         question: "Can I bring my Koi fish to the clinic?",
         answer: "Yes, you can bring your Koi fish to our clinic. Please use a suitable container and ensure that the water conditions are similar to their home environment to minimize stress during transport."
@@ -86,7 +101,13 @@ const FAQ: React.FC = () => {
                             </h2>
                             <div id={`panelsStayOpen-collapse${index}`} className={`accordion-collapse collapse ${index === 0 ? 'show' : ''}`}>
                                 <div className="accordion-body">
-                                    <strong>{faq.answer}</strong>
+                                    {Array.isArray(faq.answer) ? (
+                                        faq.answer.map((line, lineIndex) => (
+                                            <p key={lineIndex}>{line}</p>
+                                        ))
+                                    ) : (
+                                        <p>{faq.answer}</p>
+                                    )}
                                 </div>
                             </div>
                         </div>

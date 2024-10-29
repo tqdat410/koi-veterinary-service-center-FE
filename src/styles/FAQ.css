@@ -1,15 +1,21 @@
 .accordion-button{
     font-weight: bold;
-    font-size: 2.2vh;
+    font-size: 2.5vh;
 }
 .accordion-body{
-    font-size: 2vh;
+    font-size: 1vh;
     text-align: start;
 }
-/* Đảm bảo chiều cao tối đa cho Accordion để tránh tràn */
+
+.accordion-body p{
+    font-weight: 500;
+    font-size: 2.5vh;
+    text-align: start;
+}
+
 .accordion {
-    max-height: 70vh; /* Giới hạn chiều cao của Accordion */
-    overflow-y: auto; /* Cho phép cuộn dọc khi cần */
-    padding-right: 10px; /* Thêm khoảng trống để không cắt nội dung cuộn */
+    max-height: 70vh;
+    overflow-y: auto;
+    padding-right: 10px;
 }
 
