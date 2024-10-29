@@ -254,7 +254,7 @@ export const fetchAppointmentAndVeterinariansDemo = async (appointment_id: numbe
 
         // Nếu có veterinarianId, thực hiện gán bác sĩ cho cuộc hẹn
         // if (veterinarian_id) {
-        //     const assignVetResponse = await axios.put(`http://localhost:8080/api/v1/appointments/${appointment_id}/veterinarian/${veterinarian_id}`);
+        //     const assignVetResponse = await axios.put(`http://3.0.21.248:8080/api/v1/appointments/${appointment_id}/veterinarian/${veterinarian_id}`);
         //     console.log('Kết quả gán bác sĩ:', assignVetResponse.data);
         // }
 
@@ -304,7 +304,7 @@ export const fetchLogs = async (appointment_id: number) => {
 // Staff update appointment status
 // export const updateAppointmentStatus = async (appointment_id: number, statusDto: any) :Promise<any> => {
 //     try {
-//         const response = await axios.put(`http://localhost:8080/api/v1/appointments/${appointment_id}/status`,
+//         const response = await axios.put(`http://3.0.21.248:8080/api/v1/appointments/${appointment_id}/status`,
 //             {
 //                 status: statusDto.current_status
 //             }
