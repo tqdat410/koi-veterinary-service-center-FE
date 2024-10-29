@@ -80,7 +80,7 @@ const ServiceSection: React.FC = () => {
                                         <p className="card-text">{service.description}</p>
                                     </div>
                                     {/* Price positioned at the bottom of the card */}
-                                    <p className="text-success fst-italic fw-bold">Price: {service.service_price.toLocaleString('vi-VN')} VND</p>
+                                    <p className="text-success fst-italic fw-bold text-center">Price: {service.service_price.toLocaleString('vi-VN')} VND</p>
                                 </div>
                             </div>
                         </div>

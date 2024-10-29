@@ -62,7 +62,7 @@ function Navbar() {
                         <>
                             <Link className={`navbar-brand ${linkColorClass} ${isActiveLink('/news')}`} to="/news">News</Link>
                             <Link className={`navbar-brand ${linkColorClass} ${isActiveLink('/services')}`} to="/services">Services</Link>
-                            <Link className={`navbar-brand ${linkColorClass} ${isActiveLink('/faq')}`} to="/faq">FAQ</Link>
+                            <Link className={`navbar-brand ${linkColorClass} ${isActiveLink('/FAQ')}`} to="/FAQ">FAQ</Link>
                         </>
                     )}
                 </div>

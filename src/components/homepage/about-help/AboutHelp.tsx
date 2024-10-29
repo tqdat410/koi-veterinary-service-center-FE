@@ -1,6 +1,13 @@
 import React from 'react';
+import {useNavigate} from "react-router-dom";
 
 const AboutHelp: React.FC = () => {
+    const navigate = useNavigate();  // Khai báo useNavigate để điều hướng
+
+    const handleReadMore = () => {
+        navigate('/FAQ');  // Chuyển hướng đến trang /services
+    };
+
     return (
         <section className="about-help">
             <div className="d-flex justify-content-center align-items-center gap-5 px-5 py-4 bg-white"
@@ -57,7 +64,9 @@ const AboutHelp: React.FC = () => {
                                 padding: '10px 20px',
                                 borderRadius: '42px',
                                 fontWeight: 700
-                            }}>
+                            }}
+                    onClick={handleReadMore}
+                    >
                         Visit help center
                     </button>
                 </div>

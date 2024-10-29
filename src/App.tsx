@@ -33,7 +33,8 @@ const VetDetails = lazy(() => import("./pages/Manager/VetDetails"));
 
 
 // NEW
-
+const Services = lazy(() => import("./pages/Common/StaticPage/Services"));
+const FAQ = lazy(() => import("./pages/Common/StaticPage/FAQ"));
 const DashBoardPage = lazy(() => import("./pages/Manager/DashBoard/DashBoardPage"))
 const CustomerManagementPage = lazy(() => import("./pages/Manager/CustomerPage"))
 const CustomerDetailPage = lazy(() => import("./pages/Manager/CustomerDetails"))
@@ -111,6 +112,8 @@ function App() {
                             <Route path="/login" element={<DangNhapNguoiDung />} />
                             <Route path="/register" element={<RegisterPage />} />
                             <Route path="/" element={<HomePage />} />
+                            <Route path="/FAQ" element={<FAQ />} />
+                            <Route path="/services" element={<Services />} />
                             <Route path="/no-access" element={<UnauthorizedPage />} />
 
                             {/* Authenticated routes */}
