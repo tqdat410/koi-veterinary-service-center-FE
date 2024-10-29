@@ -34,13 +34,13 @@ const FillInformationPage: React.FC = () => {
         customer_name: '',
         phone: '',
         email: '',
-        address: '',
+        address: null as string | null,
         fish: '',
         description: '',
         payment_method: 'VN_PAY', // Default to online payment if service_id is 1
         address_id: null as number | null,
         fish_id: null as number | null,
-        district: '',
+        district:  null as string | null,
     });
 
     // Validation states
@@ -75,19 +75,36 @@ const FillInformationPage: React.FC = () => {
                     const userData = await getUserInfo(userId); // Fetch user profile
 
                     const { address } = userData;
-                    setFormData((prevData) => ({
-                        ...prevData,
-                        customer_name: `${userData.first_name} ${userData.last_name}`, // Combine first and last name
-                        phone: userData.phone_number, // Use the user's phone number
-                        email: userData.email, // Use the user's email
-                        address: address ? `${address.home_number}, ${address.ward}, ${address.district}, ${address.city}` : '',
-                        address_id: address?.address_id || null,
-                    }));
-                    if (address) {
-                        setSelectedAddress(`${address.home_number}, ${address.ward}, ${address.district}, ${address.city}`);
-                    } else {
+                    if (service_id === 1 || (service_id === 3 && serviceLocation === 'at_hospital')) {
+                        setFormData((prevData) => ({
+                            ...prevData,
+                            customer_name: `${userData.first_name} ${userData.last_name}`, // Combine first and last name
+                            phone: userData.phone_number, // Use the user's phone number
+                            email: userData.email, // Use the user's email
+                            address: null, // Đặt address thành null
+                            district: null, // Nếu cần, có thể giữ district trống
+                            address_id: null,
+                        }));
                         setSelectedAddress("Select an address");
+                    } else {
+
+                        setFormData((prevData) => ({
+                            ...prevData,
+                            customer_name: `${userData.first_name} ${userData.last_name}`,
+                            phone: userData.phone_number,
+                            email: userData.email,
+                            address: address ? `${address.home_number}, ${address.ward}, ${address.district}, ${address.city}` : '',
+                            district: address?.district || null,
+                            address_id: address?.address_id || null,
+                        }));
+
+                        if (address) {
+                            setSelectedAddress(`${address.home_number}, ${address.ward}, ${address.district}, ${address.city}`);
+                        } else {
+                            setSelectedAddress("Select an address");
+                        }
                     }
+                    console.log("check",formData)
                 } catch (err) {
                     setError('Failed to fetch user profile');
                 } finally {
@@ -98,10 +115,10 @@ const FillInformationPage: React.FC = () => {
                 setLoading(false);
             }
         };
-
         getUserProfile();
-    }, [userId]);
+    }, [userId, service_id, serviceLocation]);
 
+    console.log(addresses)
     useEffect(() => {
         const getAddresses = async () => {
             if (userId) {
@@ -150,7 +167,8 @@ const FillInformationPage: React.FC = () => {
         const address = addresses.find(address => `${address.home_number}/ ${address.district}/ ${address.ward}/ ${address.city}` === selectedValue);
         const addressId = address?.address_id || 0;
         setSelectedAddress(selectedValue);
-        setFormData({ ...formData, address: selectedValue, district: address?.district || '', address_id: addressId });
+        console.log("chon",selectedAddress)
+        setFormData({ ...formData, address: selectedValue, district: address.district || '', address_id: addressId });
     };
 
     const handleFishChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -169,7 +187,6 @@ const FillInformationPage: React.FC = () => {
             (serviceLocation === 'at_hospital' && formData.address_id === null) || // No address needed for hospital
             (serviceLocation === 'at_home' && selectedAddress.trim() !== '' && addresses.length > 0);
         const isFishValid = service_id === 1 || service_id === 2 ||  (selectedFish.trim() !== '' && formData.fish_id !== null);
-
         setValidity({
             name: isNameValid,
             phone: isPhoneValid,
@@ -206,13 +223,12 @@ const FillInformationPage: React.FC = () => {
             return false; // Trả về false nếu không hợp lệ
         }
 
-        setErrorPhone(''); // Xóa thông báo lỗi nếu hợp lệ
+        setErrorPhone('');
         return true; // Trả về true nếu hợp lệ
     };
 
     // Handle validation for email
     const validateEmail = () => {
-        // Regex to ensure email contains "@" and at least one "." after the "@"
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
         // Check if the email matches the regex and does not include spaces
@@ -228,17 +244,22 @@ const FillInformationPage: React.FC = () => {
     const handleNext = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (!validateFields()) {
-            return; // Don't proceed with submission if any fields are invalid
+        // Kiểm tra điều kiện để đặt address, district, address_id là null hoặc chuỗi rỗng
+        if (service_id === 1 || (service_id === 3 && serviceLocation === "at_hospital")) {
+            setFormData(prevData => ({
+                ...prevData,
+                address: null,  // Đặt address thành null
+                district: null,    // Đặt district thành chuỗi rỗng
+                address_id: null // Đặt address_id thành null
+            }));
         }
-
-
-
-
+        if (!validateFields()) {
+            return; // Không tiếp tục nếu bất kỳ trường nào không hợp lệ
+        }
 
         try {
             dispatch(setForm(formData));
-            navigate('/appointment/order-confirm'); // Redirect to the order page using navigate
+            navigate('/appointment/order-confirm'); // Điều hướng đến trang xác nhận đơn hàng
         } catch (error) {
             console.error('Error submitting form:', error);
         }
@@ -409,15 +430,16 @@ const FillInformationPage: React.FC = () => {
                                                 value={selectedAddress}
                                                 onChange={handleAddressChange}
                                             >
-                                                <option value="" disabled>{addresses.length ? "Select an address" : "No addresses available"}</option>
-                                                {addresses.map((addr) => (
-                                                    <option
-                                                        key={addr.address_id}
-                                                        value={`${addr.home_number}, ${addr.ward}, ${addr.district}, ${addr.city}`}
-                                                    >
-                                                        {addr.home_number}, {addr.ward}, {addr.district}, {addr.city}
-                                                    </option>
-                                                ))}
+                                                <option value="" disabled>{addresses.length ? "Select an address" : "No address available"}</option>
+                                                {addresses.length > 0 ? (
+                                                    addresses.map(address => (
+                                                        <option key={address.address_id} value={`${address.home_number}/ ${address.district}/ ${address.ward}/ ${address.city}`}>
+                                                            {`${address.home_number}/ ${address.district}/ ${address.ward}/ ${address.city}`}
+                                                        </option>
+                                                    ))
+                                                ) : (
+                                                    <option value="" disabled>No address available</option>
+                                                )}
                                             </select>
                                             <i className="bi bi-chevron-down dropdown-icon"></i>
                                         </div>
