@@ -1,12 +1,24 @@
 /* Đảm bảo footer luôn ở cuối trang */
-body, html {
+body,
+html {
     margin: 0;
     padding: 0;
     height: 100%;
 }
 
+.content-header {
+    font-size: 60px !important;
+    margin-top: 10px !important;
+    ;
+}
+
+.mt-3 {
+    margin-top: 3rem !important;
+}
+
 .container {
-    min-height: auto; /* Điều chỉnh tùy theo chiều cao của Navbar và Footer */
+    min-height: auto;
+    /* Điều chỉnh tùy theo chiều cao của Navbar và Footer */
 }
 
 footer {
@@ -14,20 +26,21 @@ footer {
     color: white;
     text-align: center;
     padding: 20px 0;
-    position: relative; /* Make sure it's positioned at the bottom */
+    position: relative;
+    /* Make sure it's positioned at the bottom */
     width: 100%;
 }
 
 .content-about-us {
-    /* margin: auto !important; */
-    margin-bottom: auto !important;
-    padding: 0 !important; /* Remove extra padding */
+    margin-bottom: -48px !important;
+    padding: 0 !important;
+    /* Remove extra padding */
     background-color: #1C1F20;
     max-width: 100% !important;
     max-height: 100% !important;
     color: white;
     min-height: 100vh;
-    font-style: 'Roboto', sans-serif; 
+    /* font-style: 'Roboto', sans-serif;  */
 }
 
 .content-body {
@@ -46,10 +59,10 @@ footer {
     text-align: left;
 }
 
-.about-text > h2 {
+.about-text>h2 {
     margin-top: 1rem;
 }
 
-.about-text > p {
+.about-text>p {
     margin-top: 1rem;
 }
