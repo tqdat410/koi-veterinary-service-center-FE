@@ -1,6 +1,8 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const AboutHelp: React.FC = () => {
+    const navigate = useNavigate();
     return (
         <section className="about-help">
             <div className="d-flex justify-content-center align-items-center gap-5 px-5 py-4 bg-white"
@@ -24,6 +26,7 @@ const AboutHelp: React.FC = () => {
                         care and maintenance to keep your koi and ponds thriving.
                     </p>
                     <button className="btn btn-primary mt-2 btn-shadow"
+                            onClick={() => navigate('/about')}
                             style={{
                                 padding: '10px 20px',
                                 borderRadius: '42px',
@@ -53,6 +56,7 @@ const AboutHelp: React.FC = () => {
                         Help topics, getting started guides, and FAQs.
                     </p>
                     <button className="btn btn-outline-primary mt-4 btn-shadow"
+                            onClick={() => navigate('/contact')}
                             style={{
                                 padding: '10px 20px',
                                 borderRadius: '42px',
