@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a5713505-d8be-4eea-9a6b-8e8ca55b0f70" name="Changes" comment="" />
+    <list default="true" id="a5713505-d8be-4eea-9a6b-8e8ca55b0f70" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/schedule/SlotDateSelection.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/schedule/SlotDateSelection.tsx" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -34,7 +38,7 @@
   "keyToString": {
     "ASKED_ADD_EXTERNAL_FILES": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "dev",
+    "git-widget-placeholder": "modify-side-bar",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/home/baopen/Downloads/koi-fish-swp391/koi-veterinary-service-center-FE",
     "node.js.detected.package.eslint": "true",
