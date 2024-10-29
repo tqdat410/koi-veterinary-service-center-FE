@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {useNavigate} from "react-router-dom";
 
 const AboutHelp: React.FC = () => {
@@ -31,6 +32,7 @@ const AboutHelp: React.FC = () => {
                         care and maintenance to keep your koi and ponds thriving.
                     </p>
                     <button className="btn btn-primary mt-2 btn-shadow"
+                            onClick={() => navigate('/about')}
                             style={{
                                 padding: '10px 20px',
                                 borderRadius: '42px',
