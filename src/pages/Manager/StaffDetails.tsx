@@ -63,8 +63,13 @@ const StaffProfile: React.FC = () => {
             const formData = new FormData();
             formData.append('image', file);  // Append file image
             formData.append('user_id', userId);  // Append user ID
-
+            // Muốn người dùng phải xác nhận trước khi change ảnh
+            const isConfirmed = window.confirm("Are you sure you want to change the avatar?");
+            if (!isConfirmed) {
+                return;
+            }
             try {
+
                 const response = await axios.put(`${BASE_API}/users/avatar`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
@@ -73,6 +78,7 @@ const StaffProfile: React.FC = () => {
                 const updatedUser = response.data;  // Response will contain updated user data
                 setSelectedImage(URL.createObjectURL(file));  // Update the UI with the new image
                 console.log('Avatar updated successfully:', updatedUser);
+                navigate(0); // Refresh the page to see the updated image
             } catch (error) {
                 console.error('Failed to update avatar:', error);
                 alert('Failed to update avatar. Please try again.');
