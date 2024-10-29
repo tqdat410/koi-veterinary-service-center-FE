@@ -452,8 +452,8 @@ const FillInformationPage: React.FC = () => {
                                         <label className="form-check-label">Pay Online</label>
                                     </div>
 
-                                    {/* Show cash payment option only if service_id is not 1 */}
-                                    {service_id !== 1 && service_id !== 2 && (
+
+                                    {service_id !== 1 && service_id !== 2 && serviceLocation === 'at_hospital' && (
                                         <div className="form-check">
                                             <input
                                                 className="form-check-input"
