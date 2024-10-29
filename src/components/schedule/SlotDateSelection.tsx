@@ -6,6 +6,8 @@ import '../../styles/TableSchedule.css';
 import { useDispatch } from "react-redux";
 import { setSlot } from '../../store/actions';
 import defaultImage from "../../assets/images/defaultImage.jpg"
+import {BASE_API} from "../../api/baseApi";
+
 const slotOrderToTime = {
     1: '7:30 - 9:30',
     2: '10:00 - 12:00',
@@ -70,7 +72,7 @@ const AvailableSlot: React.FC<AvailableSlotProps> = ({ vetId, appointmentId, des
         // Use vetId if provided, otherwise fallback to doctor's user ID
 
 
-        axios.get(`http://3.0.21.248:8080/api/v1/slots/${vetId}/follow-up-appointment?appointmentId=${appointmentId}`)
+        axios.get(`${BASE_API}/slots/${vetId}/follow-up-appointment?appointmentId=${appointmentId}`)
             .then((response) => {
                 console.log(response);
                 setAvailableSlots(response.data);
