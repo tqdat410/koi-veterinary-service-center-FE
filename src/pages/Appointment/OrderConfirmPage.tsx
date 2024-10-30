@@ -2,10 +2,11 @@ import React, {useEffect, useState} from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
-import {createAppointment} from "../../api/appointmentApi";
+import {createAppointment, fetchAppointmentForCus} from "../../api/appointmentApi";
 import {persistor} from "../../store/store";
 import defaultImage from "../../assets/images/defaultImage.jpg";
 import {BASE_API, IMAGE_API} from "../../api/baseApi"
+import {createPayment} from "../../api/paymentApi";
 
 
 const AppointmentOrderPage: React.FC = () => {
@@ -115,6 +116,23 @@ const AppointmentOrderPage: React.FC = () => {
         navigate('/my-appointment'); // Navigate to my appointments
     };
 
+    const handleNavigateToPayment = async () => {
+        try {
+            const data = await fetchAppointmentForCus(); // Fetch appointment data
+            const appointment_id = data[0]?.appointment_id; // Get the first appointment ID
+
+            if (appointment_id) {
+                const paymentUrl = await createPayment(appointment_id); // Generate payment URL
+                window.location.href = paymentUrl; // Open payment URL in a new tab
+            } else {
+                console.error("No appointment found");
+            }
+        } catch (error) {
+            console.error("Error fetching appointment or creating payment:", error);
+        }
+    };
+
+
     const closeModal = () => {
 
         navigate('/');
@@ -133,15 +151,24 @@ const AppointmentOrderPage: React.FC = () => {
 
                 {showModal && (
                     <div className="modal-overlay">
-                        <div className="modal-content" style={{ position: 'relative' }}>
+                        <div className="modal-content" style={{position: 'relative', width:"50%"}}>
                             <button className="close-button" onClick={closeModal}>
                                 &times; {/* This represents the "X" icon */}
                             </button>
-                            <h5 className="fw-bold text-success" style={{fontSize:"3.8vw"}}>Success!</h5>
-                            <p style={{fontSize:"2vw"}}>{notificationMessage}</p>
-                            <button className="btn btn-primary mt-3" onClick={handleNavigateToMyAppointments} style={{fontSize:'1vw'}}>
-                                Go to My Appointments
+                            <h5 className="fw-bold text-success" style={{fontSize: "3.8vw"}}>Success!</h5>
+                            <p style={{fontSize: "2vw"}}>{notificationMessage}</p>
+                            <div className="">
+                            <button className="btn btn-primary mt-3 me-2" onClick={handleNavigateToMyAppointments}
+                                    style={{fontSize: '1vw'}}>
+                                Go to Appointments
                             </button>
+                                {formData?.payment_method === 'VN_PAY' && (
+                            <button className="btn btn-success mt-3 ms-2" onClick={handleNavigateToPayment}
+                                    style={{fontSize: '1vw'}}>
+                                Go to Payment
+                            </button>
+                                )}
+                            </div>
                         </div>
                     </div>
                 )}
@@ -188,7 +215,7 @@ const AppointmentOrderPage: React.FC = () => {
                                  margin: '0 auto'
                              }}>
                             <h5 className="card-title ms-4" style={{
-                                width: "400px",
+                                width: "500px",
                                 fontSize: "2.5rem",
                                 marginTop: '15px',
                                 marginBottom: '15px'
@@ -201,7 +228,7 @@ const AppointmentOrderPage: React.FC = () => {
                                 </div>
                                 <div>
                                     <strong
-                                        style={{fontSize: "1.2rem"}}>Date:</strong> {slot?.day}/{slot?.month}/{slot?.year} (Slot {slot?.slot_order} / {slotTimeMapping[slot?.slot_order]})
+                                        style={{fontSize: "1.2rem"}}>Date:</strong> {slot?.day}/{slot?.month}/{slot?.year} (Slot {slot?.slot_order} - {slotTimeMapping[slot?.slot_order]})
                                 </div>
                                 <div>
                                     <strong style={{fontSize: "1.2rem"}}>Customer

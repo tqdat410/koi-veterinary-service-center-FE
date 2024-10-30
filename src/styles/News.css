@@ -21,10 +21,10 @@
   .news-container p {
     color: #fff !important;
   }
-  
-  .card-title {
-    color: #fff !important;
-  }
+  /*Đã đặt màu ban đầu cho card-title là màu xanh đậm, không dùng màu trắng!!!!!!!!!!*/
+  /*.card-title {*/
+  /*  color: #fff !important;*/
+  /*}*/
 
   /* Tùy chỉnh card background và border */
   .news-container .card {
