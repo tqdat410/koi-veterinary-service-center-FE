@@ -447,8 +447,11 @@ const StaffAppointmentDetails: React.FC = () => {
                                     </div>
                                 )}
 
-                                {/*  Chỉ có PENDING mới chỉnh, VÀ ĐÃ THANH TOÁN  */}
-                                {appointment.current_status === 'PENDING' &&(
+
+                                {appointment.current_status === 'PENDING' && (
+                                    (paymentDetails?.status === 'NOT_PAID' && paymentDetails?.payment_method === 'CASH') ||
+                                    (paymentDetails?.status === 'PAID' && (paymentDetails?.payment_method === 'CASH' || paymentDetails?.payment_method === 'VN_PAY'))
+                                ) && (
                                     !isEditingStatus ? (
                                         <>
                                             <p style={{ fontWeight: '900', color: 'brown', padding: '10px', fontSize: '20px' }}>Update Status</p>
@@ -525,7 +528,7 @@ const StaffAppointmentDetails: React.FC = () => {
                                         </p>
 
                                         {/* Hiển thị phần update payment chỉ khi status là NOT_PAID và method là CASH */}
-                                        {paymentDetails.status === "NOT_PAID" && paymentDetails.payment_method === "CASH" && (
+                                        {paymentDetails.status === "NOT_PAID" && paymentDetails.payment_method === "CASH"&& appointment.current_status === 'ON_GOING' && (
                                             <div>
                                                 <span style={{ fontWeight: 'bold', fontSize: '24px', fontStyle: 'italic' }}>Update Payment Status: </span>
                                                 {!isEditingPaymentMethod ? (
