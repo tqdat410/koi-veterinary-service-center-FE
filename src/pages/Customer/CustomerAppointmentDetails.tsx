@@ -456,9 +456,9 @@ const CustomerAppointmentDetails: React.FC = () => {
                     </div>
                 </div>
 
-                <div className='back-button'>
+                {/* <div className='back-button'>
                     <button className="btn btn-secondary mt-3" onClick={() => navigate(-1)}>Back</button>
-                </div>
+                </div> */}
 
             </div>
         </div>
