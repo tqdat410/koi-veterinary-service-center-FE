@@ -1,7 +1,7 @@
 import axios from "axios";
 import {BASE_API} from "./baseApi"
 
-// const API_URL = `http://localhost:8080/api/v1/feedbacks/all`;
+// const API_URL = `http://3.0.21.248:8080/api/v1/feedbacks/all`;
 const FEEDBACK_URL = `${BASE_API}/feedbacks`;
 
 // Function to fetch feedback for manager
@@ -60,7 +60,7 @@ export const fetchVetFeedbackDetails = async (feedback_id: number): Promise<any>
 // For customer: create feedback
 export const createFeedback = async (appointmentId: number, feedbackDto: any) => {
   try {
-      const response = await axios.post(`http://localhost:8080/api/v1/feedbacks`, feedbackDto, {
+      const response = await axios.post(`${BASE_API}/feedbacks`, feedbackDto, {
           params: { appointmentId },  
       });
 

@@ -1,7 +1,7 @@
 import React from "react";
 function Footer(){
     return (
-        <footer className="footer-bg text-white text-center py-4">
+        <footer className="footer-bg text-white text-center d-flex justify-content-center align-items-center" style={{ minHeight: "280px" }}>
         <div className="container">
             <p>&copy; {new Date().getFullYear()} Fantastic Five. All rights reserved.</p>
             <ul className="list-inline">
@@ -18,16 +18,16 @@ function Footer(){
                     <a href="/privacy" className="text-white">Privacy Policy</a>
                 </li>
             </ul>
-            <div className="mt-3">
+            <div className="mt-1">
                 <p>
                     <strong>Phone:</strong> <a href="tel:+123456789" className="text-white">+1 (234) 567-89</a>
                 </p>
                 <p>
                     <strong>Email:</strong> <a href="mailto:info@yourcompany.com"
-                                               className="text-white">info@yourcompany.com</a>
+                                               className="text-white">koifish@gmail.com</a>
                 </p>
                 <p>
-                    <strong>Address:</strong> 123 Your Street, Your City, Your Country
+                    <strong>Address:</strong> 92, Nguyễn Trãi, Phường Bến Thành, Quận 1, Tp Hồ Chí Minh
                 </p>
             </div>
         </div>

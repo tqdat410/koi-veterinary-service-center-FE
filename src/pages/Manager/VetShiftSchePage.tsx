@@ -52,7 +52,7 @@ const VetShiftSchePage: React.FC = () => {
         {
             label: 'View Schedule',
             icon: 'fas fa-calendar-alt',
-            onClick: handleVetScheduleClick, // This is now compatible
+            onClick: handleVetScheduleClick,
         },
         {
             label: 'View Details',

@@ -1,23 +1,51 @@
+/* Montserrat Regular */
 @font-face {
-    font-family: 'Gilroy';
-    src: url('../assets/fonts/Gilroy-Light.otf') format('opentype');
-    font-weight: normal; /* Light weight */
+    font-family: 'Montserrat';
+    src: url('../assets/fonts/Montserrat-Regular.ttf') format('truetype');
+    font-weight: 400;
     font-style: normal;
 }
 
+/* Montserrat Medium */
 @font-face {
-    font-family: 'Gilroy';
-    src: url('../assets/fonts/Gilroy-ExtraBold.otf') format('opentype');
-    font-weight: bold; /* ExtraBold weight */
+    font-family: 'Montserrat';
+    src: url('../assets/fonts/Montserrat-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+/* Montserrat Bold */
+@font-face {
+    font-family: 'Montserrat';
+    src: url('../assets/fonts/Montserrat-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+/* Montserrat ExtraBold */
+@font-face {
+    font-family: 'Montserrat';
+    src: url('../assets/fonts/Montserrat-ExtraBold.ttf') format('truetype');
+    font-weight: 800;
+    font-style: normal;
+}
+
+/* Montserrat Black */
+@font-face {
+    font-family: 'Montserrat';
+    src: url('../assets/fonts/Montserrat-Black.ttf') format('truetype');
+    font-weight: 900;
     font-style: normal;
 }
 
 body {
-    font-family: 'Gilroy', sans-serif; /* Apply font globally */
-    font-weight: 400; /* Default to Light weight */
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+
 }
 
 /* Use these classes for bold text */
 .font-bold {
-    font-weight: 800; /* ExtraBold weight */
+    font-family: 'Montserrat-bold', sans-serif;
+    font-weight: 800;
 }

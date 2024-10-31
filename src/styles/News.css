@@ -1,0 +1,53 @@
+.content-header {
+  font-size: 60px !important;
+}
+
+.mxw-300 {
+  max-width: 300px !important; 
+}
+
+/* Đặt nền đen và chữ trắng cho toàn bộ trang News */
+.news-container {
+    background-color: #1C1F20;
+    color: #fff !important;
+    max-width: 100%;
+    max-height: max-content;
+    padding-top: 12px !important;    
+    margin-bottom: -48px !important;
+  }
+  
+  .news-container h2,
+  .news-container h3,
+  .news-container p {
+    color: #fff !important;
+  }
+  /*Đã đặt màu ban đầu cho card-title là màu xanh đậm, không dùng màu trắng!!!!!!!!!!*/
+  /*.card-title {*/
+  /*  color: #fff !important;*/
+  /*}*/
+
+  /* Tùy chỉnh card background và border */
+  .news-container .card {
+    background-color: #333;
+    border: none;
+  }
+  
+  .news-container .form-control {
+    background-color: #222;
+    color: #fff !important;
+    border: 1px solid #555;
+  }
+  
+  .news-container .btn-primary {
+    background-color: #007bff;
+    border: none;
+  }
+  
+  .news-container a {
+    color: #0dcaf0;
+  }
+  
+  .news-container a:hover {
+    color: #fff !important;
+  }
+  

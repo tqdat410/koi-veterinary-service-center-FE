@@ -2,7 +2,7 @@ import axios from 'axios';
 import {BASE_API} from "./baseApi"
 // URL cơ bản cho các API liên quan đến địa chỉ
 const BASE_URL = `${BASE_API}/addresses`;
-// const DISTRICT_URL = 'http://localhost:8080/api/v1';
+// const DISTRICT_URL = 'http://3.0.21.248:8080/api/v1';
 // API để lấy tất cả địa chỉ của khách hàng
 export const fetchAddresses = async () => {
     try {

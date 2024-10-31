@@ -19,7 +19,7 @@ export const deleteKoi = async (id: number) => {
 };
 
 export const fetchFishes = async (userId: number) => {
-    const token = localStorage.getItem("token");  // Assuming the token is stored in localStorage
+    const token = localStorage.getItem("token");
     const response = await axios.get(`${FISH_URL}`, {
         headers: {
             Authorization: `Bearer ${token}`,

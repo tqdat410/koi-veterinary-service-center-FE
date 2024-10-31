@@ -2,12 +2,12 @@
     display: flex; /* Use flexbox for layout */
     flex-wrap: nowrap; /* Prevent wrapping to keep all charts in one line */
     overflow-x: auto; /* Allow horizontal scrolling if necessary */
-    gap: 20px; /* Space between charts */
+    gap: 20px;
 }
 
 .chart-container {
-    flex: 0 0 auto; /* Prevent flex items from growing or shrinking */
-    min-width: 300px; /* Set a minimum width for each chart */
-    max-width: 400px; /* Optional: limit maximum width */
+    flex: 0 0 auto;
+    min-width: 300px;
+    max-width: 400px;
 }
 

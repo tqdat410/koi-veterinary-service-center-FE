@@ -5,14 +5,14 @@ import homeImage from "../../../assets/images/home.jpg";
 import {useNavigate} from "react-router-dom";
 
 const ServiceSection: React.FC = () => {
-    const navigate = useNavigate();  // Khai báo useNavigate để điều hướng
+    const navigate = useNavigate();
 
     const handleReadMore = () => {
-        navigate('/services');  // Chuyển hướng đến trang /services
+        navigate('/services');
     };
     return (
-        <section className="service-section py-5 bg-light">
-            <div className="container py-5 bg-light">
+        <section className="service-section  bg-light">
+            <div className="container bg-light">
                 <div className="text-center">
                     <h2 className=" fw-bold" style={{ fontSize: '3.6rem', color: '#02033B', marginTop: "-25px", marginBottom: "50px" }}>Our Services</h2>
                 </div>

@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {useNavigate} from "react-router-dom";
 
 const AboutHelp: React.FC = () => {
@@ -16,7 +17,7 @@ const AboutHelp: React.FC = () => {
                 <div className="position-relative"
                      style={{
                          width: '460px',
-                         height: '270px',
+                         height: '310px',
                          borderRadius: '48px',
                          background: 'linear-gradient(to right, #f7c95f, #fdb235)',
                          padding: '30px',
@@ -31,6 +32,7 @@ const AboutHelp: React.FC = () => {
                         care and maintenance to keep your koi and ponds thriving.
                     </p>
                     <button className="btn btn-primary mt-2 btn-shadow"
+                            onClick={() => navigate('/about')}
                             style={{
                                 padding: '10px 20px',
                                 borderRadius: '42px',

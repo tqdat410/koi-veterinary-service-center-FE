@@ -1,7 +1,9 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import vetImage from '../../../assets/images/veterinarian.jpg'; // Adjust the path as needed
 
 const Veterinarian: React.FC = () => {
+    const navigate = useNavigate();
     return (
         <section className="vet bg-light">
             <div className="container py-5">
@@ -15,8 +17,8 @@ const Veterinarian: React.FC = () => {
                             backgroundColor: "#edb664",
                             zIndex: 0,
                             borderRadius: "10px",
-                            top: "-22px", // Adjust as needed for proper alignment
-                            left: "120px", // Adjust as needed for proper alignment
+                            top: "-22px",
+                            left: "120px",
                             boxShadow: '4px 10px 20px rgba(0, 0, 0, 0.25)'
                         }}>
                         </div>
@@ -52,7 +54,7 @@ const Veterinarian: React.FC = () => {
                             your koi pond.
                         </p>
                         <div className="mt-4 text-center">
-                            <button className="btn btn-warning rounded-pill px-4 mb-5 btn-shadow">
+                            <button onClick={() => navigate('/about')}  className="btn btn-warning rounded-pill px-4 mb-5 btn-shadow">
                                 <span className="fw-bold">Read more</span>
                                 <i className="fas fa-arrow-right ms-2"/>
                             </button>

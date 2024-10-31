@@ -72,6 +72,11 @@ const VetFeedbackPage = lazy(() => import("./pages/Veterinarian/VeterinarianFeed
 const VeterinarianFeedbackDetailsPage = lazy(() => import("./pages/Veterinarian/VeterinarianFeedbackDetailsPage"))
 const VetAppointmentDetails = lazy(() => import("./pages/Veterinarian/VetAppointmentDetails"))
 
+//Static pages
+const AboutPage = lazy(() => import("./pages/AboutUsPage"));
+const ContactUs = lazy(() => import("./pages/ContactUs"));
+const News = lazy(() => import("./pages/News"));
+
 // Define a higher-order component with authentication
 const withAuth = (Component: React.ComponentType) => (
     <AuthGuard>
@@ -115,6 +120,9 @@ function App() {
                             <Route path="/FAQ" element={<FAQ />} />
                             <Route path="/services" element={<Services />} />
                             <Route path="/no-access" element={<UnauthorizedPage />} />
+                            <Route path="/about" element={<AboutPage />} />
+                            <Route path="/contact" element={<ContactUs />} />
+                            <Route path="/news" element={<News />} />
 
                             {/* Authenticated routes */}
                             <Route path="/profile" element={withAuth(ProfilePage)} />

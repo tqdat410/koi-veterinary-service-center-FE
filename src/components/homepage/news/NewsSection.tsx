@@ -1,7 +1,9 @@
 import React from 'react';
 import newsImage from '../../../assets/images/news.jpg'
+import { useNavigate } from 'react-router-dom';
 
 const NewsSection: React.FC = () => {
+    const navigate = useNavigate();
     return (
         <section className="news">
             <div className="container py-5">
@@ -20,13 +22,16 @@ const NewsSection: React.FC = () => {
                         </p>
                         <div className="d-flex gap-3 mt-5 mb-5">
                             {/* Read more button */}
-                            <button className="btn btn-warning px-4 py-2 rounded-pill fw-bold text-dark btn-shadow">
-                                <span className="fw-bold">Read more</span>
-                                <i className="fas fa-arrow-right ms-2" />
+                            <button onClick={() => navigate('/about')}  className="btn btn-warning px-4 py-2 rounded-pill fw-bold text-dark btn-shadow" >
+                                {/* <span className="fw-bold">Read more</span>
+                                <i className="fas fa-arrow-right ms-2" /> */}
+                                Read more
                             </button>
 
-                            {/* News button */}
-                            <button className="btn btn-outline-primary px-4 py-2 rounded-pill fw-bold btn-shadow">
+                            {/* News button: qua trang news.tsx */}
+                            
+                            <button onClick={() => navigate('/news')}
+                            className="btn btn-outline-primary px-4 py-2 rounded-pill fw-bold btn-shadow" >
                                 News
                             </button>
                         </div>
