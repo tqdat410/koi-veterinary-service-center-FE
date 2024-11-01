@@ -8,6 +8,7 @@ import { store, persistor }  from '../src/store/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import { Provider } from 'react-redux';
 
+import '@clr/icons/clr-icons.min.css';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

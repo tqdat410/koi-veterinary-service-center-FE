@@ -1,12 +1,19 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { getAppointmentDetailsForCus, getLinkMeetByVetId, getMedicalReport, fetchPrescriptionDetails } from '../../api/appointmentApi';
+import {
+    getAppointmentDetailsForCus,
+    getLinkMeetByVetId,
+    getMedicalReport,
+    fetchPrescriptionDetails,
+    updateAppointmentStatusCanceled
+} from '../../api/appointmentApi';
 import { createPayment, fetchPayment } from '../../api/paymentApi';
 import { createFeedback, getFeedbackDetailsCus } from '../../api/feedbackApi';
 import '../../styles/CustomerAppointmentDetails.css';
 import { MedicalReport, Medicine, Prescription } from "../../types";
 import { Rating, Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField } from '@mui/material';
 import Sidebar from "../../components/layout/Sidebar";
+import ProgressTimeline from "../Staff/Timeline";
 
 interface AppointmentDetailsProps {
     appointment_id: number;
@@ -107,7 +114,7 @@ const CustomerAppointmentDetails: React.FC = () => {
     const [rating, setRating] = useState<number | null>(null);
     const [comment, setComment] = useState('');
     const [feedbackDetails, setFeedbackDetails] = useState<any>(null); // New state
-
+    const [isEditingStatus, setIsEditingStatus] = useState(false);
     // Fetch appointment details by ID
     //Fetch feedback details by ID of feedback
     useEffect(() => {
@@ -173,6 +180,40 @@ const CustomerAppointmentDetails: React.FC = () => {
             }
         } catch (error) {
             console.error('Error fetching Google meeting:', error);
+        }
+    };
+    const handleUpdateAppointmentStatusCanceled = async () => {
+        if (appointment) {
+            const confirmUpdate = window.confirm(`Appointment status updated to: CANCELED, do you want to change it?`);
+            if (confirmUpdate) {
+                try {
+                    // Gọi API để cập nhật trạng thái
+                    const response = await updateAppointmentStatusCanceled(appointment.appointment_id);
+
+                    // Kiểm tra nếu response thành công
+                    if (response && response.status === 200) {
+                        // Cập nhật trạng thái trên giao diện
+                        setAppointment(prevAppointment => {
+                            if (prevAppointment) {
+                                return {
+                                    ...prevAppointment,
+                                    current_status: 'CANCELED'
+                                };
+                            }
+                            return prevAppointment;
+                        });
+                        console.log('Updated appointment status: CANCELED');
+                        // navigate(0); // Tự động làm mới trang sau khi cập nhật
+                        window.location.reload();
+                    } else {
+                        // Trường hợp response không thành công
+                        navigate(0); // Tự động làm mới trang sau khi cập nhật
+                        // alert('Failed to update appointment status due to server error.');
+                    }
+                } catch (error) {
+                    console.error('Failed to update appointment status');
+                }
+            }
         }
     };
 
@@ -256,11 +297,16 @@ const CustomerAppointmentDetails: React.FC = () => {
         return `${day}/${month}/${year} ${hours}:${minutes}`;
     };
 
+
+
     return (
         <div className="d-flex flex-grow-1 gap-3" style={{ marginLeft: '272px' }}>
             <Sidebar />
             <div className="container">
                 <h2 className="mb-4">Appointment Details</h2>
+                <div className="status-timeline-container">
+                    <ProgressTimeline currentStatus={appointment.current_status}/>
+                </div>
                 <div className="card">
                     <div className="card-body">
                         <h5 className="card-title">
@@ -280,7 +326,7 @@ const CustomerAppointmentDetails: React.FC = () => {
                                                         appointment?.current_status === 'ON_GOING' ? 'status-on-going' :
                                                             appointment?.current_status === 'PENDING' ? 'status-pending' :
                                                                 'status-default'
-                                            }`}>
+                                        }`}>
                                         {/* Format lại chữ */}
                                         {appointment?.current_status ?
                                             appointment.current_status.replace('_', ' ').toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase())
@@ -298,13 +344,19 @@ const CustomerAppointmentDetails: React.FC = () => {
                                 <p>Service name: {appointment.service?.service_name}</p>
                                 <p>Service Price: {appointment.service?.service_price} VND</p>
                                 {/* Tư vấn online (service id = 1) thì sẽ hiển thị nút tư vấn online qua gg meet */}
-                                {appointment.service?.service_id === 1 && appointment?.current_status ===  "ON_GOING" && (
-                                    <button className="btn btn-primary meet-btn" onClick={fetchGoogleMeeting}>Click here to Consult Online</button>
+                                {appointment.service?.service_id === 1 && appointment?.current_status === "ON_GOING" && (
+                                    <button className="btn btn-primary meet-btn" onClick={fetchGoogleMeeting}>Click here
+                                        to Consult Online</button>
                                 )}
 
                                 <h5 className="mt-3">Veterinarian Information:</h5>
                                 <p>Name: {appointment.veterinarian?.first_name} {appointment.veterinarian?.last_name}</p>
                                 <p>Vet ID: {appointment.veterinarian?.user_id}</p>
+                                {(appointment.current_status === 'PENDING' || appointment.current_status === 'ON_GOING') && (
+                                    <button style={{marginLeft: '4px'}} className="btn btn-danger"
+                                            onClick={handleUpdateAppointmentStatusCanceled}>Canceled
+                                    </button>
+                                )}
                             </div>
 
                             <div className="col-md-6">
@@ -347,7 +399,7 @@ const CustomerAppointmentDetails: React.FC = () => {
                                         <ul>
                                             {prescription.medicines.map((medicine: Medicine) => (
                                                 <li key={medicine.medicine_id} className='medicine-item'>
-                                                    ID {medicine.medicine_id} :  {medicine.medicine_name} -  {medicine.instruction}
+                                                    ID {medicine.medicine_id} : {medicine.medicine_name} - {medicine.instruction}
                                                 </li>
                                             ))}
                                         </ul>
@@ -385,9 +437,10 @@ const CustomerAppointmentDetails: React.FC = () => {
                                     <p>Description: {PaymentDetails?.description || 'Empty'}</p>
 
                                     <p>Status:
-                                        <span className={`span-status ${PaymentDetails?.status === 'PAID' ? 'status-done' :
-                                            PaymentDetails?.status === 'NOT_PAID' ? 'status-canceled' :
-                                                'status-default'
+                                        <span
+                                            className={`span-status ${PaymentDetails?.status === 'PAID' ? 'status-done' :
+                                                PaymentDetails?.status === 'NOT_PAID' ? 'status-canceled' :
+                                                    'status-default'
                                             }`}
                                         >
                                             {/* Transform 'PAID' or 'NOT_PAID' to 'Paid' or 'Not paid' */}
@@ -399,8 +452,11 @@ const CustomerAppointmentDetails: React.FC = () => {
 
 
                                     {/* Show Payment button only if payment method is VN PAY and curreny status is NOT_PAID */}
-                                    {PaymentDetails?.payment_method === payment_method.VN_PAY && PaymentDetails?.status === payment_status.NOT_PAID && (
-                                        <button className="btn btn-primary pay-btn" onClick={handlePayment}>Click here to pay</button>
+                                    {PaymentDetails?.payment_method === payment_method.VN_PAY && PaymentDetails?.status === payment_status.NOT_PAID &&
+                                        appointment.current_status !== 'CANCELED' &&
+                                        (
+                                        <button className="btn btn-primary pay-btn" onClick={handlePayment}>Click here
+                                            to pay</button>
                                     )}
                                 </div>
 
@@ -439,7 +495,7 @@ const CustomerAppointmentDetails: React.FC = () => {
                                             variant="outlined"
                                             value={comment}
                                             onChange={(e) => setComment(e.target.value)}
-                                            style={{ marginTop: '20px' }}
+                                            style={{marginTop: '20px'}}
                                         />
                                     </DialogContent>
                                     <DialogActions>
