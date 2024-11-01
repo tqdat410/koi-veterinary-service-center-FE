@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import {createAppointment, fetchAppointmentForCus} from "../../api/appointmentApi";
@@ -7,6 +7,7 @@ import {persistor} from "../../store/store";
 import defaultImage from "../../assets/images/defaultImage.jpg";
 import {BASE_API, IMAGE_API} from "../../api/baseApi"
 import {createPayment} from "../../api/paymentApi";
+import {resetState} from "../../store/actions";
 
 
 const AppointmentOrderPage: React.FC = () => {
@@ -22,7 +23,7 @@ const AppointmentOrderPage: React.FC = () => {
     console.log(formData)
     const [showModal, setShowModal] = useState(false);
     const [notificationMessage, setNotificationMessage] = useState('');
-
+    const dispatch = useDispatch();
     const slotTimeMapping: { [key: number]: string } = {
         1: '7:30 - 9:30',
         2: '10:00 - 12:00',
@@ -100,7 +101,8 @@ const AppointmentOrderPage: React.FC = () => {
             const response = await createAppointment(appointmentData);
             setNotificationMessage('Appointment created successfully!'); // Set success message
             setShowModal(true); // Show modal
-            persistor.purge();
+
+
         } catch (error) {
             alert('Error confirming order. Please try again.'); // Xử lý lỗi
         }
@@ -114,6 +116,8 @@ const AppointmentOrderPage: React.FC = () => {
 
     const handleNavigateToMyAppointments = () => {
         navigate('/my-appointment'); // Navigate to my appointments
+        dispatch(resetState());
+        persistor.purge();
     };
 
     const handleNavigateToPayment = async () => {
@@ -124,6 +128,8 @@ const AppointmentOrderPage: React.FC = () => {
             if (appointment_id) {
                 const paymentUrl = await createPayment(appointment_id); // Generate payment URL
                 window.location.href = paymentUrl; // Open payment URL in a new tab
+                dispatch(resetState());
+                persistor.purge();
             } else {
                 console.error("No appointment found");
             }
@@ -136,6 +142,8 @@ const AppointmentOrderPage: React.FC = () => {
     const closeModal = () => {
 
         navigate('/');
+        dispatch(resetState());
+        persistor.purge();
     };
 
     return (

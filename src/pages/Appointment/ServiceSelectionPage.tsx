@@ -76,7 +76,7 @@ const ServiceSection: React.FC = () => {
                                 <div className="card-body d-flex flex-column justify-content-between"
                                      style={{flex: '1 1 auto'}}>
                                     <div>
-                                        <h5 className="card-title card-title-service">{service.service_name}</h5>
+                                        <h5 className="card-title card-title-service" style={{margin:"15px 25px 0px 25px"}}>{service.service_name}</h5>
                                         <p className="card-text">{service.description}</p>
                                     </div>
                                     {/* Price positioned at the bottom of the card */}

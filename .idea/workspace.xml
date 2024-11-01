@@ -4,7 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a5713505-d8be-4eea-9a6b-8e8ca55b0f70" name="Changes" comment="" />
+    <list default="true" id="a5713505-d8be-4eea-9a6b-8e8ca55b0f70" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/pages/Common/CustomerViewVetRatingPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/homepage/about-help/AboutHelp.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/homepage/about-help/AboutHelp.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/homepage/veterinarian/Veterinarian.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/homepage/veterinarian/Veterinarian.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/context/AuthContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/context/AuthContext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Appointment/OrderConfirmPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Appointment/OrderConfirmPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Appointment/ServiceSelectionPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Appointment/ServiceSelectionPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Common/HomePage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Common/HomePage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/actions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/actions.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/reducers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/reducers.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/Appointment.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/Appointment.css" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -46,7 +59,7 @@
   "keyToString": {
     "ASKED_ADD_EXTERNAL_FILES": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "dev",
+    "git-widget-placeholder": "feature/homepage-guest-view-vet-rating",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/Admin/Desktop/reactjs/test-fe/src/assets/fonts",
     "node.js.detected.package.eslint": "true",

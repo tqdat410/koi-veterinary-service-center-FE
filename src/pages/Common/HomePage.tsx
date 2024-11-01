@@ -7,8 +7,14 @@ import Footer from '../../components/layout/Footer';
 import Navbar from "../../components/layout/Navbar";
 import AboutHelp from "../../components/homepage/about-help/AboutHelp";
 import Veterinarian from "../../components/homepage/veterinarian/Veterinarian";
+import {useDispatch} from "react-redux";
+import {resetState} from "../../store/actions";
+import {persistor} from "../../store/store";
 
 const HomePage: React.FC = () => {
+    const dispatch = useDispatch();
+    dispatch(resetState());
+    persistor.purge();
     return (
         <div>
 
