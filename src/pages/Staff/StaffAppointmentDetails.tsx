@@ -6,7 +6,7 @@ import { updateAppointmentStatus, fetchAppointmentAndVeterinariansDemo, updateAp
 import { fetchVetBySlotId } from '../../api/vetApi';
 import '../../styles/StaffAppointmentDetails.css';
 import { useParams } from 'react-router-dom';
-
+import ProgressTimeline from './Timeline';
 
 interface AppointmentDetailsProps {
     appointment_id: number;
@@ -375,7 +375,9 @@ const StaffAppointmentDetails: React.FC = () => {
     return (
         <div className="container container-details">
             <h2 className="mb-4">Appointment Details</h2>
-
+            <div className="status-timeline-container">
+                <ProgressTimeline currentStatus={appointment.current_status}/>
+            </div>
             <div className="card">
                 <div className="card-body">
                     <div className="card-body card-body-appointment">

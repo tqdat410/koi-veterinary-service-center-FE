@@ -63,18 +63,29 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         if (token) {
             try {
                 const decodedToken: any = jwtDecode(token);
-                setIsAuthenticated(true);
-                setUser({ userId: decodedToken.userId, roleId: decodedToken.scope });
-                axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+                const currentTime = Date.now() / 1000;
+
+                // Kiểm tra token đã hết hạn chưa
+                if (decodedToken.exp < currentTime) {
+                    logout(); // Token đã hết hạn, logout ngay lập tức
+                } else {
+                    setIsAuthenticated(true);
+                    setUser({ userId: decodedToken.userId, roleId: decodedToken.scope });
+                    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+                }
             } catch (error) {
                 console.error("Invalid token:", error);
-                logout();
+                logout(); // Token không hợp lệ, logout
             }
+        } else {
+            logout(); // Không có token, logout ngay
         }
+
         setLoading(false);
+
+        // Cài đặt interval để kiểm tra token và làm mới mỗi phút
         const intervalId = setInterval(handleTokenRefresh, 60 * 1000); // Kiểm tra mỗi phút
-        // Dọn dẹp interval khi component bị hủy
-        return () => clearInterval(intervalId);
+        return () => clearInterval(intervalId); // Dọn dẹp interval khi component bị hủy
     }, []);
 
     const login = (token: string) => {

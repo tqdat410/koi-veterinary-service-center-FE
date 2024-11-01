@@ -171,3 +171,12 @@ p{
     align-items: center;
 }
 
+.status-timeline-container {
+    border: 1px solid #79877b; /* Green border color */
+    border-radius: 8px;       /* Rounded corners */
+    padding-top: 20px;
+    padding: 16px;            /* Padding inside the div */
+    margin: 20px 0;          /* Margin around the div */
+    background-color: #fff;   /* White background */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
