@@ -110,7 +110,7 @@ p{
     border: none;
     border-radius: 20px; /* Rounded corners */
     padding: 7px 16px; /* Padding for button */
-    font-size: 16px; /* Font size */
+    font-size: 16px;
     transition: background-color 0.3s; /* Smooth transition */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add shadow for depth */
     display: flex; /* Flexbox for alignment */

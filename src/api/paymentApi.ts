@@ -2,7 +2,7 @@ import axios from "axios";
 import {BASE_API} from "./baseApi"
 
 const PAYMENT_URL = `${BASE_API}/payments`;
-// const API_BASE_URL = "http://localhost:8080/api/v1/payments";
+// const API_BASE_URL = "http://3.0.21.248:8080/api/v1/payments";
 
 // Function to fetch payment information
 export const fetchPayment = async (appointment_id: number) => {

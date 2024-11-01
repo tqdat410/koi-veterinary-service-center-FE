@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import '../../styles/Sidebar.css';
-import { useAuth } from "../../hooks/context/AuthContext"; // Import CSS nếu cần
+import { useAuth } from "../../hooks/context/AuthContext";
 
 const Sidebar: React.FC = () => {
     const { user, logout } = useAuth();  // Lấy thông tin user từ context

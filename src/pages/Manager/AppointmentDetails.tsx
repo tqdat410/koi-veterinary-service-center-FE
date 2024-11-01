@@ -262,7 +262,8 @@ const AppointmentDetails: React.FC = () => {
 
                                     <h5 className="mt-3">Service Information</h5>
                                     <p>Service name: {appointment.service?.service_name}</p>
-                                    <p>Service Price: {appointment.service?.service_price} USD</p>
+                                    <p>Service Price: {appointment.service?.service_price.toLocaleString('vi-VN')} VND</p>
+
 
                                     <h5 className="mt-3">Veterinarian Information</h5>
                                     <p>
@@ -311,10 +312,10 @@ const AppointmentDetails: React.FC = () => {
                                     <p>
                                         District: {appointment.moving_surcharge?.district || 'Not available'}
                                     </p>
-                                    <p>Price: {appointment.moving_surcharge?.price || '0'} USD </p>
+                                    <p>Price: {appointment.moving_surcharge?.price.toLocaleString('vi-VN') || '0'} VND </p>
 
-                                    <h5 className="mt-3">Total Price</h5>
-                                    <p>Total: {appointment?.total_price || ''} USD</p>
+                                    <h5 className="mt-3">Total Price</h5>                            
+                                    <p>Total: {appointment?.total_price.toLocaleString('vi-VN') || ''} VND</p>
 
                                     <h5 className="mt-3">Prescription</h5>
                                     <button className="btn btn-primary" onClick={handleViewPrescription}>

@@ -4,11 +4,34 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-<<<<<<< HEAD
-    <list default="true" id="b96b8ddc-e81e-40a9-b223-5d9d121be06e" name="Changes" comment="" />
-=======
-    <list default="true" id="69fffb7f-33a6-409a-8f0f-685a0fcd3e71" name="Changes" comment="" />
->>>>>>> dev
+    <list default="true" id="a5713505-d8be-4eea-9a6b-8e8ca55b0f70" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/assets/fonts/Montserrat-Black.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/fonts/Montserrat-BlackItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/fonts/Montserrat-Bold.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/fonts/Montserrat-BoldItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/fonts/Montserrat-ExtraBold.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/fonts/Montserrat-ExtraBoldItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/fonts/Montserrat-ExtraLight.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/fonts/Montserrat-ExtraLightItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/fonts/Montserrat-Italic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/fonts/Montserrat-Light.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/fonts/Montserrat-LightItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/fonts/Montserrat-Medium.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/fonts/Montserrat-MediumItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/fonts/Montserrat-Regular.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/fonts/Montserrat-SemiBold.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/fonts/Montserrat-SemiBoldItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/fonts/Montserrat-Thin.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/fonts/Montserrat-ThinItalic.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/homepage/about-help/AboutHelp.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/homepage/about-help/AboutHelp.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/homepage/service/ServiceSection.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/homepage/service/ServiceSection.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/layout/Footer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/layout/Footer.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Appointment/OrderConfirmPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Appointment/OrderConfirmPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/App.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/Font.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/Font.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/News.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/News.css" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -17,7 +40,6 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-<<<<<<< HEAD
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
     &quot;state&quot;: &quot;OPEN&quot;,
@@ -30,39 +52,43 @@
     &quot;accountId&quot;: &quot;6ae1e59b-d1dc-479d-ace6-7067e08a20ec&quot;
   }
 }</component>
-  <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 5
-}</component>
-  <component name="ProjectId" id="2nt9fDgz0KqnEYCPEc8VGUW0tL2" />
-=======
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/dattqse180062/koi-veterinary-service-center-FE.git&quot;,
-    &quot;accountId&quot;: &quot;6ae1e59b-d1dc-479d-ace6-7067e08a20ec&quot;
-  }
-}</component>
->>>>>>> dev
-  <component name="ProjectViewState">
-    <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showLibraryContents" value="true" />
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/node_modules/@types/node/async_hooks.d.ts" root0="SKIP_INSPECTION" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;feature/kvfs-100-dashboard-manager&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Admin\\Desktop\\reactjs\\test-fe\\node_modules\\typescript\\lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
-  }
+  <component name="PackageJsonUpdateNotifier">
+    <dismissed value="$PROJECT_DIR$/package.json" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
 }</component>
+  <component name="ProjectId" id="2nopdBQDAw64LVQsBtfig7be4aR" />
+  <component name="ProjectViewState">
+    <option name="autoscrollToSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="openDirectoriesWithSingleClick" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showVisibilityIcons" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "modify-feature/redirect-to-vnpay-payment-when-confirm",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Admin/Desktop/reactjs/test-fe/src/assets/fonts",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "ts.external.directory.path": "C:\\Users\\Admin\\Desktop\\reactjs\\test-fe\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Admin\Desktop\reactjs\test-fe\src\pages\Manager\DashBoard" />
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Admin\Desktop\reactjs\test-fe\src\assets\fonts" />
     </key>
   </component>
   <component name="SharedIndexes">
@@ -76,16 +102,21 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="b96b8ddc-e81e-40a9-b223-5d9d121be06e" name="Changes" comment="" />
-      <created>1729782687755</created>
+      <changelist id="a5713505-d8be-4eea-9a6b-8e8ca55b0f70" name="Changes" comment="" />
+      <created>1729649367490</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1729782687755</updated>
-      <workItem from="1729782688876" duration="17453000" />
-      <workItem from="1729819542013" duration="5747000" />
-      <workItem from="1729834455589" duration="4297000" />
-      <workItem from="1729869934480" duration="6565000" />
-      <workItem from="1729878527380" duration="2232000" />
+      <updated>1729649367490</updated>
+      <workItem from="1729649368568" duration="390000" />
+      <workItem from="1730094962813" duration="377000" />
+      <workItem from="1730095798128" duration="1300000" />
+      <workItem from="1730120860933" duration="3075000" />
+      <workItem from="1730125187085" duration="3025000" />
+      <workItem from="1730164385501" duration="6524000" />
+      <workItem from="1730199598112" duration="5930000" />
+      <workItem from="1730215976517" duration="3820000" />
+      <workItem from="1730220457565" duration="2427000" />
+      <workItem from="1730248589796" duration="266000" />
     </task>
     <servers />
   </component>

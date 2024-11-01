@@ -7,7 +7,7 @@ import Sidebar from "../../../components/layout/Sidebar";
 interface Image {
     image_id: number;
     source_path: string;
-    enable: boolean; // Make sure this matches the structure of your API
+    enable: boolean;
 }
 interface KoiData {
     species: string;
