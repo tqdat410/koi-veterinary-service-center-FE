@@ -6,6 +6,8 @@ import { updateAppointmentStatus, fetchAppointmentAndVeterinariansDemo, updateAp
 import { fetchVetBySlotId } from '../../api/vetApi';
 import '../../styles/StaffAppointmentDetails.css';
 import { useParams } from 'react-router-dom';
+
+
 interface AppointmentDetailsProps {
     appointment_id: number;
     created_date: string;
@@ -223,7 +225,7 @@ const StaffAppointmentDetails: React.FC = () => {
                 try {
                     // Gọi API để cập nhật trạng thái
                     const response = await updateAppointmentStatusCanceled(appointment.appointment_id);
-    
+
                     // Kiểm tra nếu response thành công
                     if (response && response.status === 200) {
                         // Cập nhật trạng thái trên giao diện
@@ -237,21 +239,20 @@ const StaffAppointmentDetails: React.FC = () => {
                             return prevAppointment;
                         });
                         console.log('Updated appointment status: CANCELED');
-                        navigate(0); // Tự động làm mới trang sau khi cập nhật
+                        // navigate(0); // Tự động làm mới trang sau khi cập nhật
+                        window.location.reload();
                     } else {
                         // Trường hợp response không thành công
                         navigate(0); // Tự động làm mới trang sau khi cập nhật
-                        console.error('Failed to update appointment status');
                         // alert('Failed to update appointment status due to server error.');
                     }
-                } catch (error) {                    
-                    navigate(0); // Tự động làm mới trang sau khi cập nhật
+                } catch (error) {
                     console.error('Failed to update appointment status');
                 }
             }
         }
     };
-    
+
     // xử lý khi bác sĩ được chọn, chỉ run khi chưa có bác sĩ!
     // Fetch vet by slot id
     useEffect(() => {
@@ -351,15 +352,23 @@ const StaffAppointmentDetails: React.FC = () => {
 
     // Function to format DateTime
     const formatDateTime = (dateString: string) => {
-        const options: Intl.DateTimeFormatOptions = {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-        };
-        return new Date(dateString).toLocaleString('vi-VN', options);
+        const date = new Date(dateString);
+
+        if (isNaN(date.getTime())) {
+            return 'Invalid date'; // Kiểm tra xem ngày có hợp lệ không
+        }
+
+        // Lấy từng phần của ngày và giờ
+        const day = date.getDate().toString().padStart(2, '0');
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const year = date.getFullYear();
+        const hours = date.getHours().toString().padStart(2, '0');
+        const minutes = date.getMinutes().toString().padStart(2, '0');
+
+        // Trả về chuỗi có dạng ngày trước giờ sau
+        return `${day}/${month}/${year} ${hours}:${minutes}`;
     };
+
 
     const formattedDate = formatDateTime(appointment.created_date);
 
@@ -404,7 +413,7 @@ const StaffAppointmentDetails: React.FC = () => {
                                 <h5 className="mt-3">Service Information</h5>
                                 <p>Service id: {appointment.service?.service_id}</p>
                                 <p>Service name: {appointment.service?.service_name}</p>
-                                <p>Service Price: {appointment.service?.service_price} VND</p>
+                                <p>Service Price: {appointment.service?.service_price.toLocaleString('vi-VN')} VND</p>
 
                                 <h5 className="mt-3">Veterinarian Information</h5>
 
@@ -437,6 +446,13 @@ const StaffAppointmentDetails: React.FC = () => {
                                     )
                                 }
 
+
+                                {/* Chỉ hiện khi có thông tin Staff gán vào cuộc hẹn này (hiện tại chưa có api fetch vô) */}
+                                {/* {appointment.staff && (
+                                    <p>Staff: {appointment?.staff.first_name} {appointment?.staff.last_name}</p>
+                                )} */} 
+
+
                                 {/* Chỉ hiển thị khi có địa chỉ */}
                                 {appointment.address && (
                                     <div>
@@ -452,32 +468,32 @@ const StaffAppointmentDetails: React.FC = () => {
                                     (paymentDetails?.status === 'NOT_PAID' && paymentDetails?.payment_method === 'CASH') ||
                                     (paymentDetails?.status === 'PAID' && (paymentDetails?.payment_method === 'CASH' || paymentDetails?.payment_method === 'VN_PAY'))
                                 ) && (
-                                    !isEditingStatus ? (
-                                        <>
-                                            <p style={{ fontWeight: '900', color: 'brown', padding: '10px', fontSize: '20px' }}>Update Status</p>
-                                            <button className="btn btn-info" onClick={handleEditStatus}>Click here to Update</button>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <p style={{ fontWeight: 'bold', fontSize: '24px', fontStyle: 'italic' }}>Update Status</p>
-                                            <button style={{ marginLeft: '4px' }} className="btn btn-primary" onClick={() => handleSelectStatus("CONFIRMED")}>Confirmed</button>
-                                            {/* CHECK IN KHI VÀ CHỈ KHI LÀ SERVICE ID = 3 VÀ ADDRESS = NULL */}
-                                            {/* {appointment.service?.service_id === 3 && !appointment.address
+                                        !isEditingStatus ? (
+                                            <>
+                                                <p style={{ fontWeight: '900', color: 'brown', padding: '10px', fontSize: '20px' }}>Update Status</p>
+                                                <button className="btn btn-info" onClick={handleEditStatus}>Click here to Update</button>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <p style={{ fontWeight: 'bold', fontSize: '24px', fontStyle: 'italic' }}>Update Status</p>
+                                                <button style={{ marginLeft: '4px' }} className="btn btn-primary" onClick={() => handleSelectStatus("CONFIRMED")}>Confirmed</button>
+                                                {/* CHECK IN KHI VÀ CHỈ KHI LÀ SERVICE ID = 3 VÀ ADDRESS = NULL */}
+                                                {/* {appointment.service?.service_id === 3 && !appointment.address
                                                 && <button style={{ marginLeft: '4px' }} className="btn btn-warning" onClick={() => handleSelectStatus("CHECKED_IN")}>Check in</button>} */}
-                                            <button style={{ marginLeft: '4px' }} className="btn btn-danger" onClick={handleUpdateAppointmentStatusCanceled}>Canceled</button>
-                                            <button style={{ marginLeft: '4px' }} className="btn btn-secondary" onClick={handleCancelEditStatus}>Undo</button>
-                                        </>
-                                    ))}
+                                                <button style={{ marginLeft: '4px' }} className="btn btn-danger" onClick={handleUpdateAppointmentStatusCanceled}>Canceled</button>
+                                                <button style={{ marginLeft: '4px' }} className="btn btn-secondary" onClick={handleCancelEditStatus}>Undo</button>
+                                            </>
+                                        ))}
 
                                 {/* Thêm điều kiện ngoài: ON_GOING, service id = 3, method = vn_pay, status pay = paid thì có nút mỗi nút ON_going */}
-                                {appointment.current_status === 'ON_GOING' && appointment.service?.service_id === 3 && paymentDetails?.payment_method === 'VN_PAY' && paymentDetails?.status === 'PAID' && !appointment.address &&(
-                                    <button style={{ marginLeft: '4px', fontSize:'16px' }} className="btn btn-warning" onClick={() => handleSelectStatus("CHECKED_IN")}>Check in</button>
+                                {appointment.current_status === 'ON_GOING' && appointment.service?.service_id === 3 && paymentDetails?.payment_method === 'VN_PAY' && paymentDetails?.status === 'PAID' && !appointment.address && (
+                                    <button style={{ marginLeft: '4px', fontSize: '16px' }} className="btn btn-warning" onClick={() => handleSelectStatus("CHECKED_IN")}>Check in</button>
                                 )}
 
                                 {/* CHECK IN KHI LÀ VN_PAY VÀ STATUS CỦA APPOINTMENT = PAID */}
                                 {/* {  appointment.current_status ==='CHECKED_IN' &&  paymentDetails?.payment_method === 'VN_PAY' && paymentDetails?.status === 'PAID' && */}
-                                                {/* <button style={{ marginLeft: '4px' }} className="btn btn-warning" onClick={() => handleSelectStatus("CHECKED_IN")}>Check in</button>} */}
-                                
+                                {/* <button style={{ marginLeft: '4px' }} className="btn btn-warning" onClick={() => handleSelectStatus("CHECKED_IN")}>Check in</button>} */}
+
 
                             </div>
 
@@ -500,12 +516,12 @@ const StaffAppointmentDetails: React.FC = () => {
                                     <div>
                                         <h5 className="mt-3" >Moving Surcharge</h5>
                                         <p>District: {appointment.moving_surcharge?.district || 'Not available'}</p>
-                                        <p>Price: {appointment.moving_surcharge?.price || '0'} VND </p>
+                                        <p>Price: {appointment.moving_surcharge?.price.toLocaleString('vi-VN') || '0'} VND </p>
                                     </div>
                                 )}
 
                                 <h5 className="mt-3" >Total Price</h5>
-                                <p>Total: {appointment?.total_price || '0'} VND</p>
+                                <p>Total: {appointment?.total_price.toLocaleString('vi-VN') || '0'} VND</p>
 
                                 {/* Conditionally render payment details */}
                                 {paymentDetails?.payment_id && (
@@ -513,7 +529,7 @@ const StaffAppointmentDetails: React.FC = () => {
                                         <h5 className="mt-3">Payment Details</h5>
                                         <p>Payment ID: {paymentDetails.payment_id}</p>
                                         <p>Payment method: {paymentDetails.payment_method}</p>
-                                        <p>Payment amount: {paymentDetails.payment_amount} VND</p>
+                                        <p>Payment amount: {paymentDetails.payment_amount.toLocaleString('vi-VN')} VND</p>
                                         <p>Status:
                                             <span className={`span-status ${paymentDetails?.status === 'PAID' ? 'payment-status-paid' :
                                                 paymentDetails?.status === 'NOT_PAID' ? 'payment-status-not-paid' :
@@ -528,7 +544,7 @@ const StaffAppointmentDetails: React.FC = () => {
                                         </p>
 
                                         {/* Hiển thị phần update payment chỉ khi status là NOT_PAID và method là CASH */}
-                                        {paymentDetails.status === "NOT_PAID" && paymentDetails.payment_method === "CASH"&& appointment.current_status === 'ON_GOING' && (
+                                        {paymentDetails.status === "NOT_PAID" && paymentDetails.payment_method === "CASH" && appointment.current_status === 'ON_GOING' && (
                                             <div>
                                                 <span style={{ fontWeight: 'bold', fontSize: '24px', fontStyle: 'italic' }}>Update Payment Status: </span>
                                                 {!isEditingPaymentMethod ? (
@@ -555,13 +571,6 @@ const StaffAppointmentDetails: React.FC = () => {
                     </div>
                 </div>
 
-                {/*<div*/}
-                {/*    style={{marginTop: '2rem', marginBottom: '2rem'}}*/}
-                {/*>*/}
-                {/*    /!* Back Button *!/*/}
-                {/*    <button className="btn btn-secondary mt-3" onClick={() => navigate(-1)}>Back</button>*/}
-
-                {/*</div>*/}
             </div>
 
 
