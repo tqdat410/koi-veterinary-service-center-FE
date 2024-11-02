@@ -15,6 +15,7 @@ import { Rating, Dialog, DialogActions, DialogContent, DialogTitle, Button, Text
 import Sidebar from "../../components/layout/Sidebar";
 import ProgressTimeline from "../Staff/Timeline";
 
+
 interface AppointmentDetailsProps {
     appointment_id: number;
     created_date: string;
@@ -32,6 +33,7 @@ interface AppointmentDetailsProps {
     fish: Fish;
     payment: PaymentDetails;
     feedback_id: number
+    discount: number;
 }
 
 interface Service {
@@ -114,9 +116,13 @@ const CustomerAppointmentDetails: React.FC = () => {
     const [rating, setRating] = useState<number | null>(null);
     const [comment, setComment] = useState('');
     const [feedbackDetails, setFeedbackDetails] = useState<any>(null); // New state
+
+    const [showFeedbackButton, setShowFeedbackButton] = useState(false);
+
+
     const [isEditingStatus, setIsEditingStatus] = useState(false);
+
     // Fetch appointment details by ID
-    //Fetch feedback details by ID of feedback
     useEffect(() => {
         const fetchDetails = async () => {
             if (appointment_id) {
@@ -127,12 +133,12 @@ const CustomerAppointmentDetails: React.FC = () => {
                     setPaymentDetails(paymentData); // Update only PaymentDetails state 
 
                     const report = await getMedicalReport(Number(appointment_id));  // Call the medical report
-                    console.log(report); // đã lây được  
+                    // console.log(report); 
                     if (report) {
                         setMedicalReport(report); // Update only MedicalReport state
                         if (report.prescription_id) {
                             const prescriptionData = await fetchPrescriptionDetails(report.prescription_id);
-                            console.log(prescriptionData);
+                            // console.log(prescriptionData);
                             setPrescription(prescriptionData); // Update only Prescription state
                         }
                     }
@@ -158,12 +164,57 @@ const CustomerAppointmentDetails: React.FC = () => {
                     console.error('Error fetching feedback details:', error);
                 }
             }
-
-
         };
 
         fetchFeedbackDetails();
     }, [appointment?.feedback_id]);
+
+    // Check if the appointment is DONE and the payment is PAID
+    // If true, show the feedback button in 7 days after the appointment completed
+
+    useEffect(() => {
+        if (appointment?.current_status === 'DONE' && PaymentDetails?.status === 'PAID' && !appointment.feedback_id) {
+            const slotDescription = appointment.slot.description;
+            const endTimeString = slotDescription.split(' - ')[1]; // Lấy phần thời gian kết thúc, "10:00"
+
+            // Tách giờ và phút từ endTimeString
+            const endHour = parseInt(endTimeString.split(':')[0]);
+            const endMinute = parseInt(endTimeString.split(':')[1]);
+
+            // Tạo đối tượng Date cho thời gian kết thúc trong slot
+            const slotEndTime = new Date(
+                appointment.slot.year,
+                appointment.slot.month - 1, // Tháng trong JavaScript bắt đầu từ 0
+                appointment.slot.day,
+                endHour,   // Giờ kết thúc
+                endMinute  // Phút kết thúc
+            );
+
+            const slotEndTimeGMT7 = slotEndTime.getTime();
+            // console.log(new Date(slotEndTimeGMT7).toLocaleString()); // Hiển thị thời gian kết thúc của slot đó
+
+            const sevenDaysInMilliseconds = 7 * 24 * 60 * 60 * 1000;
+            // console.log(sevenDaysInMilliseconds.toLocaleString()); // Hiển thị 7 ngày tính bằng milliseconds
+
+            // Khởi tạo interval để kiểm tra thời gian
+            const intervalId = setInterval(() => {
+                const currentTime = Date.now();
+                // console.log(new Date(currentTime).toLocaleString()); // Hiển thị thời gian hiện tại
+                const timeDifference = currentTime - slotEndTimeGMT7;
+                console.log(timeDifference.toLocaleString()); // Hiển thị thời gian chênh lệch
+
+                if (timeDifference <= sevenDaysInMilliseconds) {
+                    setShowFeedbackButton(true);
+                } else {
+                    setShowFeedbackButton(false);
+                    clearInterval(intervalId); // Dừng kiểm tra khi nút đã biến mất
+                }
+            }, 1000); // Kiểm tra mỗi giây
+
+            return () => clearInterval(intervalId); // Dọn dẹp khi component unmount
+        }
+    }, [appointment, PaymentDetails]);
+
 
     if (!appointment) {
         return <div>Loading...</div>;
@@ -305,7 +356,7 @@ const CustomerAppointmentDetails: React.FC = () => {
             <div className="container">
                 <h2 className="mb-4">Appointment Details</h2>
                 <div className="status-timeline-container">
-                    <ProgressTimeline currentStatus={appointment.current_status}/>
+                    <ProgressTimeline currentStatus={appointment.current_status} />
                 </div>
                 <div className="card">
                     <div className="card-body">
@@ -315,18 +366,20 @@ const CustomerAppointmentDetails: React.FC = () => {
 
                         <div className="row">
                             <div className="col-md-6">
+                                <h5 className="mt-3">Appointment Information:</h5>
+                                <p>Slot: {appointment.slot?.slot_id}</p>
                                 <p>Date: {appointment.slot?.day}/{appointment.slot?.month}/{appointment.slot?.year}</p>
                                 <p>Time: {appointment.slot?.description || 'N/A'}</p>
                                 <p>Status:
                                     <span
-                                        className={`span-status ${appointment?.current_status === 'CANCELED' ? 'status-canceled' :
-                                            appointment?.current_status === 'CHECKED_IN' ? 'status-checked-in' :
-                                                appointment?.current_status === 'CONFIRMED' ? 'status-confirmed' :
-                                                    appointment?.current_status === 'DONE' ? 'status-done' :
-                                                        appointment?.current_status === 'ON_GOING' ? 'status-on-going' :
-                                                            appointment?.current_status === 'PENDING' ? 'status-pending' :
-                                                                'status-default'
-                                        }`}>
+                                        className={`span-status ${appointment?.current_status === 'CANCELED' ? 'status-canceled-cus' :
+                                            appointment?.current_status === 'CHECKED_IN' ? 'status-checked-in-cus' :
+                                                appointment?.current_status === 'CONFIRMED' ? 'status-confirmed-cus' :
+                                                    appointment?.current_status === 'DONE' ? 'status-done-cus' :
+                                                        appointment?.current_status === 'ON_GOING' ? 'status-on-going-cus' :
+                                                            appointment?.current_status === 'PENDING' ? 'status-pending-cus' :
+                                                                'status-default-cus'
+                                            }`}>
                                         {/* Format lại chữ */}
                                         {appointment?.current_status ?
                                             appointment.current_status.replace('_', ' ').toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase())
@@ -340,21 +393,25 @@ const CustomerAppointmentDetails: React.FC = () => {
                                 <p>Email: {appointment?.email}</p>
                                 <p>Phone: {appointment?.phone_number}</p>
 
-                                <h5 className="mt-3">Service Information:</h5>
-                                <p>Service name: {appointment.service?.service_name}</p>
-                                <p>Service Price: {appointment.service?.service_price} VND</p>
-                                {/* Tư vấn online (service id = 1) thì sẽ hiển thị nút tư vấn online qua gg meet */}
-                                {appointment.service?.service_id === 1 && appointment?.current_status === "ON_GOING" && (
-                                    <button className="btn btn-primary meet-btn" onClick={fetchGoogleMeeting}>Click here
-                                        to Consult Online</button>
+
+                                {/* Chỉ hiển thị khi có thông tin cá */}
+                                {appointment.fish && (
+                                    <div>
+                                        <h5 className="mt-3">Fish Information</h5>
+                                        <p>Species: {appointment.fish?.species || 'N/A'}</p>
+                                        <p>Gender: {appointment.fish?.gender || 'N/A'}</p>
+                                        <p>Size: {appointment.fish?.size || 'N/A'} cm </p>
+                                        <p>Weight: {appointment.fish?.weight || 'N/A'} kg</p>
+                                        <p>Origin: {appointment.fish?.origin || 'N/A'}</p>
+                                    </div>
                                 )}
 
                                 <h5 className="mt-3">Veterinarian Information:</h5>
                                 <p>Name: {appointment.veterinarian?.first_name} {appointment.veterinarian?.last_name}</p>
                                 <p>Vet ID: {appointment.veterinarian?.user_id}</p>
                                 {(appointment.current_status === 'PENDING' || appointment.current_status === 'ON_GOING') && (
-                                    <button style={{marginLeft: '4px'}} className="btn btn-danger"
-                                            onClick={handleUpdateAppointmentStatusCanceled}>Canceled
+                                    <button style={{ marginLeft: '4px' }} className="btn btn-danger"
+                                        onClick={handleUpdateAppointmentStatusCanceled}>Canceled
                                     </button>
                                 )}
                             </div>
@@ -368,16 +425,14 @@ const CustomerAppointmentDetails: React.FC = () => {
                                     </div>
                                 )}
 
-                                {/* Chỉ hiển thị khi có thông tin cá */}
-                                {appointment.fish && (
-                                    <div>
-                                        <h5 className="mt-3">Fish Information</h5>
-                                        <p>Species: {appointment.fish?.species || 'N/A'}</p>
-                                        <p>Gender: {appointment.fish?.gender || 'N/A'}</p>
-                                        <p>Size: {appointment.fish?.size || 'N/A'} cm </p>
-                                        <p>Weight: {appointment.fish?.weight || 'N/A'} kg</p>
-                                        <p>Origin: {appointment.fish?.origin || 'N/A'}</p>
-                                    </div>
+
+                                <h5 className="mt-3">Service Information:</h5>
+                                <p>Service name: {appointment.service?.service_name}</p>
+                                <p>Service Price: {appointment.service?.service_price.toLocaleString('vi-VN')} VND</p>
+                                {/* Tư vấn online (service id = 1) thì sẽ hiển thị nút tư vấn online qua gg meet */}
+                                {appointment.service?.service_id === 1 && appointment?.current_status === "ON_GOING" && (
+                                    <button className="btn btn-primary meet-btn" onClick={fetchGoogleMeeting}>Click here
+                                        to Consult Online</button>
                                 )}
 
 
@@ -411,36 +466,41 @@ const CustomerAppointmentDetails: React.FC = () => {
                                     <div>
                                         <h5 className="mt-3">Moving Surcharge</h5>
                                         <p>District: {appointment.moving_surcharge?.district || 'Not available'}</p>
-                                        <p>Price: {appointment.moving_surcharge?.price || '0'} VND</p>
+                                        <p>Price: {appointment.moving_surcharge?.price.toLocaleString('vi-VN') || '0'} VND</p>
                                     </div>
                                 )}
 
                                 <h5 className="mt-3">Total Price</h5>
-                                <p>Total: {appointment?.total_price || ''} VND</p>
+                                <p>Total: {appointment?.total_price.toLocaleString('vi-VN') || ''} VND</p>
 
-                                <h5 className="mt-3">Feedback Details</h5>
-                                {feedbackDetails ? (
+                                {/* Hiển thị thêm discount (nếu có) */}
+                                {appointment.discount && (
                                     <div>
+                                        <h5 className="mt-3">Discount</h5>
+                                        <p>Discount: {appointment?.discount?.toLocaleString('vi-VN')} VND</p>
+                                    </div>
+                                )}
+
+                                {feedbackDetails && (
+                                    <div>
+                                        <h5 className="mt-3">Feedback Details</h5>
                                         <p>Date & time: {formatDateTime(feedbackDetails.date_time)}</p>
                                         <p>Rating: {feedbackDetails.rating}</p>
                                         <p>Comment: {feedbackDetails.comment}</p>
                                         {/* Bạn có thể thêm các chi tiết khác nếu có */}
                                     </div>
-                                ) : (
-                                    <p>No feedback available for this appointment.</p>
                                 )}
 
                                 <div ref={paymentRef}>
                                     <h5 className="mt-3">Payment Information</h5>
                                     <p>Payment Method: {PaymentDetails?.payment_method || 'N/A'}</p>
-                                    <p>Payment Amount: {PaymentDetails?.payment_amount || '0'} VND</p>
-                                    <p>Description: {PaymentDetails?.description || 'Empty'}</p>
+                                    <p>Payment Amount: {PaymentDetails?.payment_amount.toLocaleString('vi-VN') || '0'} VND</p>
+                                    <p>Description: {PaymentDetails?.description || 'N/A'}</p>
 
                                     <p>Status:
-                                        <span
-                                            className={`span-status ${PaymentDetails?.status === 'PAID' ? 'status-done' :
-                                                PaymentDetails?.status === 'NOT_PAID' ? 'status-canceled' :
-                                                    'status-default'
+                                        <span className={`span-status ${PaymentDetails?.status === 'PAID' ? 'status-done-cus' :
+                                            PaymentDetails?.status === 'NOT_PAID' ? 'status-canceled-cus' :
+                                                'status-default-cus'
                                             }`}
                                         >
                                             {/* Transform 'PAID' or 'NOT_PAID' to 'Paid' or 'Not paid' */}
@@ -455,14 +515,14 @@ const CustomerAppointmentDetails: React.FC = () => {
                                     {PaymentDetails?.payment_method === payment_method.VN_PAY && PaymentDetails?.status === payment_status.NOT_PAID &&
                                         appointment.current_status !== 'CANCELED' &&
                                         (
-                                        <button className="btn btn-primary pay-btn" onClick={handlePayment}>Click here
-                                            to pay</button>
-                                    )}
+                                            <button className="btn btn-primary pay-btn" onClick={handlePayment}>Click here
+                                                to pay</button>
+                                        )}
                                 </div>
 
                                 {/* Feedback Information */}
-                                {/* Show Make Feedback button only if current_status is 'done' and don't have feedback id */}
-                                {appointment.current_status === 'DONE' && PaymentDetails?.status === 'PAID' && !appointment.feedback_id && (
+                                {/* Show Make Feedback for service button only if current_status is 'done' and don't have feedback id */}
+                                {appointment.current_status === 'DONE' && PaymentDetails?.status === 'PAID' && !appointment.feedback_id && showFeedbackButton && (
                                     <div className="mt-3">
                                         <button
                                             className="btn btn-success"
@@ -470,7 +530,7 @@ const CustomerAppointmentDetails: React.FC = () => {
                                                 setShowFeedbackModal(true)
                                             }
                                         >
-                                            Make Feedback
+                                            Make Feedback For Service
                                         </button>
                                     </div>
                                 )}
@@ -495,7 +555,7 @@ const CustomerAppointmentDetails: React.FC = () => {
                                             variant="outlined"
                                             value={comment}
                                             onChange={(e) => setComment(e.target.value)}
-                                            style={{marginTop: '20px'}}
+                                            style={{ marginTop: '20px' }}
                                         />
                                     </DialogContent>
                                     <DialogActions>
@@ -512,9 +572,9 @@ const CustomerAppointmentDetails: React.FC = () => {
                     </div>
                 </div>
 
-                <div className='back-button'>
-                    <button className="btn btn-secondary mt-3" onClick={() => navigate(-1)}>Back</button>
-                </div>
+
+                <button className="btn btn-secondary back-btn" onClick={() => navigate(-1)}>Back</button>
+
 
             </div>
         </div>
