@@ -5,6 +5,7 @@ import { fetchMedicalReport, fetchLogs } from '../../api/appointmentApi';
 import { fetchPrescription } from '../../api/prescriptionApi';
 import '../../styles/ManagerAppointmentDetails.css';
 import Sidebar from "../../components/layout/Sidebar";
+import ProgressTimeline from "../Staff/Timeline";
 
 interface AppointmentDetailsProps {
     appointment_id: number;
@@ -224,13 +225,15 @@ const AppointmentDetails: React.FC = () => {
     return (
         <div className="d-flex flex-grow-1 gap-3" style={{ marginLeft: '272px' }}>
             <Sidebar />
-            <div className="container" style={{ marginTop: '2rem', textAlign: 'left' }}>
+            <div className="container" style={{marginTop: '2rem', textAlign: 'left'}}>
                 <h2 className="mb-4">Appointment Details</h2>
-
+                <div className="status-timeline-container">
+                    <ProgressTimeline currentStatus={appointment.current_status}/>
+                </div>
                 <div className="card">
                     <div className="card-body">
                         <div className="card-body">
-                            <h5 className="card-title title-appointment" >Appointment
+                            <h5 className="card-title title-appointment">Appointment
                                 ID: {appointment.appointment_id}</h5>
 
                             <div className="row">
@@ -245,7 +248,7 @@ const AppointmentDetails: React.FC = () => {
                                                             appointment?.current_status === 'ON_GOING' ? 'on-going' :
                                                                 appointment?.current_status === 'PENDING' ? 'pending' :
                                                                     ''
-                                                }`}>
+                                            }`}>
                                             {/* Format lại chữ */}
                                             {appointment?.current_status ?
                                                 appointment.current_status.replace('_', ' ').toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase())
@@ -262,21 +265,22 @@ const AppointmentDetails: React.FC = () => {
 
                                     <h5 className="mt-3">Service Information</h5>
                                     <p>Service name: {appointment.service?.service_name}</p>
-                                    <p>Service Price: {appointment.service?.service_price.toLocaleString('vi-VN')} VND</p>
+                                    <p>Service
+                                        Price: {appointment.service?.service_price.toLocaleString('vi-VN')} VND</p>
 
 
                                     <h5 className="mt-3">Veterinarian Information</h5>
                                     <p>
                                         Veterinarian name: {
-                                            (appointment.veterinarian?.first_name || appointment.veterinarian?.last_name)
-                                                ? `${appointment.veterinarian.first_name || ''} ${appointment.veterinarian.last_name || ''}`
-                                                : 'No veterinarian assigned'
-                                        }
+                                        (appointment.veterinarian?.first_name || appointment.veterinarian?.last_name)
+                                            ? `${appointment.veterinarian.first_name || ''} ${appointment.veterinarian.last_name || ''}`
+                                            : 'No veterinarian assigned'
+                                    }
                                     </p>
 
-                                    <h5 className="mt-3" style={{ fontWeight: '900', display: 'inline' }}>
+                                    <h5 className="mt-3" style={{fontWeight: '900', display: 'inline'}}>
                                         Address Information:
-                                        <p style={{ fontWeight: 'normal' }}>
+                                        <p style={{fontWeight: 'normal'}}>
                                             {
                                                 (appointment.address?.home_number || appointment.address?.ward || appointment.address?.district || appointment.address?.city)
                                                     ? `${appointment.address.home_number}, ${appointment.address.ward}, ${appointment.address.district}, ${appointment.address.city}`
@@ -314,7 +318,7 @@ const AppointmentDetails: React.FC = () => {
                                     </p>
                                     <p>Price: {appointment.moving_surcharge?.price.toLocaleString('vi-VN') || '0'} VND </p>
 
-                                    <h5 className="mt-3">Total Price</h5>                            
+                                    <h5 className="mt-3">Total Price</h5>
                                     <p>Total: {appointment?.total_price.toLocaleString('vi-VN') || ''} VND</p>
 
                                     <h5 className="mt-3">Prescription</h5>
@@ -333,7 +337,7 @@ const AppointmentDetails: React.FC = () => {
 
                             {/* Modal để hiển thị logs */}
                             <div className={`modal ${showLogsModal ? 'open' : ''}`}
-                                style={{ display: showLogsModal ? 'flex' : 'none' }}
+                                 style={{display: showLogsModal ? 'flex' : 'none'}}
                             >
                                 <div className="modal-content">
                                     <h2>Logs Details</h2>
@@ -367,12 +371,13 @@ const AppointmentDetails: React.FC = () => {
 
                                                 return (
                                                     <li key={log.status_id} className="log-item">
-                                                        <span className="label">Log ID:</span> {log.status_id} <br />
+                                                        <span className="label">Log ID:</span> {log.status_id} <br/>
                                                         <span className="label">Status:</span>
                                                         <span className={` ${statusClass}`}>
                                                             {log.status}
-                                                        </span><br />
-                                                        <span className="label">Time:</span> {formatDateTime(log.time)} <br />
+                                                        </span><br/>
+                                                        <span className="label">Time:</span> {formatDateTime(log.time)}
+                                                        <br/>
                                                         <span className="label">Note:</span> {log.note || 'No note'}
                                                     </li>
                                                 );
@@ -381,7 +386,9 @@ const AppointmentDetails: React.FC = () => {
                                     ) : (
                                         <p>No logs available</p>
                                     )}
-                                    <button className="btn btn-secondary close-btn" onClick={handleCloseLogsModal}>Close</button>
+                                    <button className="btn btn-secondary close-btn"
+                                            onClick={handleCloseLogsModal}>Close
+                                    </button>
                                 </div>
                             </div>
 
@@ -389,7 +396,7 @@ const AppointmentDetails: React.FC = () => {
                             {/* Modal để hiển thị prescription */}
 
                             <div className={`modal ${showPrescriptionModal ? 'open' : ''}`}
-                                style={{ display: showPrescriptionModal ? 'flex' : 'none' }}>
+                                 style={{display: showPrescriptionModal ? 'flex' : 'none'}}>
                                 <div className="modal-content">
                                     <h2>Prescription Details</h2>
                                     {prescription ? ( // Kiểm tra nếu có prescription
@@ -401,8 +408,11 @@ const AppointmentDetails: React.FC = () => {
                                                     {prescription.medicines.map((medicine) => (
                                                         <li key={medicine.medicine_id} className='log-item'>
 
-                                                            <span className="label">Medicine ID:</span> {medicine.medicine_id} <br />
-                                                            <span className="label">Medicine Name:</span> {medicine.medicine_name}<br />
+                                                            <span
+                                                                className="label">Medicine ID:</span> {medicine.medicine_id}
+                                                            <br/>
+                                                            <span
+                                                                className="label">Medicine Name:</span> {medicine.medicine_name}<br/>
                                                             <span className="label">Quantity:</span> {medicine.quantity}
                                                         </li>
                                                     ))}
@@ -430,7 +440,7 @@ const AppointmentDetails: React.FC = () => {
 
 
                 {/* Back Button */}
-                <div style={{ marginTop: '1rem', marginBottom: '2rem' }}>
+                <div style={{marginTop: '1rem', marginBottom: '2rem'}}>
                     <button className="btn btn-secondary mt-3" onClick={() => navigate(-1)}>Back</button>
                 </div>
 
