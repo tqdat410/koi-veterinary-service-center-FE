@@ -37,25 +37,24 @@ const formatDateTime = (dateString: string) => {
     const date = new Date(dateString);
 
     if (isNaN(date.getTime())) {
-        return 'Invalid date'; // Check if the date is valid
+        return 'Invalid date'; // Kiểm tra xem ngày có hợp lệ không
     }
 
-    const options: Intl.DateTimeFormatOptions = {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false, // Use 24-hour format
-    };
+    // Lấy từng phần của ngày và giờ
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
 
-    return date.toLocaleString('GB-en', options);
+    // Trả về chuỗi có dạng ngày trước giờ sau
+    return `${day}/${month}/${year} ${hours}:${minutes}`;
 };
 
 const CustomerAppointment: React.FC = () => {
     const [appointment, setAppointment] = useState<Appointment[]>([]);
     const columns = ['appointment_id', 'date_time', 'dayOfSlot' ,'service_name', 'veterinarian_name', 'appointment_status','payment_status'];
-    const columnHeaders = ['ID', 'Created date', 'Slot day' ,'Service name', 'Veterinarian name', 'Apppointment status', 'Payment status'];
+    const columnHeaders = ['ID', 'Created date & time', 'Slot day' ,'Service name', 'Veterinarian name', 'Apppointment status', 'Payment status'];
     // tạm thời chưa có customer name!
     const navigate = useNavigate();
 
