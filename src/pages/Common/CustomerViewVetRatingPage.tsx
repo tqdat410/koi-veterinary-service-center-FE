@@ -1,18 +1,17 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import {IMAGE_API} from "../../api/baseApi"
-import {setDoctor} from "../../store/actions";
-import { useDispatch } from 'react-redux';
 import {useNavigate} from "react-router-dom";
-import { useSelector } from 'react-redux';
 import defaultImage from "../../assets/images/defaultImage.jpg"
 import {BASE_API} from "../../api/baseApi"
+import Rating from '@mui/material/Rating';
 
 interface Doctor {
     user_id: number;
     first_name: string;
     last_name: string;
     avatar: string;
+
 }
 
 interface Feedback {
@@ -21,25 +20,35 @@ interface Feedback {
 
 const CustomerViewVetRatingPage: React.FC = () => {
     const [doctors, setDoctors] = useState<Doctor[]>([]);
-    const [ratings, setRatings] = useState<{ [key: number]: number }>({});
+    const [averageRatings, setAverageRatings] = useState<{ [key: number]: number }>({});
     const cardContainerRef = useRef<HTMLDivElement | null>(null);
-    const dispatch = useDispatch();
     const navigate = useNavigate();
-    const slot = useSelector((state: any) => state.slot);
-    const service = useSelector((state: any) => state.service);
-
 
     const fetchDoctors = async () => {
         try {
             const response = await axios.get(`${BASE_API}/users/veterinarians`);
-
-            setDoctors(response.data); // Assume the API response is an array of doctors
-
-
+            setDoctors(response.data);
+            await fetchAverageRatings(response.data); // Fetch average ratings after fetching doctors
         } catch (error) {
             console.error('Error fetching doctors:', error);
         }
     };
+
+    const fetchAverageRatings = async (doctors: Doctor[]) => {
+        const ratings: { [key: number]: number } = {};
+        await Promise.all(doctors.map(async (doctor) => {
+            try {
+                const response = await axios.get(`${BASE_API}/users/${doctor.user_id}/average-rating`);
+                ratings[doctor.user_id] = response.data;
+                console.log("response", response);
+            } catch (error) {
+                console.error(`Error fetching average rating for doctor ${doctor.user_id}:`, error);
+                ratings[doctor.user_id] = 0; // Default to 0 if there's an error
+            }
+        }));
+        setAverageRatings(ratings);
+    };
+
 
     useEffect(() => {
         fetchDoctors(); // Fetch the data when the component mounts
@@ -49,20 +58,20 @@ const CustomerViewVetRatingPage: React.FC = () => {
     // Function to scroll left
     const scrollLeft = () => {
         if (cardContainerRef.current) {
-            cardContainerRef.current.scrollBy({ left: -400, behavior: 'smooth' }); // Adjust the value as needed
+            cardContainerRef.current.scrollBy({ left: -400, behavior: 'smooth' });
         }
     };
 
     // Function to scroll right
     const scrollRight = () => {
         if (cardContainerRef.current) {
-            cardContainerRef.current.scrollBy({ left: 400, behavior: 'smooth' }); // Adjust the value as needed
+            cardContainerRef.current.scrollBy({ left: 400, behavior: 'smooth' });
         }
     };
 
     const handleCardClick = () => {
 
-        navigate('/appointment/service-selection'); // Replace with react-router navigate if needed
+        navigate('/appointment/service-selection');
     };
 
 
@@ -83,17 +92,17 @@ const CustomerViewVetRatingPage: React.FC = () => {
                 {/* Doctors Grid */}
                 <div
                     className={`d-flex ${doctors.length > 5 ? 'justify-content-start' : 'justify-content-center'}`}
-                    ref={cardContainerRef} // Attach ref to the container
+                    ref={cardContainerRef}
                     style={{
                         padding: '40px',
                         flexWrap: 'nowrap',
-                        overflow: 'hidden',// Prevent wrapping to a new line
+                        overflow: 'hidden',
                     }}
                 >
                     {doctors.map((doctor) => (
                         <div
                             key={doctor.user_id}
-                            className="d-flex flex-column align-items-center" // Center cards vertically
+                            className="d-flex flex-column align-items-center"
                             style={{
                                 flex: '0 0 200px',
                                 margin: '0 10px',
@@ -110,7 +119,14 @@ const CustomerViewVetRatingPage: React.FC = () => {
                                     style={{width: '190px', height: '190px'}}
                                 />
                                 <div className="row justify-content-center d-flex align-items-end text-center">
-                                    <h5 className="card-title text-center font-weight-bold"
+                                    <Rating
+                                        name={`rating-${doctor.user_id}`}
+                                        value={averageRatings[doctor.user_id] || 0}
+                                        readOnly
+                                        precision={0.1}
+                                        className="mt-2"
+                                    />
+                                    <h5 className="card-title text-center font-weight-bold" style={{margin:"10px"}}
                                     >{`${doctor.first_name} ${doctor.last_name}`}</h5>
 
                                 </div>

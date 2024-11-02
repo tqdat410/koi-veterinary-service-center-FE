@@ -5,17 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a5713505-d8be-4eea-9a6b-8e8ca55b0f70" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/pages/Common/CustomerViewVetRatingPage.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/api/ratingApi.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Common/StaticPage/FeedbackModal.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/homepage/about-help/AboutHelp.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/homepage/about-help/AboutHelp.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/homepage/veterinarian/Veterinarian.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/homepage/veterinarian/Veterinarian.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/context/AuthContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/context/AuthContext.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Appointment/OrderConfirmPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Appointment/OrderConfirmPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Appointment/ServiceSelectionPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Appointment/ServiceSelectionPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Common/HomePage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Common/HomePage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/actions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/actions.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/reducers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/reducers.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/homepage/service/ServiceSection.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/homepage/service/ServiceSection.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/vetAppointmentDetails/CreateMedicalReport.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/vetAppointmentDetails/CreateMedicalReport.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Common/CustomerViewVetRatingPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Common/CustomerViewVetRatingPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Common/StaticPage/Services.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Common/StaticPage/Services.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/styles/Appointment.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/Appointment.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -55,23 +51,23 @@
     <option name="showLibraryContents" value="true" />
     <option name="showVisibilityIcons" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "feature/homepage-guest-view-vet-rating",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Admin/Desktop/reactjs/test-fe/src/assets/fonts",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "ts.external.directory.path": "C:\\Users\\Admin\\Desktop\\reactjs\\test-fe\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feature/homepage-guest-view-vet-rating&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Admin/Desktop/reactjs/test-fe/src/assets/fonts&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Admin\\Desktop\\reactjs\\test-fe\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Admin\Desktop\reactjs\test-fe\src\assets\fonts" />
@@ -103,6 +99,7 @@
       <workItem from="1730215976517" duration="3820000" />
       <workItem from="1730220457565" duration="2427000" />
       <workItem from="1730248589796" duration="266000" />
+      <workItem from="1730545688756" duration="11228000" />
     </task>
     <servers />
   </component>
