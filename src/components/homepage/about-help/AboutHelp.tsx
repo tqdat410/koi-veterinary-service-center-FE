@@ -17,7 +17,7 @@ const AboutHelp: React.FC = () => {
                 <div className="position-relative"
                      style={{
                          width: '460px',
-                         height: '310px',
+                         height: '290px',
                          borderRadius: '48px',
                          background: 'linear-gradient(to right, #f7c95f, #fdb235)',
                          padding: '30px',
@@ -48,7 +48,7 @@ const AboutHelp: React.FC = () => {
                 <div className="position-relative bg-white "
                      style={{
                          width: '460px',
-                         height: '270px',
+                         height: '260px',
                          borderRadius: '48px',
                          padding: '30px',
                          border: '1px solid #ddd',

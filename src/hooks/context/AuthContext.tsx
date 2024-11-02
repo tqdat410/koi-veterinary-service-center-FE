@@ -2,6 +2,8 @@ import React, { createContext, useContext, useState, ReactNode, useEffect } from
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 import {logout as logoutAPI, refreshToken} from "../../api/authService"
+import {resetState} from "../../store/actions";
+import {useDispatch} from "react-redux";
 
 interface User {
     roleId: string;
@@ -30,7 +32,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true); // Thêm trạng thái loading để quản lý quá trình xác thực
-
+    const dispatch = useDispatch();
     const handleTokenRefresh = async () => {
         try {
             const token = localStorage.getItem('token');
@@ -118,6 +120,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         setUser(null);
         delete axios.defaults.headers.common['Authorization'];
         localStorage.clear();
+        dispatch(resetState());
     };
     return (
 

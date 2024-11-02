@@ -17,7 +17,7 @@ p{
 }
 
 .modal-body {
-    padding: 0px 15px;
+    padding: 0px 12px;
     font-size: 1.2rem;
 }
 
@@ -93,6 +93,28 @@ p{
     transform: scale(1.05); /* Scale up the card on hover */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); /* Add a subtle shadow effect */
     opacity: 1.05; /* Full opacity on hover */
+}
+
+.vet-card .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    color: rgba(0, 0, 0, 0.62);
+
+    opacity: 0;
+    font-size: 1.2rem;
+    font-weight: bold;
+    transition: opacity 0.3s ease;
+    border-radius: 40px;
+}
+
+.vet-card:hover .overlay {
+    opacity: 1;
 }
 
 .service-section {

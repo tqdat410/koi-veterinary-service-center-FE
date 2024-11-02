@@ -78,6 +78,7 @@ const CreateMedicalReport: React.FC<CreateMedicalReportProps> = ({
                             <div className="modal-body">
                                 {prescription?.medicines.map((med, index) => (
                                     <div key={index} className="mb-4">
+                                        <div style={{outline: "1px solid grey", padding:"18px", borderRadius:"20px"}}>
                                         <div className="d-flex mb-2">
                                             <select
                                                 className={`form-select ${!isMedicineValid[index] ? 'is-invalid' : ''}`}
@@ -116,19 +117,48 @@ const CreateMedicalReport: React.FC<CreateMedicalReportProps> = ({
                                             </button>
                                         </div>
                                         <div className="mb-2">
-                                            <input
-                                                type="text"
-                                                placeholder="Enter instruction"
-                                                className={`form-control ms-2 ${!isInstructionValid[index] ? 'is-invalid' : ''}`}
-                                                value={med.instruction}
-                                                onChange={(e) => {
-                                                    const instructionValue = e.target.value;
-                                                    handleMedicineChange(index, 'instruction',  e.target.value);
-                                                    const updatedValidity = [...isInstructionValid];
-                                                    updatedValidity[index] = instructionValue.trim() !== null;
-                                                    setIsInstructionValid(updatedValidity);
-                                                }}
-                                            />
+                                            <div className="row">
+                                                <div className="col">
+                                                    <label style={{fontSize:"16px"}}>Sáng</label>
+                                                    <input
+                                                        type="number"
+                                                        className={`form-control ${!isInstructionValid[index] ? 'is-invalid' : ''}`}
+                                                        placeholder="0"
+                                                        onChange={(e) => {
+                                                            const morningQuantity = e.target.value;
+                                                            const instruction = `sáng: ${morningQuantity}, trưa: ${med.instruction.split(', ')[1]?.split(': ')[1] || 0}, chiều: ${med.instruction.split(', ')[2]?.split(': ')[1] || 0}`;
+                                                            handleMedicineChange(index, 'instruction', instruction);
+                                                        }}
+                                                    />
+                                                </div>
+                                                <div className="col">
+                                                    <label  style={{fontSize:"16px"}}>Trưa</label>
+                                                    <input
+                                                        type="number"
+                                                        className={`form-control ${!isInstructionValid[index] ? 'is-invalid' : ''}`}
+                                                        placeholder="0"
+                                                        onChange={(e) => {
+                                                            const noonQuantity = e.target.value;
+                                                            const instruction = `sáng: ${med.instruction.split(', ')[0]?.split(': ')[1] || 0}, trưa: ${noonQuantity}, chiều: ${med.instruction.split(', ')[2]?.split(': ')[1] || 0}`;
+                                                            handleMedicineChange(index, 'instruction', instruction);
+                                                        }}
+                                                    />
+                                                </div>
+                                                <div className="col">
+                                                    <label  style={{fontSize:"16px"}}>Chiều</label>
+                                                    <input
+                                                        type="number"
+                                                        className={`form-control ${!isInstructionValid[index] ? 'is-invalid' : ''}`}
+                                                        placeholder="0"
+                                                        onChange={(e) => {
+                                                            const eveningQuantity = e.target.value;
+                                                            const instruction = `sáng: ${med.instruction.split(', ')[0]?.split(': ')[1] || 0}, trưa: ${med.instruction.split(', ')[1]?.split(': ')[1] || 0}, chiều: ${eveningQuantity}`;
+                                                            handleMedicineChange(index, 'instruction', instruction);
+                                                        }}
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
                                         </div>
                                     </div>
                                 ))}
@@ -141,7 +171,10 @@ const CreateMedicalReport: React.FC<CreateMedicalReportProps> = ({
                                         type="text"
                                         className="form-control"
                                         value={prescription?.instruction || ''}
-                                        onChange={(e) => setPrescription(prescription ? { ...prescription, instruction: e.target.value } : null)}
+                                        onChange={(e) => setPrescription(prescription ? {
+                                            ...prescription,
+                                            instruction: e.target.value
+                                        } : null)}
                                     />
                                 </div>
                                 <div className="modal-footer">
