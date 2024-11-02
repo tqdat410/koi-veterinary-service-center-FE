@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a5713505-d8be-4eea-9a6b-8e8ca55b0f70" name="Changes" comment="">
+
       <change afterPath="$PROJECT_DIR$/src/api/ratingApi.ts" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/pages/Common/StaticPage/FeedbackModal.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
@@ -13,6 +14,17 @@
       <change beforePath="$PROJECT_DIR$/src/pages/Common/CustomerViewVetRatingPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Common/CustomerViewVetRatingPage.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/Common/StaticPage/Services.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Common/StaticPage/Services.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/styles/Appointment.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/Appointment.css" afterDir="false" />
+     <change afterPath="$PROJECT_DIR$/src/@types/clr-react.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Staff/Timeline.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/homepage/service/ServiceSection.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/homepage/service/ServiceSection.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/context/AuthContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/context/AuthContext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Staff/StaffAppointmentDetails.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Staff/StaffAppointmentDetails.tsx" afterDir="false" />
+
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,6 +68,8 @@
     &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;feature/homepage-guest-view-vet-rating&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feature/timeline-for-appointment-details&quot;,
+
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/Admin/Desktop/reactjs/test-fe/src/assets/fonts&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -99,7 +113,15 @@
       <workItem from="1730215976517" duration="3820000" />
       <workItem from="1730220457565" duration="2427000" />
       <workItem from="1730248589796" duration="266000" />
+
       <workItem from="1730545688756" duration="11228000" />
+
+      <workItem from="1730428676156" duration="1524000" />
+      <workItem from="1730430226759" duration="478000" />
+      <workItem from="1730430821401" duration="853000" />
+      <workItem from="1730431692338" duration="642000" />
+      <workItem from="1730457388737" duration="1321000" />
+
     </task>
     <servers />
   </component>
