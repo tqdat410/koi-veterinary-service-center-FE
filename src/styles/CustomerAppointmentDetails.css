@@ -49,32 +49,31 @@
 }
 
 /* Specific colors for each status */
-.status-canceled {
+.status-canceled-cus {
     background-color: red;
 }
 
-.status-checked-in {
+.status-checked-in-cus {
     background-color: blue;
 }
 
-.status-confirmed {
+.status-confirmed-cus {
     background-color: green;
 }
 
-.status-done {
+.status-done-cus {
     background-color: #04BD04;
 }
 
-.status-on-going {
+.status-on-going-cus {
     background-color: orange;
 }
 
-.status-pending {
-    background-color: #ffd900c7 ;
-    /* color: black !important; */
+.status-pending-cus {
+    background-color: purple ;
 }
 
-.status-default {
+.status-default-cus {
     background-color: black;
 }
 
