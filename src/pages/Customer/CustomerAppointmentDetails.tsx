@@ -108,8 +108,10 @@ const CustomerAppointmentDetails: React.FC = () => {
     const [comment, setComment] = useState('');
     const [feedbackDetails, setFeedbackDetails] = useState<any>(null); // New state
 
+    //New 
+    const [showFeedbackButton, setShowFeedbackButton] = useState(false);
+
     // Fetch appointment details by ID
-    //Fetch feedback details by ID of feedback
     useEffect(() => {
         const fetchDetails = async () => {
             if (appointment_id) {
@@ -151,12 +153,31 @@ const CustomerAppointmentDetails: React.FC = () => {
                     console.error('Error fetching feedback details:', error);
                 }
             }
-
-
         };
 
         fetchFeedbackDetails();
     }, [appointment?.feedback_id]);
+
+    // tôi muốn nút feedback chỉ hiển thị ở 1 khoảng thời gian nhất định (3 phút) sau khi đã có slot time
+    // nếu đã qua thời gian đó thì không hiển thị'
+    // nếu chưa qua thời gian đó thì hiển thị
+    // thời gian đó là khi status = done và payment status = paid
+    // và feedback id = null
+    useEffect(() => {
+        if (appointment?.current_status === 'DONE' && PaymentDetails?.status === 'PAID' && !appointment.feedback_id) {
+            const slotTime = new Date(appointment.slot.year, appointment.slot.month ,appointment.slot.day, 0, 0, 0);
+            const currentTime = new Date();
+            const timeDifference = currentTime.getTime() - slotTime.getTime();
+            const threeMinutesInMilliseconds = 3 * 60 * 1000;
+
+            if (timeDifference <= threeMinutesInMilliseconds) {
+                setShowFeedbackButton(true);
+            } else {
+                setShowFeedbackButton(false);
+            }
+        }
+    }, [appointment, PaymentDetails]);
+
 
     if (!appointment) {
         return <div>Loading...</div>;
@@ -256,6 +277,8 @@ const CustomerAppointmentDetails: React.FC = () => {
         return `${day}/${month}/${year} ${hours}:${minutes}`;
     };
 
+
+
     return (
         <div className="d-flex flex-grow-1 gap-3" style={{ marginLeft: '272px' }}>
             <Sidebar />
@@ -269,17 +292,19 @@ const CustomerAppointmentDetails: React.FC = () => {
 
                         <div className="row">
                             <div className="col-md-6">
+                                <h5 className="mt-3">Appointment Information:</h5>
+                                <p>Slot: {appointment.slot?.slot_id}</p>
                                 <p>Date: {appointment.slot?.day}/{appointment.slot?.month}/{appointment.slot?.year}</p>
                                 <p>Time: {appointment.slot?.description || 'N/A'}</p>
                                 <p>Status:
                                     <span
-                                        className={`span-status ${appointment?.current_status === 'CANCELED' ? 'status-canceled' :
-                                            appointment?.current_status === 'CHECKED_IN' ? 'status-checked-in' :
-                                                appointment?.current_status === 'CONFIRMED' ? 'status-confirmed' :
-                                                    appointment?.current_status === 'DONE' ? 'status-done' :
-                                                        appointment?.current_status === 'ON_GOING' ? 'status-on-going' :
-                                                            appointment?.current_status === 'PENDING' ? 'status-pending' :
-                                                                'status-default'
+                                        className={`span-status ${appointment?.current_status === 'CANCELED' ? 'status-canceled-cus' :
+                                            appointment?.current_status === 'CHECKED_IN' ? 'status-checked-in-cus' :
+                                                appointment?.current_status === 'CONFIRMED' ? 'status-confirmed-cus' :
+                                                    appointment?.current_status === 'DONE' ? 'status-done-cus' :
+                                                        appointment?.current_status === 'ON_GOING' ? 'status-on-going-cus' :
+                                                            appointment?.current_status === 'PENDING' ? 'status-pending-cus' :
+                                                                'status-default-cus'
                                             }`}>
                                         {/* Format lại chữ */}
                                         {appointment?.current_status ?
@@ -296,9 +321,9 @@ const CustomerAppointmentDetails: React.FC = () => {
 
                                 <h5 className="mt-3">Service Information:</h5>
                                 <p>Service name: {appointment.service?.service_name}</p>
-                                <p>Service Price: {appointment.service?.service_price} VND</p>
+                                <p>Service Price: {appointment.service?.service_price.toLocaleString('vi-VN')} VND</p>
                                 {/* Tư vấn online (service id = 1) thì sẽ hiển thị nút tư vấn online qua gg meet */}
-                                {appointment.service?.service_id === 1 && appointment?.current_status ===  "ON_GOING" && (
+                                {appointment.service?.service_id === 1 && appointment?.current_status === "ON_GOING" && (
                                     <button className="btn btn-primary meet-btn" onClick={fetchGoogleMeeting}>Click here to Consult Online</button>
                                 )}
 
@@ -359,12 +384,12 @@ const CustomerAppointmentDetails: React.FC = () => {
                                     <div>
                                         <h5 className="mt-3">Moving Surcharge</h5>
                                         <p>District: {appointment.moving_surcharge?.district || 'Not available'}</p>
-                                        <p>Price: {appointment.moving_surcharge?.price || '0'} VND</p>
+                                        <p>Price: {appointment.moving_surcharge?.price.toLocaleString('vi-VN') || '0'} VND</p>
                                     </div>
                                 )}
 
                                 <h5 className="mt-3">Total Price</h5>
-                                <p>Total: {appointment?.total_price || ''} VND</p>
+                                <p>Total: {appointment?.total_price.toLocaleString('vi-VN') || ''} VND</p>
 
                                 <h5 className="mt-3">Feedback Details</h5>
                                 {feedbackDetails ? (
@@ -381,13 +406,13 @@ const CustomerAppointmentDetails: React.FC = () => {
                                 <div ref={paymentRef}>
                                     <h5 className="mt-3">Payment Information</h5>
                                     <p>Payment Method: {PaymentDetails?.payment_method || 'N/A'}</p>
-                                    <p>Payment Amount: {PaymentDetails?.payment_amount || '0'} VND</p>
+                                    <p>Payment Amount: {PaymentDetails?.payment_amount.toLocaleString('vi-VN') || '0'} VND</p>
                                     <p>Description: {PaymentDetails?.description || 'Empty'}</p>
 
                                     <p>Status:
-                                        <span className={`span-status ${PaymentDetails?.status === 'PAID' ? 'status-done' :
-                                            PaymentDetails?.status === 'NOT_PAID' ? 'status-canceled' :
-                                                'status-default'
+                                        <span className={`span-status ${PaymentDetails?.status === 'PAID' ? 'status-done-cus' :
+                                            PaymentDetails?.status === 'NOT_PAID' ? 'status-canceled-cus' :
+                                                'status-default-cus'
                                             }`}
                                         >
                                             {/* Transform 'PAID' or 'NOT_PAID' to 'Paid' or 'Not paid' */}
@@ -405,7 +430,7 @@ const CustomerAppointmentDetails: React.FC = () => {
                                 </div>
 
                                 {/* Feedback Information */}
-                                {/* Show Make Feedback button only if current_status is 'done' and don't have feedback id */}
+                                {/* Show Make Feedback for service button only if current_status is 'done' and don't have feedback id */}
                                 {appointment.current_status === 'DONE' && PaymentDetails?.status === 'PAID' && !appointment.feedback_id && (
                                     <div className="mt-3">
                                         <button
@@ -414,7 +439,21 @@ const CustomerAppointmentDetails: React.FC = () => {
                                                 setShowFeedbackModal(true)
                                             }
                                         >
-                                            Make Feedback
+                                            Make Feedback For Service
+                                        </button>
+                                    </div>
+                                )}
+
+                                {/* Make feedback for veterinarian */}
+                                {appointment.current_status === 'DONE' && PaymentDetails?.status === 'PAID' && !appointment.feedback_id && (
+                                    <div className="mt-3">
+                                        <button
+                                            className="btn btn-success"
+                                            onClick={() =>
+                                                setShowFeedbackModal(true)
+                                            }
+                                        >
+                                            Make Feedback For Veterinarian
                                         </button>
                                     </div>
                                 )}
@@ -456,9 +495,9 @@ const CustomerAppointmentDetails: React.FC = () => {
                     </div>
                 </div>
 
-                {/* <div className='back-button'>
+                <div className='back-button'>
                     <button className="btn btn-secondary mt-3" onClick={() => navigate(-1)}>Back</button>
-                </div> */}
+                </div>
 
             </div>
         </div>
