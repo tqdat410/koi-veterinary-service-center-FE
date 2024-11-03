@@ -1,7 +1,11 @@
 /* For AppointmentDetails.tsx */
 
+.brds {
+  border-radius: 20px;
+}
+
 .mt-3 {
-  font-weight: 900 !important;
+  font-weight: 900 ;
 }
 
 .label {
@@ -34,11 +38,16 @@
 .modal-content {
   border-radius: 12px;
   background-color: #fff;
-  padding: 20px; /* Khoảng cách giữa nội dung và viền modal */
-  max-width: 500px; /* Chiều rộng tối đa của modal */
-  max-height: 80vh; /* 80% chiều cao của viewport */
-  overflow-y: auto; /* Cho phép cuộn nếu nội dung quá dài */
-  position: relative; /* Để có thể sử dụng position: absolute */
+  padding: 20px;
+  /* Khoảng cách giữa nội dung và viền modal */
+  max-width: 500px;
+  /* Chiều rộng tối đa của modal */
+  max-height: 80vh;
+  /* 80% chiều cao của viewport */
+  overflow-y: auto;
+  /* Cho phép cuộn nếu nội dung quá dài */
+  position: relative;
+  /* Để có thể sử dụng position: absolute */
 }
 
 /* Close button */
@@ -75,69 +84,62 @@
   padding-top: 16px;
 }
 
-.status-cancelled {
-  color: red !important;
-  /* color: white !important; */
-  /* font-weight: 600; */
+.logs-status-cancelled {
+  background-color: red ;
+  color: white ; 
   font-family: sans-serif;
   margin-left: 4px;
   padding: 4px;
 }
 
-.status-check-in {
-  color: rgb(209, 209, 22) !important;
-  /* color: white !important; */
-  /* font-weight: 600; */
-  font-family: sans-serif;
-  margin-left: 4px;
-  padding: 4px;
-  
-}
-
-.status-confirmed {
-  color: blue !important;
-  /* color: white !important; */
-  /* font-weight: 600; */
-  font-family: sans-serif;
-  margin-left: 4px;
-  padding: 4px;
-}
-
-.status-done {
-  color: green !important;
-  /* color: white !important; */
-  /* font-weight: 600; */
-  font-family: sans-serif;
-  margin-left: 4px;
-  padding: 4px;
-  
-}
-
-.status-on-going {
-  color: orange! important;
-  /* color: white !important; */
-  /* font-weight: 600; */
+.logs-status-check-in {
+  background-color: blue ;
+  color: white ; 
   font-family: sans-serif;
   margin-left: 4px;
   padding: 4px;
 
 }
 
-.status-pending {
-  color: purple  !important;
-  /* color: white !important; */
-  /* font-weight: 600; */
+.logs-status-confirmed {
+  background-color: blue ;
+  color: white ;
+font-family: sans-serif;
+  margin-left: 4px;
+  padding: 4px;
+}
+
+.logs-status-done {
+  background-color: rgb(37, 195, 37) ;
+  color: white ; 
   font-family: sans-serif;
   margin-left: 4px;
   padding: 4px;
-  
+
+}
+
+.logs-status-on-going {
+  background-color: orange ;
+  color: white ; 
+  font-family: sans-serif;
+  margin-left: 4px;
+  padding: 4px;
+
+}
+
+.logs-status-pending {
+  background-color: purple;
+  color: white ; 
+  font-family: sans-serif;
+  margin-left: 4px;
+  padding: 4px;
+
 }
 
 
 .canceled {
   background-color: red;
-  color: white !important;
-  
+  color: white ;
   font-family: sans-serif;
   margin-left: 4px;
   padding: 4px;
@@ -145,8 +147,7 @@
 
 .checked-in {
   background-color: blue;
-  color: white !important;
-  
+  color: white ;
   font-family: sans-serif;
   margin-left: 4px;
   padding: 4px;
@@ -154,8 +155,7 @@
 
 .confirmed {
   background-color: green;
-  color: white !important;
-  
+  color: white ;
   font-family: sans-serif;
   margin-left: 4px;
   padding: 4px;
@@ -163,8 +163,7 @@
 
 .done {
   background-color: rgb(37, 195, 37);
-  color: white !important;
-  
+  color: white ;
   font-family: sans-serif;
   margin-left: 4px;
   padding: 4px;
@@ -172,17 +171,15 @@
 
 .on-going {
   background-color: orange;
-  color: white !important;
-  
+  color: white ;
   font-family: sans-serif;
   margin-left: 4px;
   padding: 4px;
 }
 
 .pending {
-  background-color: #ffd900c7 ;
-  color: white !important;
-  
+  background-color: #ffd900c7;
+  color: white ;
   font-family: sans-serif;
   margin-left: 4px;
   padding: 4px;
@@ -190,8 +187,7 @@
 
 .default {
   background-color: black;
-  color: white !important;
-  
+  color: white ;
   font-family: sans-serif;
   margin-left: 4px;
   padding: 4px;
