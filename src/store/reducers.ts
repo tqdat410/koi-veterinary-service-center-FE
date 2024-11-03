@@ -1,4 +1,4 @@
-import { SET_SERVICE, SET_DOCTOR, SET_SLOT, SET_FORM_DATA  } from './actions';
+import { SET_SERVICE, SET_DOCTOR, SET_SLOT, SET_FORM_DATA, RESET_STATE   } from './actions';
 
 interface Doctor {
     user_id: number;
@@ -59,6 +59,8 @@ export const rootReducer = (state = initialState, action: any) => {
                 ...state,
                 formData: action.payload.formData, // Save formData in state
             };
+        case RESET_STATE: // Xử lý action reset
+            return initialState; // Quay về trạng thái ban đầu
         default:
             return state;
     }

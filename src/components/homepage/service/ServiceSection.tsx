@@ -18,7 +18,7 @@ const ServiceSection: React.FC = () => {
                 </div>
                 <div className="row justify-content-center">
                     <div className="col-lg-4 col-md-6 col-sm-7 d-flex justify-content-center mb-4">
-                        <div className="card custom-card vet-card" >
+                        <div className="card custom-card " >
                             <img src={onlImage} className="card-img-top custom-card-img" alt="Online Consulting" />
                             <div className="card-body">
                                 <h5 className="card-title card-title-service"style={{margin:"15px 25px 0px 25px"}}>Online Consulting</h5>
@@ -27,7 +27,7 @@ const ServiceSection: React.FC = () => {
                         </div>
                     </div>
                     <div className="col-lg-4 col-md-6 col-sm-7 d-flex justify-content-center mb-4">
-                        <div className="card custom-card vet-card">
+                        <div className="card custom-card ">
                             <img src={hosImage} className="card-img-top custom-card-img" alt="Veterinary Hospital" />
                             <div className="card-body">
                                 <h5 className="card-title card-title-service" style={{margin:"15px 25px 0px 25px"}}>Veterinary Hospital</h5>
@@ -36,7 +36,7 @@ const ServiceSection: React.FC = () => {
                         </div>
                     </div>
                     <div className="col-lg-4 col-md-6 col-sm-7 d-flex justify-content-center mb-4">
-                        <div className="card custom-card vet-card">
+                        <div className="card custom-card ">
                             <img src={homeImage} className="card-img-top custom-card-img" alt="At-Home Service" />
                             <div className="card-body">
                                 <h5 className="card-title card-title-service" style={{margin:"15px 25px 0px 25px"}}>At-Home Service</h5>

@@ -54,7 +54,7 @@ const Veterinarian: React.FC = () => {
                             your koi pond.
                         </p>
                         <div className="mt-4 text-center">
-                            <button onClick={() => navigate('/about')}  className="btn btn-warning rounded-pill px-4 mb-5 btn-shadow">
+                            <button onClick={() => navigate('/veterinarians-rating')}  className="btn btn-warning rounded-pill px-4 mb-5 btn-shadow">
                                 <span className="fw-bold">Read more</span>
                                 <i className="fas fa-arrow-right ms-2"/>
                             </button>
