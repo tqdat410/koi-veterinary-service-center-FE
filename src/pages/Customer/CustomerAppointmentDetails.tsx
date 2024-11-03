@@ -5,7 +5,8 @@ import {
     getLinkMeetByVetId,
     getMedicalReport,
     fetchPrescriptionDetails,
-    updateAppointmentStatusCanceled
+    updateAppointmentStatusCanceled,
+    fetchLogs
 } from '../../api/appointmentApi';
 import { createPayment, fetchPayment } from '../../api/paymentApi';
 import { createFeedback, getFeedbackDetailsCus } from '../../api/feedbackApi';
@@ -92,6 +93,13 @@ interface Slot {
     description: string,
 }
 
+interface Log {
+    status_id: number
+    status: string
+    time: string,
+    note: string
+}
+
 enum payment_method {
     CASH = 'CASH',
     VN_PAY = 'VN_PAY',
@@ -118,9 +126,19 @@ const CustomerAppointmentDetails: React.FC = () => {
     const [feedbackDetails, setFeedbackDetails] = useState<any>(null); // New state
 
     const [showFeedbackButton, setShowFeedbackButton] = useState(false);
+    const [showLogsModal, setShowLogsModal] = useState(false); // State để hiển thị modal logs
+    const [logs, setLogs] = useState<Log[]>([]); // Chuyển logs sang mảng
 
 
     const [isEditingStatus, setIsEditingStatus] = useState(false);
+
+    const handleViewLogs = () => {
+        setShowLogsModal(true);
+    };
+
+    const handleCloseLogsModal = () => {
+        setShowLogsModal(false);
+    };
 
     // Fetch appointment details by ID
     useEffect(() => {
@@ -168,6 +186,22 @@ const CustomerAppointmentDetails: React.FC = () => {
 
         fetchFeedbackDetails();
     }, [appointment?.feedback_id]);
+
+    // Fetch logs details by ID
+    useEffect(() => {
+        const fetchDetails = async () => {
+            if (appointment_id) {
+                try {
+                    const logsData = await fetchLogs(Number(appointment_id)); // Fetch details by ID
+                    setLogs(logsData); // Set the appointment details                    
+                } catch (error) {
+                    console.error('Error fetching logs details:', error);
+                }
+            }
+        };
+
+        fetchDetails();
+    }, [appointment_id]);
 
     // Check if the appointment is DONE and the payment is PAID
     // If true, show the feedback button in 7 days after the appointment completed
@@ -414,6 +448,119 @@ const CustomerAppointmentDetails: React.FC = () => {
                                         onClick={handleUpdateAppointmentStatusCanceled}>Canceled
                                     </button>
                                 )}
+
+                                <h5 className="mt-3">Logs of appointment
+                                    information</h5>
+                                    {logs.length > 0 ? (
+                                        <ul className="logs-list" style={{listStyleType:'none'}}>
+                                            {logs.map((log) => {
+                                                // Tạo tên lớp dựa trên status
+                                                let statusClass = "";
+                                                switch (log.status) {
+                                                    case "CANCELED":
+                                                        statusClass = "span-status status-canceled-cus";
+                                                        break;
+                                                    case "CHECKED_IN":
+                                                        statusClass = "span-status status-checked-in-cus";
+                                                        break;
+                                                    case "CONFIRMED":
+                                                        statusClass = "span-status status-confirmed-cus";
+                                                        break;
+                                                    case "DONE":
+                                                        statusClass = "span-status status-done-cus";
+                                                        break;
+                                                    case "ON_GOING":
+                                                        statusClass = "span-status status-on-going-cus";
+                                                        break;
+                                                    case "PENDING":
+                                                        statusClass = "span-status status-pending-cus";
+                                                        break;
+                                                    default:
+                                                        statusClass = "";
+                                                }
+
+                                                return (
+                                                    <li key={log.status_id} className="log-item" >
+                                                        =========================<br/>
+                                                        <span className="label"><strong>Log ID:</strong> </span> {log.status_id} <br/>
+                                                        <span className="label"><strong>Status:</strong></span>
+                                                        <span className={` ${statusClass}`}>
+                                                            {log.status}
+                                                        </span><br/>
+                                                        <span className="label"><strong>Time:</strong></span> {formatDateTime(log.time)}
+                                                        <br/>
+                                                        <span className="label"><strong>Note:</strong></span> {log.note || 'No note'}
+                                                        <br/>
+                                                    </li>
+                                                );
+                                            })}
+                                        </ul>
+                                    ) : (
+                                        <p>No logs available</p>
+                                    )}
+                                {/* <button className="btn btn-primary" onClick={handleViewLogs}>
+                                    View Log Details
+                                </button> */}
+
+                                {/* Modal để hiển thị logs */}
+                            <div className={`modal ${showLogsModal ? 'open' : ''}`}
+                                 style={{display: showLogsModal ? 'flex' : 'none'}}
+                            >
+                                <div className="modal-content">
+                                    <h2>Logs Details</h2>
+                                    {logs.length > 0 ? (
+                                        <ul className="logs-list" style={{listStyleType:'none'}}>
+                                            {logs.map((log) => {
+                                                // Tạo tên lớp dựa trên status
+                                                let statusClass = "";
+                                                switch (log.status) {
+                                                    case "CANCELED":
+                                                        statusClass = "span-status status-cancelled-cus";
+                                                        break;
+                                                    case "CHECKED_IN":
+                                                        statusClass = "span-status status-checked-in-cus";
+                                                        break;
+                                                    case "CONFIRMED":
+                                                        statusClass = "span-status status-confirmed-cus";
+                                                        break;
+                                                    case "DONE":
+                                                        statusClass = "span-status status-done-cus";
+                                                        break;
+                                                    case "ON_GOING":
+                                                        statusClass = "span-status status-on-going-cus";
+                                                        break;
+                                                    case "PENDING":
+                                                        statusClass = "span-status status-pending-cus";
+                                                        break;
+                                                    default:
+                                                        statusClass = "";
+                                                }
+
+                                                return (
+                                                    <li key={log.status_id} className="log-item" >
+                                                        =========================<br/>
+                                                        <span className="label">Log ID:</span> {log.status_id} <br/>
+                                                        <span className="label">Status:</span>
+                                                        <span className={` ${statusClass}`}>
+                                                            {log.status}
+                                                        </span><br/>
+                                                        <span className="label">Time:</span> {formatDateTime(log.time)}
+                                                        <br/>
+                                                        <span className="label">Note:</span> {log.note || 'No note'}
+                                                        <br/>
+                                                    </li>
+                                                );
+                                            })}
+                                        </ul>
+                                    ) : (
+                                        <p>No logs available</p>
+                                    )}
+                                    <button className="btn btn-secondary close-btn"
+                                            onClick={handleCloseLogsModal}>Close
+                                    </button>
+                                </div>
+                            </div>
+
                             </div>
 
                             <div className="col-md-6">
