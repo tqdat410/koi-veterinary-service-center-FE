@@ -1,11 +1,6 @@
-.header-not-found {
-    align-content: center;
-    padding-top: 3rem !important;
 
-}
-
-.container > h2 {
-    padding-top: 45px;
+.header-content {
+    padding-top: 45px !important;
 }
 
 .canceled, .not-paid {
