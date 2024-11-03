@@ -65,7 +65,6 @@ const FishAppointmentDetails: React.FC = () => {
 
             {appointments.length < 1 && (
                 <div>
-                    <h2 className="display-4">Appointments</h2>
                     <p className="lead" style={{ fontSize: '48px' }}>No appointments available for this fish.</p>
                     <button className="btn btn-secondary" onClick={() => navigate(-1)}>
                         Go Back
@@ -76,7 +75,7 @@ const FishAppointmentDetails: React.FC = () => {
             {/* Appointments List */}
             {!loading && !error && appointments.length >= 1 && (
                 <div className="container">
-                    <h2 className="mb-4">Appointment Details</h2>
+                    <h2 className="mb-4 header-content">Appointment Details</h2>
                     {appointments.map((appointment) =>
                         appointment.appointment_id ? (
                             <div key={appointment.appointment_id} className="card mb-4">
