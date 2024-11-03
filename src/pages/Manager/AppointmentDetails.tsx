@@ -241,12 +241,12 @@ const AppointmentDetails: React.FC = () => {
                                     <p>Date: {formattedCreatedDate}</p>
                                     <p>Status:
                                         <span
-                                            className={`span-status ${appointment?.current_status === 'CANCELED' ? 'canceled' :
-                                                appointment?.current_status === 'CHECKED_IN' ? 'checked-in' :
-                                                    appointment?.current_status === 'CONFIRMED' ? 'confirmed' :
-                                                        appointment?.current_status === 'DONE' ? 'done' :
-                                                            appointment?.current_status === 'ON_GOING' ? 'on-going' :
-                                                                appointment?.current_status === 'PENDING' ? 'pending' :
+                                            className={`span-status ${appointment?.current_status === 'CANCELED' ? 'canceled brds' :
+                                                appointment?.current_status === 'CHECKED_IN' ? 'checked-in brds' :
+                                                    appointment?.current_status === 'CONFIRMED' ? 'confirmed brds' :
+                                                        appointment?.current_status === 'DONE' ? 'done brds' :
+                                                            appointment?.current_status === 'ON_GOING' ? 'on-going brds' :
+                                                                appointment?.current_status === 'PENDING' ? 'pending brds' :
                                                                     ''
                                             }`}>
                                             {/* Format lại chữ */}
@@ -348,22 +348,22 @@ const AppointmentDetails: React.FC = () => {
                                                 let statusClass = "";
                                                 switch (log.status) {
                                                     case "CANCELED":
-                                                        statusClass = "status-cancelled";
+                                                        statusClass = "brds logs-status-cancelled";
                                                         break;
                                                     case "CHECKED_IN":
-                                                        statusClass = "status-check-in";
+                                                        statusClass = "brds logs-status-check-in";
                                                         break;
                                                     case "CONFIRMED":
-                                                        statusClass = "status-confirmed";
+                                                        statusClass = "brds logs-status-confirmed";
                                                         break;
                                                     case "DONE":
-                                                        statusClass = "status-done";
+                                                        statusClass = "brds logs-status-done";
                                                         break;
                                                     case "ON_GOING":
-                                                        statusClass = "status-on-going";
+                                                        statusClass = "brds logs-status-on-going";
                                                         break;
                                                     case "PENDING":
-                                                        statusClass = "status-pending";
+                                                        statusClass = "brds logs-status-pending";
                                                         break;
                                                     default:
                                                         statusClass = "";
