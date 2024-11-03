@@ -73,7 +73,7 @@ const KoiFishPage: React.FC = () => {
     return (
         <div className="d-flex flex-grow-1" style={{ marginLeft: '272px' }}>
             <Sidebar />
-            <div className="container" style={{ marginTop: "6rem" }}>
+            <div className="container" style={{ marginTop: "4rem" }}>
                 <div className="card" style={{ width: '100%' }}>
                     <div className="card-header d-flex  align-items-center">
                         <h5 className="text-start" style={{ fontWeight: "bold", color: "#02033B", fontSize: "2.5rem", padding: "1.2rem" }}>
