@@ -2,7 +2,7 @@ import axios from 'axios';
 import { BASE_API } from "./baseApi";
 
 // Define the structure of VoucherDto based on the response
-interface VoucherDto {
+export interface VoucherDto {
     voucher_id: number;
     voucher_code: string;
     description: string;
