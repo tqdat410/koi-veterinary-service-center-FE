@@ -1,18 +1,22 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getAppointmentDetails, updateAppointment } from '../../api/appointmentApi';
-import { fetchPayment, updatePayment } from '../../api/paymentApi';
+import {fetchPayment, refundPayment, updatePayment} from '../../api/paymentApi';
 import { updateAppointmentStatus, fetchAppointmentAndVeterinariansDemo, updateAppointmentStatusCanceled } from '../../api/appointmentApi';
 import { fetchVetBySlotId } from '../../api/vetApi';
 import '../../styles/StaffAppointmentDetails.css';
 import { useParams } from 'react-router-dom';
 import ProgressTimeline from './Timeline';
+import AvailableSlot from "../../components/schedule/SlotDateSelection";
+import UpdateAppointment from "./UpdateAppointment";
+import RefundModal from "./RefundModal";
 
 interface AppointmentDetailsProps {
     appointment_id: number;
     created_date: string;
     current_status: string;
     customer_name: string;
+    customer_id: number;
     slot: time_Slot;
     email: string;
     phone_number: string;
@@ -89,6 +93,7 @@ enum payment_method {
 enum payment_status {
     NOT_PAID = 'NOT_PAID',
     PAID = 'PAID',
+    REFUNDED= 'REFUNDED',
 }
 
 
@@ -106,6 +111,10 @@ const StaffAppointmentDetails: React.FC = () => {
     const [selectedVetId, setSelectedVetId] = useState<number | null>(null); // Selected vet ID
     const [isVetSelected, setIsVetSelected] = useState(false); // Tạo trạng thái isVetSelected
     const [selectedStatus, setSelectedStatus] = useState(''); // Trạng thái được chọn
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModalRefundOpen, setIsModalRefundOpen] = useState(false);
+    const [phone_number, setPhoneNumber] = useState<string | null>(null);
+    const [email, setEmail] = useState<string | null>(null);
 
     // Fetch appointment details by ID
     useEffect(() => {
@@ -113,7 +122,8 @@ const StaffAppointmentDetails: React.FC = () => {
             if (appointmentIdNumber) {
                 try {
                     const appointmentData = await getAppointmentDetails(appointmentIdNumber); // Fetch details by ID
-                    setAppointment(appointmentData); // Set the appointment details                
+                    setAppointment(appointmentData); // Set the appointment details
+                    console.log(appointmentData)
                 } catch (error) {
                     console.error('Error fetching appointment details:', error);
                 }
@@ -155,6 +165,27 @@ const StaffAppointmentDetails: React.FC = () => {
                 const updatedPayment = await updatePayment(appointmentIdNumber,
                     {
                         status: 'PAID' // Update the payment status only                         
+                    }
+                );
+                // console.log(selectedPaymentMethod);
+                setPaymentDetails(updatedPayment); // Update the payment details
+
+                setIsEditingPaymentMethod(false); // Exit editing mode
+                window.location.reload();
+            } catch (error) {
+                console.error('Error updating payment method:', error);
+            }
+        }
+    };
+    // Function to update payment method
+    const handleRefundPaymentMethod = async () => {
+        const confirmUpdate = window.confirm('Are you sure you want to update the payment status to REFUND?'); // Hiển thị hộp thoại xác nhận
+        if (confirmUpdate) {
+            try {
+                console.log('Updating payment method:', selectedPaymentMethod);
+                const updatedPayment = await refundPayment(appointmentIdNumber,
+                    {
+                        status: 'REFUND' // Update the payment status only
                     }
                 );
                 // console.log(selectedPaymentMethod);
@@ -372,6 +403,27 @@ const StaffAppointmentDetails: React.FC = () => {
 
     const formattedDate = formatDateTime(appointment.created_date);
 
+    const handleOpenModal = () => {
+        setIsModalOpen(true); // Open the modal
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+
+    };
+
+    const handleOpenRefundModal = () => {
+        setIsModalRefundOpen(true); // Open the modal
+    };
+
+    const handleCloseRefundModal = () => {
+        setIsModalRefundOpen(false);
+
+    };
+    const handleRefundSuccess = () => {
+        // Logic to refresh the payment details or update the UI after a successful refund
+        window.location.reload(); // Reload to reflect the changes
+    };
     return (
         <div className="container container-details">
             <h2 className="mb-4">Appointment Details</h2>
@@ -385,7 +437,7 @@ const StaffAppointmentDetails: React.FC = () => {
 
                         <div className="row">
                             <div className="col-md-6">
-                                <p>Date & time:  {formattedDate}</p>
+                                <p>Date & time: {formattedDate}</p>
                                 <p>
                                     Status:
                                     <span
@@ -396,7 +448,7 @@ const StaffAppointmentDetails: React.FC = () => {
                                                         appointment?.current_status === 'ON_GOING' ? 'on-going' :
                                                             appointment?.current_status === 'PENDING' ? 'pending' :
                                                                 'default'
-                                            }`}
+                                        }`}
                                     >
                                         {/* Format lại chữ */}
                                         {appointment?.current_status ?
@@ -426,7 +478,8 @@ const StaffAppointmentDetails: React.FC = () => {
                                     ) : (
                                         <div>
                                             <label htmlFor="vet-select">Select Veterinarian:</label>
-                                            <select id="vet-select" onChange={handleVetSelection} className="form-select">
+                                            <select id="vet-select" onChange={handleVetSelection}
+                                                    className="form-select">
                                                 <option value="">-- Select a veterinarian --</option>
                                                 {vetList && vetList.map(vet => (
                                                     <option key={vet.user_id} value={vet.user_id}>
@@ -439,7 +492,7 @@ const StaffAppointmentDetails: React.FC = () => {
                                                 className="btn btn-primary mt-3"
                                                 disabled={!selectedVetId} // Vô hiệu hóa nếu chưa chọn bác sĩ
                                                 onClick={handleSubmitOrder}
-                                            // style={{ backgroundColor: 'red' }}
+                                                // style={{ backgroundColor: 'red' }}
                                             >
                                                 Save changes
                                             </button>
@@ -447,12 +500,6 @@ const StaffAppointmentDetails: React.FC = () => {
                                         </div>
                                     )
                                 }
-
-
-                                {/* Chỉ hiện khi có thông tin Staff gán vào cuộc hẹn này (hiện tại chưa có api fetch vô) */}
-                                {/* {appointment.staff && (
-                                    <p>Staff: {appointment?.staff.first_name} {appointment?.staff.last_name}</p>
-                                )} */} 
 
 
                                 {/* Chỉ hiển thị khi có địa chỉ */}
@@ -470,26 +517,46 @@ const StaffAppointmentDetails: React.FC = () => {
                                     (paymentDetails?.status === 'NOT_PAID' && paymentDetails?.payment_method === 'CASH') ||
                                     (paymentDetails?.status === 'PAID' && (paymentDetails?.payment_method === 'CASH' || paymentDetails?.payment_method === 'VN_PAY'))
                                 ) && (
-                                        !isEditingStatus ? (
-                                            <>
-                                                <p style={{ fontWeight: '900', color: 'brown', padding: '10px', fontSize: '20px' }}>Update Status</p>
-                                                <button className="btn btn-info" onClick={handleEditStatus}>Click here to Update</button>
-                                            </>
-                                        ) : (
-                                            <>
-                                                <p style={{ fontWeight: 'bold', fontSize: '24px', fontStyle: 'italic' }}>Update Status</p>
-                                                <button style={{ marginLeft: '4px' }} className="btn btn-primary" onClick={() => handleSelectStatus("CONFIRMED")}>Confirmed</button>
-                                                {/* CHECK IN KHI VÀ CHỈ KHI LÀ SERVICE ID = 3 VÀ ADDRESS = NULL */}
-                                                {/* {appointment.service?.service_id === 3 && !appointment.address
+                                    !isEditingStatus ? (
+                                        <>
+                                            <p style={{
+                                                fontWeight: '900',
+                                                color: 'brown',
+                                                padding: '10px',
+                                                fontSize: '20px'
+                                            }}>Update Status</p>
+                                            <button className="btn btn-info" onClick={handleEditStatus}>Click here to
+                                                Update
+                                            </button>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <p style={{
+                                                fontWeight: 'bold',
+                                                fontSize: '24px',
+                                                fontStyle: 'italic'
+                                            }}>Update Status</p>
+                                            <button style={{marginLeft: '4px'}} className="btn btn-primary"
+                                                    onClick={() => handleSelectStatus("CONFIRMED")}>Confirmed
+                                            </button>
+                                            {/* CHECK IN KHI VÀ CHỈ KHI LÀ SERVICE ID = 3 VÀ ADDRESS = NULL */}
+                                            {/* {appointment.service?.service_id === 3 && !appointment.address
                                                 && <button style={{ marginLeft: '4px' }} className="btn btn-warning" onClick={() => handleSelectStatus("CHECKED_IN")}>Check in</button>} */}
-                                                <button style={{ marginLeft: '4px' }} className="btn btn-danger" onClick={handleUpdateAppointmentStatusCanceled}>Canceled</button>
-                                                <button style={{ marginLeft: '4px' }} className="btn btn-secondary" onClick={handleCancelEditStatus}>Undo</button>
-                                            </>
-                                        ))}
 
+                                            <button style={{marginLeft: '4px'}} className="btn btn-secondary"
+                                                    onClick={handleCancelEditStatus}>Undo
+                                            </button>
+                                        </>
+                                    ))}
+                                {(appointment.current_status === 'PENDING' || appointment.current_status === 'ON_GOING') && (
+                                <button style={{marginLeft: '4px'}} className="btn btn-danger"
+                                        onClick={handleUpdateAppointmentStatusCanceled}>Canceled
+                                </button>
+                                    )}
                                 {/* Thêm điều kiện ngoài: ON_GOING, service id = 3, method = vn_pay, status pay = paid thì có nút mỗi nút ON_going */}
                                 {appointment.current_status === 'ON_GOING' && appointment.service?.service_id === 3 && paymentDetails?.payment_method === 'VN_PAY' && paymentDetails?.status === 'PAID' && !appointment.address && (
-                                    <button style={{ marginLeft: '4px', fontSize: '16px' }} className="btn btn-warning" onClick={() => handleSelectStatus("CHECKED_IN")}>Check in</button>
+                                    <button style={{marginLeft: '4px', fontSize: '16px'}} className="btn btn-warning"
+                                            onClick={() => handleSelectStatus("CHECKED_IN")}>Check in</button>
                                 )}
 
                                 {/* CHECK IN KHI LÀ VN_PAY VÀ STATUS CỦA APPOINTMENT = PAID */}
@@ -503,7 +570,7 @@ const StaffAppointmentDetails: React.FC = () => {
 
                                 {appointment.fish && (
                                     <div>
-                                        <h5 className="mt-3" >Fish Information</h5>
+                                        <h5 className="mt-3">Fish Information</h5>
                                         <p>Species: {appointment.fish?.species}</p>
                                         <p>Gender: {appointment.fish?.gender}</p>
                                         <p>Size: {appointment.fish?.size} cm</p>
@@ -535,6 +602,7 @@ const StaffAppointmentDetails: React.FC = () => {
                                         <p>Status:
                                             <span className={`span-status ${paymentDetails?.status === 'PAID' ? 'payment-status-paid' :
                                                 paymentDetails?.status === 'NOT_PAID' ? 'payment-status-not-paid' :
+                                                    paymentDetails?.status === 'REFUNDED' ? 'payment-status-refund' :
                                                     'status-default'
                                                 }`}
                                             >
@@ -565,7 +633,22 @@ const StaffAppointmentDetails: React.FC = () => {
                                                 )}
                                             </div>
                                         )}
+                                        {paymentDetails?.status === 'PAID' && appointment.current_status === 'CANCELED' &&(
+                                            <button className="btn btn-warning mt-2 fw-bold"
+                                                    onClick={handleOpenRefundModal}>
+                                                Update Refund
+                                            </button>
 
+                                        )}
+                                        {isModalRefundOpen && (
+                                            <RefundModal
+                                                appointmentId={appointmentIdNumber}
+                                                customerId={Number(appointment.customer_id)}
+                                                isOpen={isModalRefundOpen}
+                                                onClose={handleCloseRefundModal}
+                                                onRefundSuccess={handleRefundSuccess}
+                                            />
+                                        )}
                                     </div>
                                 )}
                             </div>
@@ -575,11 +658,61 @@ const StaffAppointmentDetails: React.FC = () => {
 
             </div>
 
+            <div className="d-flex gap-3 align-items-center">
+                <div className='back-button'>
+                    <button className="btn btn-secondary" onClick={() => navigate(-1)}>Back</button>
+                </div>
+                <button
+                    className="btn btn-primary fs-5 fw-bold"
 
-            <div className='back-button'>
-                <button className="btn btn-secondary" onClick={() => navigate(-1)}>Back</button>
+                    onClick={handleOpenModal}
+                >
+                    Update Appointment
+                </button>
             </div>
+            {isModalOpen && (
+                <div className="modal-overlay" onClick={handleCloseModal}>
+                    <div className="modal-content"
+                         onClick={(e) => e.stopPropagation()}> {/* Prevent click event from bubbling up to the overlay */}
+                        <div className="modal-header">
+                            {/*<h5 className="modal-title appointment-title">Follow Up Appointment</h5>*/}
 
+                            <span className="close-icon" onClick={handleCloseModal}>
+                                                &times;
+                                        </span>
+                        </div>
+                        <div className="modal-body" style={{marginLeft: "3%"}}>
+
+                            {/* Pass vetId or any necessary data to AvailableSlot */}
+                            <UpdateAppointment
+                                appointmentId={Number(appointment_id)}
+                                email={email}
+                                phone_number={phone_number}
+
+                            />
+                            <label className="fw-bold" style={{fontSize:"15px"}}>Update email</label>
+                            <input
+                                type="text"
+                                placeholder="Enter new email"
+                                value={email || ''}
+                                onChange={(e) => setEmail(e.target.value || null)} // Set to null if empty
+                                className="form-control mb-1 fw-light"
+                                style={{maxWidth: "930px"}}
+                            />
+                            <label className="fw-bold" style={{fontSize:"15px"}}>Update Phone number</label>
+                            <input
+                                type="text"
+                                placeholder="Enter new phone number"
+                                value={phone_number || ''}
+                                onChange={(e) => setPhoneNumber(e.target.value || null)} // Set to null if empty
+                                className="form-control mb-1 fw-light"
+                                style={{maxWidth: "930px"}}
+                            />
+                        </div>
+
+                    </div>
+                </div>
+            )}
         </div>
 
     );
