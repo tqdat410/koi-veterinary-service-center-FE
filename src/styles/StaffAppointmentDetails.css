@@ -118,6 +118,9 @@
 .payment-status-not-paid {
     background-color: red;
 }
+.payment-status-refund{
+    background-color: orange;
+}
 
 /* Payment update styling */
 .payment-update-header {

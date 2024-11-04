@@ -19,12 +19,22 @@ export const fetchPayment = async (appointment_id: number) => {
 // Function to update payment information: payment status
 export const updatePayment = async (appointmentId: number, paymentData: any): Promise<any> => {
   try {
-    const response = await axios.put(`${PAYMENT_URL}/${appointmentId}`, paymentData);
+    const response = await axios.put(`${PAYMENT_URL}/${appointmentId}/confirm`, paymentData);
     return response.data; // Dữ liệu cập nhật thành công
   } catch (error) {
     console.error('Error updating payment:', error);
     throw error;
   }
+};
+
+export const refundPayment = async (appointmentId: number, paymentData: any): Promise<any> => {
+    try {
+        const response = await axios.put(`${PAYMENT_URL}/${appointmentId}/refund`, paymentData);
+        return response.data; // Dữ liệu cập nhật thành công
+    } catch (error) {
+        console.error('Error updating payment:', error);
+        throw error;
+    }
 };
 
 
