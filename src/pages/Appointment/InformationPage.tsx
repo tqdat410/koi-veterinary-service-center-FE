@@ -37,7 +37,7 @@ const FillInformationPage: React.FC = () => {
         address:null as string | null,
         fish: '',
         description: '',
-        payment_method: 'VN_PAY', // Default to online payment if service_id is 1
+        payment_method: 'VN_PAY',
         address_id: null as number | null,
         fish_id: null as number | null,
         district: null as string | null,
@@ -77,9 +77,9 @@ const FillInformationPage: React.FC = () => {
                     const { address } = userData;
                     setFormData((prevData) => ({
                         ...prevData,
-                        customer_name: `${userData.first_name} ${userData.last_name}`, // Combine first and last name
-                        phone: userData.phone_number, // Use the user's phone number
-                        email: userData.email, // Use the user's email
+                        customer_name: `${userData.first_name} ${userData.last_name}`,
+                        phone: userData.phone_number,
+                        email: userData.email,
                         district: address?.district || null,
                         address: address ? `${address.home_number}, ${address.district}, ${address.ward}, ${address.city}` : '',
                         address_id: address?.address_id || null,
@@ -112,7 +112,7 @@ const FillInformationPage: React.FC = () => {
                 } catch (err) {
                     setError('Failed to fetch addresses');
                 } finally {
-                    setLoading(false); // Tắt trạng thái loading sau khi dữ liệu đã được load
+                    setLoading(false);
                 }
             } else {
                 setError('User ID is not available');
@@ -191,31 +191,31 @@ const FillInformationPage: React.FC = () => {
     // Handle validation for Name
     const validateName = () => {
         if (formData.customer_name.trim() === '') {
-            setErrorName('Name is required.'); // Set error message for name
+            setErrorName('Name is required.');
             return false;
         } else {
-            setErrorName(''); // Clear error if name is valid
+            setErrorName('');
             return true;
         }
     };
 
     // Handle validation for phone number
     const validatePhone = () => {
-        const phoneValue = formData.phone; // Lấy giá trị điện thoại từ formData
+        const phoneValue = formData.phone;
 
         // Kiểm tra xem phoneValue có tồn tại và không phải là chuỗi rỗng
         if (!phoneValue || phoneValue.trim() === '') {
-            setErrorPhone('Phone number is required.'); // Cài đặt thông báo lỗi nếu không có giá trị
-            return false; // Trả về false nếu không hợp lệ
+            setErrorPhone('Phone number is required.');
+            return false;
         }
         const phonePattern = /^[0-9]{10}$/;
         if (!phonePattern.test(phoneValue)) {
-            setErrorPhone('Contact number must be a 10-digit number.'); // Kiểm tra số điện thoại có đúng định dạng không
-            return false; // Trả về false nếu không hợp lệ
+            setErrorPhone('Contact number must be a 10-digit number.');
+            return false;
         }
 
-        setErrorPhone(''); // Xóa thông báo lỗi nếu hợp lệ
-        return true; // Trả về true nếu hợp lệ
+        setErrorPhone('');
+        return true;
     };
 
     // Handle validation for email
@@ -474,8 +474,6 @@ const FillInformationPage: React.FC = () => {
                                     />
                                     <label className="form-check-label">Pay Online</label>
                                 </div>
-
-
                                 {service_id !== 1 && service_id !== 2 && serviceLocation === 'at_hospital' && (
                                     <div className="form-check">
                                         <input
@@ -490,8 +488,6 @@ const FillInformationPage: React.FC = () => {
                                     </div>
                                 )}
                             </div>
-
-
                             <div className="d-flex justify-content-end">
                                 <button type="submit" className="btn btn-primary">
                                     Next

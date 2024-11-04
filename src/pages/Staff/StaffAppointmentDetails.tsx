@@ -27,6 +27,7 @@ interface AppointmentDetailsProps {
     address: Address
     veterinarian: Veterinarian;
     fish: Fish;
+    discount:number;
 }
 
 interface time_Slot {
@@ -468,7 +469,9 @@ const StaffAppointmentDetails: React.FC = () => {
                                 <p>Service id: {appointment.service?.service_id}</p>
                                 <p>Service name: {appointment.service?.service_name}</p>
                                 <p>Service Price: {appointment.service?.service_price.toLocaleString('vi-VN')} VND</p>
-
+                                {appointment.discount && (
+                                    <p>Discount: -{appointment.discount.toLocaleString('vi-VN')} VND</p>
+                                )}
                                 <h5 className="mt-3">Veterinarian Information</h5>
 
                                 {/* thêm phần add bác sĩ ở đây */}
@@ -549,10 +552,10 @@ const StaffAppointmentDetails: React.FC = () => {
                                         </>
                                     ))}
                                 {(appointment.current_status === 'PENDING' || appointment.current_status === 'ON_GOING') && (
-                                <button style={{marginLeft: '4px'}} className="btn btn-danger"
-                                        onClick={handleUpdateAppointmentStatusCanceled}>Canceled
-                                </button>
-                                    )}
+                                    <button style={{marginLeft: '4px'}} className="btn btn-danger"
+                                            onClick={handleUpdateAppointmentStatusCanceled}>Canceled
+                                    </button>
+                                )}
                                 {/* Thêm điều kiện ngoài: ON_GOING, service id = 3, method = vn_pay, status pay = paid thì có nút mỗi nút ON_going */}
                                 {appointment.current_status === 'ON_GOING' && appointment.service?.service_id === 3 && paymentDetails?.payment_method === 'VN_PAY' && paymentDetails?.status === 'PAID' && !appointment.address && (
                                     <button style={{marginLeft: '4px', fontSize: '16px'}} className="btn btn-warning"
@@ -568,7 +571,7 @@ const StaffAppointmentDetails: React.FC = () => {
 
                             <div className="col-md-6">
 
-                                {appointment.fish && (
+                            {appointment.fish && (
                                     <div>
                                         <h5 className="mt-3">Fish Information</h5>
                                         <p>Species: {appointment.fish?.species}</p>

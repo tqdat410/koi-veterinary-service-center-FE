@@ -616,17 +616,18 @@ const CustomerAppointmentDetails: React.FC = () => {
                                         <p>Price: {appointment.moving_surcharge?.price.toLocaleString('vi-VN') || '0'} VND</p>
                                     </div>
                                 )}
-
-                                <h5 className="mt-3">Total Price</h5>
-                                <p>Total: {appointment?.total_price.toLocaleString('vi-VN') || ''} VND</p>
-
                                 {/* Hiển thị thêm discount (nếu có) */}
                                 {appointment.discount && (
                                     <div>
                                         <h5 className="mt-3">Discount</h5>
-                                        <p>Discount: {appointment?.discount?.toLocaleString('vi-VN')} VND</p>
+                                        <p>Discount: -{appointment?.discount?.toLocaleString('vi-VN')} VND</p>
                                     </div>
                                 )}
+                                
+                                <h5 className="mt-3">Total Price</h5>
+                                <p>Total: {appointment?.total_price.toLocaleString('vi-VN') || ''} VND</p>
+
+
 
                                 {feedbackDetails && (
                                     <div>
