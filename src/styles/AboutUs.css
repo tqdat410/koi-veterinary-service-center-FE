@@ -6,12 +6,13 @@ html {
     height: 100%;
 }
 
-.content-header {
-    font-size: 60px !important;
-    margin-top: 10px !important;
-    ;
+.content-header-about-us {
+    font-weight: bold;
+    color: rgb(2, 3, 59);
+    font-size: 4rem;
+    margin-top: 4vh;
 }
-
+s
 .mt-3 {
     margin-top: 3rem !important;
 }
@@ -25,21 +26,21 @@ footer {
     background-color: #001f54;
     color: white;
     text-align: center;
-    padding: 20px 0;
+    /* padding: 20px 0; */
     position: relative;
     /* Make sure it's positioned at the bottom */
     width: 100%;
 }
 
 .content-about-us {
-    margin-bottom: -48px !important;
+    /* margin-bottom: -48px !important; */
     padding: 0 !important;
     /* Remove extra padding */
-    background-color: #1C1F20;
+    color: #1C1F20;
     max-width: 100% !important;
     max-height: 100% !important;
-    color: white;
-    min-height: 100vh;
+    background-color: white;
+    /* min-height: 100vh; */
     /* font-style: 'Roboto', sans-serif;  */
 }
 
@@ -57,6 +58,10 @@ footer {
 
 .about-section {
     text-align: left;
+}
+
+.about-text, .about-image {
+    padding-top: 12px !important;
 }
 
 .about-text>h2 {
