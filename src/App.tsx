@@ -77,9 +77,9 @@ const VetAppointmentDetails = lazy(() => import("./pages/Veterinarian/VetAppoint
 const FishAppointmentDetails = lazy(() => import("./pages/Customer/Koi/FishAppointmentDetails"))
 
 //Static pages
-const AboutPage = lazy(() => import("./pages/AboutUsPage"));
-const ContactUs = lazy(() => import("./pages/ContactUs"));
-const News = lazy(() => import("./pages/News"));
+const AboutPage = lazy(() => import("./pages/Common/StaticPage/AboutUsPage"));
+const ContactUs = lazy(() => import("./pages/Common/StaticPage/ContactUs"));
+const News = lazy(() => import("./pages/Common/StaticPage/News"));
 
 // Define a higher-order component with authentication
 const withAuth = (Component: React.ComponentType) => (

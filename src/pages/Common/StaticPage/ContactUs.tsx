@@ -1,12 +1,12 @@
-import Footer from '../components/layout/Footer';
-import Navbar from '../components/layout/Navbar';
-import '../styles/ContactUs.css';
+import Footer from '../../../components/layout/Footer';
+import Navbar from '../../../components/layout/Navbar';
+import '../../../styles/ContactUs.css';
 
 const ContactUs = () => (
     <div>
         <Navbar />
         <div className="container my-5 content-contact-us">
-            <h2 className="text-center mb-4 content-header">Contact Us</h2>
+            <h2 className="text-center mb-4 content-header-contact-us">Contact Us</h2>
 
             <div className="text-center mb-4">
                 <h3>Get in Touch with Us</h3>
@@ -26,6 +26,9 @@ const ContactUs = () => (
                 <div className="col-md-6">
                     <h4>Operating Hours</h4>
                     <p><strong>Monday - Sunday:</strong> 7:30 AM - 17:30 PM</p>
+                    <br/>
+                    <h4>Top rated service</h4>
+                    <p>Health Check-Up</p>
                 </div>
             </div>
 
