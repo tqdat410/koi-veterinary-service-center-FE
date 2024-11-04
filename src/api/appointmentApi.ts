@@ -364,3 +364,9 @@ export const getLinkMeetByVetId = async (vetId: number): Promise<string | null> 
         return null;
     }
 };
+
+// fetch appointment for each koi fish
+export const fetchAppointmentForFish = async (fishId: number) => {
+    const response = await axios.get(`${APPOINTMENT_URL}/fish/${fishId}`);
+    return response.data;
+};

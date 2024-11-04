@@ -73,10 +73,13 @@ const VetFeedbackPage = lazy(() => import("./pages/Veterinarian/VeterinarianFeed
 const VeterinarianFeedbackDetailsPage = lazy(() => import("./pages/Veterinarian/VeterinarianFeedbackDetailsPage"))
 const VetAppointmentDetails = lazy(() => import("./pages/Veterinarian/VetAppointmentDetails"))
 
+//New: for fish
+const FishAppointmentDetails = lazy(() => import("./pages/Customer/Koi/FishAppointmentDetails"))
+
 //Static pages
-const AboutPage = lazy(() => import("./pages/AboutUsPage"));
-const ContactUs = lazy(() => import("./pages/ContactUs"));
-const News = lazy(() => import("./pages/News"));
+const AboutPage = lazy(() => import("./pages/Common/StaticPage/AboutUsPage"));
+const ContactUs = lazy(() => import("./pages/Common/StaticPage/ContactUs"));
+const News = lazy(() => import("./pages/Common/StaticPage/News"));
 
 // Define a higher-order component with authentication
 const withAuth = (Component: React.ComponentType) => (
@@ -134,6 +137,7 @@ function App() {
                             <Route path="/koi/my-koi" element={withRole(KoiFishPage, ['CUS'])} />
                             <Route path="/koi/add" element={withRole(AddKoiFishPage, ['CUS'])} />
                             <Route path="/koi/details" element={withRole(KoiDetails, ['CUS'])} />
+                            <Route path="/appointments/fish/:fishId" element={withRole(FishAppointmentDetails, ['CUS'])} />
                             {/* <Route path="/my-appointment" element={withRole(CustomerAppointment, ['CUS'])} /> */}
                             <Route path="/appointment-details" element={withRole(CustomerAppointmentDetails, ['CUS'])} />
                             <Route path="/address/my-address" element={withRole(AddressManagementPage, ['CUS'])} />

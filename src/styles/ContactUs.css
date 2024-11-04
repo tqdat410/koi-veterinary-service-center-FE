@@ -4,9 +4,11 @@ body, html {
     height: 100%;
 }
 
-.content-header {
-    font-size: 60px !important;
-    padding-top: 2rem;
+.content-header-contact-us {
+    font-weight: bold;
+    color: rgb(2, 3, 59);
+    font-size: 4rem;
+    margin-top: 12vh;
 }
 
 .content-body {
@@ -26,10 +28,10 @@ body, html {
 .content-contact-us {
     margin-bottom: auto !important;
     padding: 0 !important; /* Remove extra padding */
-    background-color: #1C1F20;
+    color: #1C1F20;
     max-width: 100% !important;
     max-height: 100% !important;
-    color: white;
+    background-color: white;
     min-height: 100vh;
     padding-bottom: 15px;
 }

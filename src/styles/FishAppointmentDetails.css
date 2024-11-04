@@ -1,0 +1,67 @@
+
+.header-content {
+    padding-top: 45px !important;
+}
+
+.canceled, .not-paid {
+    background-color: red;
+    color: white !important;
+    font-family: sans-serif;
+    margin-left: 4px;
+    padding: 4px;
+    border-radius: 12px;
+  }
+  
+  .checked-in {
+    background-color: blue;
+    color: white !important;
+    font-family: sans-serif;
+    margin-left: 4px;
+    padding: 4px;
+    border-radius: 12px;
+  }
+  
+  .confirmed {
+    background-color: green;
+    color: white !important;
+    font-family: sans-serif;
+    margin-left: 4px;
+    padding: 4px;
+    border-radius: 12px;
+  }
+  
+  .done, .paid {
+    background-color: rgb(37, 195, 37);
+    color: white !important;
+    font-family: sans-serif;
+    margin-left: 4px;
+    padding: 4px;
+    border-radius: 12px;
+  }
+  
+  .on-going {
+    background-color: orange;
+    color: white !important;
+    font-family: sans-serif;
+    margin-left: 4px;
+    padding: 4px;
+    border-radius: 12px;
+  }
+  
+  .pending {
+    background-color: #ffd900c7 ;
+    color: white !important;
+    font-family: sans-serif;
+    margin-left: 4px;
+    padding: 4px;
+    border-radius: 12px;
+  }
+  
+  .default {
+    background-color: black;
+    color: white !important;
+    font-family: sans-serif;
+    margin-left: 4px;
+    padding: 4px;
+    border-radius: 12px;
+  }
