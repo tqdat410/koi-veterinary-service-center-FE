@@ -10,6 +10,7 @@ import ProgressTimeline from './Timeline';
 import AvailableSlot from "../../components/schedule/SlotDateSelection";
 import UpdateAppointment from "./UpdateAppointment";
 import RefundModal from "./RefundModal";
+import Sidebar from "../../components/layout/Sidebar";
 
 interface AppointmentDetailsProps {
     appointment_id: number;
@@ -426,300 +427,323 @@ const StaffAppointmentDetails: React.FC = () => {
         window.location.reload(); // Reload to reflect the changes
     };
     return (
-        <div className="container container-details">
-            <h2 className="mb-4">Appointment Details</h2>
-            <div className="status-timeline-container">
-                <ProgressTimeline currentStatus={appointment.current_status}/>
-            </div>
-            <div className="card">
-                <div className="card-body">
-                    <div className="card-body card-body-appointment">
-                        <h5 className="card-title card-title-appointment">Appointment ID: {appointment.appointment_id}</h5>
+        <div className="d-flex flex-grow-1 gap-3" style={{marginLeft: '272px'}}>
+            <Sidebar/>
+            <div className="container container-details">
+                <h2 className="mb-4">Appointment Details</h2>
+                <div className="status-timeline-container">
+                    <ProgressTimeline currentStatus={appointment.current_status}/>
+                </div>
+                <div className="card">
+                    <div className="card-body">
+                        <div className="card-body card-body-appointment">
+                            <h5 className="card-title card-title-appointment">Appointment
+                                ID: {appointment.appointment_id}</h5>
 
-                        <div className="row">
-                            <div className="col-md-6">
-                                <p>Date & time: {formattedDate}</p>
-                                <p>
-                                    Status:
-                                    <span
-                                        className={`span-status ${appointment?.current_status === 'CANCELED' ? 'canceled' :
-                                            appointment?.current_status === 'CHECKED_IN' ? 'checked-in' :
-                                                appointment?.current_status === 'CONFIRMED' ? 'confirmed' :
-                                                    appointment?.current_status === 'DONE' ? 'done' :
-                                                        appointment?.current_status === 'ON_GOING' ? 'on-going' :
-                                                            appointment?.current_status === 'PENDING' ? 'pending' :
-                                                                'default'
-                                        }`}
-                                    >
+                            <div className="row">
+                                <div className="col-md-6">
+                                    <p>Slot ID: {appointment.slot.slot_id} (Slot {appointment.slot.slot_order})</p>
+                                    <p>Date & time: {formattedDate}</p>
+
+                                    <p>
+                                        Status:
+                                        <span
+                                            className={`span-status ${appointment?.current_status === 'CANCELED' ? 'canceled' :
+                                                appointment?.current_status === 'CHECKED_IN' ? 'checked-in' :
+                                                    appointment?.current_status === 'CONFIRMED' ? 'confirmed' :
+                                                        appointment?.current_status === 'DONE' ? 'done' :
+                                                            appointment?.current_status === 'ON_GOING' ? 'on-going' :
+                                                                appointment?.current_status === 'PENDING' ? 'pending' :
+                                                                    'default'
+                                            }`}
+                                        >
                                         {/* Format lại chữ */}
-                                        {appointment?.current_status ?
-                                            appointment.current_status.replace('_', ' ').toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase())
-                                            : 'N/A'}
+                                            {appointment?.current_status ?
+                                                appointment.current_status.replace('_', ' ').toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase())
+                                                : 'N/A'}
                                     </span>
-                                </p>
+                                    </p>
 
-                                <h5 className="mt-3">Customer Information:</h5>
-                                <p>Name: {appointment?.customer_name}</p>
-                                <p>Slot ID: {appointment.slot.slot_id}</p>
-                                <p>Email: {appointment?.email}</p>
-                                <p>Phone: {appointment?.phone_number}</p>
-                                <p>Description: {appointment?.description || 'N/A'}</p>
+                                    <h5 className="mt-3">Customer Information:</h5>
+                                    <p>Name: {appointment?.customer_name}</p>
+                                    <p>Email: {appointment?.email}</p>
+                                    <p>Phone: {appointment?.phone_number}</p>
+                                    <p>Description: {appointment?.description || 'N/A'}</p>
 
-                                <h5 className="mt-3">Service Information</h5>
-                                <p>Service id: {appointment.service?.service_id}</p>
-                                <p>Service name: {appointment.service?.service_name}</p>
-                                <p>Service Price: {appointment.service?.service_price.toLocaleString('vi-VN')} VND</p>
-                                {appointment.discount && (
-                                    <p>Discount: -{appointment.discount.toLocaleString('vi-VN')} VND</p>
-                                )}
-                                <h5 className="mt-3">Veterinarian Information</h5>
+                                    <h5 className="mt-3">Service Information</h5>
+                                    <p>Service ID: {appointment.service?.service_id}</p>
+                                    <p>Service name: {appointment.service?.service_name}</p>
+                                    <p>Service
+                                        Price: {appointment.service?.service_price.toLocaleString('vi-VN')} VND</p>
+                                    {appointment.discount && (
+                                        <p>Discount: -{appointment.discount.toLocaleString('vi-VN')} VND</p>
+                                    )}
+                                    <h5 className="mt-3">Veterinarian Information</h5>
 
-                                {/* thêm phần add bác sĩ ở đây */}
-                                {
-                                    appointment.veterinarian ? (
-                                        <p>Name: {appointment.veterinarian?.first_name} {appointment.veterinarian?.last_name}</p>
-                                    ) : (
+                                    {/* thêm phần add bác sĩ ở đây */}
+                                    {
+                                        appointment.veterinarian ? (
+                                            <>
+
+                                                <p>Name: {appointment.veterinarian?.first_name} {appointment.veterinarian?.last_name} (ID: {appointment.veterinarian?.user_id})</p>
+                                            </>
+
+                                        ) : (
+                                            <div>
+                                                <label htmlFor="vet-select">Select Veterinarian:</label>
+                                                <select id="vet-select" onChange={handleVetSelection}
+                                                        className="form-select">
+                                                    <option value="">-- Select a veterinarian --</option>
+                                                    {vetList && vetList.map(vet => (
+                                                        <option key={vet.user_id} value={vet.user_id}>
+                                                            {vet.first_name} {vet.last_name}
+                                                        </option>
+                                                    ))}
+                                                </select>
+
+                                                <button
+                                                    className="btn btn-primary mt-3"
+                                                    disabled={!selectedVetId} // Vô hiệu hóa nếu chưa chọn bác sĩ
+                                                    onClick={handleSubmitOrder}
+                                                    // style={{ backgroundColor: 'red' }}
+                                                >
+                                                    Save changes
+                                                </button>
+
+                                            </div>
+                                        )
+                                    }
+
+
+                                    {/* Chỉ hiển thị khi có địa chỉ */}
+                                    {appointment.address && (
                                         <div>
-                                            <label htmlFor="vet-select">Select Veterinarian:</label>
-                                            <select id="vet-select" onChange={handleVetSelection}
-                                                    className="form-select">
-                                                <option value="">-- Select a veterinarian --</option>
-                                                {vetList && vetList.map(vet => (
-                                                    <option key={vet.user_id} value={vet.user_id}>
-                                                        {vet.first_name} {vet.last_name}
-                                                    </option>
-                                                ))}
-                                            </select>
-
-                                            <button
-                                                className="btn btn-primary mt-3"
-                                                disabled={!selectedVetId} // Vô hiệu hóa nếu chưa chọn bác sĩ
-                                                onClick={handleSubmitOrder}
-                                                // style={{ backgroundColor: 'red' }}
-                                            >
-                                                Save changes
-                                            </button>
-
+                                            <h5 className="mt-3">Address Information: </h5>
+                                            <p>
+                                                {appointment.address?.home_number}, {appointment.address?.ward}, {appointment.address?.district}, {appointment.address?.city}
+                                            </p>
                                         </div>
-                                    )
-                                }
+                                    )}
 
 
-                                {/* Chỉ hiển thị khi có địa chỉ */}
-                                {appointment.address && (
-                                    <div>
-                                        <h5 className="mt-3">Address Information: </h5>
-                                        <p>
-                                            {appointment.address?.home_number}, {appointment.address?.ward}, {appointment.address?.district}, {appointment.address?.city}
-                                        </p>
-                                    </div>
-                                )}
-
-
-                                {appointment.current_status === 'PENDING' && (
-                                    (paymentDetails?.status === 'NOT_PAID' && paymentDetails?.payment_method === 'CASH') ||
-                                    (paymentDetails?.status === 'PAID' && (paymentDetails?.payment_method === 'CASH' || paymentDetails?.payment_method === 'VN_PAY'))
-                                ) && (
-                                    !isEditingStatus ? (
-                                        <>
-                                            <p style={{
-                                                fontWeight: '900',
-                                                color: 'brown',
-                                                padding: '10px',
-                                                fontSize: '20px'
-                                            }}>Update Status</p>
-                                            <button className="btn btn-info" onClick={handleEditStatus}>Click here to
-                                                Update
-                                            </button>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <p style={{
-                                                fontWeight: 'bold',
-                                                fontSize: '24px',
-                                                fontStyle: 'italic'
-                                            }}>Update Status</p>
-                                            <button style={{marginLeft: '4px'}} className="btn btn-primary"
-                                                    onClick={() => handleSelectStatus("CONFIRMED")}>Confirmed
-                                            </button>
-                                            {/* CHECK IN KHI VÀ CHỈ KHI LÀ SERVICE ID = 3 VÀ ADDRESS = NULL */}
-                                            {/* {appointment.service?.service_id === 3 && !appointment.address
+                                    {appointment.current_status === 'PENDING' && (
+                                        (paymentDetails?.status === 'NOT_PAID' && paymentDetails?.payment_method === 'CASH') ||
+                                        (paymentDetails?.status === 'PAID' && (paymentDetails?.payment_method === 'CASH' || paymentDetails?.payment_method === 'VN_PAY'))
+                                    ) && (
+                                        !isEditingStatus ? (
+                                            <>
+                                                <p style={{
+                                                    fontWeight: '900',
+                                                    color: 'brown',
+                                                    padding: '10px',
+                                                    fontSize: '20px'
+                                                }}>Update Status</p>
+                                                <button className="btn btn-info" onClick={handleEditStatus}>Click here
+                                                    to
+                                                    Update
+                                                </button>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <p style={{
+                                                    fontWeight: 'bold',
+                                                    fontSize: '24px',
+                                                    fontStyle: 'italic'
+                                                }}>Update Status</p>
+                                                <button style={{marginLeft: '4px'}} className="btn btn-primary"
+                                                        onClick={() => handleSelectStatus("CONFIRMED")}>Confirmed
+                                                </button>
+                                                {/* CHECK IN KHI VÀ CHỈ KHI LÀ SERVICE ID = 3 VÀ ADDRESS = NULL */}
+                                                {/* {appointment.service?.service_id === 3 && !appointment.address
                                                 && <button style={{ marginLeft: '4px' }} className="btn btn-warning" onClick={() => handleSelectStatus("CHECKED_IN")}>Check in</button>} */}
 
-                                            <button style={{marginLeft: '4px'}} className="btn btn-secondary"
-                                                    onClick={handleCancelEditStatus}>Undo
-                                            </button>
-                                        </>
-                                    ))}
-                                {(appointment.current_status === 'PENDING' || appointment.current_status === 'ON_GOING') && (
-                                    <button style={{marginLeft: '4px'}} className="btn btn-danger"
-                                            onClick={handleUpdateAppointmentStatusCanceled}>Canceled
-                                    </button>
-                                )}
-                                {/* Thêm điều kiện ngoài: ON_GOING, service id = 3, method = vn_pay, status pay = paid thì có nút mỗi nút ON_going */}
-                                {appointment.current_status === 'ON_GOING' && appointment.service?.service_id === 3 && paymentDetails?.payment_method === 'VN_PAY' && paymentDetails?.status === 'PAID' && !appointment.address && (
-                                    <button style={{marginLeft: '4px', fontSize: '16px'}} className="btn btn-warning"
-                                            onClick={() => handleSelectStatus("CHECKED_IN")}>Check in</button>
-                                )}
+                                                <button style={{marginLeft: '4px'}} className="btn btn-secondary"
+                                                        onClick={handleCancelEditStatus}>Undo
+                                                </button>
+                                            </>
+                                        ))}
+                                    {(appointment.current_status === 'PENDING' || appointment.current_status === 'ON_GOING') && (
+                                        <button style={{marginLeft: '4px'}} className="btn btn-danger"
+                                                onClick={handleUpdateAppointmentStatusCanceled}>Canceled
+                                        </button>
+                                    )}
+                                    {/* Thêm điều kiện ngoài: ON_GOING, service id = 3, method = vn_pay, status pay = paid thì có nút mỗi nút ON_going */}
+                                    {appointment.current_status === 'ON_GOING' && appointment.service?.service_id === 3 && paymentDetails?.payment_method === 'VN_PAY' && paymentDetails?.status === 'PAID' && !appointment.address && (
+                                        <button style={{marginLeft: '4px', fontSize: '16px'}}
+                                                className="btn btn-warning"
+                                                onClick={() => handleSelectStatus("CHECKED_IN")}>Check in</button>
+                                    )}
 
-                                {/* CHECK IN KHI LÀ VN_PAY VÀ STATUS CỦA APPOINTMENT = PAID */}
-                                {/* {  appointment.current_status ==='CHECKED_IN' &&  paymentDetails?.payment_method === 'VN_PAY' && paymentDetails?.status === 'PAID' && */}
-                                {/* <button style={{ marginLeft: '4px' }} className="btn btn-warning" onClick={() => handleSelectStatus("CHECKED_IN")}>Check in</button>} */}
+                                    {/* CHECK IN KHI LÀ VN_PAY VÀ STATUS CỦA APPOINTMENT = PAID */}
+                                    {/* {  appointment.current_status ==='CHECKED_IN' &&  paymentDetails?.payment_method === 'VN_PAY' && paymentDetails?.status === 'PAID' && */}
+                                    {/* <button style={{ marginLeft: '4px' }} className="btn btn-warning" onClick={() => handleSelectStatus("CHECKED_IN")}>Check in</button>} */}
 
 
-                            </div>
+                                </div>
 
-                            <div className="col-md-6">
+                                <div className="col-md-6">
 
-                            {appointment.fish && (
-                                    <div>
-                                        <h5 className="mt-3">Fish Information</h5>
-                                        <p>Species: {appointment.fish?.species}</p>
-                                        <p>Gender: {appointment.fish?.gender}</p>
-                                        <p>Size: {appointment.fish?.size} cm</p>
-                                        <p>Weight: {appointment.fish?.weight} kg</p>
-                                        <p>Origin: {appointment.fish?.origin}</p>
-                                    </div>
-                                )
-                                }
+                                    {appointment.fish && (
+                                        <div>
+                                            <h5 className="mt-3">Fish Information</h5>
+                                            <p>Species: {appointment.fish?.species}</p>
+                                            <p>Gender: {appointment.fish?.gender}</p>
+                                            <p>Size: {appointment.fish?.size} cm</p>
+                                            <p>Weight: {appointment.fish?.weight} kg</p>
+                                            <p>Origin: {appointment.fish?.origin}</p>
+                                        </div>
+                                    )
+                                    }
 
-                                {/* Chỉ show moving surcharge khi có */}
-                                {appointment.moving_surcharge && (
-                                    <div>
-                                        <h5 className="mt-3" >Moving Surcharge</h5>
-                                        <p>District: {appointment.moving_surcharge?.district || 'Not available'}</p>
-                                        <p>Price: {appointment.moving_surcharge?.price.toLocaleString('vi-VN') || '0'} VND </p>
-                                    </div>
-                                )}
+                                    {/* Chỉ show moving surcharge khi có */}
+                                    {appointment.moving_surcharge && (
+                                        <div>
+                                            <h5 className="mt-3">Moving Surcharge</h5>
+                                            <p>District: {appointment.moving_surcharge?.district || 'Not available'}</p>
+                                            <p>Price: {appointment.moving_surcharge?.price.toLocaleString('vi-VN') || '0'} VND </p>
+                                        </div>
+                                    )}
 
-                                <h5 className="mt-3" >Total Price</h5>
-                                <p>Total: {appointment?.total_price.toLocaleString('vi-VN') || '0'} VND</p>
+                                    <h5 className="mt-3">Total Price</h5>
+                                    <p>Total: {appointment?.total_price.toLocaleString('vi-VN') || '0'} VND</p>
 
-                                {/* Conditionally render payment details */}
-                                {paymentDetails?.payment_id && (
-                                    <div>
-                                        <h5 className="mt-3">Payment Details</h5>
-                                        <p>Payment ID: {paymentDetails.payment_id}</p>
-                                        <p>Payment method: {paymentDetails.payment_method}</p>
-                                        <p>Payment amount: {paymentDetails.payment_amount.toLocaleString('vi-VN')} VND</p>
-                                        <p>Status:
-                                            <span className={`span-status ${paymentDetails?.status === 'PAID' ? 'payment-status-paid' :
-                                                paymentDetails?.status === 'NOT_PAID' ? 'payment-status-not-paid' :
-                                                    paymentDetails?.status === 'REFUNDED' ? 'payment-status-refund' :
-                                                    'status-default'
-                                                }`}
-                                            >
+                                    {/* Conditionally render payment details */}
+                                    {paymentDetails?.payment_id && (
+                                        <div>
+                                            <h5 className="mt-3">Payment Details</h5>
+                                            <p>Payment ID: {paymentDetails.payment_id}</p>
+                                            <p>Payment method: {paymentDetails.payment_method}</p>
+                                            <p>Payment
+                                                amount: {paymentDetails.payment_amount.toLocaleString('vi-VN')} VND</p>
+                                            <p>Status:
+                                                <span
+                                                    className={`span-status ${paymentDetails?.status === 'PAID' ? 'payment-status-paid' :
+                                                        paymentDetails?.status === 'NOT_PAID' ? 'payment-status-not-paid' :
+                                                            paymentDetails?.status === 'REFUNDED' ? 'payment-status-refund' :
+                                                                'status-default'
+                                                    }`}
+                                                >
                                                 {/* Transform 'PAID' or 'NOT_PAID' to 'Paid' or 'Not paid' */}
-                                                {paymentDetails?.status
-                                                    ? paymentDetails.status.replace('_', ' ').toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase())
-                                                    : 'N/A'}
+                                                    {paymentDetails?.status
+                                                        ? paymentDetails.status.replace('_', ' ').toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase())
+                                                        : 'N/A'}
                                             </span>
-                                        </p>
+                                            </p>
 
-                                        {/* Hiển thị phần update payment chỉ khi status là NOT_PAID và method là CASH */}
-                                        {paymentDetails.status === "NOT_PAID" && paymentDetails.payment_method === "CASH" && appointment.current_status === 'ON_GOING' && (
-                                            <div>
-                                                <span style={{ fontWeight: 'bold', fontSize: '24px', fontStyle: 'italic' }}>Update Payment Status: </span>
-                                                {!isEditingPaymentMethod ? (
-                                                    <button className="btn btn-primary" onClick={handleEditPaymentMethod}>
-                                                        Edit Payment Method
-                                                    </button>
-                                                ) : (
-                                                    <div>
-                                                        <button className="btn btn-success mt-2" onClick={handleUpdatePaymentMethod}>
-                                                            Update PAID
+                                            {/* Hiển thị phần update payment chỉ khi status là NOT_PAID và method là CASH */}
+                                            {paymentDetails.status === "NOT_PAID" && paymentDetails.payment_method === "CASH" && appointment.current_status === 'ON_GOING' && (
+                                                <div>
+                                                    <span style={{
+                                                        fontWeight: 'bold',
+                                                        fontSize: '24px',
+                                                        fontStyle: 'italic'
+                                                    }}>Update Payment Status: </span>
+                                                    {!isEditingPaymentMethod ? (
+                                                        <button className="btn btn-primary"
+                                                                onClick={handleEditPaymentMethod}>
+                                                            Edit Payment Method
                                                         </button>
-                                                        <button className="btn btn-success mt-2" style={{ marginLeft: '12px', backgroundColor: 'red' }} onClick={() => setIsEditingPaymentMethod(false)}>
-                                                            Cancel
-                                                        </button>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        )}
-                                        {paymentDetails?.status === 'PAID' && appointment.current_status === 'CANCELED' &&(
-                                            <button className="btn btn-warning mt-2 fw-bold"
-                                                    onClick={handleOpenRefundModal}>
-                                                Update Refund
-                                            </button>
+                                                    ) : (
+                                                        <div>
+                                                            <button className="btn btn-success mt-2"
+                                                                    onClick={handleUpdatePaymentMethod}>
+                                                                Update PAID
+                                                            </button>
+                                                            <button className="btn btn-success mt-2"
+                                                                    style={{marginLeft: '12px', backgroundColor: 'red'}}
+                                                                    onClick={() => setIsEditingPaymentMethod(false)}>
+                                                                Cancel
+                                                            </button>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            )}
+                                            {paymentDetails?.status === 'PAID' && appointment.current_status === 'CANCELED' && (
+                                                <button className="btn btn-warning mt-2 fw-bold"
+                                                        onClick={handleOpenRefundModal}>
+                                                    Update Refund
+                                                </button>
 
-                                        )}
-                                        {isModalRefundOpen && (
-                                            <RefundModal
-                                                appointmentId={appointmentIdNumber}
-                                                customerId={Number(appointment.customer_id)}
-                                                isOpen={isModalRefundOpen}
-                                                onClose={handleCloseRefundModal}
-                                                onRefundSuccess={handleRefundSuccess}
-                                            />
-                                        )}
-                                    </div>
-                                )}
+                                            )}
+                                            {isModalRefundOpen && (
+                                                <RefundModal
+                                                    appointmentId={appointmentIdNumber}
+                                                    customerId={Number(appointment.customer_id)}
+                                                    isOpen={isModalRefundOpen}
+                                                    onClose={handleCloseRefundModal}
+                                                    onRefundSuccess={handleRefundSuccess}
+                                                />
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
 
-            </div>
+                <div className="d-flex gap-3 align-items-center">
+                    <div className='back-button'>
+                        <button className="btn btn-secondary" onClick={() => navigate(-1)}>Back</button>
+                    </div>
 
-            <div className="d-flex gap-3 align-items-center">
-                <div className='back-button'>
-                    <button className="btn btn-secondary" onClick={() => navigate(-1)}>Back</button>
+                    {appointment.current_status !== 'CANCELED' && appointment.current_status !== 'CHECKED_IN' && (
+                        <button
+                            className="btn btn-primary fs-5 fw-bold"
+                            onClick={handleOpenModal}
+                        >
+                            Update Appointment
+                        </button>
+                    )}
                 </div>
-                <button
-                    className="btn btn-primary fs-5 fw-bold"
+                {isModalOpen && (
+                    <div className="modal-overlay" onClick={handleCloseModal}>
+                        <div className="modal-content"
+                             onClick={(e) => e.stopPropagation()}> {/* Prevent click event from bubbling up to the overlay */}
+                            <div className="modal-header">
+                                {/*<h5 className="modal-title appointment-title">Follow Up Appointment</h5>*/}
 
-                    onClick={handleOpenModal}
-                >
-                    Update Appointment
-                </button>
-            </div>
-            {isModalOpen && (
-                <div className="modal-overlay" onClick={handleCloseModal}>
-                    <div className="modal-content"
-                         onClick={(e) => e.stopPropagation()}> {/* Prevent click event from bubbling up to the overlay */}
-                        <div className="modal-header">
-                            {/*<h5 className="modal-title appointment-title">Follow Up Appointment</h5>*/}
-
-                            <span className="close-icon" onClick={handleCloseModal}>
+                                <span className="close-icon" onClick={handleCloseModal}>
                                                 &times;
                                         </span>
+                            </div>
+                            <div className="modal-body" style={{marginLeft: "3%"}}>
+
+                                {/* Pass vetId or any necessary data to AvailableSlot */}
+                                <UpdateAppointment
+                                    appointmentId={Number(appointment_id)}
+                                    email={email}
+                                    phone_number={phone_number}
+
+                                />
+                                <label className="fw-bold" style={{fontSize: "15px"}}>Update email</label>
+                                <input
+                                    type="text"
+                                    placeholder="Enter new email"
+                                    value={email || ''}
+                                    onChange={(e) => setEmail(e.target.value || null)} // Set to null if empty
+                                    className="form-control mb-1 fw-light"
+                                    style={{maxWidth: "930px"}}
+                                />
+                                <label className="fw-bold" style={{fontSize: "15px"}}>Update Phone number</label>
+                                <input
+                                    type="text"
+                                    placeholder="Enter new phone number"
+                                    value={phone_number || ''}
+                                    onChange={(e) => setPhoneNumber(e.target.value || null)} // Set to null if empty
+                                    className="form-control mb-1 fw-light"
+                                    style={{maxWidth: "930px"}}
+                                />
+                            </div>
+
                         </div>
-                        <div className="modal-body" style={{marginLeft: "3%"}}>
-
-                            {/* Pass vetId or any necessary data to AvailableSlot */}
-                            <UpdateAppointment
-                                appointmentId={Number(appointment_id)}
-                                email={email}
-                                phone_number={phone_number}
-
-                            />
-                            <label className="fw-bold" style={{fontSize:"15px"}}>Update email</label>
-                            <input
-                                type="text"
-                                placeholder="Enter new email"
-                                value={email || ''}
-                                onChange={(e) => setEmail(e.target.value || null)} // Set to null if empty
-                                className="form-control mb-1 fw-light"
-                                style={{maxWidth: "930px"}}
-                            />
-                            <label className="fw-bold" style={{fontSize:"15px"}}>Update Phone number</label>
-                            <input
-                                type="text"
-                                placeholder="Enter new phone number"
-                                value={phone_number || ''}
-                                onChange={(e) => setPhoneNumber(e.target.value || null)} // Set to null if empty
-                                className="form-control mb-1 fw-light"
-                                style={{maxWidth: "930px"}}
-                            />
-                        </div>
-
                     </div>
-                </div>
-            )}
+                )}
+            </div>
         </div>
+         );
 
-    );
-
-};
+            };
 export default StaffAppointmentDetails;
 

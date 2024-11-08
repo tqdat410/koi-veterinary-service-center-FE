@@ -91,6 +91,7 @@ const VetSchedule: React.FC = () => {
             if (vetId) {
                 try {
                     const slots = await fetchVetSlots(vetId);
+                    console.log(slots)
                     if (Array.isArray(slots)) {
                         setAppointments(slots);
                     } else {
