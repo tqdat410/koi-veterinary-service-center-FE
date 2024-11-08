@@ -63,19 +63,19 @@ const ProgressTimeline: React.FC<ProgressTimelineProps> = ({ currentStatus }) =>
                 // Set icon for CANCELED status
                 if (isCancelled) {
                     icon = <Cancel  style={{fontSize: 26 }}/>;
-                    iconColor = 'red'; // Color for CANCELED status
+                    iconColor = 'red !important'; // Color for CANCELED status
                 }
-                // Set icon for completed steps
-                else if (index < stepIndex || (currentStatus === 'DONE' && index === stepIndex)) {
-                    icon = <CheckCircle style={{ color: '#4caf50', fontSize: 26 }} />;
-                    iconColor = '#4caf50'; // Color for completed steps
+                // Icon for the current active step
+                else if (index === stepIndex) {
+                    icon = <CheckCircle style={{ color: '#4caf50', fontSize: 27 }} />;
+                    iconColor = '#50bc54 !important'; // Orange color for active step
                 }
-                // Set spinner for both PENDING and ON_GOING statuses
-                else if (status === 'PENDING' || (currentStatus === 'ON_GOING' && status === 'ON_GOING')) {
-                    icon = <CircularProgress size={24} color="warning" />;
-                    iconColor = '#ff9800'; // Color for PENDING status
+                // Icon for completed steps
+                else if (index < stepIndex) {
+                    icon = <CheckCircle style={{ color: '#4caf50', fontSize: 27 }} />;
+                    iconColor = '#50bc54 !important'; // Green for completed steps
                 }
-                // Use the empty circle for all other statuses
+                // Empty circle for future steps
                 else {
                     icon = <EmptyCircle />;
                 }
@@ -86,9 +86,11 @@ const ProgressTimeline: React.FC<ProgressTimelineProps> = ({ currentStatus }) =>
                             sx={{
                                 '& .MuiStepLabel-iconContainer': {
                                     color: iconColor,
+
                                 },
                                 '& .MuiStepLabel-label': {
                                     color: iconColor,
+                                    marginTop: '5px !important',
                                 },
                             }}
                             StepIconComponent={() => (
@@ -109,9 +111,11 @@ const ProgressTimeline: React.FC<ProgressTimelineProps> = ({ currentStatus }) =>
                         sx={{
                             '& .MuiStepLabel-iconContainer': {
                                 color: 'red',
+
                             },
                             '& .MuiStepLabel-label': {
                                 color: 'red',
+                                marginTop: '5px !important',
                             },
                         }}
                         StepIconComponent={() => (

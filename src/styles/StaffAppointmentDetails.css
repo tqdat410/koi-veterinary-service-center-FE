@@ -11,6 +11,9 @@
     width: 100%;
 }
 
+.card-body-appointment p{
+    font-size: 1.2rem;
+}
 .card-title-appointment {
     margin: 0;
     margin-bottom: 12px;
