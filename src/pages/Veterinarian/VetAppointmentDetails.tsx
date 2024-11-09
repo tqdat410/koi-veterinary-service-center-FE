@@ -280,12 +280,6 @@ const VetAppointmentDetails: React.FC = () => {
         <div className="d-flex flex-grow-1 gap-3" style={{marginLeft: '272px'}}>
             <Sidebar/>
             <div className="container-fluid vh-100 text-start d-flex align-items-center justify-content-center">
-                {/*<button*/}
-                {/*    className="btn btn-secondary mb-3"*/}
-                {/*    style={{position: 'absolute', top: '12%', left: '3%'}}*/}
-                {/*    onClick={handleBack}>*/}
-                {/*    Back*/}
-                {/*</button>*/}
                 {appointment && (
                     <div className="row " style={{width: "80%"}}>
                         {/* Left Column - Appointment Details */}

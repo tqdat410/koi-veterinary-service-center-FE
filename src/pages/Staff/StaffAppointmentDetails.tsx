@@ -442,9 +442,9 @@ const StaffAppointmentDetails: React.FC = () => {
 
                             <div className="row">
                                 <div className="col-md-6">
-                                    <p>Slot ID: {appointment.slot.slot_id} (Slot {appointment.slot.slot_order})</p>
-                                    <p>Date & time: {formattedDate}</p>
-
+                                    <p>Start time:  {`${appointment.slot.day}/${appointment.slot.month}/${appointment.slot.year}`} -
+                                        Slot {appointment.slot.slot_order} ({appointment.slot.description})</p>
+                                    <p>Booked time: {formattedDate}</p>
                                     <p>
                                         Status:
                                         <span

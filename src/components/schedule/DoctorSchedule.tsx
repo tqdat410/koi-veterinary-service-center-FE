@@ -8,10 +8,10 @@ import {fetchVetSlots} from "../../api/scheduleApi"; // Import your custom CSS
 
 // Map slot_order to time ranges
 const slotOrderToTime = {
-    1: '7:30 - 9:30',
+    1: '8:00 - 10:00',
     2: '10:00 - 12:00',
     3: '13:00 - 15:00',
-    4: '15:30 - 17:30',
+    4: '15:00 - 17:00',
 };
 
 // Get week dates function remains the same
