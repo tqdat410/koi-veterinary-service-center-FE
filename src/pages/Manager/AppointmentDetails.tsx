@@ -238,7 +238,7 @@ const AppointmentDetails: React.FC = () => {
 
                             <div className="row">
                                 <div className="col-md-6">
-                                    <p>Date: {formattedCreatedDate}</p>
+                                    <p>Created date & time: {formattedCreatedDate}</p>
                                     <p>Status:
                                         <span
                                             className={`span-status ${appointment?.current_status === 'CANCELED' ? 'canceled brds' :
@@ -257,19 +257,19 @@ const AppointmentDetails: React.FC = () => {
                                     </p>
 
 
-                                    <h5 className="mt-3">Customer Information</h5>
+                                    <h5 className="mt-3 fw-900">Customer Information</h5>
                                     <p>Name: {appointment?.customer_name}</p>
                                     <p>Email: {appointment?.email}</p>
                                     <p>Phone: {appointment?.phone_number}</p>
                                     <p>Description: {appointment?.description || 'Nothing'}</p>
 
-                                    <h5 className="mt-3">Service Information</h5>
+                                    <h5 className="mt-3 fw-900">Service Information</h5>
                                     <p>Service name: {appointment.service?.service_name}</p>
                                     <p>Service
                                         Price: {appointment.service?.service_price.toLocaleString('vi-VN')} VND</p>
 
 
-                                    <h5 className="mt-3">Veterinarian Information</h5>
+                                    <h5 className="mt-3 fw-900">Veterinarian Information</h5>
                                     <p>
                                         Veterinarian name: {
                                         (appointment.veterinarian?.first_name || appointment.veterinarian?.last_name)
@@ -278,7 +278,7 @@ const AppointmentDetails: React.FC = () => {
                                     }
                                     </p>
 
-                                    <h5 className="mt-3" style={{fontWeight: '900', display: 'inline'}}>
+                                    <h5 className="mt-3 fw-900" style={{fontWeight: '900', display: 'inline'}}>
                                         Address Information:
                                         <p style={{fontWeight: 'normal'}}>
                                             {
@@ -290,7 +290,7 @@ const AppointmentDetails: React.FC = () => {
                                     </h5>
 
 
-                                    <h5 className="mt-3">Report Information</h5>
+                                    <h5 className="mt-3 fw-900">Report Information</h5>
                                     <p>Report ID: {report?.report_id || 'No id'}</p>
                                     <p>Veterinarian ID: {report?.veterinarian_id || 'No veterinarain'}
                                     </p>
@@ -303,7 +303,7 @@ const AppointmentDetails: React.FC = () => {
                                     {/* Tồn tại thì mới có hiển thị */}
                                     {appointment.fish && (
                                         <div>
-                                            <h5 className="mt-3">Fish Information</h5>
+                                            <h5 className="mt-3 fw-900">Fish Information</h5>
                                             <p>Species: {appointment.fish?.species}</p>
                                             <p>Gender: {appointment.fish?.gender}</p>
                                             <p>Size: {appointment.fish?.size} cm</p>
@@ -312,21 +312,21 @@ const AppointmentDetails: React.FC = () => {
                                         </div>
                                     )}
 
-                                    <h5 className="mt-3">Moving Surcharge</h5>
+                                    <h5 className="mt-3 fw-900">Moving Surcharge</h5>
                                     <p>
                                         District: {appointment.moving_surcharge?.district || 'Not available'}
                                     </p>
                                     <p>Price: {appointment.moving_surcharge?.price.toLocaleString('vi-VN') || '0'} VND </p>
 
-                                    <h5 className="mt-3">Total Price</h5>
+                                    <h5 className="mt-3 fw-900">Total Price</h5>
                                     <p>Total: {appointment?.total_price.toLocaleString('vi-VN') || ''} VND</p>
 
-                                    <h5 className="mt-3">Prescription</h5>
+                                    <h5 className="mt-3 fw-900">Prescription</h5>
                                     <button className="btn btn-primary" onClick={handleViewPrescription}>
                                         View prescription details
                                     </button>
 
-                                    <h5 className="mt-3">Logs of appointment
+                                    <h5 className="mt-3 fw-900">Logs of appointment
                                         information</h5>
                                     <button className="btn btn-primary" onClick={handleViewLogs}>
                                         View Log Details
@@ -348,23 +348,26 @@ const AppointmentDetails: React.FC = () => {
                                                 let statusClass = "";
                                                 switch (log.status) {
                                                     case "CANCELED":
-                                                        statusClass = "brds logs-status-cancelled";
+                                                        statusClass = "brds logs-status-cancelled brds";
                                                         break;
                                                     case "CHECKED_IN":
-                                                        statusClass = "brds logs-status-check-in";
+                                                        statusClass = "brds logs-status-check-in brds";
                                                         break;
                                                     case "CONFIRMED":
-                                                        statusClass = "brds logs-status-confirmed";
+                                                        statusClass = "brds logs-status-confirmed brds";
                                                         break;
                                                     case "DONE":
-                                                        statusClass = "brds logs-status-done";
+                                                        statusClass = "brds logs-status-done brds";
                                                         break;
                                                     case "ON_GOING":
-                                                        statusClass = "brds logs-status-on-going";
+                                                        statusClass = "brds logs-status-on-going brds";
                                                         break;
                                                     case "PENDING":
-                                                        statusClass = "brds logs-status-pending";
+                                                        statusClass = "brds logs-status-pending brds";
                                                         break;
+                                                    case "PAID":
+                                                        statusClass = "brds logs-status-paid brds";
+                                                        break;   
                                                     default:
                                                         statusClass = "";
                                                 }
@@ -441,7 +444,7 @@ const AppointmentDetails: React.FC = () => {
 
                 {/* Back Button */}
                 <div style={{marginTop: '1rem', marginBottom: '2rem'}}>
-                    <button className="btn btn-secondary mt-3" onClick={() => navigate(-1)}>Back</button>
+                    <button className="btn btn-secondary" onClick={() => navigate(-1)}>Back</button>
                 </div>
 
             </div>
