@@ -8,7 +8,7 @@ const AboutUsPage: React.FC = () => {
     return (
         <div>
             <Navbar />
-            <div className="container my-5 d-flex flex-column content-about-us">
+            <div className="container my-5 d-flex flex-column content-about-us min-h-auto">
                 <h1 className="content-header-about-us" >About Us</h1>
                 <p className="content-body" >
                 </p>
