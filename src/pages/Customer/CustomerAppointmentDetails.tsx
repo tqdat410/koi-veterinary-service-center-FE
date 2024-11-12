@@ -267,17 +267,26 @@ const CustomerAppointmentDetails: React.FC = () => {
             console.error('Error fetching Google meeting:', error);
         }
     };
+
+    // Fucntion to handle STATUS CANCEL
+    const handleSelectStatusCancel = () => {
+        console.log(`Selected status set to: CANCELED`);
+        const confirmUpdate = window.confirm(`Are you sure you want to update the status to: CANCELED?`);
+        if (confirmUpdate) {
+            handleUpdateAppointmentStatusCanceled();  // Gọi hàm cập nhật
+            window.location.reload();
+        }
+    };
+
+    // Function to update status CANCLED
     const handleUpdateAppointmentStatusCanceled = async () => {
         if (appointment) {
-            const confirmUpdate = window.confirm(`Appointment status updated to: CANCELED, do you want to change it?`);
-            if (confirmUpdate) {
+            
                 try {
                     // Gọi API để cập nhật trạng thái
-                    const response = await updateAppointmentStatusCanceled(appointment.appointment_id);
-
-                    // Kiểm tra nếu response thành công
-                    if (response && response.status === 200) {
-                        // Cập nhật trạng thái trên giao diện
+                    const response = await updateAppointmentStatusCanceled(appointment?.appointment_id);
+                    if (response) {
+                        // Cập nhật lại thông tin trạng thái trong state appointment
                         setAppointment(prevAppointment => {
                             if (prevAppointment) {
                                 return {
@@ -290,15 +299,12 @@ const CustomerAppointmentDetails: React.FC = () => {
                         console.log('Updated appointment status: CANCELED');
                         // navigate(0); // Tự động làm mới trang sau khi cập nhật
                         window.location.reload();
-                    } else {
-                        // Trường hợp response không thành công
-                        navigate(0); // Tự động làm mới trang sau khi cập nhật
-                        // alert('Failed to update appointment status due to server error.');
-                    }
+                    }                                
                 } catch (error) {
                     console.error('Failed to update appointment status');
+                    // window.location.reload();
                 }
-            }
+            
         }
     };
 
@@ -405,7 +411,7 @@ const CustomerAppointmentDetails: React.FC = () => {
                                     Slot {appointment.slot.slot_order} ({appointment.slot.description})</p>
                                 <p>Booked time: {
                                     formatDateTime(appointment.created_date)
-                                    }</p>
+                                }</p>
                                 <p>Status:
                                     <span
                                         className={`span-status ${appointment?.current_status === 'CANCELED' ? 'status-canceled-cus' :
@@ -447,7 +453,7 @@ const CustomerAppointmentDetails: React.FC = () => {
                                 <p>Vet ID: {appointment.veterinarian?.user_id}</p>
                                 {(appointment.current_status === 'PENDING' || appointment.current_status === 'ON_GOING') && (
                                     <button style={{ marginLeft: '4px' }} className="btn btn-danger"
-                                        onClick={handleUpdateAppointmentStatusCanceled}>Canceled
+                                        onClick={() => handleSelectStatusCancel()}>Canceled
                                     </button>
                                 )}
 
