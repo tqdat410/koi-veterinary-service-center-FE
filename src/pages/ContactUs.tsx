@@ -31,7 +31,7 @@ const ContactUs = () => (
 
             <div className="my-4">
                 <h4>Appointment Requests</h4>
-                <p>To schedule an appointment, please call us or fill out our <a href="http://koi-fish-veterinary-service.ctsq8w4mwdt4.ap-southeast-1.rds.amazonaws.com/appointment/service-selection" target="_blank" rel="noopener noreferrer">online appointment request form</a>. We will get back to you as soon as possible to confirm your appointment.</p>
+                <p>To schedule an appointment, please call us or fill out our <a href="http://koifishveterinaryinterface.s3-website-ap-southeast-1.amazonaws.com//appointment/service-selection" target="_blank" rel="noopener noreferrer">online appointment request form</a>. We will get back to you as soon as possible to confirm your appointment.</p>
             </div>
 
             <div>
