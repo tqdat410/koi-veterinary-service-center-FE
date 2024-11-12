@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getAppointmentDetails, updateAppointment } from '../../api/appointmentApi';
-import {fetchPayment, refundPayment, updatePayment} from '../../api/paymentApi';
+import { fetchPayment, refundPayment, updatePayment } from '../../api/paymentApi';
 import { updateAppointmentStatus, fetchAppointmentAndVeterinariansDemo, updateAppointmentStatusCanceled } from '../../api/appointmentApi';
 import { fetchVetBySlotId } from '../../api/vetApi';
 import '../../styles/StaffAppointmentDetails.css';
@@ -28,7 +28,7 @@ interface AppointmentDetailsProps {
     address: Address
     veterinarian: Veterinarian;
     fish: Fish;
-    discount:number;
+    discount: number;
 }
 
 interface time_Slot {
@@ -95,7 +95,7 @@ enum payment_method {
 enum payment_status {
     NOT_PAID = 'NOT_PAID',
     PAID = 'PAID',
-    REFUNDED= 'REFUNDED',
+    REFUNDED = 'REFUNDED',
 }
 
 
@@ -208,7 +208,8 @@ const StaffAppointmentDetails: React.FC = () => {
         const confirmUpdate = window.confirm(`Are you sure you want to update the status to: ${status}?`);
         if (confirmUpdate) {
             handleUpdateAppointmentStatus(status);  // Gọi hàm cập nhật
-            navigate(0); // Tự động làm mới trang sau khi cập nhật
+            // navigate(0); // Tự động làm mới trang sau khi cập nhật
+            window.location.reload();
         }
     };
 
@@ -257,11 +258,9 @@ const StaffAppointmentDetails: React.FC = () => {
             if (confirmUpdate) {
                 try {
                     // Gọi API để cập nhật trạng thái
-                    const response = await updateAppointmentStatusCanceled(appointment.appointment_id);
-
-                    // Kiểm tra nếu response thành công
-                    if (response && response.status === 200) {
-                        // Cập nhật trạng thái trên giao diện
+                    const response = await updateAppointmentStatusCanceled(appointment?.appointment_id);
+                    if (response) {
+                        // Cập nhật lại thông tin trạng thái trong state appointment
                         setAppointment(prevAppointment => {
                             if (prevAppointment) {
                                 return {
@@ -274,13 +273,10 @@ const StaffAppointmentDetails: React.FC = () => {
                         console.log('Updated appointment status: CANCELED');
                         // navigate(0); // Tự động làm mới trang sau khi cập nhật
                         window.location.reload();
-                    } else {
-                        // Trường hợp response không thành công
-                        navigate(0); // Tự động làm mới trang sau khi cập nhật
-                        // alert('Failed to update appointment status due to server error.');
-                    }
+                    }                                
                 } catch (error) {
                     console.error('Failed to update appointment status');
+                    // window.location.reload();
                 }
             }
         }
@@ -427,12 +423,12 @@ const StaffAppointmentDetails: React.FC = () => {
         window.location.reload(); // Reload to reflect the changes
     };
     return (
-        <div className="d-flex flex-grow-1 gap-3" style={{marginLeft: '272px'}}>
-            <Sidebar/>
+        <div className="d-flex flex-grow-1 gap-3" style={{ marginLeft: '272px' }}>
+            <Sidebar />
             <div className="container container-details">
                 <h2 className="mb-4">Appointment Details</h2>
                 <div className="status-timeline-container">
-                    <ProgressTimeline currentStatus={appointment.current_status}/>
+                    <ProgressTimeline currentStatus={appointment.current_status} />
                 </div>
                 <div className="card">
                     <div className="card-body">
@@ -455,22 +451,22 @@ const StaffAppointmentDetails: React.FC = () => {
                                                             appointment?.current_status === 'ON_GOING' ? 'on-going' :
                                                                 appointment?.current_status === 'PENDING' ? 'pending' :
                                                                     'default'
-                                            }`}
+                                                }`}
                                         >
-                                        {/* Format lại chữ */}
+                                            {/* Format lại chữ */}
                                             {appointment?.current_status ?
                                                 appointment.current_status.replace('_', ' ').toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase())
                                                 : 'N/A'}
-                                    </span>
+                                        </span>
                                     </p>
 
-                                    <h5 className="mt-3">Customer Information:</h5>
+                                    <h5 className="mt-3 fw-900">Customer Information:</h5>
                                     <p>Name: {appointment?.customer_name}</p>
                                     <p>Email: {appointment?.email}</p>
                                     <p>Phone: {appointment?.phone_number}</p>
                                     <p>Description: {appointment?.description || 'N/A'}</p>
 
-                                    <h5 className="mt-3">Service Information</h5>
+                                    <h5 className="mt-3 fw-900">Service Information</h5>
                                     <p>Service ID: {appointment.service?.service_id}</p>
                                     <p>Service name: {appointment.service?.service_name}</p>
                                     <p>Service
@@ -478,7 +474,7 @@ const StaffAppointmentDetails: React.FC = () => {
                                     {appointment.discount && (
                                         <p>Discount: -{appointment.discount.toLocaleString('vi-VN')} VND</p>
                                     )}
-                                    <h5 className="mt-3">Veterinarian Information</h5>
+                                    <h5 className="mt-3 fw-900">Veterinarian Information</h5>
 
                                     {/* thêm phần add bác sĩ ở đây */}
                                     {
@@ -492,7 +488,7 @@ const StaffAppointmentDetails: React.FC = () => {
                                             <div>
                                                 <label htmlFor="vet-select">Select Veterinarian:</label>
                                                 <select id="vet-select" onChange={handleVetSelection}
-                                                        className="form-select">
+                                                    className="form-select">
                                                     <option value="">-- Select a veterinarian --</option>
                                                     {vetList && vetList.map(vet => (
                                                         <option key={vet.user_id} value={vet.user_id}>
@@ -502,10 +498,10 @@ const StaffAppointmentDetails: React.FC = () => {
                                                 </select>
 
                                                 <button
-                                                    className="btn btn-primary mt-3"
+                                                    className="btn btn-primary mt-3 fw-900"
                                                     disabled={!selectedVetId} // Vô hiệu hóa nếu chưa chọn bác sĩ
                                                     onClick={handleSubmitOrder}
-                                                    // style={{ backgroundColor: 'red' }}
+                                                // style={{ backgroundColor: 'red' }}
                                                 >
                                                     Save changes
                                                 </button>
@@ -518,7 +514,7 @@ const StaffAppointmentDetails: React.FC = () => {
                                     {/* Chỉ hiển thị khi có địa chỉ */}
                                     {appointment.address && (
                                         <div>
-                                            <h5 className="mt-3">Address Information: </h5>
+                                            <h5 className="mt-3 fw-900">Address Information: </h5>
                                             <p>
                                                 {appointment.address?.home_number}, {appointment.address?.ward}, {appointment.address?.district}, {appointment.address?.city}
                                             </p>
@@ -530,48 +526,48 @@ const StaffAppointmentDetails: React.FC = () => {
                                         (paymentDetails?.status === 'NOT_PAID' && paymentDetails?.payment_method === 'CASH') ||
                                         (paymentDetails?.status === 'PAID' && (paymentDetails?.payment_method === 'CASH' || paymentDetails?.payment_method === 'VN_PAY'))
                                     ) && (
-                                        !isEditingStatus ? (
-                                            <>
-                                                <p style={{
-                                                    fontWeight: '900',
-                                                    color: 'brown',
-                                                    padding: '10px',
-                                                    fontSize: '20px'
-                                                }}>Update Status</p>
-                                                <button className="btn btn-info" onClick={handleEditStatus}>Click here
-                                                    to
-                                                    Update
-                                                </button>
-                                            </>
-                                        ) : (
-                                            <>
-                                                <p style={{
-                                                    fontWeight: 'bold',
-                                                    fontSize: '24px',
-                                                    fontStyle: 'italic'
-                                                }}>Update Status</p>
-                                                <button style={{marginLeft: '4px'}} className="btn btn-primary"
+                                            !isEditingStatus ? (
+                                                <>
+                                                    <p style={{
+                                                        fontWeight: '900',
+                                                        color: 'brown',
+                                                        padding: '10px',
+                                                        fontSize: '20px'
+                                                    }}>Update Status</p>
+                                                    <button className="btn btn-info" onClick={handleEditStatus}>Click here
+                                                        to
+                                                        Update
+                                                    </button>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <p style={{
+                                                        fontWeight: 'bold',
+                                                        fontSize: '24px',
+                                                        fontStyle: 'italic'
+                                                    }}>Update Status</p>
+                                                    <button style={{ marginLeft: '4px' }} className="btn btn-primary"
                                                         onClick={() => handleSelectStatus("CONFIRMED")}>Confirmed
-                                                </button>
-                                                {/* CHECK IN KHI VÀ CHỈ KHI LÀ SERVICE ID = 3 VÀ ADDRESS = NULL */}
-                                                {/* {appointment.service?.service_id === 3 && !appointment.address
+                                                    </button>
+                                                    {/* CHECK IN KHI VÀ CHỈ KHI LÀ SERVICE ID = 3 VÀ ADDRESS = NULL */}
+                                                    {/* {appointment.service?.service_id === 3 && !appointment.address
                                                 && <button style={{ marginLeft: '4px' }} className="btn btn-warning" onClick={() => handleSelectStatus("CHECKED_IN")}>Check in</button>} */}
 
-                                                <button style={{marginLeft: '4px'}} className="btn btn-secondary"
+                                                    <button style={{ marginLeft: '4px' }} className="btn btn-secondary"
                                                         onClick={handleCancelEditStatus}>Undo
-                                                </button>
-                                            </>
-                                        ))}
+                                                    </button>
+                                                </>
+                                            ))}
                                     {(appointment.current_status === 'PENDING' || appointment.current_status === 'ON_GOING') && (
-                                        <button style={{marginLeft: '4px'}} className="btn btn-danger"
-                                                onClick={handleUpdateAppointmentStatusCanceled}>Canceled
+                                        <button style={{ marginLeft: '4px' }} className="btn btn-danger"
+                                            onClick={handleUpdateAppointmentStatusCanceled}>Canceled
                                         </button>
                                     )}
                                     {/* Thêm điều kiện ngoài: ON_GOING, service id = 3, method = vn_pay, status pay = paid thì có nút mỗi nút ON_going */}
                                     {appointment.current_status === 'ON_GOING' && appointment.service?.service_id === 3 && paymentDetails?.payment_method === 'VN_PAY' && paymentDetails?.status === 'PAID' && !appointment.address && (
-                                        <button style={{marginLeft: '4px', fontSize: '16px'}}
-                                                className="btn btn-warning"
-                                                onClick={() => handleSelectStatus("CHECKED_IN")}>Check in</button>
+                                        <button style={{ marginLeft: '4px', fontSize: '16px' }}
+                                            className="btn btn-warning"
+                                            onClick={() => handleSelectStatus("CHECKED_IN")}>Check in</button>
                                     )}
 
                                     {/* CHECK IN KHI LÀ VN_PAY VÀ STATUS CỦA APPOINTMENT = PAID */}
@@ -585,7 +581,7 @@ const StaffAppointmentDetails: React.FC = () => {
 
                                     {appointment.fish && (
                                         <div>
-                                            <h5 className="mt-3">Fish Information</h5>
+                                            <h5 className="mt-3 fw-900">Fish Information</h5>
                                             <p>Species: {appointment.fish?.species}</p>
                                             <p>Gender: {appointment.fish?.gender}</p>
                                             <p>Size: {appointment.fish?.size} cm</p>
@@ -598,19 +594,19 @@ const StaffAppointmentDetails: React.FC = () => {
                                     {/* Chỉ show moving surcharge khi có */}
                                     {appointment.moving_surcharge && (
                                         <div>
-                                            <h5 className="mt-3">Moving Surcharge</h5>
+                                            <h5 className="mt-3 fw-900">Moving Surcharge</h5>
                                             <p>District: {appointment.moving_surcharge?.district || 'Not available'}</p>
                                             <p>Price: {appointment.moving_surcharge?.price.toLocaleString('vi-VN') || '0'} VND </p>
                                         </div>
                                     )}
 
-                                    <h5 className="mt-3">Total Price</h5>
+                                    <h5 className="mt-3 fw-900">Total Price</h5>
                                     <p>Total: {appointment?.total_price.toLocaleString('vi-VN') || '0'} VND</p>
 
                                     {/* Conditionally render payment details */}
                                     {paymentDetails?.payment_id && (
                                         <div>
-                                            <h5 className="mt-3">Payment Details</h5>
+                                            <h5 className="mt-3 fw-900">Payment Details</h5>
                                             <p>Payment ID: {paymentDetails.payment_id}</p>
                                             <p>Payment method: {paymentDetails.payment_method}</p>
                                             <p>Payment
@@ -621,13 +617,13 @@ const StaffAppointmentDetails: React.FC = () => {
                                                         paymentDetails?.status === 'NOT_PAID' ? 'payment-status-not-paid' :
                                                             paymentDetails?.status === 'REFUNDED' ? 'payment-status-refund' :
                                                                 'status-default'
-                                                    }`}
+                                                        }`}
                                                 >
-                                                {/* Transform 'PAID' or 'NOT_PAID' to 'Paid' or 'Not paid' */}
+                                                    {/* Transform 'PAID' or 'NOT_PAID' to 'Paid' or 'Not paid' */}
                                                     {paymentDetails?.status
                                                         ? paymentDetails.status.replace('_', ' ').toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase())
                                                         : 'N/A'}
-                                            </span>
+                                                </span>
                                             </p>
 
                                             {/* Hiển thị phần update payment chỉ khi status là NOT_PAID và method là CASH */}
@@ -640,18 +636,18 @@ const StaffAppointmentDetails: React.FC = () => {
                                                     }}>Update Payment Status: </span>
                                                     {!isEditingPaymentMethod ? (
                                                         <button className="btn btn-primary"
-                                                                onClick={handleEditPaymentMethod}>
+                                                            onClick={handleEditPaymentMethod}>
                                                             Edit Payment Method
                                                         </button>
                                                     ) : (
                                                         <div>
                                                             <button className="btn btn-success mt-2"
-                                                                    onClick={handleUpdatePaymentMethod}>
+                                                                onClick={handleUpdatePaymentMethod}>
                                                                 Update PAID
                                                             </button>
                                                             <button className="btn btn-success mt-2"
-                                                                    style={{marginLeft: '12px', backgroundColor: 'red'}}
-                                                                    onClick={() => setIsEditingPaymentMethod(false)}>
+                                                                style={{ marginLeft: '12px', backgroundColor: 'red' }}
+                                                                onClick={() => setIsEditingPaymentMethod(false)}>
                                                                 Cancel
                                                             </button>
                                                         </div>
@@ -660,7 +656,7 @@ const StaffAppointmentDetails: React.FC = () => {
                                             )}
                                             {paymentDetails?.status === 'PAID' && appointment.current_status === 'CANCELED' && (
                                                 <button className="btn btn-warning mt-2 fw-bold"
-                                                        onClick={handleOpenRefundModal}>
+                                                    onClick={handleOpenRefundModal}>
                                                     Update Refund
                                                 </button>
 
@@ -684,7 +680,7 @@ const StaffAppointmentDetails: React.FC = () => {
                 </div>
 
                 <div className="d-flex gap-3 align-items-center">
-                    <div className='back-button'>
+                    <div className='back-btn-app-details'>
                         <button className="btn btn-secondary" onClick={() => navigate(-1)}>Back</button>
                     </div>
 
@@ -700,15 +696,15 @@ const StaffAppointmentDetails: React.FC = () => {
                 {isModalOpen && (
                     <div className="modal-overlay" onClick={handleCloseModal}>
                         <div className="modal-content"
-                             onClick={(e) => e.stopPropagation()}> {/* Prevent click event from bubbling up to the overlay */}
+                            onClick={(e) => e.stopPropagation()}> {/* Prevent click event from bubbling up to the overlay */}
                             <div className="modal-header">
                                 {/*<h5 className="modal-title appointment-title">Follow Up Appointment</h5>*/}
 
                                 <span className="close-icon" onClick={handleCloseModal}>
-                                                &times;
-                                        </span>
+                                    &times;
+                                </span>
                             </div>
-                            <div className="modal-body" style={{marginLeft: "3%"}}>
+                            <div className="modal-body" style={{ marginLeft: "3%" }}>
 
                                 {/* Pass vetId or any necessary data to AvailableSlot */}
                                 <UpdateAppointment
@@ -717,23 +713,23 @@ const StaffAppointmentDetails: React.FC = () => {
                                     phone_number={phone_number}
 
                                 />
-                                <label className="fw-bold" style={{fontSize: "15px"}}>Update email</label>
+                                <label className="fw-bold" style={{ fontSize: "15px" }}>Update email</label>
                                 <input
                                     type="text"
                                     placeholder="Enter new email"
                                     value={email || ''}
                                     onChange={(e) => setEmail(e.target.value || null)} // Set to null if empty
                                     className="form-control mb-1 fw-light"
-                                    style={{maxWidth: "930px"}}
+                                    style={{ maxWidth: "930px" }}
                                 />
-                                <label className="fw-bold" style={{fontSize: "15px"}}>Update Phone number</label>
+                                <label className="fw-bold" style={{ fontSize: "15px" }}>Update Phone number</label>
                                 <input
                                     type="text"
                                     placeholder="Enter new phone number"
                                     value={phone_number || ''}
                                     onChange={(e) => setPhoneNumber(e.target.value || null)} // Set to null if empty
                                     className="form-control mb-1 fw-light"
-                                    style={{maxWidth: "930px"}}
+                                    style={{ maxWidth: "930px" }}
                                 />
                             </div>
 
@@ -742,8 +738,8 @@ const StaffAppointmentDetails: React.FC = () => {
                 )}
             </div>
         </div>
-         );
+    );
 
-            };
+};
 export default StaffAppointmentDetails;
 
