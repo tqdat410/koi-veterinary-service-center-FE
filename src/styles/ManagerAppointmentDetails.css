@@ -4,7 +4,7 @@
   border-radius: 20px;
 }
 
-.mt-3 {
+.fw-900 {
   font-weight: 900 ;
 }
 
@@ -109,8 +109,8 @@ font-family: sans-serif;
   padding: 4px;
 }
 
-.logs-status-done {
-  background-color: rgb(37, 195, 37) ;
+.logs-status-done, .logs-status-paid {
+  background-color: #04BD04 ;
   color: white ; 
   font-family: sans-serif;
   margin-left: 4px;
@@ -162,7 +162,7 @@ font-family: sans-serif;
 }
 
 .done {
-  background-color: rgb(37, 195, 37);
+  background-color: #04BD04;
   color: white ;
   font-family: sans-serif;
   margin-left: 4px;
