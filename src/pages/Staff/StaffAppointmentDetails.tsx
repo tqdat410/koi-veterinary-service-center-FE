@@ -213,9 +213,19 @@ const StaffAppointmentDetails: React.FC = () => {
         }
     };
 
+    // Fucntion to handle STATUS CANCEL
+    const handleSelectStatusCancel = () => {
+        setSelectedStatus('CANCELED');
+        console.log(`Selected status set to: CANCELED`);
+        const confirmUpdate = window.confirm(`Are you sure you want to update the status to: CANCELED?`);
+        if (confirmUpdate) {
+            handleUpdateAppointmentStatusCanceled();  // Gọi hàm cập nhật
+            window.location.reload();
+        }
+    };
 
     // Function to cancel editing status
-    const handleCancelEditStatus = () => {
+    const handleUndoEditStatus = () => {
         setIsEditingStatus(false);
         setSelectedStatus('');
     };
@@ -254,8 +264,7 @@ const StaffAppointmentDetails: React.FC = () => {
     // Function to update status CANCLED
     const handleUpdateAppointmentStatusCanceled = async () => {
         if (appointment) {
-            const confirmUpdate = window.confirm(`Appointment status updated to: CANCELED, do you want to change it?`);
-            if (confirmUpdate) {
+            
                 try {
                     // Gọi API để cập nhật trạng thái
                     const response = await updateAppointmentStatusCanceled(appointment?.appointment_id);
@@ -278,7 +287,7 @@ const StaffAppointmentDetails: React.FC = () => {
                     console.error('Failed to update appointment status');
                     // window.location.reload();
                 }
-            }
+            
         }
     };
 
@@ -554,13 +563,13 @@ const StaffAppointmentDetails: React.FC = () => {
                                                 && <button style={{ marginLeft: '4px' }} className="btn btn-warning" onClick={() => handleSelectStatus("CHECKED_IN")}>Check in</button>} */}
 
                                                     <button style={{ marginLeft: '4px' }} className="btn btn-secondary"
-                                                        onClick={handleCancelEditStatus}>Undo
+                                                        onClick={handleUndoEditStatus}>Undo
                                                     </button>
                                                 </>
                                             ))}
                                     {(appointment.current_status === 'PENDING' || appointment.current_status === 'ON_GOING') && (
                                         <button style={{ marginLeft: '4px' }} className="btn btn-danger"
-                                            onClick={handleUpdateAppointmentStatusCanceled}>Canceled
+                                            onClick={() => handleSelectStatusCancel()}>Canceled
                                         </button>
                                     )}
                                     {/* Thêm điều kiện ngoài: ON_GOING, service id = 3, method = vn_pay, status pay = paid thì có nút mỗi nút ON_going */}
