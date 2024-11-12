@@ -45,7 +45,7 @@
 
 .done {
     color: white !important;
-    background-color: green;
+    background-color: #04BD04;
 }
 
 .on-going {
@@ -101,8 +101,8 @@
     margin-top: 0.5rem;
 }
 
-.mt-3 {
-    font-weight: 900 !important;
+.fw-900 {
+    font-weight: 900 ;
 }
 
 /* Payment status badge */
@@ -138,8 +138,7 @@
     margin-bottom: 2rem;
 }
 
-.back-button {
-    /* style={{ marginTop: '2rem', marginBottom: '2rem' }} */
+.back-btn-app-details {
     margin-top: 2rem;
     margin-bottom: 2rem;
 }

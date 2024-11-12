@@ -5,7 +5,7 @@ import '../../../styles/ContactUs.css';
 const ContactUs = () => (
     <div>
         <Navbar />
-        <div className="container my-5 content-contact-us">
+        <div className="container my-5 content-contact-us min-h-auto">
             <h2 className="text-center mb-4 content-header-contact-us">Contact Us</h2>
 
             <div className="text-center mb-4">

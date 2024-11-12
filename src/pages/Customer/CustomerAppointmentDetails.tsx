@@ -387,7 +387,7 @@ const CustomerAppointmentDetails: React.FC = () => {
     return (
         <div className="d-flex flex-grow-1 gap-3" style={{ marginLeft: '272px' }}>
             <Sidebar />
-            <div className="container">
+            <div className="container container-cus-app-details">
                 <h2 className="mb-4">Appointment Details</h2>
                 <div className="status-timeline-container">
                     <ProgressTimeline currentStatus={appointment.current_status} />
@@ -400,10 +400,12 @@ const CustomerAppointmentDetails: React.FC = () => {
 
                         <div className="row">
                             <div className="col-md-6">
-                                <h5 className="mt-3">Appointment Information:</h5>
-                                <p>Slot: {appointment.slot?.slot_id}</p>
-                                <p>Date: {appointment.slot?.day}/{appointment.slot?.month}/{appointment.slot?.year}</p>
-                                <p>Time: {appointment.slot?.description || 'N/A'}</p>
+                                <h5 className="mt-3 fw-900">Appointment Information:</h5>
+                                <p>Start time:  {`${appointment.slot.day}/${appointment.slot.month}/${appointment.slot.year}`} -
+                                    Slot {appointment.slot.slot_order} ({appointment.slot.description})</p>
+                                <p>Booked time: {
+                                    formatDateTime(appointment.created_date)
+                                    }</p>
                                 <p>Status:
                                     <span
                                         className={`span-status ${appointment?.current_status === 'CANCELED' ? 'status-canceled-cus' :
@@ -422,7 +424,7 @@ const CustomerAppointmentDetails: React.FC = () => {
                                 </p>
 
 
-                                <h5 className="mt-3">Customer Information:</h5>
+                                <h5 className="mt-3 fw-900">Customer Information:</h5>
                                 <p>Name: {appointment?.customer_name}</p>
                                 <p>Email: {appointment?.email}</p>
                                 <p>Phone: {appointment?.phone_number}</p>
@@ -431,7 +433,7 @@ const CustomerAppointmentDetails: React.FC = () => {
                                 {/* Chỉ hiển thị khi có thông tin cá */}
                                 {appointment.fish && (
                                     <div>
-                                        <h5 className="mt-3">Fish Information</h5>
+                                        <h5 className="mt-3 fw-900">Fish Information</h5>
                                         <p>Species: {appointment.fish?.species || 'N/A'}</p>
                                         <p>Gender: {appointment.fish?.gender || 'N/A'}</p>
                                         <p>Size: {appointment.fish?.size || 'N/A'} cm </p>
@@ -440,7 +442,7 @@ const CustomerAppointmentDetails: React.FC = () => {
                                     </div>
                                 )}
 
-                                <h5 className="mt-3">Veterinarian Information:</h5>
+                                <h5 className="mt-3 fw-900">Veterinarian Information:</h5>
                                 <p>Name: {appointment.veterinarian?.first_name} {appointment.veterinarian?.last_name}</p>
                                 <p>Vet ID: {appointment.veterinarian?.user_id}</p>
                                 {(appointment.current_status === 'PENDING' || appointment.current_status === 'ON_GOING') && (
@@ -449,117 +451,123 @@ const CustomerAppointmentDetails: React.FC = () => {
                                     </button>
                                 )}
 
-                                <h5 className="mt-3">Logs of appointment
+                                <h5 className="mt-3 fw-900">Logs of appointment
                                     information</h5>
-                                    {logs.length > 0 ? (
-                                        <ul className="logs-list" style={{listStyleType:'none'}}>
-                                            {logs.map((log) => {
-                                                // Tạo tên lớp dựa trên status
-                                                let statusClass = "";
-                                                switch (log.status) {
-                                                    case "CANCELED":
-                                                        statusClass = "span-status status-canceled-cus";
-                                                        break;
-                                                    case "CHECKED_IN":
-                                                        statusClass = "span-status status-checked-in-cus";
-                                                        break;
-                                                    case "CONFIRMED":
-                                                        statusClass = "span-status status-confirmed-cus";
-                                                        break;
-                                                    case "DONE":
-                                                        statusClass = "span-status status-done-cus";
-                                                        break;
-                                                    case "ON_GOING":
-                                                        statusClass = "span-status status-on-going-cus";
-                                                        break;
-                                                    case "PENDING":
-                                                        statusClass = "span-status status-pending-cus";
-                                                        break;
-                                                    default:
-                                                        statusClass = "";
-                                                }
+                                {logs.length > 0 ? (
+                                    <ul className="logs-list" style={{ listStyleType: 'none' }}>
+                                        {logs.map((log) => {
+                                            // Tạo tên lớp dựa trên status
+                                            let statusClass = "";
+                                            switch (log.status) {
+                                                case "CANCELED":
+                                                    statusClass = "span-status status-canceled-cus";
+                                                    break;
+                                                case "CHECKED_IN":
+                                                    statusClass = "span-status status-checked-in-cus";
+                                                    break;
+                                                case "CONFIRMED":
+                                                    statusClass = "span-status status-confirmed-cus";
+                                                    break;
+                                                case "DONE":
+                                                    statusClass = "span-status status-done-cus";
+                                                    break;
+                                                case "ON_GOING":
+                                                    statusClass = "span-status status-on-going-cus";
+                                                    break;
+                                                case "PENDING":
+                                                    statusClass = "span-status status-pending-cus";
+                                                    break;
+                                                case "PAID":
+                                                    statusClass = "span-status status-done-cus";
+                                                    break;
+                                                case "NOT_PAID":
+                                                    statusClass = "span-status status-canceled-cus";
+                                                    break;
+                                                default:
+                                                    statusClass = "";
+                                            }
 
-                                                return (
-                                                    <li key={log.status_id} className="log-item" >
-                                                        =========================<br/>
-                                                        <span className="label"><strong>Log ID:</strong> </span> {log.status_id} <br/>
-                                                        <span className="label"><strong>Status:</strong></span>
-                                                        <span className={` ${statusClass}`}>
-                                                            {log.status}
-                                                        </span><br/>
-                                                        <span className="label"><strong>Time:</strong></span> {formatDateTime(log.time)}
-                                                        <br/>
-                                                        <span className="label"><strong>Note:</strong></span> {log.note || 'No note'}
-                                                        <br/>
-                                                    </li>
-                                                );
-                                            })}
-                                        </ul>
-                                    ) : (
-                                        <p>No logs available</p>
-                                    )}
+                                            return (
+                                                <li key={log.status_id} className="log-item" >
+                                                    =========================<br />
+                                                    <span className="label"><strong>Log ID:</strong> </span> {log.status_id} <br />
+                                                    <span className="label"><strong>Status:</strong></span>
+                                                    <span className={` ${statusClass}`}>
+                                                        {log.status}
+                                                    </span><br />
+                                                    <span className="label"><strong>Time:</strong></span> {formatDateTime(log.time)}
+                                                    <br />
+                                                    <span className="label"><strong>Note:</strong></span> {log.note || 'No note'}
+                                                    <br />
+                                                </li>
+                                            );
+                                        })}
+                                    </ul>
+                                ) : (
+                                    <p>No logs available</p>
+                                )}
                                 {/* <button className="btn btn-primary" onClick={handleViewLogs}>
                                     View Log Details
                                 </button> */}
 
                                 {/* Modal để hiển thị logs */}
-                            <div className={`modal ${showLogsModal ? 'open' : ''}`}
-                                 style={{display: showLogsModal ? 'flex' : 'none'}}
-                            >
-                                <div className="modal-content">
-                                    <h2>Logs Details</h2>
-                                    {logs.length > 0 ? (
-                                        <ul className="logs-list" style={{listStyleType:'none'}}>
-                                            {logs.map((log) => {
-                                                // Tạo tên lớp dựa trên status
-                                                let statusClass = "";
-                                                switch (log.status) {
-                                                    case "CANCELED":
-                                                        statusClass = "span-status status-cancelled-cus";
-                                                        break;
-                                                    case "CHECKED_IN":
-                                                        statusClass = "span-status status-checked-in-cus";
-                                                        break;
-                                                    case "CONFIRMED":
-                                                        statusClass = "span-status status-confirmed-cus";
-                                                        break;
-                                                    case "DONE":
-                                                        statusClass = "span-status status-done-cus";
-                                                        break;
-                                                    case "ON_GOING":
-                                                        statusClass = "span-status status-on-going-cus";
-                                                        break;
-                                                    case "PENDING":
-                                                        statusClass = "span-status status-pending-cus";
-                                                        break;
-                                                    default:
-                                                        statusClass = "";
-                                                }
+                                <div className={`modal ${showLogsModal ? 'open' : ''}`}
+                                    style={{ display: showLogsModal ? 'flex' : 'none' }}
+                                >
+                                    <div className="modal-content">
+                                        <h2>Logs Details</h2>
+                                        {logs.length > 0 ? (
+                                            <ul className="logs-list" style={{ listStyleType: 'none' }}>
+                                                {logs.map((log) => {
+                                                    // Tạo tên lớp dựa trên status
+                                                    let statusClass = "";
+                                                    switch (log.status) {
+                                                        case "CANCELED":
+                                                            statusClass = "span-status status-cancelled-cus";
+                                                            break;
+                                                        case "CHECKED_IN":
+                                                            statusClass = "span-status status-checked-in-cus";
+                                                            break;
+                                                        case "CONFIRMED":
+                                                            statusClass = "span-status status-confirmed-cus";
+                                                            break;
+                                                        case "DONE":
+                                                            statusClass = "span-status status-done-cus";
+                                                            break;
+                                                        case "ON_GOING":
+                                                            statusClass = "span-status status-on-going-cus";
+                                                            break;
+                                                        case "PENDING":
+                                                            statusClass = "span-status status-pending-cus";
+                                                            break;
+                                                        default:
+                                                            statusClass = "";
+                                                    }
 
-                                                return (
-                                                    <li key={log.status_id} className="log-item" >
-                                                        =========================<br/>
-                                                        <span className="label">Log ID:</span> {log.status_id} <br/>
-                                                        <span className="label">Status:</span>
-                                                        <span className={` ${statusClass}`}>
-                                                            {log.status}
-                                                        </span><br/>
-                                                        <span className="label">Time:</span> {formatDateTime(log.time)}
-                                                        <br/>
-                                                        <span className="label">Note:</span> {log.note || 'No note'}
-                                                        <br/>
-                                                    </li>
-                                                );
-                                            })}
-                                        </ul>
-                                    ) : (
-                                        <p>No logs available</p>
-                                    )}
-                                    <button className="btn btn-secondary close-btn"
+                                                    return (
+                                                        <li key={log.status_id} className="log-item" >
+                                                            =========================<br />
+                                                            <span className="label">Log ID:</span> {log.status_id} <br />
+                                                            <span className="label">Status:</span>
+                                                            <span className={` ${statusClass}`}>
+                                                                {log.status}
+                                                            </span><br />
+                                                            <span className="label">Time:</span> {formatDateTime(log.time)}
+                                                            <br />
+                                                            <span className="label">Note:</span> {log.note || 'No note'}
+                                                            <br />
+                                                        </li>
+                                                    );
+                                                })}
+                                            </ul>
+                                        ) : (
+                                            <p>No logs available</p>
+                                        )}
+                                        <button className="btn btn-secondary close-btn"
                                             onClick={handleCloseLogsModal}>Close
-                                    </button>
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
 
                             </div>
 
@@ -567,13 +575,13 @@ const CustomerAppointmentDetails: React.FC = () => {
                                 {/* Chỉ hiển thị khi có địa chỉ */}
                                 {appointment.address && (
                                     <div>
-                                        <h5 className="mt-3">Address Information </h5>
+                                        <h5 className="mt-3 fw-900">Address Information </h5>
                                         <p>{appointment.address?.home_number}, {appointment.address?.ward}, {appointment.address?.district}, {appointment.address?.city}</p>
                                     </div>
                                 )}
 
 
-                                <h5 className="mt-3">Service Information:</h5>
+                                <h5 className="mt-3 fw-900">Service Information:</h5>
                                 <p>Service name: {appointment.service?.service_name}</p>
                                 <p>Service Price: {appointment.service?.service_price.toLocaleString('vi-VN')} VND</p>
                                 {/* Tư vấn online (service id = 1) thì sẽ hiển thị nút tư vấn online qua gg meet */}
@@ -586,7 +594,7 @@ const CustomerAppointmentDetails: React.FC = () => {
                                 {/* Hiển thị medical report khi có */}
                                 {medicalReport && (
                                     <div>
-                                        <h5 className="mt-3">Medical Report</h5>
+                                        <h5 className="mt-3 fw-900">Medical Report</h5>
                                         <p>ID: {medicalReport.veterinarian_id}</p>
                                         <p>Conclusion: {medicalReport?.conclusion || 'N/A'}</p>
                                         <p>Advise: {medicalReport?.advise || 'N/A'}</p>
@@ -596,7 +604,7 @@ const CustomerAppointmentDetails: React.FC = () => {
                                 {/* Hiển thị prescription khi có */}
                                 {prescription && (
                                     <div>
-                                        <h5 className="mt-3">Prescription</h5>
+                                        <h5 className="mt-3 fw-900">Prescription</h5>
                                         <p>Medicines:</p>
                                         <ul>
                                             {prescription.medicines.map((medicine: Medicine) => (
@@ -611,7 +619,7 @@ const CustomerAppointmentDetails: React.FC = () => {
                                 {/* Chỉ hiển thị khi có thông tin moving surcharge */}
                                 {appointment.moving_surcharge && (
                                     <div>
-                                        <h5 className="mt-3">Moving Surcharge</h5>
+                                        <h5 className="mt-3 fw-900">Moving Surcharge</h5>
                                         <p>District: {appointment.moving_surcharge?.district || 'Not available'}</p>
                                         <p>Price: {appointment.moving_surcharge?.price.toLocaleString('vi-VN') || '0'} VND</p>
                                     </div>
@@ -619,19 +627,19 @@ const CustomerAppointmentDetails: React.FC = () => {
                                 {/* Hiển thị thêm discount (nếu có) */}
                                 {appointment.discount && (
                                     <div>
-                                        <h5 className="mt-3">Discount</h5>
+                                        <h5 className="mt-3 fw-900">Discount</h5>
                                         <p>Discount: -{appointment?.discount?.toLocaleString('vi-VN')} VND</p>
                                     </div>
                                 )}
-                                
-                                <h5 className="mt-3">Total Price</h5>
+
+                                <h5 className="mt-3 fw-900">Total Price</h5>
                                 <p>Total: {appointment?.total_price.toLocaleString('vi-VN') || ''} VND</p>
 
 
 
                                 {feedbackDetails && (
                                     <div>
-                                        <h5 className="mt-3">Feedback Details</h5>
+                                        <h5 className="mt-3 fw-900">Feedback Details</h5>
                                         <p>Date & time: {formatDateTime(feedbackDetails.date_time)}</p>
                                         <p>Rating: {feedbackDetails.rating}</p>
                                         <p>Comment: {feedbackDetails.comment}</p>
@@ -640,7 +648,7 @@ const CustomerAppointmentDetails: React.FC = () => {
                                 )}
 
                                 <div ref={paymentRef}>
-                                    <h5 className="mt-3">Payment Information</h5>
+                                    <h5 className="mt-3 fw-900">Payment Information</h5>
                                     <p>Payment Method: {PaymentDetails?.payment_method || 'N/A'}</p>
                                     <p>Payment Amount: {PaymentDetails?.payment_amount.toLocaleString('vi-VN') || '0'} VND</p>
                                     <p>Description: {PaymentDetails?.description || 'N/A'}</p>
@@ -671,7 +679,7 @@ const CustomerAppointmentDetails: React.FC = () => {
                                 {/* Feedback Information */}
                                 {/* Show Make Feedback for service button only if current_status is 'done' and don't have feedback id */}
                                 {appointment.current_status === 'DONE' && PaymentDetails?.status === 'PAID' && !appointment.feedback_id && showFeedbackButton && (
-                                    <div className="mt-3">
+                                    <div className="mt-3 fw-900">
                                         <button
                                             className="btn btn-success"
                                             onClick={() =>
