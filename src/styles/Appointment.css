@@ -17,7 +17,7 @@ p{
 }
 
 .modal-body {
-    padding: 0px 15px;
+    padding: 0px 12px;
     font-size: 1.2rem;
 }
 
@@ -95,6 +95,28 @@ p{
     opacity: 1.05; /* Full opacity on hover */
 }
 
+.vet-card .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    color: rgba(0, 0, 0, 0.62);
+
+    opacity: 0;
+    font-size: 1.2rem;
+    font-weight: bold;
+    transition: opacity 0.3s ease;
+    border-radius: 40px;
+}
+
+.vet-card:hover .overlay {
+    opacity: 1;
+}
+
 .service-section {
     display: flex;
     justify-content: center; /* Center horizontally */
@@ -110,7 +132,7 @@ p{
     border: none;
     border-radius: 20px; /* Rounded corners */
     padding: 7px 16px; /* Padding for button */
-    font-size: 16px; /* Font size */
+    font-size: 16px;
     transition: background-color 0.3s; /* Smooth transition */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add shadow for depth */
     display: flex; /* Flexbox for alignment */
@@ -171,3 +193,12 @@ p{
     align-items: center;
 }
 
+.status-timeline-container {
+    border: 1px solid #79877b; /* Green border color */
+    border-radius: 8px;       /* Rounded corners */
+
+    padding: 12px 8px 8px 8px;            /* Padding inside the div */
+    margin: 20px 0;          /* Margin around the div */
+    background-color: #fff;   /* White background */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}

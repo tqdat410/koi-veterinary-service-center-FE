@@ -109,11 +109,6 @@ export const getAppointmentLogs = async (appointmentId: number) => {
     return response.data;
 };
 
-// // API to create a new appointment
-// export const createAppointment = async (appointmentData: any) => {
-//     const response = await axios.post(API_BASE_URL, appointmentData);
-//     return response.data;
-// };
 
 // API to fetch all appointments
 export const getAllAppointments = async () => {
@@ -368,4 +363,10 @@ export const getLinkMeetByVetId = async (vetId: number): Promise<string | null> 
         console.error('Error fetching Meet link:', error);
         return null;
     }
+};
+
+// fetch appointment for each koi fish
+export const fetchAppointmentForFish = async (fishId: number) => {
+    const response = await axios.get(`${APPOINTMENT_URL}/fish/${fishId}`);
+    return response.data;
 };

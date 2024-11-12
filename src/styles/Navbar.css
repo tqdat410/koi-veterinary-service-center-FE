@@ -85,7 +85,7 @@ color: #002d72;
     margin-top: 5px !important;
 }
 
-/* Optional: If you need to adjust for mobile or responsive layouts */
+
 @media (max-width: 768px) {
     .navbar .dropdown-menu {
         left: auto !important;

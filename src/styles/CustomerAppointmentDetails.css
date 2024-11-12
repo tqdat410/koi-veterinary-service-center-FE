@@ -1,22 +1,52 @@
 /* For CustomerAppointmentDetails.tsx */
 .container {
-    margin-top: 2rem;
+
     text-align: left;
 }
 
-.container > h2 {
+.container>h2 {
     padding-top: 65px;
 }
 
-.container > .card {
+.container>.card {
     border-radius: 40px;
 }
 
-.container > .card >.card-body >.card-title {
+.container>.card>.card-body>.card-title {
     width: 100%;
 }
 
-.span-status{
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Background mờ cho modal */
+    overflow: hidden;
+    /* Ngăn trang nền cuộn */
+  }
+
+.modal-content {
+    border-radius: 12px;
+    background-color: #fff;
+    padding: 20px;
+    /* Khoảng cách giữa nội dung và viền modal */
+    max-width: 500px;
+    /* Chiều rộng tối đa của modal */
+    max-height: 80vh;
+    /* 80% chiều cao của viewport */
+    overflow-y: auto;
+    /* Cho phép cuộn nếu nội dung quá dài */
+    position: relative;
+    /* Để có thể sử dụng position: absolute */
+}
+
+.span-status {
     font-weight: 600 !important;
     color: white !important;
     padding: 4px 8px !important;
@@ -24,7 +54,8 @@
     margin-left: 4px !important;
 }
 
-.pay-btn, .meet-btn {
+.pay-btn,
+.meet-btn {
     margin-top: 1rem;
     margin-bottom: 1rem;
     border-radius: 20px;
@@ -39,56 +70,40 @@
     font-size: 20.4px;
 }
 
-.mt-3{
+.mt-3 {
     font-weight: 900 !important;
 }
 
-.back-button {
+.back-btn {
     margin-top: 1rem;
     margin-bottom: 2rem;
 }
 
 /* Specific colors for each status */
-.status-canceled {
+.status-canceled-cus {
     background-color: red;
 }
 
-.status-checked-in {
+.status-checked-in-cus {
     background-color: blue;
 }
 
-.status-confirmed {
+.status-confirmed-cus {
     background-color: green;
 }
 
-.status-done {
+.status-done-cus {
     background-color: #04BD04;
 }
 
-.status-on-going {
+.status-on-going-cus {
     background-color: orange;
 }
 
-.status-pending {
-    background-color: #ffd900c7 ;
-    /* color: black !important; */
+.status-pending-cus {
+    background-color: purple;
 }
 
-.status-default {
+.status-default-cus {
     background-color: black;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

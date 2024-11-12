@@ -53,7 +53,7 @@ const TableRow: React.FC<TableRowProps> = ({ columns, rowData, actions = [], isK
         : 'N/A';
 
     return (
-        <tr>
+        <tr className='parent-container'>
             {columns.map((column) => (
                 <td key={column}
                     className={
@@ -85,7 +85,7 @@ const TableRow: React.FC<TableRowProps> = ({ columns, rowData, actions = [], isK
                 {actions.length > 0 ? (
                     <div className="dropdown ms-auto">
                         <i className="fas fa-ellipsis-vertical" data-bs-toggle="dropdown" aria-expanded="false"></i>
-                        <ul className="dropdown-menu dropdown-menu-end" >
+                        <ul className="dropdown-menu dropdown-menu-end menu-modify" >
                             {actions.map((action, index) => (
                                 <li key={index}>
                                     <span className="dropdown-item" onClick={() => {

@@ -2,6 +2,8 @@ import React, { createContext, useContext, useState, ReactNode, useEffect } from
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 import {logout as logoutAPI, refreshToken} from "../../api/authService"
+import {resetState} from "../../store/actions";
+import {useDispatch} from "react-redux";
 
 interface User {
     roleId: string;
@@ -30,7 +32,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true); // Thêm trạng thái loading để quản lý quá trình xác thực
-
+    const dispatch = useDispatch();
     const handleTokenRefresh = async () => {
         try {
             const token = localStorage.getItem('token');
@@ -63,18 +65,29 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         if (token) {
             try {
                 const decodedToken: any = jwtDecode(token);
-                setIsAuthenticated(true);
-                setUser({ userId: decodedToken.userId, roleId: decodedToken.scope });
-                axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+                const currentTime = Date.now() / 1000;
+
+                // Kiểm tra token đã hết hạn chưa
+                if (decodedToken.exp < currentTime) {
+                    logout(); // Token đã hết hạn, logout ngay lập tức
+                } else {
+                    setIsAuthenticated(true);
+                    setUser({ userId: decodedToken.userId, roleId: decodedToken.scope });
+                    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+                }
             } catch (error) {
                 console.error("Invalid token:", error);
-                logout();
+                logout(); // Token không hợp lệ, logout
             }
+        } else {
+            logout(); // Không có token, logout ngay
         }
+
         setLoading(false);
+
+        // Cài đặt interval để kiểm tra token và làm mới mỗi phút
         const intervalId = setInterval(handleTokenRefresh, 60 * 1000); // Kiểm tra mỗi phút
-        // Dọn dẹp interval khi component bị hủy
-        return () => clearInterval(intervalId);
+        return () => clearInterval(intervalId); // Dọn dẹp interval khi component bị hủy
     }, []);
 
     const login = (token: string) => {
@@ -107,6 +120,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         setUser(null);
         delete axios.defaults.headers.common['Authorization'];
         localStorage.clear();
+        dispatch(resetState());
     };
     return (
 

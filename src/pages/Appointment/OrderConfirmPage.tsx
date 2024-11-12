@@ -1,16 +1,17 @@
 import React, {useEffect, useState} from 'react';
-import { useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
-import {createAppointment} from "../../api/appointmentApi";
+import {createAppointment, fetchAppointmentForCus} from "../../api/appointmentApi";
 import {persistor} from "../../store/store";
 import defaultImage from "../../assets/images/defaultImage.jpg";
 import {BASE_API, IMAGE_API} from "../../api/baseApi"
-
+import {createPayment} from "../../api/paymentApi";
+import {resetState} from "../../store/actions";
+import { getAvailableVouchers, VoucherDto } from '../../api/voucherApi';
 
 const AppointmentOrderPage: React.FC = () => {
     const navigate = useNavigate();
-
     // Fetching data from Redux store
     const service = useSelector((state: any) => state.service);
     const doctor = useSelector((state: any) => state.doctor);
@@ -18,15 +19,20 @@ const AppointmentOrderPage: React.FC = () => {
     const formData = useSelector((state: any) => state.formData);
     const [surcharges, setSurcharges] = useState<any[]>([]);
     const [surchargePrice, setSurchargePrice] = useState<number | null>(null);
+    const [vouchers, setVouchers] = useState<VoucherDto[]>([]);
+    const [selectedVoucher, setSelectedVoucher] = useState<number | null>(null);
+    const [discountAmount, setDiscountAmount] = useState<number>(0);
+    const [totalPrice, setTotalPrice] = useState<number>(0);
 
+    console.log(formData)
     const [showModal, setShowModal] = useState(false);
     const [notificationMessage, setNotificationMessage] = useState('');
-
+    const dispatch = useDispatch();
     const slotTimeMapping: { [key: number]: string } = {
-        1: '7:30 - 9:30',
+        1: '8:00 - 10:00',
         2: '10:00 - 12:00',
         3: '13:00 - 15:00',
-        4: '15:30 - 17:30',
+        4: '15:00 - 17:00',
     };
 
     useEffect(() => {
@@ -57,10 +63,22 @@ const AppointmentOrderPage: React.FC = () => {
         if (matchingSurcharge) {
             setSurchargePrice(matchingSurcharge.price);
         } else {
-            setSurchargePrice(0); // Set to 0 or handle as needed if no match is found
+            setSurchargePrice(0);
         }
     };
 
+    useEffect(() => {
+        const fetchVouchers = async () => {
+            try {
+                const availableVouchers = await getAvailableVouchers();
+                setVouchers(availableVouchers);
+            } catch (error) {
+                console.error("Error fetching vouchers:", error);
+            }
+        };
+
+        fetchVouchers();
+    }, []);
 
 
     // Fetch surcharges when the component mounts
@@ -80,44 +98,79 @@ const AppointmentOrderPage: React.FC = () => {
     const handleConfirmOrder = async () => {
         const appointmentData = {
             service_id: service?.service_id,
-            address_id: formData?.address_id !== null ? formData.address_id : null, // Truyền null nếu giá trị là null
+            address_id: formData?.address_id !== null ? formData.address_id : null,
             slot_id: slot?.slot_id,
             veterinarian_id: doctor !== null ? doctor.user_id : null, // Truyền null nếu giá trị là null
-            email: formData?.email , // Truyền chuỗi rỗng nếu không có email
-            phone: formData?.phone , // Truyền chuỗi rỗng nếu không có phone
-            customer_name: formData?.customer_name , // Truyền chuỗi rỗng nếu không có customer_name
-            description: formData?.description , // Truyền chuỗi rỗng nếu không có description
-            fish_id: formData?.fish_id !== null ? formData.fish_id : null, // Truyền null nếu giá trị là null
+            email: formData?.email ,
+            phone: formData?.phone ,
+            customer_name: formData?.customer_name ,
+            description: formData?.description ,
+            fish_id: formData?.fish_id !== null ? formData.fish_id : null,
             payment: {
-                payment_method: formData?.payment_method // Truyền chuỗi rỗng nếu không có payment_method
-            }
+                payment_method: formData?.payment_method
+            },
+            voucher_id: selectedVoucher !== null ? selectedVoucher : null
         };
 
 
         try {
-            console.log(appointmentData)
+            console.log("create appointment:",appointmentData)
             const response = await createAppointment(appointmentData);
             setNotificationMessage('Appointment created successfully!'); // Set success message
             setShowModal(true); // Show modal
-            persistor.purge();
+
+
         } catch (error) {
             alert('Error confirming order. Please try again.'); // Xử lý lỗi
         }
     };
 
-    const servicePrice = service?.service_price || 0;
-    const totalPrice = (surchargePrice !== null ? surchargePrice : 0) + servicePrice;
+    useEffect(() => {
+        const basePrice = (surchargePrice ?? 0) + (service?.service_price || 0);
+        setTotalPrice(basePrice - discountAmount);
+    }, [surchargePrice, service, discountAmount]);
+
+    const handleVoucherChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const voucherId = event.target.value ? parseInt(event.target.value) : null; // Set to null if the selected value is empty
+        setSelectedVoucher(voucherId);
+
+        const selectedVoucher = vouchers.find(voucher => voucher.voucher_id === voucherId);
+        setDiscountAmount(selectedVoucher ? selectedVoucher.discount_amount : 0);
+    };
     const handleBackClick = () => {
         navigate('/appointment/fill-information'); // Navigate back to service selection page
     };
 
     const handleNavigateToMyAppointments = () => {
         navigate('/my-appointment'); // Navigate to my appointments
+        dispatch(resetState());
+        persistor.purge();
     };
+
+    const handleNavigateToPayment = async () => {
+        try {
+            const data = await fetchAppointmentForCus(); // Fetch appointment data
+            const appointment_id = data[0]?.appointment_id; // Get the first appointment ID
+
+            if (appointment_id) {
+                const paymentUrl = await createPayment(appointment_id);
+                window.location.href = paymentUrl; // Open payment URL in a new tab
+                dispatch(resetState());
+                persistor.purge();
+            } else {
+                console.error("No appointment found");
+            }
+        } catch (error) {
+            console.error("Error fetching appointment or creating payment:", error);
+        }
+    };
+
 
     const closeModal = () => {
 
         navigate('/');
+        dispatch(resetState());
+        persistor.purge();
     };
 
     return (
@@ -133,20 +186,28 @@ const AppointmentOrderPage: React.FC = () => {
 
                 {showModal && (
                     <div className="modal-overlay">
-                        <div className="modal-content" style={{ position: 'relative' }}>
+                        <div className="modal-content" style={{position: 'relative', width:"50%"}}>
                             <button className="close-button" onClick={closeModal}>
                                 &times; {/* This represents the "X" icon */}
                             </button>
-                            <h5 className="fw-bold text-success" style={{fontSize:"3.8vw"}}>Success!</h5>
-                            <p style={{fontSize:"2vw"}}>{notificationMessage}</p>
-                            <button className="btn btn-primary mt-3" onClick={handleNavigateToMyAppointments} style={{fontSize:'1vw'}}>
-                                Go to My Appointments
+                            <h5 className="fw-bold text-success" style={{fontSize: "3.8vw"}}>Success!</h5>
+                            <p style={{fontSize: "2vw"}}>{notificationMessage}</p>
+                            <div className="">
+                            <button className="btn btn-primary mt-3 me-2" onClick={handleNavigateToMyAppointments}
+                                    style={{fontSize: '1vw'}}>
+                                Go to Appointments
                             </button>
+                                {formData?.payment_method === 'VN_PAY' && (
+                            <button className="btn btn-success mt-3 ms-2" onClick={handleNavigateToPayment}
+                                    style={{fontSize: '1vw'}}>
+                                Go to Payment
+                            </button>
+                                )}
+                            </div>
                         </div>
                     </div>
                 )}
 
-                {/*<h1 className="display-3 fw-bold text-center" style={{color: '#02033B'}}>Confirm Your Appointment</h1>*/}
                 <div className="row mt-4">
                     {/* Doctor Card */}
                     {doctor && (
@@ -166,10 +227,10 @@ const AppointmentOrderPage: React.FC = () => {
                                             overflow: 'hidden',
                                             whiteSpace: 'nowrap',
                                             textOverflow: 'ellipsis',
-                                            width: '100%', // Đảm bảo chiếm toàn bộ không gian bên trong
+                                            width: '100%',
                                             maxWidth: '250px',
                                             margin: '10px 10px',
-                                            fontSize: '1.6rem' // Giảm kích thước chữ để dễ thích ứng hơn
+                                            fontSize: '1.6rem'
                                         }}>
                                         {`${doctor?.first_name} ${doctor?.last_name}`}
                                     </h5>
@@ -188,7 +249,7 @@ const AppointmentOrderPage: React.FC = () => {
                                  margin: '0 auto'
                              }}>
                             <h5 className="card-title ms-4" style={{
-                                width: "400px",
+                                width: "500px",
                                 fontSize: "2.5rem",
                                 marginTop: '15px',
                                 marginBottom: '15px'
@@ -201,7 +262,7 @@ const AppointmentOrderPage: React.FC = () => {
                                 </div>
                                 <div>
                                     <strong
-                                        style={{fontSize: "1.2rem"}}>Date:</strong> {slot?.day}/{slot?.month}/{slot?.year} (Slot {slot?.slot_order} / {slotTimeMapping[slot?.slot_order]})
+                                        style={{fontSize: "1.2rem"}}>Date:</strong> {slot?.day}/{slot?.month}/{slot?.year} (Slot {slot?.slot_order} - {slotTimeMapping[slot?.slot_order]})
                                 </div>
                                 <div>
                                     <strong style={{fontSize: "1.2rem"}}>Customer
@@ -236,21 +297,47 @@ const AppointmentOrderPage: React.FC = () => {
                                     maxWidth: '550px',
                                     marginLeft: '-20px'
                                 }}/>
-                                <div>
-                                    <strong style={{fontSize: "1.2rem"}}>Service
-                                        Price:</strong> {service?.service_price.toLocaleString('vi-VN')} VND
+                                <div className="d-flex align-items-center gap-1">
+                                    <label htmlFor="voucher-select"> <strong style={{fontSize: "1.2rem"}}>Add
+                                        Voucher: </strong></label>
+                                    <select
+                                        id="voucher-select"
+                                        onChange={handleVoucherChange}
+                                        value={selectedVoucher || ''}
+                                        className="form-select"
+                                        style={{width:"17vw"}}
+                                    >
+                                        {vouchers.length > 0 ? (
+                                            <>
+                                                <option value="">Select a voucher</option>
+                                                {vouchers.map((voucher) => (
+                                                    <option key={voucher.voucher_id} value={voucher.voucher_id}>
+                                                        {voucher.voucher_code} (-{voucher.discount_amount.toLocaleString('vi-VN')} VND)
+                                                    </option>
+                                                ))}
+                                            </>
+                                        ) : (
+                                            <option value="" disabled>No voucher available</option>
+                                        )}
+                                    </select>
                                 </div>
-                                <div>
-                                    <strong style={{fontSize: "1.2rem"}}>Surcharge
-                                        Price:</strong> {surchargePrice !== null ? surchargePrice.toLocaleString('vi-VN') : '0'} VND
-                                </div>
-                                <div>
-                                    <strong style={{fontSize: "1.2rem"}}>Total Price:</strong> {totalPrice.toLocaleString('vi-VN')} VND ({formData?.payment_method})
+                                    <div>
+                                        <strong style={{fontSize: "1.2rem"}}>Service
+                                            Price:</strong> {service?.service_price.toLocaleString('vi-VN')} VND
+                                    </div>
+                                    <div>
+                                        <strong style={{fontSize: "1.2rem"}}>Surcharge
+                                            Price:</strong> {surchargePrice !== null ? surchargePrice.toLocaleString('vi-VN') : '0'} VND
+                                    </div>
+                                    <div>
+                                        <strong style={{fontSize: "1.2rem"}}>Total
+                                            Price:</strong> {totalPrice.toLocaleString('vi-VN')} VND
+                                        ({formData?.payment_method})
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 <div className="text-end me-4">
                     <button className="btn btn-primary" onClick={handleConfirmOrder}>
                         Confirm Order

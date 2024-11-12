@@ -2,6 +2,11 @@ export const SET_SERVICE = 'SET_SERVICE';
 export const SET_DOCTOR = 'SET_DOCTOR';
 export const SET_SLOT = 'SET_SLOT'; // New action type
 export const SET_FORM_DATA = 'SET_FORM_DATA';
+export const RESET_STATE = 'RESET_STATE';
+
+export const resetState = () => ({
+    type: RESET_STATE,
+});
 
 export const setService = (service: any) => ({
     type: SET_SERVICE,

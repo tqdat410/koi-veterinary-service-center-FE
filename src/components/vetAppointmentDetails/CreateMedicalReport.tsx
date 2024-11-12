@@ -41,7 +41,37 @@ const CreateMedicalReport: React.FC<CreateMedicalReportProps> = ({
                                                                      handleCreateReport,
                                                                  }) => {
     if (!isCreatingReport) return null;
+    const handleInstructionChange = (index: number, part: string, value: string) => {
+        const parsedValue = Number(value);
+        if (parsedValue <= 0) {
+            // Set is-invalid for negative values
+            const updatedValidity = [...isInstructionValid];
+            updatedValidity[index] = false;
+            setIsInstructionValid(updatedValidity);
+            return;
+        }
 
+        // Valid value, update validity and proceed
+        const updatedValidity = [...isInstructionValid];
+        updatedValidity[index] = true;
+        setIsInstructionValid(updatedValidity);
+
+        let instruction = prescription?.medicines[index]?.instruction || '';
+        const parts = instruction.split(', ');
+
+        // Update specific part (morning, noon, or evening)
+        if (part === 'morning') {
+            instruction = `sáng: ${value}, ${parts[1] || 'trưa: 0'}, ${parts[2] || 'chiều: 0'}`;
+        } else if (part === 'noon') {
+            instruction = `${parts[0] || 'sáng: 0'}, trưa: ${value}, ${parts[2] || 'chiều: 0'}`;
+        } else if (part === 'evening') {
+            instruction = `${parts[0] || 'sáng: 0'}, ${parts[1] || 'trưa: 0'}, chiều: ${value}`;
+        }
+
+        handleMedicineChange(index, 'instruction', instruction);
+    };
+
+    const isFormValid = prescription?.medicines.every((med, index) => isInstructionValid[index]);
     return (
         <div className="modal" tabIndex={-1} style={{ display: 'block', background: 'rgba(0, 0, 0, 0.7)' }}>
             <div className="modal-dialog modal-dialog-centered">
@@ -78,6 +108,7 @@ const CreateMedicalReport: React.FC<CreateMedicalReportProps> = ({
                             <div className="modal-body">
                                 {prescription?.medicines.map((med, index) => (
                                     <div key={index} className="mb-4">
+                                        <div style={{outline: "1px solid grey", padding:"18px", borderRadius:"20px"}}>
                                         <div className="d-flex mb-2">
                                             <select
                                                 className={`form-select ${!isMedicineValid[index] ? 'is-invalid' : ''}`}
@@ -115,20 +146,37 @@ const CreateMedicalReport: React.FC<CreateMedicalReportProps> = ({
                                                 X
                                             </button>
                                         </div>
-                                        <div className="mb-2">
-                                            <input
-                                                type="text"
-                                                placeholder="Enter instruction"
-                                                className={`form-control ms-2 ${!isInstructionValid[index] ? 'is-invalid' : ''}`}
-                                                value={med.instruction}
-                                                onChange={(e) => {
-                                                    const instructionValue = e.target.value;
-                                                    handleMedicineChange(index, 'instruction',  e.target.value);
-                                                    const updatedValidity = [...isInstructionValid];
-                                                    updatedValidity[index] = instructionValue.trim() !== null;
-                                                    setIsInstructionValid(updatedValidity);
-                                                }}
-                                            />
+                                            <div className="mb-2">
+                                                <div className="row">
+                                                    <div className="col">
+                                                        <label style={{fontSize: "16px"}}>Sáng</label>
+                                                        <input
+                                                            type="number"
+                                                            className={`form-control ${!isInstructionValid[index] ? 'is-invalid' : ''}`}
+                                                            placeholder="0"
+                                                            onChange={(e) => handleInstructionChange(index, 'morning', e.target.value)}
+                                                        />
+                                                    </div>
+                                                    <div className="col">
+                                                        <label style={{fontSize: "16px"}}>Trưa</label>
+                                                        <input
+                                                            type="number"
+                                                            className={`form-control ${!isInstructionValid[index] ? 'is-invalid' : ''}`}
+                                                            placeholder="0"
+                                                            onChange={(e) => handleInstructionChange(index, 'noon', e.target.value)}
+                                                        />
+                                                    </div>
+                                                    <div className="col">
+                                                        <label style={{fontSize: "16px"}}>Chiều</label>
+                                                        <input
+                                                            type="number"
+                                                            className={`form-control ${!isInstructionValid[index] ? 'is-invalid' : ''}`}
+                                                            placeholder="0"
+                                                            onChange={(e) => handleInstructionChange(index, 'evening', e.target.value)}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 ))}
@@ -141,11 +189,14 @@ const CreateMedicalReport: React.FC<CreateMedicalReportProps> = ({
                                         type="text"
                                         className="form-control"
                                         value={prescription?.instruction || ''}
-                                        onChange={(e) => setPrescription(prescription ? { ...prescription, instruction: e.target.value } : null)}
+                                        onChange={(e) => setPrescription(prescription ? {
+                                            ...prescription,
+                                            instruction: e.target.value
+                                        } : null)}
                                     />
                                 </div>
                                 <div className="modal-footer">
-                                    <button className="btn btn-primary" onClick={handleCreateReport}>
+                                    <button className="btn btn-primary" onClick={handleCreateReport} disabled={!isFormValid}>
                                         Save Report
                                     </button>
                                     <button className="btn btn-secondary" onClick={toggleReportModal}>

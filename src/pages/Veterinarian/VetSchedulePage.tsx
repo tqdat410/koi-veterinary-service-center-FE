@@ -5,7 +5,6 @@ import Sidebar from "../../components/layout/Sidebar";
 import { fetchVetSlots } from "../../api/scheduleApi";
 import { useDispatch } from 'react-redux';
 import {useAuth} from "../../hooks/context/AuthContext";
-// import { setAppointmentDetails } from '../../redux/actions/appointmentActions'; // Redux action to set appointment details
 
 interface DoctorScheduleProps {
     appointments?: any[]; // Nhận appointments từ props
@@ -13,10 +12,10 @@ interface DoctorScheduleProps {
 
 // Map slot_order to time ranges
 const slotOrderToTime = {
-    1: '7:30 - 9:30',
+    1: '8:00 - 10:00',
     2: '10:00 - 12:00',
     3: '13:00 - 15:00',
-    4: '15:30 - 17:30',
+    4: '15:00 - 17:00',
 };
 
 // Get week dates and other functions remain unchanged
@@ -92,6 +91,7 @@ const VetSchedule: React.FC = () => {
             if (vetId) {
                 try {
                     const slots = await fetchVetSlots(vetId);
+                    console.log(slots)
                     if (Array.isArray(slots)) {
                         setAppointments(slots);
                     } else {

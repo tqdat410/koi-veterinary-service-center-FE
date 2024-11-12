@@ -34,13 +34,13 @@ const FillInformationPage: React.FC = () => {
         customer_name: '',
         phone: '',
         email: '',
-        address: '',
+        address:null as string | null,
         fish: '',
         description: '',
-        payment_method: 'VN_PAY', // Default to online payment if service_id is 1
+        payment_method: 'VN_PAY',
         address_id: null as number | null,
         fish_id: null as number | null,
-        district: '',
+        district: null as string | null,
     });
 
     // Validation states
@@ -77,14 +77,15 @@ const FillInformationPage: React.FC = () => {
                     const { address } = userData;
                     setFormData((prevData) => ({
                         ...prevData,
-                        customer_name: `${userData.first_name} ${userData.last_name}`, // Combine first and last name
-                        phone: userData.phone_number, // Use the user's phone number
-                        email: userData.email, // Use the user's email
-                        address: address ? `${address.home_number}, ${address.ward}, ${address.district}, ${address.city}` : '',
+                        customer_name: `${userData.first_name} ${userData.last_name}`,
+                        phone: userData.phone_number,
+                        email: userData.email,
+                        district: address?.district || null,
+                        address: address ? `${address.home_number}, ${address.district}, ${address.ward}, ${address.city}` : '',
                         address_id: address?.address_id || null,
                     }));
                     if (address) {
-                        setSelectedAddress(`${address.home_number}, ${address.ward}, ${address.district}, ${address.city}`);
+                        setSelectedAddress(`${address.home_number}, ${address.district}, ${address.ward}, ${address.city}`);
                     } else {
                         setSelectedAddress("Select an address");
                     }
@@ -111,7 +112,7 @@ const FillInformationPage: React.FC = () => {
                 } catch (err) {
                     setError('Failed to fetch addresses');
                 } finally {
-                    setLoading(false); // Tắt trạng thái loading sau khi dữ liệu đã được load
+                    setLoading(false);
                 }
             } else {
                 setError('User ID is not available');
@@ -147,10 +148,17 @@ const FillInformationPage: React.FC = () => {
 
     const handleAddressChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedValue = e.target.value;
-        const address = addresses.find(address => `${address.home_number}/ ${address.district}/ ${address.ward}/ ${address.city}` === selectedValue);
+        console.log("addresses",addresses)
+        const address = addresses.find(address => `${address.home_number}, ${address.district}, ${address.ward}, ${address.city}` === selectedValue);
         const addressId = address?.address_id || 0;
         setSelectedAddress(selectedValue);
+
         setFormData({ ...formData, address: selectedValue, district: address?.district || '', address_id: addressId });
+        console.log("chon", {
+            address: selectedValue,
+            district: address?.district || '',
+            address_id: addressId,
+        });
     };
 
     const handleFishChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -183,31 +191,31 @@ const FillInformationPage: React.FC = () => {
     // Handle validation for Name
     const validateName = () => {
         if (formData.customer_name.trim() === '') {
-            setErrorName('Name is required.'); // Set error message for name
+            setErrorName('Name is required.');
             return false;
         } else {
-            setErrorName(''); // Clear error if name is valid
+            setErrorName('');
             return true;
         }
     };
 
     // Handle validation for phone number
     const validatePhone = () => {
-        const phoneValue = formData.phone; // Lấy giá trị điện thoại từ formData
+        const phoneValue = formData.phone;
 
         // Kiểm tra xem phoneValue có tồn tại và không phải là chuỗi rỗng
         if (!phoneValue || phoneValue.trim() === '') {
-            setErrorPhone('Phone number is required.'); // Cài đặt thông báo lỗi nếu không có giá trị
-            return false; // Trả về false nếu không hợp lệ
+            setErrorPhone('Phone number is required.');
+            return false;
         }
         const phonePattern = /^[0-9]{10}$/;
         if (!phonePattern.test(phoneValue)) {
-            setErrorPhone('Contact number must be a 10-digit number.'); // Kiểm tra số điện thoại có đúng định dạng không
-            return false; // Trả về false nếu không hợp lệ
+            setErrorPhone('Contact number must be a 10-digit number.');
+            return false;
         }
 
-        setErrorPhone(''); // Xóa thông báo lỗi nếu hợp lệ
-        return true; // Trả về true nếu hợp lệ
+        setErrorPhone('');
+        return true;
     };
 
     // Handle validation for email
@@ -232,12 +240,26 @@ const FillInformationPage: React.FC = () => {
             return; // Don't proceed with submission if any fields are invalid
         }
 
+        // Kiểm tra điều kiện service_id
+        if (service_id === 1 || (service_id === 3 && serviceLocation === "at_hospital")) {
+            setFormData((prevData) => ({
+                ...prevData,
+                address: null,    // Đặt address thành null
+                district: null,   // Đặt district thành null
+                address_id: null, // Đặt address_id thành null
+            }));
+        }
 
-
-
+        // Sử dụng formData đã được cập nhật
+        const updatedFormData = {
+            ...formData,
+            address: service_id === 1 || (service_id === 3 && serviceLocation === "at_hospital") ? null : formData.address,
+            district: service_id === 1 || (service_id === 3 && serviceLocation === "at_hospital") ? null : formData.district,
+            address_id: service_id === 1 || (service_id === 3 && serviceLocation === "at_hospital") ? null : formData.address_id,
+        };
 
         try {
-            dispatch(setForm(formData));
+            dispatch(setForm(updatedFormData)); // Dispatch dữ liệu đã cập nhật
             navigate('/appointment/order-confirm'); // Redirect to the order page using navigate
         } catch (error) {
             console.error('Error submitting form:', error);
@@ -364,119 +386,116 @@ const FillInformationPage: React.FC = () => {
                             {service_id !== 1 && service_id !== 2 && (
                                 <div className="form-group mb-3">
 
-                                <label className="fw-bold form-label-koi">Service Location</label>
+                                    <label className="fw-bold form-label-koi">Service Location</label>
                                     <div className="d-flex align-items-center">
-                                    <div className="form-check me-3">
-                                        <input
-                                            className="form-check-input"
-                                            type="radio"
-                                            name="serviceLocation"
-                                            value="at_home"
-                                            checked={serviceLocation === 'at_home'}
-                                            onChange={handleServiceLocationChange}
-                                        />
-                                        <label className="form-check-label">At Home</label>
-                                    </div>
-                                    <div className="form-check">
-                                        <input
-                                            className="form-check-input"
-                                            type="radio"
-                                            name="serviceLocation"
-                                            value="at_hospital"
-                                            checked={serviceLocation === 'at_hospital'}
-                                            onChange={handleServiceLocationChange}
-                                        />
-                                        <label className="form-check-label">At Hospital</label>
-                                    </div>
+                                        <div className="form-check me-3">
+                                            <input
+                                                className="form-check-input"
+                                                type="radio"
+                                                name="serviceLocation"
+                                                value="at_home"
+                                                checked={serviceLocation === 'at_home'}
+                                                onChange={handleServiceLocationChange}
+                                            />
+                                            <label className="form-check-label">At Home</label>
+                                        </div>
+                                        <div className="form-check">
+                                            <input
+                                                className="form-check-input"
+                                                type="radio"
+                                                name="serviceLocation"
+                                                value="at_hospital"
+                                                checked={serviceLocation === 'at_hospital'}
+                                                onChange={handleServiceLocationChange}
+                                            />
+                                            <label className="form-check-label">At Hospital</label>
+                                        </div>
                                     </div>
 
                                 </div>
                             )}
-                                {service_id !== 1 && serviceLocation === 'at_home' && ( // Chỉ hiển thị địa chỉ khi chọn 'At Home' và service_id không phải 1
-                                    <div className="form-group mb-3 position-relative">
-                                        <div className="d-flex justify-content-between mb-1">
-                                            <label className="fw-bold form-label-koi">Address</label>
-                                            <button type="button" className="btn btn-sm btn-primary ms-2"
-                                                    onClick={handleAddAddress}>
-                                                <i className="fas fa-plus"></i>
-                                            </button>
-                                        </div>
-                                        <div className="position-relative">
-                                            <select
-                                                className={`form-control input-field ${!validity.address ? 'border-danger' : ''}`}
-                                                id="address"
-                                                name="address"
-                                                value={selectedAddress}
-                                                onChange={handleAddressChange}
-                                            >
-                                                <option value="" disabled>{addresses.length ? "Select an address" : "No addresses available"}</option>
-                                                {addresses.map((addr) => (
-                                                    <option
-                                                        key={addr.address_id}
-                                                        value={`${addr.home_number}, ${addr.ward}, ${addr.district}, ${addr.city}`}
-                                                    >
-                                                        {addr.home_number}, {addr.ward}, {addr.district}, {addr.city}
-                                                    </option>
-                                                ))}
-                                            </select>
-                                            <i className="bi bi-chevron-down dropdown-icon"></i>
-                                        </div>
-
+                            {service_id !== 1 && serviceLocation === 'at_home' && ( // Chỉ hiển thị địa chỉ khi chọn 'At Home' và service_id không phải 1
+                                <div className="form-group mb-3 position-relative">
+                                    <div className="d-flex justify-content-between mb-1">
+                                        <label className="fw-bold form-label-koi">Address</label>
+                                        <button type="button" className="btn btn-sm btn-primary ms-2"
+                                                onClick={handleAddAddress}>
+                                            <i className="fas fa-plus"></i>
+                                        </button>
                                     </div>
-                                )}
+                                    <div className="position-relative">
+                                        <select
+                                            className={`form-control input-field ${!validity.address ? 'border-danger' : ''}`}
+                                            id="address"
+                                            name="address"
+                                            value={selectedAddress}
+                                            onChange={handleAddressChange}
+                                        >
+                                            <option value=""
+                                                    disabled>{addresses.length ? "Select an address" : "No addresses available"}</option>
+                                            {addresses.map((addr) => (
+                                                <option
+                                                    key={addr.address_id}
+                                                    value={`${addr.home_number}, ${addr.district}, ${addr.ward}, ${addr.city}`}
+                                                >
+                                                    {addr.home_number}, {addr.district}, {addr.ward}, {addr.city}
+                                                </option>
+                                            ))}
+                                        </select>
+                                        <i className="bi bi-chevron-down dropdown-icon"></i>
+                                    </div>
 
-                                <div className="form-group mb-3">
-                                    <label className="fw-bold form-label-koi">Description</label>
-                                    <textarea
-                                        className="form-control input-field"
-                                        name="description"
-                                        rows={4}
-                                        value={formData.description}
-                                        onChange={handleChange}
-                                        placeholder="Description"
-                                    />
                                 </div>
+                            )}
 
-                                <div className=" form-group mb-3">
-                                    <label className="fw-bold form-label-koi">Payment Method</label>
+                            <div className="form-group mb-3">
+                                <label className="fw-bold form-label-koi">Description</label>
+                                <textarea
+                                    className="form-control input-field"
+                                    name="description"
+                                    rows={4}
+                                    value={formData.description}
+                                    onChange={handleChange}
+                                    placeholder="Description"
+                                />
+                            </div>
+
+                            <div className=" form-group mb-3">
+                                <label className="fw-bold form-label-koi">Payment Method</label>
+                                <div className="form-check">
+                                    <input
+                                        className="form-check-input"
+                                        type="radio"
+                                        name="payment_method"
+                                        value="VN_PAY"
+                                        checked={formData.payment_method === 'VN_PAY'}
+                                        onChange={handleChange}
+
+                                    />
+                                    <label className="form-check-label">Pay Online</label>
+                                </div>
+                                {service_id !== 1 && service_id !== 2 && serviceLocation === 'at_hospital' && (
                                     <div className="form-check">
                                         <input
                                             className="form-check-input"
                                             type="radio"
                                             name="payment_method"
-                                            value="VN_PAY"
-                                            checked={formData.payment_method === 'VN_PAY'}
+                                            value="CASH"
+                                            checked={formData.payment_method === 'CASH'}
                                             onChange={handleChange}
-
                                         />
-                                        <label className="form-check-label">Pay Online</label>
+                                        <label className="form-check-label">Pay with Cash</label>
                                     </div>
-
-
-                                    {service_id !== 1 && service_id !== 2 && serviceLocation === 'at_hospital' && (
-                                        <div className="form-check">
-                                            <input
-                                                className="form-check-input"
-                                                type="radio"
-                                                name="payment_method"
-                                                value="CASH"
-                                                checked={formData.payment_method === 'CASH'}
-                                                onChange={handleChange}
-                                            />
-                                            <label className="form-check-label">Pay with Cash</label>
-                                        </div>
-                                    )}
-                                </div>
-
-
-                                <div className="d-flex justify-content-end">
-                                    <button type="submit" className="btn btn-primary">
-                                        Next
-                                    </button>
-                                </div>
-
+                                )}
                             </div>
+                            <div className="d-flex justify-content-end">
+                                <button type="submit" className="btn btn-primary">
+                                    Next
+                                </button>
+                            </div>
+
                         </div>
+                    </div>
                 </form>
             </div>
         </div>

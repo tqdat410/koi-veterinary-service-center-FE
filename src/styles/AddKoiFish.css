@@ -4,13 +4,13 @@
 
 .image-upload-container {
     display: flex;
-    flex-direction: column; /* Stack children vertically */
-    align-items: center;    /* Center items horizontally */
+    flex-direction: column;
+    align-items: center;
 }
 
 .image-upload-card {
     width: 450px;
-    height: 470px; /* Set a fixed height for the card */
+    height: 470px;
     padding: 20px;
     background-color: white;
     border: 1px solid #e0e6ed;
@@ -58,7 +58,7 @@
 
 .upload-button-container {
     width: 100%;
-    margin-top: 10px; /* Optional: additional spacing above button */
+    margin-top: 10px;
 }
 
 .upload-button {
