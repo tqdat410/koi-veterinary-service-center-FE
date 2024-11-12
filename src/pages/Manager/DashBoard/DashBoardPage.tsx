@@ -8,11 +8,14 @@ import {
     getAppointmentStatistics,
     getPaymentStatistics,
     getFeedbackStatistics,
-    getVetSlotsInCurrentWeek,
+    getVetSlotsInRange,
     getVeterinarians
 } from '../../../api/statisticsApi';
 import "../../../styles/DashBoard.css"
 import Sidebar from "../../../components/layout/Sidebar";
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
+import { addMonths, startOfMonth, endOfMonth, format } from 'date-fns';
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#FF6666', '#FFD700', '#4B0082'];
 
@@ -24,21 +27,27 @@ const Dashboard: React.FC = () => {
     const [vetSlots, setVetSlots] = useState<any[]>([]);
     const [averageRatings, setAverageRatings] = useState<any[]>([]);
     const [vetNameMap, setVetNameMap] = useState<{ [key: string]: string }>({});
-    useEffect(() => {
-        fetchData();
-    }, []);
+    const [selectedDate, setSelectedDate] = useState<Date>(new Date());
 
-    const fetchData = async () => {
+    useEffect(() => {
+        fetchData(selectedDate);
+    }, [selectedDate]); // Re-fetch data when selectedDate changes
+
+    const fetchData = async (date: Date) => {
+        const startDate = startOfMonth(date);
+        const endDate = endOfMonth(date);
+
         try {
             const [userFishRes, appointmentRes, paymentRes, feedbackRes, veterinariansRes] = await Promise.all([
                 getUserFishStatistics(),
                 getAppointmentStatistics(),
-                getPaymentStatistics(),
+                getPaymentStatistics(format(startDate, 'yyyy-MM-dd'), format(endDate, 'yyyy-MM-dd')),
                 getFeedbackStatistics(),
                 getVeterinarians(),
             ]);
 
             setUserFishStats(userFishRes.data);
+
             setAppointmentStats(appointmentRes.data);
             setPaymentStats(paymentRes.data);
             setFeedbackStats(feedbackRes.data);
@@ -46,7 +55,7 @@ const Dashboard: React.FC = () => {
 
             const vetSlotPromises = veterinariansRes.data.map(async (vet: any) => {
                 try {
-                    const slotsRes = await getVetSlotsInCurrentWeek(vet.user_id);
+                    const slotsRes = await getVetSlotsInRange(vet.user_id, format(startDate, 'yyyy-MM-dd'), format(endDate, 'yyyy-MM-dd'));
                     return {
                         vetName: `${vet.last_name.charAt(0)}. ${vet.first_name}`,
                         slotsBooked: slotsRes.data || 0,
@@ -78,6 +87,12 @@ const Dashboard: React.FC = () => {
             setAverageRatings(avgRatings);
         } catch (error) {
             console.error('Error fetching data', error);
+        }
+    };
+
+    const handleDateChange = (date: Date | null) => {
+        if (date) {
+            setSelectedDate(date);
         }
     };
 
@@ -160,7 +175,8 @@ const Dashboard: React.FC = () => {
                                             <Tooltip/>
                                         </PieChart>
                                     </ResponsiveContainer>
-                                    <div className="fw-bold">Total Appointments: {appointmentStats.totalAppointments || 0}</div>
+                                    <div className="fw-bold">Total
+                                        Appointments: {appointmentStats.totalAppointments || 0}</div>
                                 </div>
 
                                 {/* Total Appointments Today Pie Chart */}
@@ -199,27 +215,39 @@ const Dashboard: React.FC = () => {
                                             <Tooltip/>
                                         </PieChart>
                                     </ResponsiveContainer>
-                                    <div className="fw-bold">Total Appointments Today: {appointmentStats.totalAppointmentsToday || 0}</div>
+                                    <div className="fw-bold">Total Appointments
+                                        Today: {appointmentStats.totalAppointmentsToday || 0}</div>
                                 </div>
                             </div>
-                            <div className="mt-3" >
-                            <h6>Total Appointments This Quarter: {appointmentStats.appointmentsThisQuarter || 0}</h6>
-                            <h6>Total Appointments This Month: {appointmentStats.appointmentsThisMonth || 0}</h6>
-
+                            <div className="mt-3">
+                                <h6>Total Appointments This
+                                    Quarter: {appointmentStats.appointmentsThisQuarter || 0}</h6>
+                                <h6>Total Appointments This Month: {appointmentStats.appointmentsThisMonth || 0}</h6>
 
                             </div>
                         </div>
                     </div>
                 </div>
+                <div className="mb-4">
+                    <DatePicker
+                        selected={selectedDate}
+                        onChange={handleDateChange}
+                        dateFormat="MMMM yyyy"
+                        showMonthYearPicker
+                        showFullMonthYearPicker
+                        className="text-center"
 
+                    />
+                </div>
 
                 {/* Payment Statistics */}
                 <div className="col-lg-6 col-md-6 mb-4">
+
                     <div className="card mb-4">
                         <div className="card-header fw-bold">Payment Statistics</div>
                         <div className="card-body">
                             <div className="row">
-                                <div className="col-4">
+                                <div className="col-6">
                                     <ResponsiveContainer width="100%" height={300}>
                                         <BarChart width={300} height={300} data={[
                                             {name: 'Cash', value: parseInt(paymentStats.cashPayments)},
@@ -238,7 +266,7 @@ const Dashboard: React.FC = () => {
                                     </ResponsiveContainer>
                                 </div>
                                 {/* Total Paid and Not Paid Chart */}
-                                <div className="col-4">
+                                <div className="col-6">
 
                                     <ResponsiveContainer width="100%" height={300}>
                                         <BarChart data={[
@@ -260,34 +288,12 @@ const Dashboard: React.FC = () => {
                                 </div>
 
                                 {/* Paid and Not Paid Today Chart */}
-                                <div className="col-4">
 
-                                    <ResponsiveContainer width="100%" height={300}>
-                                        <BarChart data={[
-                                            {name: 'Paid', value: parseInt(paymentStats.paidPaymentsToday)},
-                                            {name: 'Not Paid', value: parseInt(paymentStats.notPaidPaymentsToday)},
-                                        ]}>
-                                            <CartesianGrid strokeDasharray="3 3"/>
-                                            <XAxis dataKey="name"/>
-                                            <YAxis/>
-                                            <Tooltip/>
-                                            <Bar dataKey="value">
-                                                {COLORS.map((color, index) => (
-                                                    <Cell key={`cell-${index}`} fill={color}/>
-                                                ))}
-                                            </Bar>
-                                        </BarChart>
-                                    </ResponsiveContainer>
-                                    <div className="fw-bold">Paid and Not Paid Today</div>
-                                </div>
                             </div>
 
                             {/* Display Total Amount and Total Payments Today */}
                             <div className="mt-3">
-                                <h6>Total Payments Today: {paymentStats.totalPaymentsToday || 0}</h6>
-                                <h6>Total Amount
-                                    Today: {Intl.NumberFormat('vi-VN').format(Number(paymentStats.totalAmountToday) || 0)} VND
-                                </h6>
+
                                 <h6>Total
                                     Amount: {Intl.NumberFormat('vi-VN').format(Number(paymentStats.totalAmount) || 0)} VND
                                 </h6>
@@ -299,7 +305,7 @@ const Dashboard: React.FC = () => {
                 {/* Feedback Statistics */}
                 <div className="col-lg-6 col-md-6 mb-4">
                     <div className="card mb-4">
-                        <div className="card-header fw-bold">Veterinarian Slots Booked This Week</div>
+                        <div className="card-header fw-bold">Veterinarian Slots Booked</div>
                         <div className="card-body">
                             <ResponsiveContainer width="100%" height={400}>
                                 <LineChart width={1100} height={400} data={vetSlots}
@@ -315,18 +321,18 @@ const Dashboard: React.FC = () => {
                             </ResponsiveContainer>
                         </div>
                     </div>
-                        </div>
-                    </div>
+                </div>
+            </div>
 
-                    {/* Veterinarian Slots Booked */}
+            {/* Veterinarian Slots Booked */}
 
-                    <div className="row mt-4">
-                        <div className="col-12">
-                        <div className="card mb-4">
+            <div className="row mt-4">
+                <div className="col-12">
+                    <div className="card mb-4">
 
-                                <div className="card-header fw-bold">Feedback Statistics</div>
-                                <div className="card-body">
-                                    <ResponsiveContainer width="100%" height={300}>
+                        <div className="card-header fw-bold">Feedback Statistics</div>
+                        <div className="card-body">
+                        <ResponsiveContainer width="100%" height={300}>
                                         <LineChart width={500} height={300} data={averageRatings}>
                                             <CartesianGrid strokeDasharray="3 3"/>
                                             <XAxis dataKey="vetId"/>
