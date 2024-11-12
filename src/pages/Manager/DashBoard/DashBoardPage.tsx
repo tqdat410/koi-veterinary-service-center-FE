@@ -9,7 +9,8 @@ import {
     getPaymentStatistics,
     getFeedbackStatistics,
     getVetSlotsInRange,
-    getVeterinarians
+    getVeterinarians,
+    getAverageRatingForVeterinarian
 } from '../../../api/statisticsApi';
 import "../../../styles/DashBoard.css"
 import Sidebar from "../../../components/layout/Sidebar";
@@ -56,16 +57,20 @@ const Dashboard: React.FC = () => {
             const vetSlotPromises = veterinariansRes.data.map(async (vet: any) => {
                 try {
                     const slotsRes = await getVetSlotsInRange(vet.user_id, format(startDate, 'yyyy-MM-dd'), format(endDate, 'yyyy-MM-dd'));
+                    const ratingRes = await getAverageRatingForVeterinarian(vet.user_id);
                     return {
                         vetName: `${vet.last_name.charAt(0)}. ${vet.first_name}`,
                         slotsBooked: slotsRes.data || 0,
-                        user_id: vet.user_id
+                        user_id: vet.user_id,
+                        averageRating: ratingRes.data || 0,
                     };
                 } catch (error) {
                     return {
                         vetName: `${vet.first_name} ${vet.last_name}`,
                         slotsBooked: 0,
-                        user_id: vet.user_id
+                        user_id: vet.user_id,
+                        averageRating: 0,
+
                     };
                 }
             });
@@ -80,9 +85,9 @@ const Dashboard: React.FC = () => {
             }, {});
             setVetNameMap(nameMap);
 
-            const avgRatings = Object.entries(feedbackRes.data.averageRatingPerVet).map(([vetId, rating]) => ({
-                vetId: nameMap[vetId] || vetId,
-                rating,
+            const avgRatings = vetSlotData.map((vet: any) => ({
+                vetId: vet.vetName,
+                rating: vet.averageRating,
             }));
             setAverageRatings(avgRatings);
         } catch (error) {

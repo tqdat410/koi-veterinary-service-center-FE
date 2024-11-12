@@ -5,11 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a5713505-d8be-4eea-9a6b-8e8ca55b0f70" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/api/statisticsApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/statisticsApi.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/Manager/DashBoard/DashBoardPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Manager/DashBoard/DashBoardPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Staff/StaffAppointmentDetails.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Staff/StaffAppointmentDetails.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,7 +50,7 @@
   "keyToString": {
     "ASKED_ADD_EXTERNAL_FILES": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "modify-feature/dashboard-modify",
+    "git-widget-placeholder": "modify-feature/modify-dashboard-v2",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/Admin/Desktop/reactjs/test-fe/src/assets/fonts",
     "node.js.detected.package.eslint": "true",
