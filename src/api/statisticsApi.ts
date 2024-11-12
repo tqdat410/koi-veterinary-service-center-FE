@@ -35,3 +35,7 @@ export const getVetSlotsInRange = (vetId: number, startDate: string, endDate: st
 export const getVeterinarians = () => {
     return axios.get(`${API_URL}/veterinarians`);
 };
+
+export const getAverageRatingForVeterinarian = (veterinarianId: number) => {
+    return axios.get(`${API_URL}/${veterinarianId}/average-rating`);
+};
