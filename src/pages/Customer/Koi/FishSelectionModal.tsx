@@ -16,13 +16,18 @@ const FishSelectionModal: React.FC<FishSelectionModalProps> = ({ koiFishData, on
                         <button type="button" className="btn-close" onClick={onClose}></button>
                     </div>
                     <div className="modal-body" style={{borderRadius: '16px', paddingTop: '12px'}}>
-                        <ul className="list-group">
+                        <div className="list-group">
                             {koiFishData.map(fish => (
-                                <li key={fish.fish_id} className="list-group-item" onClick={() => onSelectFish(fish.fish_id)}>
+                                <button 
+                                    key={fish.fish_id} 
+                                    className="list-group-item list-group-item-action"
+                                    onClick={() => onSelectFish(fish.fish_id)}
+                                    style={{ cursor: 'pointer', textAlign: 'left', backgroundColor: 'lightblue', border: '1px solid black'}}
+                                >
                                     {fish.species} (ID: {fish.fish_id})
-                                </li>
+                                </button>
                             ))}
-                        </ul>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -1,3 +1,11 @@
+.fw-900 {
+    font-weight: 900;
+}
+
+.medicine-item {
+    list-style-type: none;
+    font-size: 20.4px;
+}
 
 .header-content {
     padding-top: 45px !important;

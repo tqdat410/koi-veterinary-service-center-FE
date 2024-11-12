@@ -17,7 +17,7 @@ s
     margin-top: 3rem !important;
 }
 
-.container {
+.min-h-auto {
     min-height: auto;
     /* Điều chỉnh tùy theo chiều cao của Navbar và Footer */
 }
