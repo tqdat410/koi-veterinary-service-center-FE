@@ -16,11 +16,11 @@ const ContactUs = () => (
             <div className="row">
                 <div className="col-md-6">
                     <h4>Our Contact Information</h4>
-                    <p><strong>Phone:</strong> 1234567890</p>
-                    <p><strong>Email:</strong> koifishvetmaster@gmail.com </p>
+                    <p><strong>Phone:</strong> +1 (234) 567-89</p>
+                    <p><strong>Email:</strong> koifish@gmail.com </p>
                     <p><strong>Address:</strong></p>
-                    <p>1 Đường số 1<br />
-                        [Thành phố Hồ Chí Minh, Quận 1, 70000]</p>
+                    <p>92, Nguyễn Trãi,<br />
+                     Phường Bến Thành, Quận 1, Tp Hồ Chí Minh</p>
                 </div>
 
                 <div className="col-md-6">

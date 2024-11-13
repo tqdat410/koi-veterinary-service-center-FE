@@ -15,7 +15,7 @@ function Footer(){
                     <a href="/contact" className="text-white">Contact</a>
                 </li>
                 <li className="list-inline-item">
-                    <a href="/privacy" className="text-white">Privacy Policy</a>
+                    <a href="/policy" className="text-white">Policy</a>
                 </li>
             </ul>
             <div className="mt-1">

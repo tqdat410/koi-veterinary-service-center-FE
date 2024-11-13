@@ -153,9 +153,9 @@ const FishAppointmentDetails: React.FC = () => {
                                         <div className="col-md-6">
                                             <h5 className='fw-900'>Appointment Information:</h5>
                                             <p>Slot: {appointment.time_slot?.description || 'N/A'}</p>
-                                            <p>Date:
+                                            <p>Date: 
                                                 {appointment.time_slot?.day && appointment.time_slot?.month && appointment.time_slot?.year ?
-                                                    `${appointment.time_slot?.day}/${appointment.time_slot?.month}/${appointment.time_slot?.year}` : 'N/A'
+                                                    ` ${appointment.time_slot?.day}/${appointment.time_slot?.month}/${appointment.time_slot?.year}` : 'N/A'
                                                 }
                                             </p>
                                             <p>Status:
