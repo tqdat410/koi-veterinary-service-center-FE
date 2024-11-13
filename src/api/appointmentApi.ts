@@ -176,8 +176,8 @@ const createAppointment = async (payload: Appointment) => {
     try {
         const response = await axios.post(APPOINTMENT_URL, payload);
         return response.data; // trả về dữ liệu từ API
-    } catch (error) {
-        console.error('Error creating appointment:', error);
+    } catch (error : any) {
+        console.error('Error creating appointment:',error.response.data );
         throw error; // ném lỗi để xử lý ở nơi gọi
     }
 };
