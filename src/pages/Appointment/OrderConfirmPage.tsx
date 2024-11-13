@@ -120,8 +120,10 @@ const AppointmentOrderPage: React.FC = () => {
             setShowModal(true); // Show modal
 
 
-        } catch (error) {
-            alert('Error confirming order. Please try again.'); // Xử lý lỗi
+        } catch (error: any) {
+            const errorMessage = error.response ? error.response.data : error.message;
+            alert('Error confirming order. Please try again. ' + errorMessage);
+            navigate('/appointment/slot-date-selection');
         }
     };
 
