@@ -7,12 +7,14 @@ import '../../styles/ManagerAppointmentDetails.css';
 import {  fecthFeedbackDetails } from '../../api/feedbackApi';
 import Sidebar from "../../components/layout/Sidebar";
 import ProgressTimeline from "../Staff/Timeline";
+import {addVoucher} from "../../api/voucherApi";
 
 interface AppointmentDetailsProps {
     appointment_id: number;
     created_date: string;
     current_status: string;
     customer_name: string;
+    customer_id:number;
     slot_id: number;
     email: string;
     phone_number: string;
@@ -115,7 +117,7 @@ const AppointmentDetails: React.FC = () => {
     const [feedbackDetails, setFeedbackDetails] = useState<any>(null); // New state
 
     const navigate = useNavigate();
-
+    const [selectedVoucher, setSelectedVoucher] = useState<number | null>(null);
 
     // Fetch appointment details by ID
     useEffect(() => {
@@ -124,7 +126,8 @@ const AppointmentDetails: React.FC = () => {
                 try {
                     console.log('appointment id:', appointment_id);
                     const appointmentData = await getAppointmentDetails(Number(appointment_id)); // Fetch details by ID
-                    setAppointment(appointmentData); // Set the appointment details                    
+                    setAppointment(appointmentData); // Set the appointment details
+
                 } catch (error) {
                     console.error('Error fetching appointment details:', error);
                 }
@@ -133,7 +136,7 @@ const AppointmentDetails: React.FC = () => {
 
         fetchDetails();
     }, [appointment_id]);
-
+    console.log(appointment)
 
     // Fetch report details by ID
     useEffect(() => {
@@ -239,6 +242,30 @@ const AppointmentDetails: React.FC = () => {
 
     const handleClosePrescriptionModal = () => {
         setShowPrescriptionModal(false);
+    };
+
+    const handleVoucherChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setSelectedVoucher(Number(event.target.value)); // Update selected voucher ID
+    };
+
+    // Function to handle voucher assignment
+    const handleAssignVoucher = async () => {
+        if (selectedVoucher !== null) {
+            const customerId = appointment?.customer_id; // You need to replace this with the actual customer ID from the appointment data
+            try {
+                // Confirm the voucher assignment action
+                const confirmed = window.confirm("Are you sure you want to assign this voucher?");
+                if (confirmed) {
+                    const response = await addVoucher(customerId, selectedVoucher);
+                    alert(`Voucher assigned successfully! Voucher ID: ${response}`);
+                }
+            } catch (error) {
+                console.error('Error assigning voucher:', error);
+                alert('There was an error assigning the voucher.');
+            }
+        } else {
+            alert('Please select a voucher before assigning.');
+        }
     };
 
     return (
@@ -360,19 +387,35 @@ const AppointmentDetails: React.FC = () => {
                                     <button className="btn btn-primary" onClick={handleViewLogs}>
                                         View Log Details
                                     </button>
-
+                                    <h5 className="mt-3 fw-900"> Add voucher</h5>
+                                    <div className="d-flex align-items-center gap-2">
+                                        <select
+                                            className="form-select"
+                                            value={selectedVoucher ?? ''}
+                                            onChange={handleVoucherChange}
+                                            aria-label="Select a voucher"
+                                        >
+                                            <option value="">Select Voucher</option>
+                                            <option value={1}>DISCOUNT50</option>
+                                            <option value={2}>DISCOUNT75</option>
+                                            <option value={3}>DISCOUNT100</option>
+                                        </select>
+                                        <button className="btn btn-primary" onClick={handleAssignVoucher}>
+                                            Assign Voucher
+                                        </button>
+                                    </div>
+                                    </div>
                                 </div>
-                            </div>
 
-                            {/* Modal để hiển thị logs */}
+                                {/* Modal để hiển thị logs */}
                             <div className={`modal ${showLogsModal ? 'open' : ''}`}
-                                style={{ display: showLogsModal ? 'flex' : 'none' }}
+                                 style={{display: showLogsModal ? 'flex' : 'none'}}
                             >
                                 <div className="modal-content">
                                     <h2>Logs Details</h2>
                                     {logs.length > 0 ? (
                                         <ul className="logs-list">
-                                            {logs.map((log) => {
+                                        {logs.map((log) => {
                                                 // Tạo tên lớp dựa trên status
                                                 let statusClass = "";
                                                 switch (log.status) {
