@@ -4,6 +4,7 @@ import { getAppointmentDetails, updateAppointment } from '../../api/appointmentA
 import { fetchMedicalReport, fetchLogs } from '../../api/appointmentApi';
 import { fetchPrescription } from '../../api/prescriptionApi';
 import '../../styles/ManagerAppointmentDetails.css';
+import {  fecthFeedbackDetails } from '../../api/feedbackApi';
 import Sidebar from "../../components/layout/Sidebar";
 import ProgressTimeline from "../Staff/Timeline";
 import {addVoucher} from "../../api/voucherApi";
@@ -24,6 +25,7 @@ interface AppointmentDetailsProps {
     address: Address
     veterinarian: Veterinarian;
     fish: Fish;
+    feedback_id: number;
 }
 
 interface Service {
@@ -112,6 +114,8 @@ const AppointmentDetails: React.FC = () => {
     const [prescription, setPrescription] = useState<Prescription | null>(null); // Assuming your data structure
     const [showLogsModal, setShowLogsModal] = useState(false); // State để hiển thị modal logs
     const [showPrescriptionModal, setShowPrescriptionModal] = useState(false); // State để hiển thị modal prescription
+    const [feedbackDetails, setFeedbackDetails] = useState<any>(null); // New state
+
     const navigate = useNavigate();
     const [selectedVoucher, setSelectedVoucher] = useState<number | null>(null);
 
@@ -189,6 +193,21 @@ const AppointmentDetails: React.FC = () => {
         fetchDetails();
     }, [report?.prescription_id]);
 
+    // Fetch feedback details by ID of feedback
+    useEffect(() => {
+        const fetchFeedbackDetails = async () => {
+            if (appointment?.feedback_id) {
+                try {
+                    const feedbackData = await fecthFeedbackDetails(appointment.feedback_id);
+                    setFeedbackDetails(feedbackData);
+                } catch (error) {
+                    console.error('Error fetching feedback details:', error);
+                }
+            }
+        };
+
+        fetchFeedbackDetails();
+    }, [appointment?.feedback_id]);
 
     if (!appointment) {
         return <div>Loading...</div>;
@@ -295,7 +314,6 @@ const AppointmentDetails: React.FC = () => {
                                     <p>Service
                                         Price: {appointment.service?.service_price.toLocaleString('vi-VN')} VND</p>
 
-
                                     <h5 className="mt-3 fw-900">Veterinarian Information</h5>
                                     <p>
                                         Veterinarian name: {
@@ -345,6 +363,17 @@ const AppointmentDetails: React.FC = () => {
                                     </p>
                                     <p>Price: {appointment.moving_surcharge?.price.toLocaleString('vi-VN') || '0'} VND </p>
 
+                                    
+                                    {feedbackDetails && (
+                                        <div>
+                                            <h5 className="mt-3 fw-900">Feedback Details</h5>
+                                            <p>Date & time: {formatDateTime(feedbackDetails.date_time)}</p>
+                                            <p>Rating: {feedbackDetails.rating}</p>
+                                            <p>Comment: {feedbackDetails.comment}</p>
+                                            {/* Bạn có thể thêm các chi tiết khác nếu có */}
+                                        </div>
+                                    )}
+                                    
                                     <h5 className="mt-3 fw-900">Total Price</h5>
                                     <p>Total: {appointment?.total_price.toLocaleString('vi-VN') || ''} VND</p>
 
