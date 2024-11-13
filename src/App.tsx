@@ -80,6 +80,7 @@ const FishAppointmentDetails = lazy(() => import("./pages/Customer/Koi/FishAppoi
 const AboutPage = lazy(() => import("./pages/Common/StaticPage/AboutUsPage"));
 const ContactUs = lazy(() => import("./pages/Common/StaticPage/ContactUs"));
 const News = lazy(() => import("./pages/Common/StaticPage/News"));
+const Policy = lazy(() => import("./pages/Common/StaticPage/PolicyPage"));
 
 // Define a higher-order component with authentication
 const withAuth = (Component: React.ComponentType) => (
@@ -127,6 +128,7 @@ function App() {
                             <Route path="/about" element={<AboutPage />} />
                             <Route path="/contact" element={<ContactUs />} />
                             <Route path="/news" element={<News />} />
+                            <Route path="/policy" element={<Policy />} />
                             <Route path="/veterinarians-rating" element={<CustomerViewVetRatingPage />} />
 
                             {/* Authenticated routes */}
