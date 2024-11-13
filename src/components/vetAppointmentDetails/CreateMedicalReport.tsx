@@ -71,7 +71,7 @@ const CreateMedicalReport: React.FC<CreateMedicalReportProps> = ({
         handleMedicineChange(index, 'instruction', instruction);
     };
 
-    const isFormValid = prescription?.medicines.every((med, index) => isInstructionValid[index]);
+    const isFormValid = !prescription || (prescription.medicines.length === 0 ) || prescription?.medicines.every((med, index) => isInstructionValid[index]);
     return (
         <div className="modal" tabIndex={-1} style={{ display: 'block', background: 'rgba(0, 0, 0, 0.7)' }}>
             <div className="modal-dialog modal-dialog-centered">
@@ -183,6 +183,7 @@ const CreateMedicalReport: React.FC<CreateMedicalReportProps> = ({
                                 <button className="btn btn-secondary mb-2" onClick={handleAddMedicine}>
                                     Add Medicine
                                 </button>
+                                {prescription && prescription.medicines.length > 0 && (
                                 <div className="mb-3">
                                     <label className="form-label-koi">Instructions</label>
                                     <input
@@ -195,6 +196,7 @@ const CreateMedicalReport: React.FC<CreateMedicalReportProps> = ({
                                         } : null)}
                                     />
                                 </div>
+                                )}
                                 <div className="modal-footer">
                                     <button className="btn btn-primary" onClick={handleCreateReport} disabled={!isFormValid}>
                                         Save Report
