@@ -21,7 +21,7 @@ const ServiceSection: React.FC = () => {
                         <div className="card custom-card " >
                             <img src={onlImage} className="card-img-top custom-card-img" alt="Online Consulting" />
                             <div className="card-body">
-                                <h5 className="card-title card-title-service"style={{margin:"15px 25px 0px 25px"}}>Online Consulting</h5>
+                                <h5 className="card-title card-title-service"style={{margin:"15px 25px 0px 25px"}}>Online Consultation</h5>
                                 <p className="card-text">Get expert koi care advice from the comfort of your home. Our virtual consultations help you address any pond or fish health concerns...</p>
                             </div>
                         </div>
@@ -30,7 +30,7 @@ const ServiceSection: React.FC = () => {
                         <div className="card custom-card ">
                             <img src={hosImage} className="card-img-top custom-card-img" alt="Veterinary Hospital" />
                             <div className="card-body">
-                                <h5 className="card-title card-title-service" style={{margin:"15px 25px 0px 25px"}}>Veterinary Hospital</h5>
+                                <h5 className="card-title card-title-service" style={{margin:"15px 25px 0px 25px"}}>Fish Treatment</h5>
                                 <p className="card-text">Bring your koi to our specialized facility for in-depth health assessments and treatments by experienced professionals...</p>
                             </div>
                         </div>
@@ -39,7 +39,7 @@ const ServiceSection: React.FC = () => {
                         <div className="card custom-card ">
                             <img src={homeImage} className="card-img-top custom-card-img" alt="At-Home Service" />
                             <div className="card-body">
-                                <h5 className="card-title card-title-service" style={{margin:"15px 25px 0px 25px"}}>At-Home Service</h5>
+                                <h5 className="card-title card-title-service" style={{margin:"15px 25px 0px 25px"}}>Pond Evaluation & Consultation</h5>
                                 <p className="card-text">We come to you! Enjoy convenient koi pond maintenance, health checks, and care right at your doorstep...</p>
                             </div>
                         </div>
