@@ -1,2 +1,0 @@
-Hiện tại đang có nhiều trục trặc:
-- Mockapi ko cho dùng avatar --> ko có fetch dc, dùng cái tự làm thì nó ... lắm 😭
