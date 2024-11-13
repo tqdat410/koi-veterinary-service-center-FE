@@ -693,7 +693,7 @@ const StaffAppointmentDetails: React.FC = () => {
                         <button className="btn btn-secondary" onClick={() => navigate(-1)}>Back</button>
                     </div>
 
-                    {appointment.current_status !== 'CANCELED'  && appointment.current_status !== 'DONE' && (
+                    {appointment.current_status !== 'CANCELED'  && appointment.current_status !== 'DONE' && appointment.current_status !== 'CHECKED_IN' && (
                         <button
                             className="btn btn-primary fs-5 fw-bold"
                             onClick={handleOpenModal}
