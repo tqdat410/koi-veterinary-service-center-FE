@@ -56,6 +56,7 @@ function Navbar() {
                     <Link className={`navbar-brand ${linkColorClass} ${isActiveLink('/')}`} to="/">Home</Link>
                     <Link className={`navbar-brand ${linkColorClass} ${isActiveLink('/about')}`} to="/about">About</Link>
                     <Link className={`navbar-brand ${linkColorClass} ${isActiveLink('/contact')}`} to="/contact">Contact Us</Link>
+                    <Link className={`navbar-brand ${linkColorClass} ${isActiveLink('/policy')}`} to="/policy">Policy</Link>
 
                     {/* Conditional links (only visible on pages other than login and register) */}
                     {!isAuthPage && (
