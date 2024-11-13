@@ -567,7 +567,7 @@ const StaffAppointmentDetails: React.FC = () => {
                                                     </button>
                                                 </>
                                             ))}
-                                    {(appointment.current_status === 'PENDING' || appointment.current_status === 'ON_GOING') && (
+                                    {(appointment.current_status === 'PENDING' || appointment.current_status === 'ON_GOING'|| appointment.current_status === 'CHECKED_IN') && (
                                         <button style={{ marginLeft: '4px' }} className="btn btn-danger"
                                             onClick={() => handleSelectStatusCancel()}>Canceled
                                         </button>
@@ -693,7 +693,7 @@ const StaffAppointmentDetails: React.FC = () => {
                         <button className="btn btn-secondary" onClick={() => navigate(-1)}>Back</button>
                     </div>
 
-                    {appointment.current_status !== 'CANCELED' && appointment.current_status !== 'CHECKED_IN' && appointment.current_status !== 'DONE' && (
+                    {appointment.current_status !== 'CANCELED'  && appointment.current_status !== 'DONE' && (
                         <button
                             className="btn btn-primary fs-5 fw-bold"
                             onClick={handleOpenModal}
