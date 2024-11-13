@@ -19,6 +19,7 @@ interface CreateMedicalReportProps {
     setIsInstructionValid: (validity: boolean[]) => void;
     setIsQuantityValid: (validity: boolean[]) => void;
     handleCreateReport: () => void;
+    serviceId : number;
 }
 
 const CreateMedicalReport: React.FC<CreateMedicalReportProps> = ({
@@ -39,6 +40,8 @@ const CreateMedicalReport: React.FC<CreateMedicalReportProps> = ({
                                                                      setIsInstructionValid,
                                                                      setIsQuantityValid,
                                                                      handleCreateReport,
+                                                                     serviceId
+
                                                                  }) => {
     if (!isCreatingReport) return null;
     const handleInstructionChange = (index: number, part: string, value: string) => {
@@ -89,7 +92,7 @@ const CreateMedicalReport: React.FC<CreateMedicalReportProps> = ({
                                 type="text"
                                 className="form-control"
                                 value={newReport.conclusion}
-                                onChange={(e) => setNewReport({ ...newReport, conclusion: e.target.value })}
+                                onChange={(e) => setNewReport({...newReport, conclusion: e.target.value})}
                             />
                         </div>
                         <div className="mb-3">
@@ -98,114 +101,126 @@ const CreateMedicalReport: React.FC<CreateMedicalReportProps> = ({
                                 type="text"
                                 className="form-control"
                                 value={newReport.advise}
-                                onChange={(e) => setNewReport({ ...newReport, advise: e.target.value })}
+                                onChange={(e) => setNewReport({...newReport, advise: e.target.value})}
                             />
                         </div>
-                        <div>
-                            <div className="modal-header">
-                                <h5 className="modal-title appointment-title" style={{ fontSize: "1.4rem" }}>Prescription</h5>
-                            </div>
-                            <div className="modal-body">
-                                {prescription?.medicines.map((med, index) => (
-                                    <div key={index} className="mb-4">
-                                        <div style={{outline: "1px solid grey", padding:"18px", borderRadius:"20px"}}>
-                                        <div className="d-flex mb-2">
-                                            <select
-                                                className={`form-select ${!isMedicineValid[index] ? 'is-invalid' : ''}`}
-                                                value={med.medicine_id}
-                                                style={{width: "100%"}}
-                                                onChange={(e) => {
-                                                    handleMedicineChange(index, 'medicine_id', e.target.value);
-                                                    const updatedValidity = [...isMedicineValid];
-                                                    updatedValidity[index] = e.target.value !== "0";
-                                                    setIsMedicineValid(updatedValidity);
-                                                }}
-                                            >
-                                                <option value="">Select Medicine</option>
-                                                {medicines.map((medicine) => (
-                                                    <option key={medicine.medicine_id} value={medicine.medicine_id}>
-                                                        {medicine.medicine_name}
-                                                    </option>
-                                                ))}
-                                            </select>
-                                            <input
-                                                type="number"
-                                                className={`form-control ms-2 ${!isQuantityValid[index] ? 'is-invalid' : ''}`}
-                                                style={{width: "25%"}}
-                                                value={med.quantity}
-                                                onChange={(e) => {
-                                                    const quantityValue = Number(e.target.value);
-                                                    handleMedicineChange(index, 'quantity', quantityValue);
-                                                    const updatedValidity = [...isQuantityValid];
-                                                    updatedValidity[index] = quantityValue > 0;
-                                                    setIsQuantityValid(updatedValidity);
-                                                }}
-                                            />
-                                            <button className="btn btn-danger ms-2"
-                                                    onClick={() => handleRemoveMedicine(index)}>
-                                                X
-                                            </button>
-                                        </div>
-                                            <div className="mb-2">
-                                                <div className="row">
-                                                    <div className="col">
-                                                        <label style={{fontSize: "16px"}}>Sáng</label>
-                                                        <input
-                                                            type="number"
-                                                            className={`form-control ${!isInstructionValid[index] ? 'is-invalid' : ''}`}
-                                                            placeholder="0"
-                                                            onChange={(e) => handleInstructionChange(index, 'morning', e.target.value)}
-                                                        />
-                                                    </div>
-                                                    <div className="col">
-                                                        <label style={{fontSize: "16px"}}>Trưa</label>
-                                                        <input
-                                                            type="number"
-                                                            className={`form-control ${!isInstructionValid[index] ? 'is-invalid' : ''}`}
-                                                            placeholder="0"
-                                                            onChange={(e) => handleInstructionChange(index, 'noon', e.target.value)}
-                                                        />
-                                                    </div>
-                                                    <div className="col">
-                                                        <label style={{fontSize: "16px"}}>Chiều</label>
-                                                        <input
-                                                            type="number"
-                                                            className={`form-control ${!isInstructionValid[index] ? 'is-invalid' : ''}`}
-                                                            placeholder="0"
-                                                            onChange={(e) => handleInstructionChange(index, 'evening', e.target.value)}
-                                                        />
+                        {(serviceId !== 1 && serviceId !== 2) && (
+                            <div>
+
+                                <div className="modal-header">
+                                    <h5 className="modal-title appointment-title"
+                                        style={{fontSize: "1.4rem"}}>Prescription</h5>
+                                </div>
+                                <div className="modal-body">
+                                    {prescription?.medicines.map((med, index) => (
+                                        <div key={index} className="mb-4">
+                                            <div style={{
+                                                outline: "1px solid grey",
+                                                padding: "18px",
+                                                borderRadius: "20px"
+                                            }}>
+                                                <div className="d-flex mb-2">
+                                                    <select
+                                                        className={`form-select ${!isMedicineValid[index] ? 'is-invalid' : ''}`}
+                                                        value={med.medicine_id}
+                                                        style={{width: "100%"}}
+                                                        onChange={(e) => {
+                                                            handleMedicineChange(index, 'medicine_id', e.target.value);
+                                                            const updatedValidity = [...isMedicineValid];
+                                                            updatedValidity[index] = e.target.value !== "0";
+                                                            setIsMedicineValid(updatedValidity);
+                                                        }}
+                                                    >
+                                                        <option value="">Select Medicine</option>
+                                                        {medicines.map((medicine) => (
+                                                            <option key={medicine.medicine_id}
+                                                                    value={medicine.medicine_id}>
+                                                                {medicine.medicine_name}
+                                                            </option>
+                                                        ))}
+                                                    </select>
+                                                    <input
+                                                        type="number"
+                                                        className={`form-control ms-2 ${!isQuantityValid[index] ? 'is-invalid' : ''}`}
+                                                        style={{width: "25%"}}
+                                                        value={med.quantity}
+                                                        onChange={(e) => {
+                                                            const quantityValue = Number(e.target.value);
+                                                            handleMedicineChange(index, 'quantity', quantityValue);
+                                                            const updatedValidity = [...isQuantityValid];
+                                                            updatedValidity[index] = quantityValue > 0;
+                                                            setIsQuantityValid(updatedValidity);
+                                                        }}
+                                                    />
+                                                    <button className="btn btn-danger ms-2"
+                                                            onClick={() => handleRemoveMedicine(index)}>
+                                                        X
+                                                    </button>
+                                                </div>
+                                                <div className="mb-2">
+                                                    <div className="row">
+                                                        <div className="col">
+                                                            <label style={{fontSize: "16px"}}>Sáng</label>
+                                                            <input
+                                                                type="number"
+                                                                className={`form-control ${!isInstructionValid[index] ? 'is-invalid' : ''}`}
+                                                                placeholder="0"
+                                                                onChange={(e) => handleInstructionChange(index, 'morning', e.target.value)}
+                                                            />
+                                                        </div>
+                                                        <div className="col">
+                                                            <label style={{fontSize: "16px"}}>Trưa</label>
+                                                            <input
+                                                                type="number"
+                                                                className={`form-control ${!isInstructionValid[index] ? 'is-invalid' : ''}`}
+                                                                placeholder="0"
+                                                                onChange={(e) => handleInstructionChange(index, 'noon', e.target.value)}
+                                                            />
+                                                        </div>
+                                                        <div className="col">
+                                                            <label style={{fontSize: "16px"}}>Chiều</label>
+                                                            <input
+                                                                type="number"
+                                                                className={`form-control ${!isInstructionValid[index] ? 'is-invalid' : ''}`}
+                                                                placeholder="0"
+                                                                onChange={(e) => handleInstructionChange(index, 'evening', e.target.value)}
+                                                            />
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                ))}
-                                <button className="btn btn-secondary mb-2" onClick={handleAddMedicine}>
-                                    Add Medicine
-                                </button>
-                                {prescription && prescription.medicines.length > 0 && (
-                                <div className="mb-3">
-                                    <label className="form-label-koi">Instructions</label>
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        value={prescription?.instruction || ''}
-                                        onChange={(e) => setPrescription(prescription ? {
-                                            ...prescription,
-                                            instruction: e.target.value
-                                        } : null)}
-                                    />
-                                </div>
-                                )}
-                                <div className="modal-footer">
-                                    <button className="btn btn-primary" onClick={handleCreateReport} disabled={!isFormValid}>
-                                        Save Report
+                                    ))}
+                                    <button className="btn btn-secondary mb-2" onClick={handleAddMedicine}>
+                                        Add Medicine
                                     </button>
-                                    <button className="btn btn-secondary" onClick={toggleReportModal}>
-                                        Cancel
-                                    </button>
+                                    {prescription && prescription.medicines.length > 0 && (
+                                        <div className="mb-3">
+                                            <label className="form-label-koi">Instructions</label>
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                value={prescription?.instruction || ''}
+                                                onChange={(e) => setPrescription(prescription ? {
+                                                    ...prescription,
+                                                    instruction: e.target.value
+                                                } : null)}
+                                            />
+                                        </div>
+                                    )}
+
                                 </div>
+
                             </div>
+                        )}
+                        <div className="modal-footer">
+                            <button className="btn btn-primary" onClick={handleCreateReport}
+                                    disabled={!isFormValid}>
+                                Save Report
+                            </button>
+                            <button className="btn btn-secondary" onClick={toggleReportModal}>
+                                Cancel
+                            </button>
                         </div>
                     </div>
                 </div>

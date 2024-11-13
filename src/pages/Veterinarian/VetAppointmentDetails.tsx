@@ -398,6 +398,7 @@ const VetAppointmentDetails: React.FC = () => {
                                     isInstructionValid={isInstructionValid}
                                     setIsInstructionValid={setIsInstructionValid}
                                     handleCreateReport={handleCreateReport}
+                                    serviceId={appointment.service.service_id}
                                 />
                             </div>
                             )}
