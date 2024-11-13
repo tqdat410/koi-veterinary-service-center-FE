@@ -354,8 +354,9 @@ const VetAppointmentDetails: React.FC = () => {
                                     <p><strong>Origin:</strong> {appointment.fish.origin}</p>
                                 </div>
                             )}
-
+                            {(appointment.current_status === 'CHECKED_IN' || appointment.current_status === 'DONE') && (
                             <div className="col-md-12">
+
                                 <h3 className="text-start appointment-title">Medical Report</h3>
 
                                 {!medicalReport && (
@@ -399,7 +400,7 @@ const VetAppointmentDetails: React.FC = () => {
                                     handleCreateReport={handleCreateReport}
                                 />
                             </div>
-
+                            )}
                             {/* Modal for creating follow-up appointments */}
                             {isModalOpen && (
                                 <div className="modal-overlay" onClick={handleCloseModal}>
