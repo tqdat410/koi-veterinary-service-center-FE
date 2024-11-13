@@ -225,10 +225,10 @@ const AppointmentDetails: React.FC = () => {
     return (
         <div className="d-flex flex-grow-1 gap-3" style={{ marginLeft: '272px' }}>
             <Sidebar />
-            <div className="container" style={{marginTop: '2rem', textAlign: 'left'}}>
+            <div className="container" style={{ marginTop: '2rem', textAlign: 'left' }}>
                 <h2 className="mb-4">Appointment Details</h2>
                 <div className="status-timeline-container">
-                    <ProgressTimeline currentStatus={appointment.current_status}/>
+                    <ProgressTimeline currentStatus={appointment.current_status} />
                 </div>
                 <div className="card">
                     <div className="card-body">
@@ -248,7 +248,7 @@ const AppointmentDetails: React.FC = () => {
                                                             appointment?.current_status === 'ON_GOING' ? 'on-going brds' :
                                                                 appointment?.current_status === 'PENDING' ? 'pending brds' :
                                                                     ''
-                                            }`}>
+                                                }`}>
                                             {/* Format lại chữ */}
                                             {appointment?.current_status ?
                                                 appointment.current_status.replace('_', ' ').toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase())
@@ -272,15 +272,15 @@ const AppointmentDetails: React.FC = () => {
                                     <h5 className="mt-3 fw-900">Veterinarian Information</h5>
                                     <p>
                                         Veterinarian name: {
-                                        (appointment.veterinarian?.first_name || appointment.veterinarian?.last_name)
-                                            ? `${appointment.veterinarian.first_name || ''} ${appointment.veterinarian.last_name || ''}`
-                                            : 'No veterinarian assigned'
-                                    }
+                                            (appointment.veterinarian?.first_name || appointment.veterinarian?.last_name)
+                                                ? `${appointment.veterinarian.first_name || ''} ${appointment.veterinarian.last_name || ''}`
+                                                : 'No veterinarian assigned'
+                                        }
                                     </p>
 
-                                    <h5 className="mt-3 fw-900" style={{fontWeight: '900', display: 'inline'}}>
+                                    <h5 className="mt-3 fw-900" style={{ fontWeight: '900', display: 'inline' }}>
                                         Address Information:
-                                        <p style={{fontWeight: 'normal'}}>
+                                        <p style={{ fontWeight: 'normal' }}>
                                             {
                                                 (appointment.address?.home_number || appointment.address?.ward || appointment.address?.district || appointment.address?.city)
                                                     ? `${appointment.address.home_number}, ${appointment.address.ward}, ${appointment.address.district}, ${appointment.address.city}`
@@ -337,7 +337,7 @@ const AppointmentDetails: React.FC = () => {
 
                             {/* Modal để hiển thị logs */}
                             <div className={`modal ${showLogsModal ? 'open' : ''}`}
-                                 style={{display: showLogsModal ? 'flex' : 'none'}}
+                                style={{ display: showLogsModal ? 'flex' : 'none' }}
                             >
                                 <div className="modal-content">
                                     <h2>Logs Details</h2>
@@ -348,39 +348,42 @@ const AppointmentDetails: React.FC = () => {
                                                 let statusClass = "";
                                                 switch (log.status) {
                                                     case "CANCELED":
-                                                        statusClass = "brds logs-status-cancelled brds";
+                                                        statusClass = " logs-status-cancelled brds";
                                                         break;
                                                     case "CHECKED_IN":
-                                                        statusClass = "brds logs-status-check-in brds";
+                                                        statusClass = " logs-status-check-in brds";
                                                         break;
                                                     case "CONFIRMED":
-                                                        statusClass = "brds logs-status-confirmed brds";
+                                                        statusClass = " logs-status-confirmed brds";
                                                         break;
                                                     case "DONE":
-                                                        statusClass = "brds logs-status-done brds";
+                                                        statusClass = " logs-status-done brds";
                                                         break;
                                                     case "ON_GOING":
-                                                        statusClass = "brds logs-status-on-going brds";
+                                                        statusClass = " logs-status-on-going brds";
                                                         break;
                                                     case "PENDING":
-                                                        statusClass = "brds logs-status-pending brds";
+                                                        statusClass = " logs-status-pending brds";
                                                         break;
                                                     case "PAID":
-                                                        statusClass = "brds logs-status-paid brds";
-                                                        break;   
+                                                        statusClass = " logs-status-paid brds";
+                                                        break;
+                                                    case "REFUNDED":
+                                                        statusClass = " logs-status-refund brds";
+                                                        break;
                                                     default:
                                                         statusClass = "";
                                                 }
 
                                                 return (
                                                     <li key={log.status_id} className="log-item">
-                                                        <span className="label">Log ID:</span> {log.status_id} <br/>
+                                                        <span className="label">Log ID:</span> {log.status_id} <br />
                                                         <span className="label">Status:</span>
                                                         <span className={` ${statusClass}`}>
                                                             {log.status}
-                                                        </span><br/>
+                                                        </span><br />
                                                         <span className="label">Time:</span> {formatDateTime(log.time)}
-                                                        <br/>
+                                                        <br />
                                                         <span className="label">Note:</span> {log.note || 'No note'}
                                                     </li>
                                                 );
@@ -390,7 +393,7 @@ const AppointmentDetails: React.FC = () => {
                                         <p>No logs available</p>
                                     )}
                                     <button className="btn btn-secondary close-btn"
-                                            onClick={handleCloseLogsModal}>Close
+                                        onClick={handleCloseLogsModal}>Close
                                     </button>
                                 </div>
                             </div>
@@ -399,7 +402,7 @@ const AppointmentDetails: React.FC = () => {
                             {/* Modal để hiển thị prescription */}
 
                             <div className={`modal ${showPrescriptionModal ? 'open' : ''}`}
-                                 style={{display: showPrescriptionModal ? 'flex' : 'none'}}>
+                                style={{ display: showPrescriptionModal ? 'flex' : 'none' }}>
                                 <div className="modal-content">
                                     <h2>Prescription Details</h2>
                                     {prescription ? ( // Kiểm tra nếu có prescription
@@ -413,9 +416,9 @@ const AppointmentDetails: React.FC = () => {
 
                                                             <span
                                                                 className="label">Medicine ID:</span> {medicine.medicine_id}
-                                                            <br/>
+                                                            <br />
                                                             <span
-                                                                className="label">Medicine Name:</span> {medicine.medicine_name}<br/>
+                                                                className="label">Medicine Name:</span> {medicine.medicine_name}<br />
                                                             <span className="label">Quantity:</span> {medicine.quantity}
                                                         </li>
                                                     ))}
@@ -443,7 +446,7 @@ const AppointmentDetails: React.FC = () => {
 
 
                 {/* Back Button */}
-                <div style={{marginTop: '1rem', marginBottom: '2rem'}}>
+                <div style={{ marginTop: '1rem', marginBottom: '2rem' }}>
                     <button className="btn btn-secondary" onClick={() => navigate(-1)}>Back</button>
                 </div>
 

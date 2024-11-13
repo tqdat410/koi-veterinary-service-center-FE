@@ -281,30 +281,30 @@ const CustomerAppointmentDetails: React.FC = () => {
     // Function to update status CANCLED
     const handleUpdateAppointmentStatusCanceled = async () => {
         if (appointment) {
-            
-                try {
-                    // Gọi API để cập nhật trạng thái
-                    const response = await updateAppointmentStatusCanceled(appointment?.appointment_id);
-                    if (response) {
-                        // Cập nhật lại thông tin trạng thái trong state appointment
-                        setAppointment(prevAppointment => {
-                            if (prevAppointment) {
-                                return {
-                                    ...prevAppointment,
-                                    current_status: 'CANCELED'
-                                };
-                            }
-                            return prevAppointment;
-                        });
-                        console.log('Updated appointment status: CANCELED');
-                        // navigate(0); // Tự động làm mới trang sau khi cập nhật
-                        window.location.reload();
-                    }                                
-                } catch (error) {
-                    console.error('Failed to update appointment status');
-                    // window.location.reload();
+
+            try {
+                // Gọi API để cập nhật trạng thái
+                const response = await updateAppointmentStatusCanceled(appointment?.appointment_id);
+                if (response) {
+                    // Cập nhật lại thông tin trạng thái trong state appointment
+                    setAppointment(prevAppointment => {
+                        if (prevAppointment) {
+                            return {
+                                ...prevAppointment,
+                                current_status: 'CANCELED'
+                            };
+                        }
+                        return prevAppointment;
+                    });
+                    console.log('Updated appointment status: CANCELED');
+                    // navigate(0); // Tự động làm mới trang sau khi cập nhật
+                    window.location.reload();
                 }
-            
+            } catch (error) {
+                console.error('Failed to update appointment status');
+                // window.location.reload();
+            }
+
         }
     };
 
@@ -489,6 +489,9 @@ const CustomerAppointmentDetails: React.FC = () => {
                                                 case "NOT_PAID":
                                                     statusClass = "span-status status-canceled-cus";
                                                     break;
+                                                case "REFUNDED":
+                                                    statusClass = "span-status status-refund-cus";
+                                                    break;
                                                 default:
                                                     statusClass = "";
                                             }
@@ -512,68 +515,6 @@ const CustomerAppointmentDetails: React.FC = () => {
                                 ) : (
                                     <p>No logs available</p>
                                 )}
-                                {/* <button className="btn btn-primary" onClick={handleViewLogs}>
-                                    View Log Details
-                                </button> */}
-
-                                {/* Modal để hiển thị logs */}
-                                <div className={`modal ${showLogsModal ? 'open' : ''}`}
-                                    style={{ display: showLogsModal ? 'flex' : 'none' }}
-                                >
-                                    <div className="modal-content">
-                                        <h2>Logs Details</h2>
-                                        {logs.length > 0 ? (
-                                            <ul className="logs-list" style={{ listStyleType: 'none' }}>
-                                                {logs.map((log) => {
-                                                    // Tạo tên lớp dựa trên status
-                                                    let statusClass = "";
-                                                    switch (log.status) {
-                                                        case "CANCELED":
-                                                            statusClass = "span-status status-cancelled-cus";
-                                                            break;
-                                                        case "CHECKED_IN":
-                                                            statusClass = "span-status status-checked-in-cus";
-                                                            break;
-                                                        case "CONFIRMED":
-                                                            statusClass = "span-status status-confirmed-cus";
-                                                            break;
-                                                        case "DONE":
-                                                            statusClass = "span-status status-done-cus";
-                                                            break;
-                                                        case "ON_GOING":
-                                                            statusClass = "span-status status-on-going-cus";
-                                                            break;
-                                                        case "PENDING":
-                                                            statusClass = "span-status status-pending-cus";
-                                                            break;
-                                                        default:
-                                                            statusClass = "";
-                                                    }
-
-                                                    return (
-                                                        <li key={log.status_id} className="log-item" >
-                                                            =========================<br />
-                                                            <span className="label">Log ID:</span> {log.status_id} <br />
-                                                            <span className="label">Status:</span>
-                                                            <span className={` ${statusClass}`}>
-                                                                {log.status}
-                                                            </span><br />
-                                                            <span className="label">Time:</span> {formatDateTime(log.time)}
-                                                            <br />
-                                                            <span className="label">Note:</span> {log.note || 'No note'}
-                                                            <br />
-                                                        </li>
-                                                    );
-                                                })}
-                                            </ul>
-                                        ) : (
-                                            <p>No logs available</p>
-                                        )}
-                                        <button className="btn btn-secondary close-btn"
-                                            onClick={handleCloseLogsModal}>Close
-                                        </button>
-                                    </div>
-                                </div>
 
                             </div>
 
@@ -641,8 +582,6 @@ const CustomerAppointmentDetails: React.FC = () => {
                                 <h5 className="mt-3 fw-900">Total Price</h5>
                                 <p>Total: {appointment?.total_price.toLocaleString('vi-VN') || ''} VND</p>
 
-
-
                                 {feedbackDetails && (
                                     <div>
                                         <h5 className="mt-3 fw-900">Feedback Details</h5>
@@ -662,6 +601,7 @@ const CustomerAppointmentDetails: React.FC = () => {
                                     <p>Status:
                                         <span className={`span-status ${PaymentDetails?.status === 'PAID' ? 'status-done-cus' :
                                             PaymentDetails?.status === 'NOT_PAID' ? 'status-canceled-cus' :
+                                            PaymentDetails?.status === 'REFUNDED' ? 'status-refund-cus' :
                                                 'status-default-cus'
                                             }`}
                                         >

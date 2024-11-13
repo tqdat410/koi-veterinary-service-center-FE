@@ -96,7 +96,7 @@
 }
 
 .status-on-going-cus {
-    background-color: orange;
+    background-color: rgb(149, 97, 0);
 }
 
 .status-pending-cus {
@@ -105,4 +105,8 @@
 
 .status-default-cus {
     background-color: black;
+}
+
+.status-refund-cus {
+    background-color: orange;
 }

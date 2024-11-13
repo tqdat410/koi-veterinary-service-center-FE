@@ -36,24 +36,48 @@ const FishAppointmentDetails: React.FC = () => {
     const navigate = useNavigate();
 
     // Fetch appointments for a specific fish ID
+    // useEffect(() => {
+    //     if (fishId) {
+    //         axios.get(`${BASE_API}/appointments/fish/${fishId}`)
+    //             .then(response => {
+    //                 const appointmentsData = Array.isArray(response.data) ? response.data : [response.data];
+    //                 // Kiểm tra xem mảng appointments chỉ có một phần tử và phần tử đó có giá trị là 1
+    //                 if (appointmentsData.length === 1 && appointmentsData[0] === 1) {
+
+    //                 } else {
+    //                     const sortedAppointments = appointmentsData.sort(
+    //                         (a, b) => new Date(b.created_date).getTime() - new Date(a.created_date).getTime()
+    //                     );
+    //                     setAppointments(sortedAppointments);
+    //                 }
+    //             })
+    //             .catch(error => console.error("Error fetching appointments:", error))
+    //             .finally(() => setLoading(false));
+    //     }
+    // }, [fishId]);
+    // Fetch appointments for a specific fish ID
     useEffect(() => {
         if (fishId) {
             axios.get(`${BASE_API}/appointments/fish/${fishId}`)
                 .then(response => {
-                    const appointmentsData = Array.isArray(response.data) ? response.data : [response.data];
-                    // Kiểm tra xem mảng appointments chỉ có một phần tử và phần tử đó có giá trị là 1
-                    if (appointmentsData.length === 1 && appointmentsData[0] === 1) {
-                        setAppointments([]);  // Đặt thành mảng trống khi không có lịch hẹn thực sự
+                    if (response.status === 204) {
+                        setError("No appointments available for this fish.");
+                        setAppointments([]); // Đảm bảo appointments là mảng trống
+                    } else {
+                        const appointmentsData = Array.isArray(response.data) ? response.data : [response.data];
+                        const sortedAppointments = appointmentsData.sort(
+                            (a, b) => new Date(b.created_date).getTime() - new Date(a.created_date).getTime()
+                        );
+                        setAppointments(sortedAppointments);
                     }
-                    const sortedAppointments = appointmentsData.sort(
-                        (a, b) => new Date(b.created_date).getTime() - new Date(a.created_date).getTime()
-                    );
-                    setAppointments(sortedAppointments);
                 })
                 .catch(error => console.error("Error fetching appointments:", error))
                 .finally(() => setLoading(false));
         }
     }, [fishId]);
+
+
+    console.log("Length appointment is:", appointments.length)
 
     // Fetch medical reports for each appointment
     useEffect(() => {
@@ -107,10 +131,10 @@ const FishAppointmentDetails: React.FC = () => {
     return (
         <div className="container d-flex flex-column justify-content-center align-items-center vh-100">
             {loading && <div>Loading...</div>}
-            {!loading && error && <div>{error}</div>}
-            {appointments.length === 0 && (
+            {!loading && error && (
                 <div>
-                    <p className="lead" style={{ fontSize: '48px' }}>No appointments available for this fish.</p>
+                    <h2 className="mb-4 header-content">Appointment Details</h2>
+                    <p className="lead" style={{ fontSize: '48px', color:'red' }}>{error}</p>
                     <button className="btn btn-secondary" onClick={() => navigate(-1)}>
                         Go Back
                     </button>

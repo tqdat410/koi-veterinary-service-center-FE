@@ -119,7 +119,7 @@ font-family: sans-serif;
 }
 
 .logs-status-on-going {
-  background-color: orange ;
+  background-color: rgb(149, 97, 0) ;
   color: white ; 
   font-family: sans-serif;
   margin-left: 4px;
@@ -129,6 +129,15 @@ font-family: sans-serif;
 
 .logs-status-pending {
   background-color: purple;
+  color: white ; 
+  font-family: sans-serif;
+  margin-left: 4px;
+  padding: 4px;
+
+}
+
+.logs-status-refund {
+  background-color: orange;
   color: white ; 
   font-family: sans-serif;
   margin-left: 4px;
@@ -178,7 +187,7 @@ font-family: sans-serif;
 }
 
 .pending {
-  background-color: #ffd900c7;
+  background-color: purple;
   color: white ;
   font-family: sans-serif;
   margin-left: 4px;
