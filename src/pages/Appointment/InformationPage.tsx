@@ -77,7 +77,7 @@ const FillInformationPage: React.FC = () => {
                     const { address } = userData;
                     setFormData((prevData) => ({
                         ...prevData,
-                        customer_name: `${userData.first_name} ${userData.last_name}`,
+                        customer_name: `${userData.first_name || ''} ${userData.last_name || ''}`,
                         phone: userData.phone_number,
                         email: userData.email,
                         district: address?.district || null,
