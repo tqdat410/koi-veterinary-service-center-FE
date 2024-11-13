@@ -11,7 +11,7 @@ import FeedbackModal from './FeedbackModal';
 
 const servicesData = [
     {   id: 1,
-        title: "Koi Fish Consultation",
+        title: "Online Consultation",
         image: onlImage,
         description: `Our Koi Fish Consultation service offers tailored advice for your Koi’s health and wellbeing. 
         During the consultation, our experienced veterinarians will assess your Koi’s living conditions, diet, and overall health. 
@@ -19,7 +19,7 @@ const servicesData = [
         Our veterinarians will also educate you on recognizing early signs of illness and how to maintain a healthy environment for your fish.`,
     },
     {   id: 2,
-        title: "Health Check-Up",
+        title: "Fish Treatment",
         image: hosImage,
         description: `Our Health Check-Up service is essential for the longevity and vitality of your Koi. 
         We perform comprehensive health evaluations, including physical examinations and diagnostic tests to identify any underlying health issues. 
@@ -27,7 +27,7 @@ const servicesData = [
         Following the examination, we will provide you with a detailed report of your Koi's health status and recommendations for any necessary treatments or care adjustments.`,
     },
     {   id: 3,
-        title: "Emergency Care",
+        title: "Pond Evaluation & Consultation",
         image: homeImage,
         description: `Our Emergency Care service is available for urgent situations requiring immediate attention. 
         Whether your Koi is experiencing distress, exhibiting unusual behavior, or has sustained an injury, our team is ready to respond swiftly. 
