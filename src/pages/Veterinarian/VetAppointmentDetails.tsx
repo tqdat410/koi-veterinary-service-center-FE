@@ -434,7 +434,7 @@ const VetAppointmentDetails: React.FC = () => {
                                 </div>
                             )}
                         </div>
-                        {appointment.service.service_id !== 1 && appointment.service.service_id !== 2 && appointment.current_status === 'CHECKED_IN' && (
+                        {!(appointment.follow_up_appointment_id) && appointment.service.service_id !== 1 && appointment.service.service_id !== 2 && appointment.current_status === 'CHECKED_IN' && (
                         <div className="d-flex justify-content-end mt-5">
                             <button
                                 className="btn btn-primary mt-3 fs-5 fw-bold"
