@@ -1,0 +1,145 @@
+/* Apply border radius to the table */
+.table-schedule {
+    width: 100%;
+    border: 1px solid rgba(0, 45, 114, 0.5);
+    font-size: 1rem;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 10px;
+    overflow: hidden;
+
+}
+
+.table-schedule th, .table-schedule td {
+    padding: 0.3rem;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid #c2c5cd;
+    width: 120px; /* Set default width */
+}
+
+.table-schedule tbody tr:nth-child(odd) {
+    background-color: rgba(224, 240, 244, 0.52);
+}
+.table-schedule tbody tr {
+    border-bottom: 1px solid rgba(0, 45, 114, 0.2);
+
+}
+.table-schedule tbody tr:last-child {
+    border-bottom: none;
+}
+
+.table-schedule th, .table-schedule td {
+    padding: 0.3rem;
+    border: 1px solid #c2c5cd;
+
+}
+
+
+.table-schedule td {
+    text-align: center; /* Căn giữa theo chiều ngang */
+    vertical-align: middle; /* Căn giữa theo chiều dọc */
+    padding: 0.3rem; /* Khoảng cách bên trong */
+    width: 120px;
+    height: 79px;
+}
+
+
+/* Styling the table header */
+.table-schedule thead th {
+    background-color: #002d72;
+    color: white;
+    padding: 0.5rem;
+    border: none;
+    font-size: 1.1rem;
+
+}
+
+/* Set border radius for the first and last table header cells */
+.table-schedule thead th:first-child {
+    border-top-left-radius: 10px;
+}
+.table-schedule thead th:last-child {
+    border-top-right-radius: 10px;
+}
+
+/* Form select elements */
+.form-select {
+    width: auto;
+    min-width: 80px;
+}
+
+/* Bold the Slot column */
+.table-schedule th:first-child,
+.table-schedule td:first-child {
+    font-size: 1.1rem;
+    font-weight: bold;
+    width: 10px;
+    white-space: nowrap;
+}
+
+/*!* Target specific columns (e.g., Current Price column) *!*/
+/*.table-schedule th:nth-child(3),*/
+/*.table-schedule td:nth-child(3) {*/
+/*    width: 10rem;*/
+/*    white-space: nowrap;*/
+/*}*/
+
+
+
+
+
+.table-schedule tr {
+
+
+}
+
+.table-schedule td p {
+    width: 110px; /* Set the width of the <p> elements */
+    overflow: hidden; /* Hide overflow content */
+    text-overflow: ellipsis; /* Show "..." when content is cut off */
+    white-space: nowrap; /* Prevent line breaks */
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove any padding to minimize spacing */
+    line-height: 1; /* Set line height to 1 for tighter spacing */
+    font-size: 1.1rem; /* Font size */
+    display: inline-block; /* Allow centering */
+    text-align: center; /* Center the content of <p> */
+}
+
+
+
+table td.inactive {
+    background-color: rgba(119, 119, 119, 0.18); /* Light red background */
+    cursor: default;
+}
+table td.selected,
+table td.notSelected{
+    cursor: pointer; /* Chuyển đổi con trỏ chuột thành bàn tay */
+}
+
+/* Schedule.css */
+table td.selected {
+    background-color: #d1e7dd; /* Light green background */
+    border: 1px solid #198754; /* Dark green border */
+    border-radius: 10px;
+}
+
+table td.past-date {
+    background-color: rgba(119, 119, 119, 0.18);
+    cursor: default; /* Giữ con trỏ chuột là mặc định cho các ô BOOKED */
+}
+
+table td.booked {
+    cursor: default; /* Giữ con trỏ chuột là mặc định cho các ô BOOKED */
+}
+
+table td.unavailable {
+    background-color: rgba(119, 119, 119, 0.18);
+    cursor: default;
+}
+
+table td.available {
+
+    cursor: pointer;
+}

@@ -1,0 +1,47 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+
+.min-h-auto {
+    min-height: auto; /* Điều chỉnh tùy theo chiều cao của Navbar và Footer */
+}
+
+.conditional-case {
+    font: 24px ;
+    text-align: left;
+    margin-left: 16px;
+}
+
+.content-header-policy {
+    font-weight: bold;
+    color: rgb(2, 3, 59);
+    font-size: 4rem;
+    margin-top: 6vh;
+}
+
+/* .content-body {
+ 
+    margin-left: 1rem;
+} */
+
+.mbt-1 {
+    margin-bottom: 1rem;
+}
+
+.min-h-auto {
+    min-height: auto; /* Điều chỉnh tùy theo chiều cao của Navbar và Footer */
+}
+
+.content-policy {
+    margin-bottom: auto !important;
+    padding: 0 !important; /* Remove extra padding */
+    color: #1C1F20;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    background-color: white;
+    min-height: 100vh;
+    padding-bottom: 15px;
+}

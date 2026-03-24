@@ -1,0 +1,25 @@
+.add-staff-form {
+    max-width: 600px;
+    margin: 0 auto;
+    
+}
+
+.add-staff-form .form-label {
+    font-weight: bold;
+    color: #02033B;
+    text-align: left;
+}
+
+.add-staff-form input {
+    padding: 0.5rem;
+    font-size: 1rem;
+}
+
+.add-staff-form button {
+    padding: 0.5rem 1rem;
+    font-size: 1.1rem;
+}
+
+.add-staff-form .btn {
+    width: 48%;
+}

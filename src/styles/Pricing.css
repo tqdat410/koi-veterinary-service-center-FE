@@ -1,0 +1,90 @@
+/* Apply border radius to the table */
+.table-small-pricing {
+    font-size: 1rem; /* Reduce font size */
+    border: 1px solid rgba(0, 45, 114, 0.5);
+    border-collapse: separate;
+    border-spacing: 0; /* Make sure the cells aren't overlapping the border */
+    border-radius: 10px; /* Add border radius */
+    overflow: hidden; /* Ensure the rounded corners apply */
+    width: 80%; /* Reduce the table width */
+    max-width: 800px; /* Set a maximum width to prevent the table from being too wide */
+    margin: 0 auto; /* Center the table */
+}
+
+/* Add striping for odd rows */
+.table-small-pricing tbody tr:nth-child(odd) {
+    background-color: rgba(224, 240, 244, 0.52); /* Light gray for odd rows */
+}
+
+/* Add a border between rows */
+.table-small-pricing tbody tr {
+    border-bottom: 1px solid rgba(0, 45, 114, 0.2); /* Border color for rows */
+}
+
+.table-small-pricing tbody tr:last-child {
+    border-bottom: none; /* Remove the bottom border from the last row */
+}
+
+/* Adjust table header styling */
+.table-small-pricing thead th {
+    background-color: #002d72; /* Apply the blue color */
+    color: white; /* White text to contrast the blue background */
+    padding: 0.5rem;
+    border: none; /* Remove borders from the header for a cleaner look */
+    font-size: 1rem;
+}
+
+/* Set border radius for the first and last table header cells */
+.table-small-pricing thead th:first-child {
+    border-top-left-radius: 10px;
+}
+
+.table-small-pricing thead th:last-child {
+    border-top-right-radius: 10px;
+}
+
+/*Add a border to the table cells for better visibility */
+.table-small-pricing th, .table-small-pricing td {
+    border: 1px solid #c2c5cd; /* Bootstrap default border color */
+}
+
+.table-small-pricing td {
+    padding: 0.3rem; /* Adjust padding for smaller table */
+    vertical-align: top; /* Align text to the top */
+}
+
+/* Adjust margins for paragraphs inside table cells */
+.table-small-pricing td p {
+    margin: 0; /* Remove default margin */
+    margin-bottom: 0.2rem; /* Add some bottom margin for spacing */
+    margin-top: 0.2rem;
+}
+
+/* Bold the Slot column */
+.table-small-pricing th:first-child, /* The "Slot" header */
+.table-small-pricing td:first-child { /* The "Slot" column cells */
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+/* Adjust the width of specific columns */
+.table-small-pricing th:nth-child(3), /* Targeting the header for Current Price */
+.table-small-pricing td:nth-child(3) { /* Targeting the data cells for Current Price */
+    width: 10rem; /* Set a width that you prefer */
+    white-space: nowrap; /* Prevent text wrapping */
+}
+
+/* Form select elements */
+.form-select {
+    width: auto; /* Adjust the width to fit the content */
+    min-width: 80px; /* Minimum width if needed */
+}
+
+/* Center the table */
+.table-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* Full height to vertically center if needed */
+    padding: 1rem;
+}

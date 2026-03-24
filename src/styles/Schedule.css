@@ -1,0 +1,143 @@
+/* Apply border radius to the table */
+.table-small {
+    font-size: 0.9rem;
+    border-collapse: separate;
+
+    border-spacing: 0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.table-small th, .table-small td {
+    padding: 0.3rem;
+    text-align: center;
+    vertical-align: middle;
+
+
+    border: 1px solid #c2c5cd;
+
+}
+
+
+.table-small th:first-child,
+.table-small td:first-child {
+    min-width: 30px;
+    max-width: 60px;
+    white-space: nowrap;
+}
+
+.table-small th:last-child,
+.table-small td:last-child {
+    width: 30px;
+    white-space: nowrap;
+}
+
+
+.table-small tr {
+
+
+}
+
+.table-small td p {
+    margin: 0; /* Remove default margin */
+    margin-bottom: 0.2rem; /* Add some bottom margin for spacing */
+    margin-top: 0.2rem;
+    font-size: 1rem;
+}
+
+/* Styling the table header */
+.table-small thead th {
+    background-color: #002d72;
+    color: white;
+
+    padding: 0.5rem;
+    border: none;
+    font-size: 1.1rem;
+}
+
+/* Set border radius for the first and last table header cells */
+.table-small thead th:first-child {
+    border-top-left-radius: 10px;
+}
+
+.table-small thead th:last-child {
+    border-top-right-radius: 10px;
+}
+
+/* Form select elements */
+.form-select {
+    width: auto;
+    min-width: 80px;
+}
+
+/* Bold the Slot column */
+.table-small th:first-child, /* The "Slot" header */
+.table-small td:first-child { /* The "Slot" column cells */
+    font-weight: bold;
+}
+
+
+.text-pending {
+    color: orange;
+    font-weight: bold;
+}
+
+.text-confirmed {
+    color: lightblue;
+    font-weight: bold;
+}
+
+.text-checked-in {
+    color: dodgerblue;
+    font-weight: bold;
+}
+
+.text-cancel {
+    color: red;
+    font-weight: bold;
+}
+
+.text-on-going {
+    color: purple;
+    font-weight: bold;
+}
+
+.text-done {
+    color: green;
+    font-weight: bold;
+}
+
+table td.inactive {
+    background-color: rgba(119, 119, 119, 0.18); /* Light red background */
+    cursor: default;
+}
+table td.selected,
+table td.notSelected{
+    cursor: pointer; /* Chuyển đổi con trỏ chuột thành bàn tay */
+}
+
+/* Schedule.css */
+table td.selected {
+    background-color: #d1e7dd; /* Light green background */
+    border: 1px solid #198754; /* Dark green border */
+    border-radius: 10px;
+}
+
+table td.past-date {
+    background-color: rgba(119, 119, 119, 0.18);
+    cursor: default; /* Giữ con trỏ chuột là mặc định cho các ô BOOKED */
+}
+
+table td.booked {
+    cursor: default; /* Giữ con trỏ chuột là mặc định cho các ô BOOKED */
+}
+
+table td.unavailable {
+    background-color: rgba(119, 119, 119, 0.18);
+    cursor: default;
+}
+
+table td.available {
+
+    cursor: pointer;
+}

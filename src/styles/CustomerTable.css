@@ -1,0 +1,14 @@
+/* UserManagementTable.css */
+.table-responsive {
+    max-width: 80%; /* Bảng sẽ chỉ chiếm 60% chiều rộng màn hình */
+  }
+  
+  .table-hover tbody tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .pagination .page-item.active .page-link {
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+  

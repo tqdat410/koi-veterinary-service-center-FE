@@ -1,0 +1,52 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.content-header-contact-us {
+    font-weight: bold;
+    color: rgb(2, 3, 59);
+    font-size: 4rem;
+    margin-top: 12vh;
+}
+
+.content-body {
+        /* style={{ textAlign: 'left', marginLeft: '1rem' }} */
+    text-align: left;
+    margin-left: 1rem;
+}
+
+.mbt-1 {
+    margin-bottom: 1rem;
+}
+
+.min-h-auto {
+    min-height: auto; /* Điều chỉnh tùy theo chiều cao của Navbar và Footer */
+}
+
+.content-contact-us {
+    margin-bottom: auto !important;
+    padding: 0 !important; /* Remove extra padding */
+    color: #1C1F20;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    background-color: white;
+    min-height: 100vh;
+    padding-bottom: 15px;
+}
+
+
+
+footer {
+    background-color: #001f54;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    position: relative; /* Make sure it's positioned at the bottom */
+    width: 100%;
+}
+
+.contact-section {
+    text-align: left;
+}

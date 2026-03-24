@@ -1,0 +1,6 @@
+.table {
+    width: 100%;
+    padding: 20px; /* Tăng padding cho bảng */
+    font-size: 16px; /* Thay đổi kích thước chữ */
+    border: 1px solid #ddd; /* Tùy chọn thêm border */
+}

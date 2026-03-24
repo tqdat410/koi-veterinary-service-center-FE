@@ -1,0 +1,204 @@
+
+p{
+    margin-bottom: 7px;
+    font-size: 1.3rem;
+}
+
+.modal-content {
+    padding: 80px;
+    border-radius: 40px;
+    position: relative;
+
+}
+
+
+.modal-footer {
+    padding: 12px 12px 0px 12px;
+}
+
+.modal-body {
+    padding: 0px 12px;
+    font-size: 1.2rem;
+}
+
+.is-invalid {
+    border-color: red;
+}
+
+.is-invalid:focus {
+    box-shadow: 0 0 5px red;
+}
+
+.appointment-title {
+    font-weight: bold;
+    color: #02033B;
+    font-size: 2.2rem;
+}
+
+.modal-header {
+    display: flex; /* Sử dụng Flexbox */
+    justify-content: space-between; /* Căn chỉnh không gian giữa các phần tử */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    position: relative; /* Đảm bảo rằng các phần tử con được đặt tương đối */
+    padding: 2px;
+    margin-bottom: 10px;
+}
+
+.close-icon {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 5rem;
+    color: black;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Căn giữa chữ X theo chiều dọc */
+    height: 40px; /* Chiều cao nút để dễ nhấn */
+    width: 40px; /* Chiều rộng nút để dễ nhấn */
+  z-index: 9999;
+    user-select: none;
+}
+
+
+.close-icon:hover {
+    opacity: 0.8; /* Tạo hiệu ứng khi di chuột */
+    color: rgba(255, 0, 0, 0.44);
+}
+
+
+.service-card {
+    transition: transform 0.2s ease, opacity 0.2s ease; /* Smooth transition for scaling and opacity */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    transform: scale(0.8); /* Default scale down */
+    opacity: 0.8; /* Default opacity */
+}
+
+.service-card:hover {
+    transform: scale(0.9); /* Scale up the card on hover */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* Add a subtle shadow effect */
+    opacity: 1; /* Full opacity on hover */
+}
+.vet-card{
+    box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.25);
+    transition: transform 0.2s ease, opacity 0.2s ease; /* Smooth transition for scaling and opacity */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    transform: scale(0.95); /* Default scale down */
+    opacity: 0.8; /* Default opacity */
+}
+
+.vet-card:hover {
+    transform: scale(1.05); /* Scale up the card on hover */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); /* Add a subtle shadow effect */
+    opacity: 1.05; /* Full opacity on hover */
+}
+
+.vet-card .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    color: rgba(0, 0, 0, 0.62);
+
+    opacity: 0;
+    font-size: 1.2rem;
+    font-weight: bold;
+    transition: opacity 0.3s ease;
+    border-radius: 40px;
+}
+
+.vet-card:hover .overlay {
+    opacity: 1;
+}
+
+.service-section {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    min-height: 100vh; /* Full viewport height */
+    background-color: #f8f9fa; /* Background color */
+}
+
+
+.prev-next-button {
+    background-color: #02033B; /* Bootstrap primary color */
+    color: white;
+    border: none;
+    border-radius: 20px; /* Rounded corners */
+    padding: 7px 16px; /* Padding for button */
+    font-size: 16px;
+    transition: background-color 0.3s; /* Smooth transition */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add shadow for depth */
+    display: flex; /* Flexbox for alignment */
+    align-items: center; /* Center icon and text vertically */
+    max-height: 42px;
+}
+
+.prev-next-button:hover {
+    background-color: #070870; /* Darker shade on hover */
+}
+
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.54);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+
+.modal-content {
+    background-color: white;
+    border-radius: 40px;
+    padding: 80px;
+    width: 100%; /* Adjust width as necessary */
+    max-width: 1200px; /* Set a maximum width */
+    display: flex;
+    max-height: 96vh;
+    flex-direction: column; /* Align children vertically */
+    overflow-y: auto;
+}
+
+
+.close-button {
+    position: absolute;
+    top: -0.5rem; /* Position the close button */
+    right: 1.3rem; /* Position the close button */
+    background: none;
+    border: none;
+    font-size: 4rem; /* Size of the close button */
+    color: #333; /* Color of the close icon */
+    cursor: pointer;
+    padding: 0;
+}
+
+.close-button:hover {
+    color: red; /* Change color on hover */
+}
+.modal-header, .modal-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.status-timeline-container {
+    border: 1px solid #79877b; /* Green border color */
+    border-radius: 8px;       /* Rounded corners */
+
+    padding: 12px 8px 8px 8px;            /* Padding inside the div */
+    margin: 20px 0;          /* Margin around the div */
+    background-color: #fff;   /* White background */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}

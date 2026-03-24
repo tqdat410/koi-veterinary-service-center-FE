@@ -1,0 +1,144 @@
+/* StaffAppointmentDetails.css */
+
+/* Main container styling */
+.container-details {
+    margin-top: 1rem;
+    text-align: left;
+}
+
+/* Card styling */
+.card-body-appointment {
+    width: 100%;
+}
+
+.card-body-appointment p{
+    font-size: 1.2rem;
+}
+.card-title-appointment {
+    margin: 0;
+    margin-bottom: 12px;
+}
+
+/* Status badge styling */
+.span-status {
+    color: white !important;
+    padding: 4px 8px;
+    margin-left: 10px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.canceled {
+    color: white !important;
+    background-color: red;
+}
+
+.checked-in {
+    color: white !important;
+    background-color: blue;
+}
+
+.confirmed {
+    color: white !important;
+    background-color: green;
+}
+
+.done {
+    color: white !important;
+    background-color: #04BD04;
+}
+
+.on-going {
+    color: white !important;
+    background-color: rgb(149, 97, 0);
+}
+
+.pending {
+    color: white !important;
+    background-color: purple;
+}
+
+.default {
+    color: white !important;
+    background-color: black;
+}
+
+/* Customer Information and headers styling */
+.customer-info-header,
+.service-info-header,
+.vet-info-header,
+.fish-info-header,
+.surcharge-info-header,
+.total-price-header,
+.payment-info-header {
+    font-weight: 900;
+    margin-top: 1rem;
+}
+
+.address-info {
+    font-weight: 300;
+}
+
+/* Button styling */
+.btn-save-changes {
+    background-color: red;
+}
+
+.btn-edit-status {
+    font-weight: 900;
+    color: brown;
+    padding: 10px;
+    font-size: 20px;
+}
+
+.select-status {
+    margin-left: 10px;
+    width: 150px;
+    margin-top: 15px;
+}
+
+.mt-2 {
+    margin-top: 0.5rem;
+}
+
+.fw-900 {
+    font-weight: 900 ;
+}
+
+/* Payment status badge */
+.payment-status {
+    color: white;
+    padding: 4px 8px;
+    margin-left: 10px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.payment-status-paid {
+    background-color: green;
+}
+
+.payment-status-not-paid {
+    background-color: red;
+}
+.payment-status-refund{
+    background-color: orange;
+}
+
+/* Payment update styling */
+.payment-update-header {
+    font-weight: bold;
+    font-size: 24px;
+    font-style: italic;
+}
+
+/* Margin for bottom section */
+.bottom-section {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.back-btn-app-details {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}

@@ -1,0 +1,73 @@
+/* Đảm bảo footer luôn ở cuối trang */
+body,
+html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.content-header-about-us {
+    font-weight: bold;
+    color: rgb(2, 3, 59);
+    font-size: 4rem;
+    margin-top: 4vh;
+}
+s
+.mt-3 {
+    margin-top: 3rem !important;
+}
+
+.min-h-auto {
+    min-height: auto;
+    /* Điều chỉnh tùy theo chiều cao của Navbar và Footer */
+}
+
+footer {
+    background-color: #001f54;
+    color: white;
+    text-align: center;
+    /* padding: 20px 0; */
+    position: relative;
+    /* Make sure it's positioned at the bottom */
+    width: 100%;
+}
+
+.content-about-us {
+    /* margin-bottom: -48px !important; */
+    padding: 0 !important;
+    /* Remove extra padding */
+    color: #1C1F20;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    background-color: white;
+    /* min-height: 100vh; */
+    /* font-style: 'Roboto', sans-serif;  */
+}
+
+.content-body {
+    margin: 4px 12px;
+    text-align: left;
+}
+
+.vet-img {
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+    display: block;
+}
+
+.about-section {
+    text-align: left;
+}
+
+.about-text, .about-image {
+    padding-top: 12px !important;
+}
+
+.about-text>h2 {
+    margin-top: 1rem;
+}
+
+.about-text>p {
+    margin-top: 1rem;
+}

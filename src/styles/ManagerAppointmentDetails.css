@@ -1,0 +1,203 @@
+/* For AppointmentDetails.tsx */
+
+.brds {
+  border-radius: 20px;
+}
+
+.fw-900 {
+  font-weight: 900 ;
+}
+
+.label {
+  font-weight: bold;
+}
+
+.title-appointment {
+  margin-top: -12px;
+}
+
+.card {
+  border-radius: 40px;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  /* Background mờ cho modal */
+  overflow: hidden;
+  /* Ngăn trang nền cuộn */
+}
+
+.modal-content {
+  border-radius: 12px;
+  background-color: #fff;
+  padding: 20px;
+  /* Khoảng cách giữa nội dung và viền modal */
+  max-width: 500px;
+  /* Chiều rộng tối đa của modal */
+  max-height: 80vh;
+  /* 80% chiều cao của viewport */
+  overflow-y: auto;
+  /* Cho phép cuộn nếu nội dung quá dài */
+  position: relative;
+  /* Để có thể sử dụng position: absolute */
+}
+
+/* Close button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Styling for logs */
+.logs-details ul {
+  list-style-type: none;
+  text-align: left;
+}
+
+.logs-list {
+  padding-top: 16px;
+  text-align: left;
+  list-style-type: none;
+  margin-top: -2rem;
+  margin-left: -2rem;
+  margin-bottom: 2rem;
+}
+
+.log-item {
+  padding-top: 16px;
+}
+
+.logs-status-cancelled {
+  background-color: red ;
+  color: white ; 
+  font-family: sans-serif;
+  margin-left: 4px;
+  padding: 4px;
+}
+
+.logs-status-check-in {
+  background-color: blue ;
+  color: white ; 
+  font-family: sans-serif;
+  margin-left: 4px;
+  padding: 4px;
+
+}
+
+.logs-status-confirmed {
+  background-color: blue ;
+  color: white ;
+font-family: sans-serif;
+  margin-left: 4px;
+  padding: 4px;
+}
+
+.logs-status-done, .logs-status-paid {
+  background-color: #04BD04 ;
+  color: white ; 
+  font-family: sans-serif;
+  margin-left: 4px;
+  padding: 4px;
+
+}
+
+.logs-status-on-going {
+  background-color: rgb(149, 97, 0) ;
+  color: white ; 
+  font-family: sans-serif;
+  margin-left: 4px;
+  padding: 4px;
+
+}
+
+.logs-status-pending {
+  background-color: purple;
+  color: white ; 
+  font-family: sans-serif;
+  margin-left: 4px;
+  padding: 4px;
+
+}
+
+.logs-status-refund {
+  background-color: orange;
+  color: white ; 
+  font-family: sans-serif;
+  margin-left: 4px;
+  padding: 4px;
+
+}
+
+
+.canceled {
+  background-color: red;
+  color: white ;
+  font-family: sans-serif;
+  margin-left: 4px;
+  padding: 4px;
+}
+
+.checked-in {
+  background-color: blue;
+  color: white ;
+  font-family: sans-serif;
+  margin-left: 4px;
+  padding: 4px;
+}
+
+.confirmed {
+  background-color: green;
+  color: white ;
+  font-family: sans-serif;
+  margin-left: 4px;
+  padding: 4px;
+}
+
+.done {
+  background-color: #04BD04;
+  color: white ;
+  font-family: sans-serif;
+  margin-left: 4px;
+  padding: 4px;
+}
+
+.on-going {
+  background-color: orange;
+  color: white ;
+  font-family: sans-serif;
+  margin-left: 4px;
+  padding: 4px;
+}
+
+.pending {
+  background-color: purple;
+  color: white ;
+  font-family: sans-serif;
+  margin-left: 4px;
+  padding: 4px;
+}
+
+.default {
+  background-color: black;
+  color: white ;
+  font-family: sans-serif;
+  margin-left: 4px;
+  padding: 4px;
+}

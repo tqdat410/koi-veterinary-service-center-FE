@@ -1,0 +1,29 @@
+/* Header of left side bar */
+.left-sidebar{
+    
+    text-align: left;
+    position: fixed;
+    /* position: sticky; */
+    top: 25px;
+    /* padding-top: 12px; */
+    /* z-index: 1000; Đảm bảo navbar luôn trên các thành phần khác */
+    /* height: 100%; */
+    margin-top: 12px;  
+}
+
+.left-sidebar > .mt-2 :hover {
+    background-color: #d3d4d5 !important; /* Màu nền mới khi hover */
+}
+
+
+.child-nav-link {
+    padding: 8px;
+}
+
+
+/* Footer of left side bar */
+.nav-bottom {
+    border-top: 1px solid #000000;
+    padding-top: 10px;
+    margin-bottom: 24px;
+}

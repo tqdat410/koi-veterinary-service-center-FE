@@ -1,0 +1,73 @@
+/* Apply border radius to the table */
+.table-small {
+    width: 100%;
+    border: 1px solid rgba(0, 45, 114, 0.5);
+    font-size: 1rem;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* Add striping for odd rows */
+.table-small tbody tr:nth-child(odd) {
+    background-color: rgba(224, 240, 244, 0.52); /* Light gray color for stripes */
+}
+.table-small tbody tr {
+    border-bottom: 1px solid rgba(0, 45, 114, 0.2);
+}
+.table-small tbody tr:last-child {
+    border-bottom: none;
+}
+
+.table-small th, .table-small td {
+    padding: 0.3rem;
+
+}
+
+/* Add a border to the table cells for better visibility */
+.table-small th, .table-small td {
+    border: 1px solid #c2c5cd;
+}
+
+.table-small td {
+
+}
+
+.table-small td p {
+    margin: 0; /* Remove default margin */
+    margin-bottom: 0.2rem;
+    margin-top: 0.2rem;
+}
+
+/* Styling the table header */
+.table-small thead th {
+    background-color: #002d72; /* Blue color */
+    color: white; /* White text to contrast the blue */
+    padding: 0.5rem;
+
+    border: none; /* Cleaner look with no borders */
+    font-size: 1.2rem;
+}
+
+/* Set border radius for the first and last table header cells */
+.table-small thead th:first-child {
+    border-top-left-radius: 10px;
+}
+.table-small thead th:last-child {
+    border-top-right-radius: 10px;
+}
+
+/* Form select elements */
+.form-select {
+    width: auto; /* Adjust the width to fit the content */
+    min-width: 80px; /* Minimum width if needed */
+}
+
+/* Bold the Slot column */
+.table-small th:first-child, /* The "Slot" header */
+.table-small td:first-child { /* The "Slot" column cells */
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+

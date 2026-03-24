@@ -1,0 +1,48 @@
+/* Sidebar.css */
+.icon-placeholder {
+    width: 24px; /* Adjust icon size */
+    height: 24px; /* Adjust icon size */
+    background-color: #e0e0e0; /* Placeholder color for icons */
+    border-radius: 50%; /* Circle shape */
+}
+
+.nav-link {
+    padding: 15px 20px; /* Add padding to each link */
+    transition: background-color 0.3s;
+    border-radius: 30px;
+}
+
+.nav-link:hover {
+    border-radius: 20px;
+    background-color: rgba(31, 35, 51, 0.1); /* Light gray on hover */
+}
+
+.badge {
+    position: relative;
+    top: -1px; /* Adjust badge position */
+}
+
+.sidebar {
+    background-color: rgba(32, 30, 30, 0.16);
+    overflow-y: auto;
+}
+.fixed-left {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+
+}
+
+.sidebar-select {
+    border-radius: 20px;
+    background-color: rgba(31, 35, 51, 0.17)!important;
+}
+
+.sidebar .nav-link {
+    font-size: 18px; /* Tăng kích thước font chữ cho tất cả các liên kết */
+}
+
+.sidebar i {
+    font-size: 18px; /* Tăng kích thước font chữ cho các icon */
+}
